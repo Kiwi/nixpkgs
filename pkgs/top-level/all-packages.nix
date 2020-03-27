@@ -26058,6 +26058,8 @@ in
 
   nixops-dns = callPackage ../tools/package-management/nixops/nixops-dns.nix { };
 
+  nixops2Unstable = lowPrio (callPackage ../tools/package-management/nixops2 { });
+
   /* Evaluate a NixOS configuration using this evaluation of Nixpkgs.
 
      With this function you can write, for example, a package that
