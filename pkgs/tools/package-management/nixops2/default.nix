@@ -62,4 +62,5 @@ in interpreter.pkgs.nixops.withPlugins(ps: [
   ps.nixops-aws
   ps.nixops-gcp
   ps.nixopsvbox
+  ps.nixops-digitalocean
 ])
