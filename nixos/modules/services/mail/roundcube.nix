@@ -120,24 +120,26 @@ in
     warnings = lib.optional (!localDB && cfg.database.password != "") "services.roundcube.database.password is deprecated and insecure; use services.roundcube.database.passwordFile instead";
 
     environment.etc."roundcube/config.inc.php".text = ''
-            <?php
+                  <?php
 
-            ${lib.optionalString (!localDB) "$password = file_get_contents('${cfg.database.passwordFile}');"}
+                  ${lib.optionalString (!localDB) "$password = file_get_contents('${cfg.database.passwordFile}');"}
 
-            $config = array();
-            $config['db_dsnw'] = 'pgsql://${cfg.database.username}${lib.optionalString (!localDB) ":' . $password . '"}@${if localDB then "unix(/run/postgresql)" else cfg.database.host}/${cfg.database.dbname}';
-            $config['log_driver'] = 'syslog';
-            $config['max_message_size'] =  '${cfg.maxAttachmentSize}';
-            $config['plugins'] = [${concatMapStringsSep "," (p: "'${p}'") cfg.plugins}];
-            $config['des_key'] = file_get_contents('/var/lib/roundcube/des_key');
-            $config['mime_types'] = '${pkgs.nginx}/conf/mime.types';
-            $config['enable_spellcheck'] = ${if cfg.dicts == [ ] then "false" else "true"};
-            # by default, spellchecking uses a third-party cloud services
-            $config['spellcheck_engine'] = 'pspell';
-            $config['spellcheck_languages'] = array(${lib.concatMapStringsSep ", " (dict:
-      let p = builtins.parseDrvName dict.shortName; in "'${p.name}' => '${dict.fullName}'") cfg.dicts});
+                  $config = array();
+                  $config['db_dsnw'] = 'pgsql://${cfg.database.username}${lib.optionalString (!localDB) ":' . $password . '"}@${if localDB then "unix(/run/postgresql)" else cfg.database.host}/${cfg.database.dbname}';
+                  $config['log_driver'] = 'syslog';
+                  $config['max_message_size'] =  '${cfg.maxAttachmentSize}';
+                  $config['plugins'] = [${concatMapStringsSep "," (p: "'${p}'") cfg.plugins}];
+                  $config['des_key'] = file_get_contents('/var/lib/roundcube/des_key');
+                  $config['mime_types'] = '${pkgs.nginx}/conf/mime.types';
+                  $config['enable_spellcheck'] = ${if cfg.dicts == [ ] then "false" else "true"};
+                  # by default, spellchecking uses a third-party cloud services
+                  $config['spellcheck_engine'] = 'pspell';
+                  $config['spellcheck_languages'] = array(${lib.concatMapStringsSep ", "
+      (dict:
+            let p = builtins.parseDrvName dict.shortName; in "'${p.name}' => '${dict.fullName}'")
+      cfg.dicts});
 
-            ${cfg.extraConfig}
+                  ${cfg.extraConfig}
     '';
 
     services.nginx = {

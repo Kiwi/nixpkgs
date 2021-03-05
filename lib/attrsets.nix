@@ -123,8 +123,10 @@ rec {
        => { foo = 1; }
   */
   filterAttrs = pred: set:
-    listToAttrs (concatMap (name:
-      let v = set.${name}; in if pred name v then [ (nameValuePair name v) ] else [ ]) (attrNames set));
+    listToAttrs (concatMap
+      (name:
+        let v = set.${name}; in if pred name v then [ (nameValuePair name v) ] else [ ])
+      (attrNames set));
 
 
   /* Filter an attribute set recursively by removing all attributes for
