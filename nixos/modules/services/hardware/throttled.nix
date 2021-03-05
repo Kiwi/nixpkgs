@@ -4,7 +4,8 @@ with lib;
 
 let
   cfg = config.services.throttled;
-in {
+in
+{
   options = {
     services.throttled = {
       enable = mkEnableOption "fix for Intel CPU throttling";

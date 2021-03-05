@@ -1,8 +1,38 @@
-{ stdenv, buildPythonPackage, fetchPypi, isPy27, makeDesktopItem, intervaltree, jedi, pycodestyle,
-  psutil, pyflakes, rope, numpy, scipy, matplotlib, pylint, keyring, numpydoc,
-  qtconsole, qtawesome, nbconvert, mccabe, pyopengl, cloudpickle, pygments,
-  spyder-kernels, qtpy, pyzmq, chardet, qdarkstyle, watchdog, python-language-server
-, pyqtwebengine, atomicwrites, pyxdg, diff-match-patch
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, isPy27
+, makeDesktopItem
+, intervaltree
+, jedi
+, pycodestyle
+, psutil
+, pyflakes
+, rope
+, numpy
+, scipy
+, matplotlib
+, pylint
+, keyring
+, numpydoc
+, qtconsole
+, qtawesome
+, nbconvert
+, mccabe
+, pyopengl
+, cloudpickle
+, pygments
+, spyder-kernels
+, qtpy
+, pyzmq
+, chardet
+, qdarkstyle
+, watchdog
+, python-language-server
+, pyqtwebengine
+, atomicwrites
+, pyxdg
+, diff-match-patch
 }:
 
 buildPythonPackage rec {
@@ -19,10 +49,36 @@ buildPythonPackage rec {
   nativeBuildInputs = [ pyqtwebengine.wrapQtAppsHook ];
 
   propagatedBuildInputs = [
-    intervaltree jedi pycodestyle psutil pyflakes rope numpy scipy matplotlib pylint keyring
-    numpydoc qtconsole qtawesome nbconvert mccabe pyopengl cloudpickle spyder-kernels
-    pygments qtpy pyzmq chardet pyqtwebengine qdarkstyle watchdog python-language-server
-    atomicwrites pyxdg diff-match-patch
+    intervaltree
+    jedi
+    pycodestyle
+    psutil
+    pyflakes
+    rope
+    numpy
+    scipy
+    matplotlib
+    pylint
+    keyring
+    numpydoc
+    qtconsole
+    qtawesome
+    nbconvert
+    mccabe
+    pyopengl
+    cloudpickle
+    spyder-kernels
+    pygments
+    qtpy
+    pyzmq
+    chardet
+    pyqtwebengine
+    qdarkstyle
+    watchdog
+    python-language-server
+    atomicwrites
+    pyxdg
+    diff-match-patch
   ];
 
   # There is no test for spyder

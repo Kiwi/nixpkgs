@@ -1,5 +1,4 @@
-{
-  bazel
+{ bazel
 , bazelTest
 , fetchFromGitHub
 , fetchurl
@@ -120,7 +119,7 @@ let
     exec "$BAZEL_REAL" "$@"
   '';
 
-  workspaceDir = runLocal "our_workspace" {} (''
+  workspaceDir = runLocal "our_workspace" { } (''
     mkdir $out
     cp ${WORKSPACE} $out/WORKSPACE
     touch $out/BUILD.bazel
@@ -151,4 +150,5 @@ let
     '';
   };
 
-in testBazel
+in
+testBazel

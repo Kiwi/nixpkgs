@@ -18,7 +18,7 @@ stdenv.mkDerivation {
 
   preConfigure = "dos2unix configure.ac; sh autogen.sh";
 
-# configureFlags = optional static "--enable-static --disable-shared";
+  # configureFlags = optional static "--enable-static --disable-shared";
 
   meta = {
     homepage = "https://www.libpgf.org/";

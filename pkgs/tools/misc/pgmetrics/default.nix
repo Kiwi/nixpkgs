@@ -5,9 +5,9 @@ buildGoModule rec {
   version = "1.10.3";
 
   src = fetchFromGitHub {
-    owner  = "rapidloop";
-    repo   = pname;
-    rev    = "v${version}";
+    owner = "rapidloop";
+    repo = pname;
+    rev = "v${version}";
     sha256 = "1acdak3m9782hr5bn26ck3dnnv1jxwz5yrkyv8kivavjww88m9h2";
   };
 

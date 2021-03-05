@@ -21,7 +21,8 @@ let
     };
   };
 
-in python.pkgs.buildPythonApplication rec {
+in
+python.pkgs.buildPythonApplication rec {
   pname = "appdaemon";
   version = "4.0.5";
 
@@ -33,10 +34,34 @@ in python.pkgs.buildPythonApplication rec {
   };
 
   propagatedBuildInputs = with python.pkgs; [
-    daemonize astral requests websocket_client aiohttp yarl jinja2
-    aiohttp-jinja2 pyyaml voluptuous feedparser iso8601 bcrypt paho-mqtt setuptools
-    deepdiff dateutil bcrypt python-socketio pid pytz sockjs pygments
-    azure-mgmt-compute azure-mgmt-storage azure-mgmt-resource azure-keyvault-secrets azure-storage-blob
+    daemonize
+    astral
+    requests
+    websocket_client
+    aiohttp
+    yarl
+    jinja2
+    aiohttp-jinja2
+    pyyaml
+    voluptuous
+    feedparser
+    iso8601
+    bcrypt
+    paho-mqtt
+    setuptools
+    deepdiff
+    dateutil
+    bcrypt
+    python-socketio
+    pid
+    pytz
+    sockjs
+    pygments
+    azure-mgmt-compute
+    azure-mgmt-storage
+    azure-mgmt-resource
+    azure-keyvault-secrets
+    azure-storage-blob
   ];
 
   # no tests implemented

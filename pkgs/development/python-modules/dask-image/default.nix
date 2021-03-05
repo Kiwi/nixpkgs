@@ -3,7 +3,8 @@
 , fetchPypi
 , fetchpatch
 , dask
-, numpy, toolz # dask[array]
+, numpy
+, toolz # dask[array]
 , scipy
 , pims
 , pytest

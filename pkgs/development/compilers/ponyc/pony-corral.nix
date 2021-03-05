@@ -1,6 +1,6 @@
 { stdenv, fetchFromGitHub, ponyc }:
 
-stdenv.mkDerivation ( rec {
+stdenv.mkDerivation (rec {
   pname = "corral";
   version = "0.4.0";
 

@@ -1,6 +1,22 @@
-{ stdenv, fetchFromGitHub, pkgconfig, attr, libuuid, libscrypt, libsodium, keyutils
-, liburcu, zlib, libaio, udev, zstd, lz4, valgrind, python3Packages
-, fuseSupport ? false, fuse3 ? null }:
+{ stdenv
+, fetchFromGitHub
+, pkgconfig
+, attr
+, libuuid
+, libscrypt
+, libsodium
+, keyutils
+, liburcu
+, zlib
+, libaio
+, udev
+, zstd
+, lz4
+, valgrind
+, python3Packages
+, fuseSupport ? false
+, fuse3 ? null
+}:
 
 assert fuseSupport -> fuse3 != null;
 
@@ -29,8 +45,18 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = [
-    libuuid libscrypt libsodium keyutils liburcu zlib libaio
-    zstd lz4 python3Packages.pytest udev valgrind
+    libuuid
+    libscrypt
+    libsodium
+    keyutils
+    liburcu
+    zlib
+    libaio
+    zstd
+    lz4
+    python3Packages.pytest
+    udev
+    valgrind
   ] ++ stdenv.lib.optional fuseSupport fuse3;
 
   doCheck = false; # needs bcachefs module loaded on builder

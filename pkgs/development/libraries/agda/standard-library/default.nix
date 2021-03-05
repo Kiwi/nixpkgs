@@ -11,7 +11,7 @@ mkDerivation rec {
     sha256 = "1asjbisb7pfkgzqy7gf9b23z63bba8l8p1wqfd6ff5ddgqwj3dhp";
   };
 
-  nativeBuildInputs = [ (ghcWithPackages (self : [ self.filemanip ])) ];
+  nativeBuildInputs = [ (ghcWithPackages (self: [ self.filemanip ])) ];
   preConfigure = ''
     runhaskell GenerateEverything.hs
   '';

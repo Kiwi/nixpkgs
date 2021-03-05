@@ -1,200 +1,233 @@
-{ stdenv, lib, fetchFromGitHub, fetchpatch, buildGoPackage
-, makeWrapper, installShellFiles, pkgconfig
-, go-md2man, go, containerd, runc, docker-proxy, tini, libtool
-, sqlite, iproute, lvm2, systemd
-, btrfs-progs, iptables, e2fsprogs, xz, util-linux, xfsprogs, git
-, procps, libseccomp
+{ stdenv
+, lib
+, fetchFromGitHub
+, fetchpatch
+, buildGoPackage
+, makeWrapper
+, installShellFiles
+, pkgconfig
+, go-md2man
+, go
+, containerd
+, runc
+, docker-proxy
+, tini
+, libtool
+, sqlite
+, iproute
+, lvm2
+, systemd
+, btrfs-progs
+, iptables
+, e2fsprogs
+, xz
+, util-linux
+, xfsprogs
+, git
+, procps
+, libseccomp
 , nixosTests
 }:
 
 with lib;
 
 rec {
-  dockerGen = {
-      version, rev, sha256
-      , runcRev, runcSha256
-      , containerdRev, containerdSha256
-      , tiniRev, tiniSha256
-    } :
-  let
-    docker-runc = runc.overrideAttrs (oldAttrs: {
-      name = "docker-runc-${version}";
-      inherit version;
-      src = fetchFromGitHub {
-        owner = "opencontainers";
-        repo = "runc";
-        rev = runcRev;
-        sha256 = runcSha256;
-      };
-      # docker/runc already include these patches / are not applicable
-      patches = [];
-    });
+  dockerGen =
+    { version
+    , rev
+    , sha256
+    , runcRev
+    , runcSha256
+    , containerdRev
+    , containerdSha256
+    , tiniRev
+    , tiniSha256
+    }:
+    let
+      docker-runc = runc.overrideAttrs (oldAttrs: {
+        name = "docker-runc-${version}";
+        inherit version;
+        src = fetchFromGitHub {
+          owner = "opencontainers";
+          repo = "runc";
+          rev = runcRev;
+          sha256 = runcSha256;
+        };
+        # docker/runc already include these patches / are not applicable
+        patches = [ ];
+      });
 
-    docker-containerd = let
-      withlibseccomp = lib.versionAtLeast version "19.03";
-    in containerd.overrideAttrs (oldAttrs: {
-      name = "docker-containerd-${version}";
-      inherit version;
-      src = fetchFromGitHub {
-        owner = "containerd";
-        repo = "containerd";
-        rev = containerdRev;
-        sha256 = containerdSha256;
-      };
-      # This should be removed once Docker uses containerd >=1.4
-      nativeBuildInputs = oldAttrs.nativeBuildInputs ++ lib.optional withlibseccomp pkgconfig;
-      buildInputs = oldAttrs.buildInputs ++ lib.optional withlibseccomp libseccomp;
-    });
+      docker-containerd =
+        let
+          withlibseccomp = lib.versionAtLeast version "19.03";
+        in
+        containerd.overrideAttrs (oldAttrs: {
+          name = "docker-containerd-${version}";
+          inherit version;
+          src = fetchFromGitHub {
+            owner = "containerd";
+            repo = "containerd";
+            rev = containerdRev;
+            sha256 = containerdSha256;
+          };
+          # This should be removed once Docker uses containerd >=1.4
+          nativeBuildInputs = oldAttrs.nativeBuildInputs ++ lib.optional withlibseccomp pkgconfig;
+          buildInputs = oldAttrs.buildInputs ++ lib.optional withlibseccomp libseccomp;
+        });
 
-    docker-tini = tini.overrideAttrs  (oldAttrs: {
-      name = "docker-init-${version}";
-      inherit version;
-      src = fetchFromGitHub {
-        owner = "krallin";
-        repo = "tini";
-        rev = tiniRev;
-        sha256 = tiniSha256;
-      };
+      docker-tini = tini.overrideAttrs (oldAttrs: {
+        name = "docker-init-${version}";
+        inherit version;
+        src = fetchFromGitHub {
+          owner = "krallin";
+          repo = "tini";
+          rev = tiniRev;
+          sha256 = tiniSha256;
+        };
 
-      # Do not remove static from make files as we want a static binary
-      patchPhase = ''
+        # Do not remove static from make files as we want a static binary
+        patchPhase = ''
       '';
 
-      NIX_CFLAGS_COMPILE = "-DMINIMAL=ON";
-    });
-  in
+        NIX_CFLAGS_COMPILE = "-DMINIMAL=ON";
+      });
+    in
     buildGoPackage ((optionalAttrs (stdenv.isLinux) {
 
-    inherit docker-runc docker-containerd docker-proxy docker-tini;
+      inherit docker-runc docker-containerd docker-proxy docker-tini;
 
-    DOCKER_BUILDTAGS = []
-      ++ optional (systemd != null) [ "journald" ]
-      ++ optional (btrfs-progs == null) "exclude_graphdriver_btrfs"
-      ++ optional (lvm2 == null) "exclude_graphdriver_devicemapper"
-      ++ optional (libseccomp != null) "seccomp";
+      DOCKER_BUILDTAGS = [ ]
+        ++ optional (systemd != null) [ "journald" ]
+        ++ optional (btrfs-progs == null) "exclude_graphdriver_btrfs"
+        ++ optional (lvm2 == null) "exclude_graphdriver_devicemapper"
+        ++ optional (libseccomp != null) "seccomp";
 
-   }) // rec {
-    inherit version rev;
+    }) // rec {
+      inherit version rev;
 
-    name = "docker-${version}";
+      name = "docker-${version}";
 
-    src = fetchFromGitHub {
-      owner = "docker";
-      repo = "docker-ce";
-      rev = "v${version}";
-      sha256 = sha256;
-    };
+      src = fetchFromGitHub {
+        owner = "docker";
+        repo = "docker-ce";
+        rev = "v${version}";
+        sha256 = sha256;
+      };
 
-    patches = lib.optional (versionAtLeast version "19.03") [
-      # Replace hard-coded cross-compiler with $CC
-      (fetchpatch {
-        url = https://github.com/docker/docker-ce/commit/2fdfb4404ab811cb00227a3de111437b829e55cf.patch;
-        sha256 = "1af20bzakhpfhaixc29qnl9iml9255xdinxdnaqp4an0n1xa686a";
-      })
-    ];
+      patches = lib.optional (versionAtLeast version "19.03") [
+        # Replace hard-coded cross-compiler with $CC
+        (fetchpatch {
+          url = https://github.com/docker/docker-ce/commit/2fdfb4404ab811cb00227a3de111437b829e55cf.patch;
+          sha256 = "1af20bzakhpfhaixc29qnl9iml9255xdinxdnaqp4an0n1xa686a";
+        })
+      ];
 
-    goPackagePath = "github.com/docker/docker-ce";
+      goPackagePath = "github.com/docker/docker-ce";
 
-    nativeBuildInputs = [ pkgconfig go-md2man go libtool installShellFiles ];
-    buildInputs = [
-      makeWrapper
-    ] ++ optionals (stdenv.isLinux) [
-      sqlite lvm2 btrfs-progs systemd libseccomp
-    ];
+      nativeBuildInputs = [ pkgconfig go-md2man go libtool installShellFiles ];
+      buildInputs = [
+        makeWrapper
+      ] ++ optionals (stdenv.isLinux) [
+        sqlite
+        lvm2
+        btrfs-progs
+        systemd
+        libseccomp
+      ];
 
-    dontStrip = true;
+      dontStrip = true;
 
-    buildPhase = ''
-      export GOCACHE="$TMPDIR/go-cache"
-    '' + (optionalString (stdenv.isLinux) ''
-      # build engine
-      cd ./go/src/${goPackagePath}/components/engine
-      export AUTO_GOPATH=1
-      export DOCKER_GITCOMMIT="${rev}"
-      export VERSION="${version}"
-      ./hack/make.sh dynbinary
-      cd -
-    '') + ''
-      # build cli
-      cd ./go/src/${goPackagePath}/components/cli
-      # Mimic AUTO_GOPATH
-      mkdir -p .gopath/src/github.com/docker/
-      ln -sf $PWD .gopath/src/github.com/docker/cli
-      export GOPATH="$PWD/.gopath:$GOPATH"
-      export GITCOMMIT="${rev}"
-      export VERSION="${version}"
-      source ./scripts/build/.variables
-      export CGO_ENABLED=1
-      go build -tags pkcs11 --ldflags "$LDFLAGS" github.com/docker/cli/cmd/docker
-      cd -
-    '';
+      buildPhase = ''
+        export GOCACHE="$TMPDIR/go-cache"
+      '' + (optionalString (stdenv.isLinux) ''
+        # build engine
+        cd ./go/src/${goPackagePath}/components/engine
+        export AUTO_GOPATH=1
+        export DOCKER_GITCOMMIT="${rev}"
+        export VERSION="${version}"
+        ./hack/make.sh dynbinary
+        cd -
+      '') + ''
+        # build cli
+        cd ./go/src/${goPackagePath}/components/cli
+        # Mimic AUTO_GOPATH
+        mkdir -p .gopath/src/github.com/docker/
+        ln -sf $PWD .gopath/src/github.com/docker/cli
+        export GOPATH="$PWD/.gopath:$GOPATH"
+        export GITCOMMIT="${rev}"
+        export VERSION="${version}"
+        source ./scripts/build/.variables
+        export CGO_ENABLED=1
+        go build -tags pkcs11 --ldflags "$LDFLAGS" github.com/docker/cli/cmd/docker
+        cd -
+      '';
 
-    # systemd 230 no longer has libsystemd-journal as a separate entity from libsystemd
-    postPatch = ''
-      substituteInPlace ./components/cli/scripts/build/.variables --replace "set -eu" ""
-    '' + optionalString (stdenv.isLinux) ''
-      patchShebangs .
-      substituteInPlace ./components/engine/hack/make.sh                   --replace libsystemd-journal libsystemd
-      substituteInPlace ./components/engine/daemon/logger/journald/read.go --replace libsystemd-journal libsystemd
-    '';
+      # systemd 230 no longer has libsystemd-journal as a separate entity from libsystemd
+      postPatch = ''
+        substituteInPlace ./components/cli/scripts/build/.variables --replace "set -eu" ""
+      '' + optionalString (stdenv.isLinux) ''
+        patchShebangs .
+        substituteInPlace ./components/engine/hack/make.sh                   --replace libsystemd-journal libsystemd
+        substituteInPlace ./components/engine/daemon/logger/journald/read.go --replace libsystemd-journal libsystemd
+      '';
 
-    outputs = ["out" "man"];
+      outputs = [ "out" "man" ];
 
-    extraPath = optionals (stdenv.isLinux) (makeBinPath [ iproute iptables e2fsprogs xz xfsprogs procps util-linux git ]);
+      extraPath = optionals (stdenv.isLinux) (makeBinPath [ iproute iptables e2fsprogs xz xfsprogs procps util-linux git ]);
 
-    installPhase = ''
-      cd ./go/src/${goPackagePath}
-      install -Dm755 ./components/cli/docker $out/libexec/docker/docker
+      installPhase = ''
+        cd ./go/src/${goPackagePath}
+        install -Dm755 ./components/cli/docker $out/libexec/docker/docker
 
-      makeWrapper $out/libexec/docker/docker $out/bin/docker \
-        --prefix PATH : "$out/libexec/docker:$extraPath"
-    '' + optionalString (stdenv.isLinux) ''
-      install -Dm755 ./components/engine/bundles/dynbinary-daemon/dockerd $out/libexec/docker/dockerd
+        makeWrapper $out/libexec/docker/docker $out/bin/docker \
+          --prefix PATH : "$out/libexec/docker:$extraPath"
+      '' + optionalString (stdenv.isLinux) ''
+        install -Dm755 ./components/engine/bundles/dynbinary-daemon/dockerd $out/libexec/docker/dockerd
 
-      makeWrapper $out/libexec/docker/dockerd $out/bin/dockerd \
-        --prefix PATH : "$out/libexec/docker:$extraPath"
+        makeWrapper $out/libexec/docker/dockerd $out/bin/dockerd \
+          --prefix PATH : "$out/libexec/docker:$extraPath"
 
-      # docker uses containerd now
-      ln -s ${docker-containerd}/bin/containerd $out/libexec/docker/containerd
-      ln -s ${docker-containerd}/bin/containerd-shim $out/libexec/docker/containerd-shim
-      ln -s ${docker-runc}/bin/runc $out/libexec/docker/runc
-      ln -s ${docker-proxy}/bin/docker-proxy $out/libexec/docker/docker-proxy
-      ln -s ${docker-tini}/bin/tini-static $out/libexec/docker/docker-init
+        # docker uses containerd now
+        ln -s ${docker-containerd}/bin/containerd $out/libexec/docker/containerd
+        ln -s ${docker-containerd}/bin/containerd-shim $out/libexec/docker/containerd-shim
+        ln -s ${docker-runc}/bin/runc $out/libexec/docker/runc
+        ln -s ${docker-proxy}/bin/docker-proxy $out/libexec/docker/docker-proxy
+        ln -s ${docker-tini}/bin/tini-static $out/libexec/docker/docker-init
 
-      # systemd
-      install -Dm644 ./components/engine/contrib/init/systemd/docker.service $out/etc/systemd/system/docker.service
-    '' + ''
-      # completion (cli)
-      installShellCompletion --bash ./components/cli/contrib/completion/bash/docker
-      installShellCompletion --fish ./components/cli/contrib/completion/fish/docker.fish
-      installShellCompletion --zsh ./components/cli/contrib/completion/zsh/_docker
+        # systemd
+        install -Dm644 ./components/engine/contrib/init/systemd/docker.service $out/etc/systemd/system/docker.service
+      '' + ''
+        # completion (cli)
+        installShellCompletion --bash ./components/cli/contrib/completion/bash/docker
+        installShellCompletion --fish ./components/cli/contrib/completion/fish/docker.fish
+        installShellCompletion --zsh ./components/cli/contrib/completion/zsh/_docker
 
-      # Include contributed man pages (cli)
-      cd ./components/cli
-    '' + lib.optionalString (stdenv.hostPlatform == stdenv.buildPlatform) ''
-      # Generate man pages from cobra commands
-      echo "Generate man pages from cobra"
-      mkdir -p ./man/man1
-      go build -o ./gen-manpages github.com/docker/cli/man
-      ./gen-manpages --root . --target ./man/man1
-    '' + ''
-      # Generate legacy pages from markdown
-      echo "Generate legacy manpages"
-      ./man/md2man-all.sh -q
+        # Include contributed man pages (cli)
+        cd ./components/cli
+      '' + lib.optionalString (stdenv.hostPlatform == stdenv.buildPlatform) ''
+        # Generate man pages from cobra commands
+        echo "Generate man pages from cobra"
+        mkdir -p ./man/man1
+        go build -o ./gen-manpages github.com/docker/cli/man
+        ./gen-manpages --root . --target ./man/man1
+      '' + ''
+        # Generate legacy pages from markdown
+        echo "Generate legacy manpages"
+        ./man/md2man-all.sh -q
 
-      installManPage man/*/*.[1-9]
-    '';
+        installManPage man/*/*.[1-9]
+      '';
 
-    passthru.tests = { inherit (nixosTests) docker; };
+      passthru.tests = { inherit (nixosTests) docker; };
 
-    meta = {
-      homepage = "https://www.docker.com/";
-      description = "An open source project to pack, ship and run any application as a lightweight container";
-      license = licenses.asl20;
-      maintainers = with maintainers; [ offline tailhook vdemeester periklis ];
-      platforms = with platforms; linux ++ darwin;
-    };
-  });
+      meta = {
+        homepage = "https://www.docker.com/";
+        description = "An open source project to pack, ship and run any application as a lightweight container";
+        license = licenses.asl20;
+        maintainers = with maintainers; [ offline tailhook vdemeester periklis ];
+        platforms = with platforms; linux ++ darwin;
+      };
+    });
 
   # Get revisions from
   # https://github.com/docker/docker-ce/tree/${version}/components/engine/hack/dockerfile/install/*

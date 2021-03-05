@@ -1,6 +1,18 @@
-{ stdenv, lib, buildPythonPackage, fetchPypi, isPy27
-, nose, chai, simplejson, backports_functools_lru_cache
-, python-dateutil, pytz, pytest-mock, sphinx, dateparser, pytestcov
+{ stdenv
+, lib
+, buildPythonPackage
+, fetchPypi
+, isPy27
+, nose
+, chai
+, simplejson
+, backports_functools_lru_cache
+, python-dateutil
+, pytz
+, pytest-mock
+, sphinx
+, dateparser
+, pytestcov
 , pytestCheckHook
 }:
 

@@ -1,6 +1,13 @@
-{ stdenv, fetchFromGitLab, icmake
-, libmilter, libX11, openssl, readline
-, util-linux, yodl }:
+{ stdenv
+, fetchFromGitLab
+, icmake
+, libmilter
+, libX11
+, openssl
+, readline
+, util-linux
+, yodl
+}:
 
 stdenv.mkDerivation rec {
   pname = "bobcat";

@@ -2,7 +2,8 @@
 , fetchFromGitHub
 , buildPythonPackage
 , pythonOlder
-, withVoice ? true, libopus
+, withVoice ? true
+, libopus
 , aiohttp
 , websockets
 }:

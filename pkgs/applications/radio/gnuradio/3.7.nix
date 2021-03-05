@@ -2,7 +2,7 @@
 , fetchFromGitHub
 , fetchpatch
 , cmake
-# Remove gcc and python references
+  # Remove gcc and python references
 , removeReferencesTo
 , pkgconfig
 , cppunit
@@ -26,23 +26,23 @@
 , gsl
 , cppzmq
 , zeromq
-# GUI related
+  # GUI related
 , gtk2
 , pango
 , cairo
 , qt4
 , qwt6_qt4
-# Features available to override, the list of them is in featuresInfo. They
-# are all turned on by default
-, features ? {}
-# If one wishes to use a different src or name for a very custom build
-, overrideSrc ? {}
+  # Features available to override, the list of them is in featuresInfo. They
+  # are all turned on by default
+, features ? { }
+  # If one wishes to use a different src or name for a very custom build
+, overrideSrc ? { }
 , pname ? "gnuradio"
 , versionAttr ? {
-  major = "3.7";
-  minor = "14";
-  patch = "0";
-}
+    major = "3.7";
+    minor = "14";
+    patch = "0";
+  }
 , fetchSubmodules ? true
 }:
 
@@ -137,7 +137,7 @@ let
       cmakeEnableFlag = "GR_ATSC";
     };
     gr-audio = {
-      runtime = []
+      runtime = [ ]
         ++ stdenv.lib.optionals stdenv.isLinux [ alsaLib libjack2 ]
         ++ stdenv.lib.optionals stdenv.isDarwin [ CoreAudio ]
       ;
@@ -208,14 +208,14 @@ let
       overrideSrc
       fetchFromGitHub
       fetchSubmodules
-    ;
+      ;
     qt = qt4;
     gtk = gtk2;
   });
   inherit (shared)
     version
     src
-    hasFeature # function
+    hasFeature# function
     nativeBuildInputs
     buildInputs
     disallowedReferences
@@ -224,17 +224,17 @@ let
     doCheck
     dontWrapPythonPrograms
     meta
-  ;
+    ;
   cmakeFlags = shared.cmakeFlags
     # From some reason, if these are not set, libcodec2 and gsm are
     # not detected properly (slightly different then what's in
     # ./default.nix).
     ++ stdenv.lib.optionals (hasFeature "gr-vocoder" features) [
-      "-DLIBCODEC2_LIBRARIES=${codec2}/lib/libcodec2.so"
-      "-DLIBCODEC2_INCLUDE_DIR=${codec2}/include"
-      "-DLIBGSM_LIBRARIES=${gsm}/lib/libgsm.so"
-      "-DLIBGSM_INCLUDE_DIR=${gsm}/include/gsm"
-    ]
+    "-DLIBCODEC2_LIBRARIES=${codec2}/lib/libcodec2.so"
+    "-DLIBCODEC2_INCLUDE_DIR=${codec2}/include"
+    "-DLIBGSM_LIBRARIES=${gsm}/lib/libgsm.so"
+    "-DLIBGSM_INCLUDE_DIR=${gsm}/include/gsm"
+  ]
   ;
   stripDebugList = shared.stripDebugList
     # gr-fcd feature was dropped in 3.8
@@ -242,23 +242,23 @@ let
   ;
   preConfigure = ''
   ''
-    # wxgui and pygtk are not looked up properly, so we force them to be
-    # detected as found, if they are requested by the `features` attrset.
-    + stdenv.lib.optionalString (hasFeature "gr-wxgui" features) ''
-      sed -i 's/.*wx\.version.*/set(WX_FOUND TRUE)/g' gr-wxgui/CMakeLists.txt
-    ''
-    + stdenv.lib.optionalString (hasFeature "gnuradio-companion" features) ''
-      sed -i 's/.*pygtk_version.*/set(PYGTK_FOUND TRUE)/g' grc/CMakeLists.txt
-    ''
-    # If python-support is disabled, don't install volk's (git submodule)
-    # volk_modtool - it references python.
-    #
-    # NOTE: The same is done for 3.8, but we don't put this string in
-    # ./shared.nix since on the next release of 3.8 it won't be needed there,
-    # but it will be needed for 3.7, probably for ever.
-    + stdenv.lib.optionalString (!hasFeature "python-support" features) ''
-      sed -i -e "/python\/volk_modtool/d" volk/CMakeLists.txt
-    ''
+  # wxgui and pygtk are not looked up properly, so we force them to be
+  # detected as found, if they are requested by the `features` attrset.
+  + stdenv.lib.optionalString (hasFeature "gr-wxgui" features) ''
+    sed -i 's/.*wx\.version.*/set(WX_FOUND TRUE)/g' gr-wxgui/CMakeLists.txt
+  ''
+  + stdenv.lib.optionalString (hasFeature "gnuradio-companion" features) ''
+    sed -i 's/.*pygtk_version.*/set(PYGTK_FOUND TRUE)/g' grc/CMakeLists.txt
+  ''
+  # If python-support is disabled, don't install volk's (git submodule)
+  # volk_modtool - it references python.
+  #
+  # NOTE: The same is done for 3.8, but we don't put this string in
+  # ./shared.nix since on the next release of 3.8 it won't be needed there,
+  # but it will be needed for 3.7, probably for ever.
+  + stdenv.lib.optionalString (!hasFeature "python-support" features) ''
+    sed -i -e "/python\/volk_modtool/d" volk/CMakeLists.txt
+  ''
   ;
   patches = [
     # Don't install python referencing files if python support is disabled.
@@ -291,5 +291,5 @@ stdenv.mkDerivation rec {
     doCheck
     dontWrapPythonPrograms
     meta
-  ;
+    ;
 }

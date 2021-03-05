@@ -24,9 +24,11 @@ buildPythonApplication rec {
   };
 
   nativeBuildInputs = [
-    wrapGAppsHook intltool
+    wrapGAppsHook
+    intltool
     # For setup hook
-    gobject-introspection wafHook
+    gobject-introspection
+    wafHook
   ];
   buildInputs = [ docutils libwnck3 keybinder3 ];
   propagatedBuildInputs = [ pygobject3 gtk3 pyxdg dbus-python pycairo ];
@@ -46,9 +48,9 @@ buildPythonApplication rec {
 
   meta = with stdenv.lib; {
     description = "A smart, quick launcher";
-    homepage    = "https://kupferlauncher.github.io/";
-    license     = licenses.gpl3;
+    homepage = "https://kupferlauncher.github.io/";
+    license = licenses.gpl3;
     maintainers = with maintainers; [ cobbal ];
-    platforms   = platforms.linux;
+    platforms = platforms.linux;
   };
 }

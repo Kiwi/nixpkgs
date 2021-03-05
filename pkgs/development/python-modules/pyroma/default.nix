@@ -1,5 +1,9 @@
-{ stdenv, buildPythonPackage, fetchPypi
-, docutils, pygments, setuptools
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, docutils
+, pygments
+, setuptools
 }:
 
 buildPythonPackage rec {

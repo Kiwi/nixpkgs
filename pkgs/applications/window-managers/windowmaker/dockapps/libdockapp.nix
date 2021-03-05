@@ -1,5 +1,13 @@
-{ stdenv, dockapps-sources, autoreconfHook, pkg-config
-, libX11, libXext, libXpm, mkfontdir, fontutil }:
+{ stdenv
+, dockapps-sources
+, autoreconfHook
+, pkg-config
+, libX11
+, libXext
+, libXpm
+, mkfontdir
+, fontutil
+}:
 
 stdenv.mkDerivation rec {
   pname = "libdockapp";

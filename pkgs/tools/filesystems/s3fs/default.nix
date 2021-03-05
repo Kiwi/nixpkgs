@@ -5,9 +5,9 @@ stdenv.mkDerivation rec {
   version = "1.87";
 
   src = fetchFromGitHub {
-    owner  = "s3fs-fuse";
-    repo   = "s3fs-fuse";
-    rev    = "v${version}";
+    owner = "s3fs-fuse";
+    repo = "s3fs-fuse";
+    rev = "v${version}";
     sha256 = "09ib3sh6vg3z7cpccj3ysgpdyf84a98lf6nz15a61r4l27h111f2";
   };
 

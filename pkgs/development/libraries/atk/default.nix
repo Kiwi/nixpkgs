@@ -1,5 +1,13 @@
-{ stdenv, fetchurl, meson, ninja, gettext, pkgconfig, glib
-, fixDarwinDylibNames, gobject-introspection, gnome3
+{ stdenv
+, fetchurl
+, meson
+, ninja
+, gettext
+, pkgconfig
+, glib
+, fixDarwinDylibNames
+, gobject-introspection
+, gnome3
 }:
 
 let

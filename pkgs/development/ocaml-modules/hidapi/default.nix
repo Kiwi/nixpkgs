@@ -1,5 +1,10 @@
-{ pkgs, lib, fetchurl, buildDunePackage, pkg-config
-, bigstring,
+{ pkgs
+, lib
+, fetchurl
+, buildDunePackage
+, pkg-config
+, bigstring
+,
 }:
 
 buildDunePackage rec {

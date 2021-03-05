@@ -1,10 +1,17 @@
-{ lib, fetchPypi, buildPythonPackage, setuptools_scm
-, requests, requests-file, idna, filelock, pytest
+{ lib
+, fetchPypi
+, buildPythonPackage
+, setuptools_scm
+, requests
+, requests-file
+, idna
+, filelock
+, pytest
 , responses
 }:
 
 buildPythonPackage rec {
-  pname   = "tldextract";
+  pname = "tldextract";
   version = "3.1.0";
 
   src = fetchPypi {

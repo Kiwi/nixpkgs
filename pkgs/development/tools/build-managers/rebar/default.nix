@@ -33,7 +33,7 @@ stdenv.mkDerivation {
       work. rebar also provides dependency management, enabling
       application writers to easily re-use common libraries from a
       variety of locations (git, hg, etc).
-      '';
+    '';
 
     platforms = stdenv.lib.platforms.unix;
     license = stdenv.lib.licenses.asl20;

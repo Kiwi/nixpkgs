@@ -1,7 +1,35 @@
-{ stdenv, acl, attr, autoconf, automake, bash, bc, coreutils, e2fsprogs
-, fetchgit, fio, gawk, keyutils, killall, lib, libaio, libcap, libtool
-, libuuid, libxfs, lvm2, openssl, perl, procps, quota
-, time, util-linux, which, writeScript, xfsprogs, runtimeShell }:
+{ stdenv
+, acl
+, attr
+, autoconf
+, automake
+, bash
+, bc
+, coreutils
+, e2fsprogs
+, fetchgit
+, fio
+, gawk
+, keyutils
+, killall
+, lib
+, libaio
+, libcap
+, libtool
+, libuuid
+, libxfs
+, lvm2
+, openssl
+, perl
+, procps
+, quota
+, time
+, util-linux
+, which
+, writeScript
+, xfsprogs
+, runtimeShell
+}:
 
 stdenv.mkDerivation {
   name = "xfstests-2019-09-08";
@@ -13,10 +41,19 @@ stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [
-    autoconf automake libtool
+    autoconf
+    automake
+    libtool
   ];
   buildInputs = [
-    acl attr gawk libaio libuuid libxfs openssl perl
+    acl
+    attr
+    gawk
+    libaio
+    libuuid
+    libxfs
+    openssl
+    perl
   ];
 
   hardeningDisable = [ "format" ];
@@ -81,23 +118,38 @@ stdenv.mkDerivation {
   # wants to write temporary files there. So create a temporary
   # to run from and symlink the runtime files to it.
   wrapperScript = writeScript "xfstests-check" ''
-    #!${runtimeShell}
-    set -e
-    export RESULT_BASE="$(pwd)/results"
+        #!${runtimeShell}
+        set -e
+        export RESULT_BASE="$(pwd)/results"
 
-    dir=$(mktemp --tmpdir -d xfstests.XXXXXX)
-    trap "rm -rf $dir" EXIT
+        dir=$(mktemp --tmpdir -d xfstests.XXXXXX)
+        trap "rm -rf $dir" EXIT
 
-    chmod a+rx "$dir"
-    cd "$dir"
-    for f in $(cd @out@/lib/xfstests; echo *); do
-      ln -s @out@/lib/xfstests/$f $f
-    done
+        chmod a+rx "$dir"
+        cd "$dir"
+        for f in $(cd @out@/lib/xfstests; echo *); do
+          ln -s @out@/lib/xfstests/$f $f
+        done
 
-    export PATH=${lib.makeBinPath [acl attr bc e2fsprogs fio gawk keyutils
-                                   libcap lvm2 perl procps killall quota
-                                   util-linux which xfsprogs]}:$PATH
-    exec ./check "$@"
+        export PATH=${lib.makeBinPath [
+    acl
+    attr
+    bc
+    e2fsprogs
+    fio
+    gawk
+    keyutils
+                                       libcap
+    lvm2
+    perl
+    procps
+    killall
+    quota
+                                       util-linux
+    which
+    xfsprogs
+    ]}:$PATH
+        exec ./check "$@"
   '';
 
   meta = with stdenv.lib; {

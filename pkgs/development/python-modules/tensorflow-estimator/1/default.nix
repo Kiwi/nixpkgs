@@ -1,4 +1,6 @@
-{ stdenv, fetchPypi, buildPythonPackage
+{ stdenv
+, fetchPypi
+, buildPythonPackage
 , numpy
 , absl-py
 , mock

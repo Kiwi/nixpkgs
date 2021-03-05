@@ -40,9 +40,11 @@ let
     };
 
   # These providers are managed with the ./update-all script
-  automated-providers = lib.mapAttrs (_: attrs:
-    (if (lib.hasAttr "vendorSha256" attrs) then buildWithGoModule else buildWithGoPackage)
-      attrs) list;
+  automated-providers = lib.mapAttrs
+    (_: attrs:
+      (if (lib.hasAttr "vendorSha256" attrs) then buildWithGoModule else buildWithGoPackage)
+        attrs)
+    list;
 
   # These are the providers that don't fall in line with the default model
   special-providers = {
@@ -54,17 +56,17 @@ let
     });
 
     # Packages that don't fit the default model
-    ansible = callPackage ./ansible {};
-    cloudfoundry = callPackage ./cloudfoundry {};
-    elasticsearch = callPackage ./elasticsearch {};
-    gandi = callPackage ./gandi {};
-    hcloud = callPackage ./hcloud {};
-    keycloak = callPackage ./keycloak {};
-    libvirt = callPackage ./libvirt {};
-    linuxbox = callPackage ./linuxbox {};
-    lxd = callPackage ./lxd {};
-    shell = callPackage ./shell {};
-    vpsadmin = callPackage ./vpsadmin {};
+    ansible = callPackage ./ansible { };
+    cloudfoundry = callPackage ./cloudfoundry { };
+    elasticsearch = callPackage ./elasticsearch { };
+    gandi = callPackage ./gandi { };
+    hcloud = callPackage ./hcloud { };
+    keycloak = callPackage ./keycloak { };
+    libvirt = callPackage ./libvirt { };
+    linuxbox = callPackage ./linuxbox { };
+    lxd = callPackage ./lxd { };
+    shell = callPackage ./shell { };
+    vpsadmin = callPackage ./vpsadmin { };
   };
 in
-  automated-providers // special-providers
+automated-providers // special-providers

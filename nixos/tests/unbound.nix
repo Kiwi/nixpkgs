@@ -131,7 +131,7 @@ import ./make-test-python.nix ({ pkgs, lib, ... }:
           ];
 
           # user that is not permitted to access the unix socket
-          unauthorizeduser = {};
+          unauthorizeduser = { };
         };
 
         environment.etc = {

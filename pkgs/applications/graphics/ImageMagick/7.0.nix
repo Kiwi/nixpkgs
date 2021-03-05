@@ -1,6 +1,27 @@
-{ lib, stdenv, fetchFromGitHub, pkgconfig, libtool
-, bzip2, zlib, libX11, libXext, libXt, fontconfig, freetype, ghostscript, libjpeg, djvulibre
-, lcms2, openexr, libpng, librsvg, libtiff, libxml2, openjpeg, libwebp, libheif
+{ lib
+, stdenv
+, fetchFromGitHub
+, pkgconfig
+, libtool
+, bzip2
+, zlib
+, libX11
+, libXext
+, libXt
+, fontconfig
+, freetype
+, ghostscript
+, libjpeg
+, djvulibre
+, lcms2
+, openexr
+, libpng
+, librsvg
+, libtiff
+, libxml2
+, openjpeg
+, libwebp
+, libheif
 , ApplicationServices
 }:
 
@@ -16,7 +37,7 @@ let
   cfg = {
     version = "7.0.10-46";
     sha256 = "019l1qv8ds8hvyjwi1g21293a7v28bxf8ycnvr9828kpdhf4jxaa";
-    patches = [];
+    patches = [ ];
   };
 in
 
@@ -43,18 +64,27 @@ stdenv.mkDerivation {
     ++ [ "--with-gcc-arch=${arch}" ]
     ++ lib.optional (librsvg != null) "--with-rsvg"
     ++ lib.optionals (ghostscript != null)
-      [ "--with-gs-font-dir=${ghostscript}/share/ghostscript/fonts"
+      [
+        "--with-gs-font-dir=${ghostscript}/share/ghostscript/fonts"
         "--with-gslib"
       ]
     ++ lib.optionals stdenv.hostPlatform.isMinGW
       [ "--enable-static" "--disable-shared" ] # due to libxml2 being without DLLs ATM
-    ;
+  ;
 
   nativeBuildInputs = [ pkgconfig libtool ];
 
   buildInputs =
-    [ zlib fontconfig freetype ghostscript
-      libpng libtiff libxml2 libheif djvulibre
+    [
+      zlib
+      fontconfig
+      freetype
+      ghostscript
+      libpng
+      libtiff
+      libxml2
+      libheif
+      djvulibre
     ]
     ++ lib.optionals (!stdenv.hostPlatform.isMinGW)
       [ openexr librsvg openjpeg ]
@@ -64,7 +94,7 @@ stdenv.mkDerivation {
     [ bzip2 freetype libjpeg lcms2 ]
     ++ lib.optionals (!stdenv.hostPlatform.isMinGW)
       [ libX11 libXext libXt libwebp ]
-    ;
+  ;
 
   postInstall = ''
     (cd "$dev/include" && ln -s ImageMagick* ImageMagick)

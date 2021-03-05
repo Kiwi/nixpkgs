@@ -8,7 +8,8 @@ let
   getPatches = dir:
     let files = builtins.attrNames (builtins.readDir dir);
     in map (f: dir + ("/" + f)) files;
-in {
+in
+{
   mkFlutter = mkFlutter;
   stable = mkFlutter rec {
     pname = "flutter";

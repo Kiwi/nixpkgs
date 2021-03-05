@@ -45,16 +45,16 @@ self: super: {
 
   # Take the 3.4.x release candidate.
   cabal-install = assert super.cabal-install.version == "3.2.0.0";
-                  overrideCabal super.cabal-install (drv: {
-    postUnpack = "sourceRoot+=/cabal-install; echo source root reset to $sourceRoot";
-    version = "cabal-install-3.4.0.0-rc4";
-    editedCabalFile = null;
-    src = pkgs.fetchgit {
-      url = "git://github.com/haskell/cabal.git";
-      rev = "cabal-install-3.4.0.0-rc4";
-      sha256 = "049hllk1d8jid9yg70hmcsdgb0n7hm24p39vavllaahfb0qfimrk";
-    };
-  });
+    overrideCabal super.cabal-install (drv: {
+      postUnpack = "sourceRoot+=/cabal-install; echo source root reset to $sourceRoot";
+      version = "cabal-install-3.4.0.0-rc4";
+      editedCabalFile = null;
+      src = pkgs.fetchgit {
+        url = "git://github.com/haskell/cabal.git";
+        rev = "cabal-install-3.4.0.0-rc4";
+        sha256 = "049hllk1d8jid9yg70hmcsdgb0n7hm24p39vavllaahfb0qfimrk";
+      };
+    });
 
   # Jailbreaks & Version Updates
   async = doJailbreak super.async;

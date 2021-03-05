@@ -1,12 +1,22 @@
-{ stdenv, fetchFromGitHub, bison, meson, ninja, pkgconfig
-, libuecc, libsodium, libcap, json_c, openssl }:
+{ stdenv
+, fetchFromGitHub
+, bison
+, meson
+, ninja
+, pkgconfig
+, libuecc
+, libsodium
+, libcap
+, json_c
+, openssl
+}:
 
 stdenv.mkDerivation rec {
   pname = "fastd";
   version = "21";
 
   src = fetchFromGitHub {
-    owner  = "Neoraider";
+    owner = "Neoraider";
     repo = "fastd";
     rev = "v${version}";
     sha256 = "1p4k50dk8byrghbr0fwmgwps8df6rlkgcd603r14i71m5g27z5gw";

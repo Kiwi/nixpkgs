@@ -1,24 +1,24 @@
-{
-  appindicator-sharp,
-  coreutils,
-  fetchFromGitHub,
-  git,
-  git-lfs,
-  glib,
-  gtk-sharp-3_0,
-  lib,
-  makeWrapper,
-  meson,
-  mono,
-  ninja,
-  notify-sharp,
-  openssh,
-  openssl,
-  pkg-config,
-  stdenv,
-  symlinkJoin,
-  webkit2-sharp,
-  xdg_utils,
+{ appindicator-sharp
+, coreutils
+, fetchFromGitHub
+, git
+, git-lfs
+, glib
+, gtk-sharp-3_0
+, lib
+, makeWrapper
+, meson
+, mono
+, ninja
+, notify-sharp
+, openssh
+, openssl
+, pkg-config
+, stdenv
+, symlinkJoin
+, webkit2-sharp
+, xdg_utils
+,
 }:
 
 stdenv.mkDerivation rec {

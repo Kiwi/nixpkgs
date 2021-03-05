@@ -74,7 +74,8 @@ in
     services.xinetd.enable = true;
 
     services.xinetd.services = singleton
-      { name = "flashpolicy";
+      {
+        name = "flashpolicy";
         port = 843;
         unlisted = true;
         server = "${flashpolicydWrapper}/bin/flashpolicyd";

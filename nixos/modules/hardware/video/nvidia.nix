@@ -13,11 +13,11 @@ let
   # driver.
   nvidiaForKernel = kernelPackages:
     if elem "nvidia" drivers then
-        kernelPackages.nvidia_x11
+      kernelPackages.nvidia_x11
     else if elem "nvidiaBeta" drivers then
-        kernelPackages.nvidia_x11_beta
+      kernelPackages.nvidia_x11_beta
     else if elem "nvidiaVulkanBeta" drivers then
-        kernelPackages.nvidia_x11_vulkan_beta
+      kernelPackages.nvidia_x11_vulkan_beta
     else if elem "nvidiaLegacy304" drivers then
       kernelPackages.nvidia_x11_legacy304
     else if elem "nvidiaLegacy340" drivers then
@@ -41,7 +41,7 @@ let
   syncCfg = pCfg.sync;
   offloadCfg = pCfg.offload;
   primeEnabled = syncCfg.enable || offloadCfg.enable;
-  nvidiaPersistencedEnabled =  cfg.nvidiaPersistenced;
+  nvidiaPersistencedEnabled = cfg.nvidiaPersistenced;
 in
 
 {
@@ -190,14 +190,15 @@ in
 
     services.xserver.useGlamor = mkDefault offloadCfg.enable;
 
-    services.xserver.drivers = optional primeEnabled {
-      name = "modesetting";
-      display = offloadCfg.enable;
-      deviceSection = ''
-        BusID "${pCfg.intelBusId}"
-        ${optionalString syncCfg.enable ''Option "AccelMethod" "none"''}
-      '';
-    } ++ singleton {
+    services.xserver.drivers = optional primeEnabled
+      {
+        name = "modesetting";
+        display = offloadCfg.enable;
+        deviceSection = ''
+          BusID "${pCfg.intelBusId}"
+          ${optionalString syncCfg.enable ''Option "AccelMethod" "none"''}
+        '';
+      } ++ singleton {
       name = "nvidia";
       modules = [ nvidia_x11.bin ];
       display = !offloadCfg.enable;
@@ -239,30 +240,32 @@ in
 
     systemd.packages = optional cfg.powerManagement.enable nvidia_x11.out;
 
-    systemd.services = let
-      baseNvidiaService = state: {
-        description = "NVIDIA system ${state} actions";
+    systemd.services =
+      let
+        baseNvidiaService = state: {
+          description = "NVIDIA system ${state} actions";
 
-        path = with pkgs; [ kbd ];
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = "${nvidia_x11.out}/bin/nvidia-sleep.sh '${state}'";
+          path = with pkgs; [ kbd ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${nvidia_x11.out}/bin/nvidia-sleep.sh '${state}'";
+          };
         };
-      };
 
-      nvidiaService = sleepState: (baseNvidiaService sleepState) // {
-        before = [ "systemd-${sleepState}.service" ];
-        requiredBy = [ "systemd-${sleepState}.service" ];
-      };
+        nvidiaService = sleepState: (baseNvidiaService sleepState) // {
+          before = [ "systemd-${sleepState}.service" ];
+          requiredBy = [ "systemd-${sleepState}.service" ];
+        };
 
-      services = (builtins.listToAttrs (map (t: nameValuePair "nvidia-${t}" (nvidiaService t)) ["hibernate" "suspend"]))
-        // {
+        services = (builtins.listToAttrs (map (t: nameValuePair "nvidia-${t}" (nvidiaService t)) [ "hibernate" "suspend" ]))
+          // {
           nvidia-resume = (baseNvidiaService "resume") // {
             after = [ "systemd-suspend.service" "systemd-hibernate.service" ];
             requiredBy = [ "systemd-suspend.service" "systemd-hibernate.service" ];
           };
         };
-    in optionalAttrs cfg.powerManagement.enable services
+      in
+      optionalAttrs cfg.powerManagement.enable services
       // optionalAttrs nvidiaPersistencedEnabled {
         "nvidia-persistenced" = mkIf nvidiaPersistencedEnabled {
           description = "NVIDIA Persistence Daemon";
@@ -278,9 +281,9 @@ in
       };
 
     systemd.tmpfiles.rules = optional config.virtualisation.docker.enableNvidia
-        "L+ /run/nvidia-docker/bin - - - - ${nvidia_x11.bin}/origBin"
-      ++ optional (nvidia_x11.persistenced != null && config.virtualisation.docker.enableNvidia)
-        "L+ /run/nvidia-docker/extras/bin/nvidia-persistenced - - - - ${nvidia_x11.persistenced}/origBin/nvidia-persistenced";
+      "L+ /run/nvidia-docker/bin - - - - ${nvidia_x11.bin}/origBin"
+    ++ optional (nvidia_x11.persistenced != null && config.virtualisation.docker.enableNvidia)
+      "L+ /run/nvidia-docker/extras/bin/nvidia-persistenced - - - - ${nvidia_x11.persistenced}/origBin/nvidia-persistenced";
 
     boot.extraModulePackages = [ nvidia_x11.bin ];
 

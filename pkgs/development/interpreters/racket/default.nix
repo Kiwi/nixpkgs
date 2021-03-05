@@ -1,15 +1,28 @@
-{ stdenv, fetchurl, makeFontsConf
+{ stdenv
+, fetchurl
+, makeFontsConf
 , cacert
-, cairo, coreutils, fontconfig, freefont_ttf
-, glib, gmp
+, cairo
+, coreutils
+, fontconfig
+, freefont_ttf
+, glib
+, gmp
 , gtk3
-, libedit, libffi
+, libedit
+, libffi
 , libiconv
 , libGL
 , libGLU
 , libjpeg
-, libpng, libtool, mpfr, openssl, pango, poppler
-, readline, sqlite
+, libpng
+, libtool
+, mpfr
+, openssl
+, pango
+, poppler
+, readline
+, sqlite
 , disableDocs ? false
 , CoreFoundation
 , gsettings-desktop-schemas
@@ -82,9 +95,9 @@ stdenv.mkDerivation rec {
   '';
 
   shared = if stdenv.isDarwin then "dylib" else "shared";
-  configureFlags = [ "--enable-${shared}"  "--enable-lt=${libtool}/bin/libtool" ]
-                   ++ stdenv.lib.optional disableDocs [ "--disable-docs" ]
-                   ++ stdenv.lib.optional stdenv.isDarwin [ "--enable-xonx" ];
+  configureFlags = [ "--enable-${shared}" "--enable-lt=${libtool}/bin/libtool" ]
+    ++ stdenv.lib.optional disableDocs [ "--disable-docs" ]
+    ++ stdenv.lib.optional stdenv.isDarwin [ "--enable-xonx" ];
 
   configureScript = "../configure";
 

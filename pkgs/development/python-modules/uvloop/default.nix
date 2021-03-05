@@ -9,9 +9,9 @@
 , pythonAtLeast
 , CoreServices
 , ApplicationServices
-# Check Inputs
+  # Check Inputs
 , pytestCheckHook
-# , pytest-asyncio
+  # , pytest-asyncio
 }:
 
 buildPythonPackage rec {
@@ -48,8 +48,8 @@ buildPythonPackage rec {
   ];
 
   disabledTests = [
-    "test_sock_cancel_add_reader_race"  # asyncio version of test is supposed to be skipped but skip doesn't happen. uvloop version runs fine
-  ] ++ lib.optionals (pythonAtLeast "3.8") [ "test_write_to_closed_transport" ];  # https://github.com/MagicStack/uvloop/issues/355
+    "test_sock_cancel_add_reader_race" # asyncio version of test is supposed to be skipped but skip doesn't happen. uvloop version runs fine
+  ] ++ lib.optionals (pythonAtLeast "3.8") [ "test_write_to_closed_transport" ]; # https://github.com/MagicStack/uvloop/issues/355
 
   # force using installed/compiled uvloop vs source by moving tests to temp dir
   preCheck = ''

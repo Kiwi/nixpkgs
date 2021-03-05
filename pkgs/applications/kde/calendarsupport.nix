@@ -1,8 +1,20 @@
-{
-  mkDerivation, lib, kdepimTeam,
-  extra-cmake-modules, kdoctools,
-  akonadi, akonadi-calendar, akonadi-mime, akonadi-notes, kcalutils, kdepim-apps-libs,
-  kholidays, kidentitymanagement, kmime, pimcommon, qttools,
+{ mkDerivation
+, lib
+, kdepimTeam
+, extra-cmake-modules
+, kdoctools
+, akonadi
+, akonadi-calendar
+, akonadi-mime
+, akonadi-notes
+, kcalutils
+, kdepim-apps-libs
+, kholidays
+, kidentitymanagement
+, kmime
+, pimcommon
+, qttools
+,
 }:
 
 mkDerivation {
@@ -13,7 +25,14 @@ mkDerivation {
   };
   nativeBuildInputs = [ extra-cmake-modules kdoctools ];
   buildInputs = [
-    akonadi akonadi-mime akonadi-notes kcalutils kdepim-apps-libs kholidays pimcommon qttools
+    akonadi
+    akonadi-mime
+    akonadi-notes
+    kcalutils
+    kdepim-apps-libs
+    kholidays
+    pimcommon
+    qttools
   ];
   propagatedBuildInputs = [ akonadi-calendar kidentitymanagement kmime ];
   outputs = [ "out" "dev" ];

@@ -6,7 +6,7 @@
 , argcomplete
 , pyyaml
 , xmltodict
-# Test inputs
+  # Test inputs
 , coverage
 , flake8
 , jq
@@ -36,11 +36,11 @@ buildPythonPackage rec {
   doCheck = true;
 
   checkInputs = [
-   pytest
-   coverage
-   flake8
-   pkgs.jq
-   toml
+    pytest
+    coverage
+    flake8
+    pkgs.jq
+    toml
   ];
 
   checkPhase = "pytest ./test/test.py";

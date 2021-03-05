@@ -1,5 +1,10 @@
-{ stdenv, fetchFromGitHub
-, doxygen, graphviz, libX11, libXrandr }:
+{ stdenv
+, fetchFromGitHub
+, doxygen
+, graphviz
+, libX11
+, libXrandr
+}:
 
 stdenv.mkDerivation rec {
 

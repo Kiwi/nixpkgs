@@ -4,7 +4,8 @@
 , makeWrapper
 , openssl
 , coreutils
-, gnugrep }:
+, gnugrep
+}:
 
 stdenv.mkDerivation {
   pname = "bash-supergenpass";

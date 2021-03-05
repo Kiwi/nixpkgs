@@ -28,8 +28,8 @@ buildPythonPackage rec {
 
   meta = with stdenv.lib; {
     description = "Cython wrapper for clipper library";
-    homepage    = "https://github.com/fonttools/pyclipper";
-    license     = licenses.mit;
+    homepage = "https://github.com/fonttools/pyclipper";
+    license = licenses.mit;
     maintainers = with maintainers; [ matthuszagh ];
   };
 }

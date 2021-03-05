@@ -6,7 +6,8 @@ let
   cfg = config.services.rsyncd;
   settingsFormat = pkgs.formats.ini { };
   configFile = settingsFormat.generate "rsyncd.conf" cfg.settings;
-in {
+in
+{
   options = {
     services.rsyncd = {
 
@@ -49,15 +50,16 @@ in {
     };
   };
 
-  imports = (map (option:
-    mkRemovedOptionModule [ "services" "rsyncd" option ]
-    "This option was removed in favor of `services.rsyncd.settings`.") [
-      "address"
-      "extraConfig"
-      "motd"
-      "user"
-      "group"
-    ]);
+  imports = (map
+    (option:
+      mkRemovedOptionModule [ "services" "rsyncd" option ]
+        "This option was removed in favor of `services.rsyncd.settings`.") [
+    "address"
+    "extraConfig"
+    "motd"
+    "user"
+    "group"
+  ]);
 
   config = mkIf cfg.enable {
 

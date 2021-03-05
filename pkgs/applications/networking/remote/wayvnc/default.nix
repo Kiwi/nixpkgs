@@ -1,5 +1,16 @@
-{ stdenv, fetchFromGitHub, meson, pkg-config, ninja, scdoc
-, pixman, libxkbcommon, wayland, neatvnc, libdrm, libX11, aml
+{ stdenv
+, fetchFromGitHub
+, meson
+, pkg-config
+, ninja
+, scdoc
+, pixman
+, libxkbcommon
+, wayland
+, neatvnc
+, libdrm
+, libX11
+, aml
 }:
 
 stdenv.mkDerivation rec {

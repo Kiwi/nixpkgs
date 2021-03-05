@@ -1,7 +1,8 @@
 { lib, stdenv, fetchurl, pkgconfig, libseccomp }:
 
 let version = "0.6.7";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "solo5";
   inherit version;
 
@@ -36,13 +37,14 @@ in stdenv.mkDerivation {
   '';
 
   doCheck = true;
-  checkPhase = if stdenv.hostPlatform.isLinux then
-    ''
-    patchShebangs tests
-    ./tests/bats-core/bats ./tests/tests.bats
-    ''
-  else
-    null;
+  checkPhase =
+    if stdenv.hostPlatform.isLinux then
+      ''
+        patchShebangs tests
+        ./tests/bats-core/bats ./tests/tests.bats
+      ''
+    else
+      null;
 
   meta = with lib; {
     description = "Sandboxed execution environment";

@@ -1,22 +1,21 @@
-{
-  glib,
-  haskellPackages,
-  lib,
-  nodePackages,
-  perlPackages,
-  python2Packages,
-  python3Packages,
-  runCommand,
-  stdenv,
-  writers,
-  writeText
+{ glib
+, haskellPackages
+, lib
+, nodePackages
+, perlPackages
+, python2Packages
+, python3Packages
+, runCommand
+, stdenv
+, writers
+, writeText
 }:
 with writers;
 let
 
   bin = {
     bash = writeBashBin "test_writers" ''
-     if [[ "test" == "test" ]]; then echo "success"; fi
+      if [[ "test" == "test" ]]; then echo "success"; fi
     '';
 
     c = writeCBin "test_writers" { libraries = [ ]; } ''
@@ -28,7 +27,7 @@ let
     '';
 
     dash = writeDashBin "test_writers" ''
-     test '~' = '~' && echo 'success'
+      test '~' = '~' && echo 'success'
     '';
 
     haskell = writeHaskellBin "test_writers" { libraries = [ haskellPackages.acme-default ]; } ''
@@ -81,7 +80,7 @@ let
 
   simple = {
     bash = writeBash "test_bash" ''
-     if [[ "test" == "test" ]]; then echo "success"; fi
+      if [[ "test" == "test" ]]; then echo "success"; fi
     '';
 
     c = writeC "test_c" { libraries = [ glib.dev ]; } ''
@@ -103,7 +102,7 @@ let
     '';
 
     dash = writeDash "test_dash" ''
-     test '~' = '~' && echo 'success'
+      test '~' = '~' && echo 'success'
     '';
 
     haskell = writeHaskell "test_haskell" { libraries = [ haskellPackages.acme-default ]; } ''
@@ -153,11 +152,11 @@ let
       print(y[0]['test'])
     '';
 
-    python2NoLibs = writePython2 "test_python2_no_libs" {} ''
+    python2NoLibs = writePython2 "test_python2_no_libs" { } ''
       print("success")
     '';
 
-    python3NoLibs = writePython3 "test_python3_no_libs" {} ''
+    python3NoLibs = writePython3 "test_python3_no_libs" { } ''
       print("success")
     '';
   };
@@ -188,7 +187,9 @@ let
       fi
     '';
 
-in runCommand "test-writers" {
+in
+runCommand "test-writers"
+{
   passthru = { inherit writeTest bin simple; };
   meta.platforms = stdenv.lib.platforms.all;
 } ''

@@ -1,5 +1,19 @@
-{ stdenv, fetchurl, fetchpatch, alsaLib, expat, glib, libjack2, libXext, libX11, libpng
-, libpthreadstubs, libsmf, libsndfile, lv2, pkgconfig, zita-resampler
+{ stdenv
+, fetchurl
+, fetchpatch
+, alsaLib
+, expat
+, glib
+, libjack2
+, libXext
+, libX11
+, libpng
+, libpthreadstubs
+, libsmf
+, libsndfile
+, lv2
+, pkgconfig
+, zita-resampler
 }:
 
 stdenv.mkDerivation rec {
@@ -24,8 +38,19 @@ stdenv.mkDerivation rec {
   configureFlags = [ "--enable-lv2" ];
 
   buildInputs = [
-    alsaLib expat glib libjack2 libXext libX11 libpng libpthreadstubs
-    libsmf libsndfile lv2 pkgconfig zita-resampler
+    alsaLib
+    expat
+    glib
+    libjack2
+    libXext
+    libX11
+    libpng
+    libpthreadstubs
+    libsmf
+    libsndfile
+    lv2
+    pkgconfig
+    zita-resampler
   ];
 
   meta = with stdenv.lib; {

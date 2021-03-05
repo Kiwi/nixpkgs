@@ -1,5 +1,15 @@
-{ stdenv, buildPythonPackage, fetchPypi, pytestCheckHook, pythonOlder
-, google_api_core, libcst, mock, proto-plus, pytest-asyncio, }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pytestCheckHook
+, pythonOlder
+, google_api_core
+, libcst
+, mock
+, proto-plus
+, pytest-asyncio
+,
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-texttospeech";
@@ -16,7 +26,7 @@ buildPythonPackage rec {
   propagatedBuildInputs = [ google_api_core libcst proto-plus ];
 
   # Disable tests that require credentials
-  disabledTests = ["test_synthesize_speech" "test_list_voices"];
+  disabledTests = [ "test_synthesize_speech" "test_list_voices" ];
 
   meta = with stdenv.lib; {
     description = "Google Cloud Text-to-Speech API client library";

@@ -14,7 +14,7 @@ rec {
 
   packageName = "cl-dot";
 
-  asdFilesToKeep = ["cl-dot.asd"];
+  asdFilesToKeep = [ "cl-dot.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-dot DESCRIPTION Generate Dot Output from Arbitrary Lisp Data

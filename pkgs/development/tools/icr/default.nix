@@ -1,5 +1,16 @@
-{ stdenv, lib, fetchFromGitHub, crystal, shards, makeWrapper, pkgconfig, which
-, openssl, readline, libyaml, zlib }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, crystal
+, shards
+, makeWrapper
+, pkgconfig
+, which
+, openssl
+, readline
+, libyaml
+, zlib
+}:
 
 crystal.buildCrystalPackage rec {
   pname = "icr";

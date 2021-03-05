@@ -1,6 +1,11 @@
-{ stdenv, config, vim_configurable, macvim, vimPlugins
+{ stdenv
+, config
+, vim_configurable
+, macvim
+, vimPlugins
 , useMacvim ? stdenv.isDarwin && (config.vimacs.macvim or true)
-, vimacsExtraArgs ? "" }:
+, vimacsExtraArgs ? ""
+}:
 
 stdenv.mkDerivation rec {
   pname = "vimacs";

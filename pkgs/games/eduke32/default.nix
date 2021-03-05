@@ -1,6 +1,19 @@
-{ stdenv, fetchurl, makeWrapper, pkgconfig, nasm, makeDesktopItem
-, alsaLib, flac, gtk2, libvorbis, libvpx, libGLU, libGL
-, SDL2, SDL2_mixer }:
+{ stdenv
+, fetchurl
+, makeWrapper
+, pkgconfig
+, nasm
+, makeDesktopItem
+, alsaLib
+, flac
+, gtk2
+, libvorbis
+, libvpx
+, libGLU
+, libGL
+, SDL2
+, SDL2_mixer
+}:
 
 let
   version = "20200907";
@@ -18,7 +31,8 @@ let
 
   wrapper = "eduke32-wrapper";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "eduke32";
   inherit version;
 

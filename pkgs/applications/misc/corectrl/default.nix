@@ -16,7 +16,7 @@
 , qttools
 , qtxmlpatterns
 , wrapQtAppsHook
-} :
+}:
 
 stdenv.mkDerivation rec{
   pname = "corectrl";

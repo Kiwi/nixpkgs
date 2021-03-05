@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
   # It's weird that the build isn't failing because of failure to compile dependencies, it's from failure to link them!
   makeFlags = [ "PREFIX=$(out)" ]
     ++ stdenv.lib.optionals (stdenv.buildPlatform != stdenv.hostPlatform) [ "AR=${stdenv.cc.targetPrefix}ar" "RANLIB=${stdenv.cc.targetPrefix}ranlib" "MALLOC=libc" ]
-    ++ stdenv.lib.optional (stdenv.isLinux && !stdenv.hostPlatform.isMusl) ["USE_SYSTEMD=yes"];
+    ++ stdenv.lib.optional (stdenv.isLinux && !stdenv.hostPlatform.isMusl) [ "USE_SYSTEMD=yes" ];
 
   enableParallelBuilding = true;
 

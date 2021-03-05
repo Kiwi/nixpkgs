@@ -9,7 +9,8 @@
 let
   mpiSupport = hdf5.mpiSupport;
   mpi = hdf5.mpi;
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "netcdf";
   version = "4.7.4";
 
@@ -36,10 +37,10 @@ in stdenv.mkDerivation rec {
   };
 
   configureFlags = [
-      "--enable-netcdf-4"
-      "--enable-dap"
-      "--enable-shared"
-      "--disable-dap-remote-tests"
+    "--enable-netcdf-4"
+    "--enable-dap"
+    "--enable-shared"
+    "--disable-dap-remote-tests"
   ]
   ++ (stdenv.lib.optionals mpiSupport [ "--enable-parallel-tests" "CC=${mpi}/bin/mpicc" ]);
 
@@ -52,11 +53,11 @@ in stdenv.mkDerivation rec {
   doCheck = !mpiSupport;
 
   meta = {
-      description = "Libraries for the Unidata network Common Data Format";
-      platforms = stdenv.lib.platforms.unix;
-      homepage = "https://www.unidata.ucar.edu/software/netcdf/";
-      license = {
-        url = "https://www.unidata.ucar.edu/software/netcdf/docs/copyright.html";
-      };
+    description = "Libraries for the Unidata network Common Data Format";
+    platforms = stdenv.lib.platforms.unix;
+    homepage = "https://www.unidata.ucar.edu/software/netcdf/";
+    license = {
+      url = "https://www.unidata.ucar.edu/software/netcdf/docs/copyright.html";
+    };
   };
 }

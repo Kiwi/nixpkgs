@@ -1,6 +1,16 @@
-{ lib, fetchPypi, buildPythonPackage, pythonOlder, isPyPy, pythonAtLeast
-, lazy-object-proxy, six, wrapt, typing, typed-ast
-, pytestrunner, pytest
+{ lib
+, fetchPypi
+, buildPythonPackage
+, pythonOlder
+, isPyPy
+, pythonAtLeast
+, lazy-object-proxy
+, six
+, wrapt
+, typing
+, typed-ast
+, pytestrunner
+, pytest
 }:
 
 buildPythonPackage rec {

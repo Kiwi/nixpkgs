@@ -258,4 +258,5 @@ let
       license = stdenv.lib.licenses.lgpl3;
     };
   };
-in python-dolfin
+in
+python-dolfin

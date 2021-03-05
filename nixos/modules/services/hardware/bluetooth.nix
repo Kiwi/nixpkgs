@@ -6,7 +6,8 @@ let
   cfg = config.hardware.bluetooth;
   bluez-bluetooth = cfg.package;
 
-in {
+in
+{
 
   ###### interface
 
@@ -18,7 +19,7 @@ in {
       hsphfpd.enable = mkEnableOption "support for hsphfpd[-prototype] implementation";
 
       powerOnBoot = mkOption {
-        type    = types.bool;
+        type = types.bool;
         default = true;
         description = "Whether to power up the default Bluetooth controller on boot.";
       };
@@ -77,7 +78,7 @@ in {
     environment.systemPackages = [ bluez-bluetooth ]
       ++ optionals cfg.hsphfpd.enable [ pkgs.hsphfpd ];
 
-    environment.etc."bluetooth/main.conf"= {
+    environment.etc."bluetooth/main.conf" = {
       source = pkgs.writeText "main.conf"
         (generators.toINI { } cfg.config + optionalString (cfg.extraConfig != null) cfg.extraConfig);
     };
@@ -85,40 +86,40 @@ in {
     services.udev.packages = [ bluez-bluetooth ];
     services.dbus.packages = [ bluez-bluetooth ]
       ++ optionals cfg.hsphfpd.enable [ pkgs.hsphfpd ];
-    systemd.packages       = [ bluez-bluetooth ];
+    systemd.packages = [ bluez-bluetooth ];
 
     systemd.services = {
       bluetooth = {
         wantedBy = [ "bluetooth.target" ];
-        aliases  = [ "dbus-org.bluez.service" ];
+        aliases = [ "dbus-org.bluez.service" ];
         # restarting can leave people without a mouse/keyboard
         unitConfig.X-RestartIfChanged = false;
       };
     }
-      // (optionalAttrs cfg.hsphfpd.enable {
-        hsphfpd = {
-          after = [ "bluetooth.service" ];
-          requires = [ "bluetooth.service" ];
-          wantedBy = [ "multi-user.target" ];
+    // (optionalAttrs cfg.hsphfpd.enable {
+      hsphfpd = {
+        after = [ "bluetooth.service" ];
+        requires = [ "bluetooth.service" ];
+        wantedBy = [ "multi-user.target" ];
 
-          description = "A prototype implementation used for connecting HSP/HFP Bluetooth devices";
-          serviceConfig.ExecStart = "${pkgs.hsphfpd}/bin/hsphfpd.pl";
-        };
-      })
-      ;
+        description = "A prototype implementation used for connecting HSP/HFP Bluetooth devices";
+        serviceConfig.ExecStart = "${pkgs.hsphfpd}/bin/hsphfpd.pl";
+      };
+    })
+    ;
 
     systemd.user.services = {
       obex.aliases = [ "dbus-org.bluez.obex.service" ];
     }
-      // (optionalAttrs cfg.hsphfpd.enable {
-        telephony_client = {
-          wantedBy = [ "default.target"];
+    // (optionalAttrs cfg.hsphfpd.enable {
+      telephony_client = {
+        wantedBy = [ "default.target" ];
 
-          description = "telephony_client for hsphfpd";
-          serviceConfig.ExecStart = "${pkgs.hsphfpd}/bin/telephony_client.pl";
-        };
-      })
-      ;
+        description = "telephony_client for hsphfpd";
+        serviceConfig.ExecStart = "${pkgs.hsphfpd}/bin/telephony_client.pl";
+      };
+    })
+    ;
 
   };
 

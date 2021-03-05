@@ -1,5 +1,13 @@
-{ lib, buildPythonPackage, fetchFromGitHub, isPy27, requests, netifaces
-, pytest, testtools, requests-mock }:
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, isPy27
+, requests
+, netifaces
+, pytest
+, testtools
+, requests-mock
+}:
 
 buildPythonPackage rec {
   pname = "denonavr";

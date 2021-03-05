@@ -1,9 +1,27 @@
 # Baseed on previous attempts:
 #  -  <https://github.com/msteen/nixos-vsliveshare/blob/master/pkgs/vsliveshare/default.nix>
 #  -  <https://github.com/NixOS/nixpkgs/issues/41189>
-{ lib, gccStdenv, vscode-utils, autoPatchelfHook, bash, file, makeWrapper, dotnet-sdk_3
-, curl, gcc, icu, libkrb5, libsecret, libunwind, libX11, lttng-ust, openssl, util-linux, zlib
-, desktop-file-utils, xprop
+{ lib
+, gccStdenv
+, vscode-utils
+, autoPatchelfHook
+, bash
+, file
+, makeWrapper
+, dotnet-sdk_3
+, curl
+, gcc
+, icu
+, libkrb5
+, libsecret
+, libunwind
+, libX11
+, lttng-ust
+, openssl
+, util-linux
+, zlib
+, desktop-file-utils
+, xprop
 }:
 
 with lib;
@@ -33,14 +51,15 @@ let
     util-linux # libuuid
   ];
 
-in ((vscode-utils.override { stdenv = gccStdenv; }).buildVscodeMarketplaceExtension {
+in
+((vscode-utils.override { stdenv = gccStdenv; }).buildVscodeMarketplaceExtension {
   mktplcRef = {
     name = "vsliveshare";
     publisher = "ms-vsliveshare";
     version = "1.0.2902";
     sha256 = "0fx2vi0wxamcwqcgcx7wpg8hi7f1c2pibrmd2qy2whilpsv3gzmb";
   };
-}).overrideAttrs(attrs: {
+}).overrideAttrs (attrs: {
   buildInputs = attrs.buildInputs ++ libs ++ [ autoPatchelfHook bash file makeWrapper ];
 
   # Using a patch file won't work, because the file changes too often, causing the patch to fail on most updates.
@@ -124,7 +143,7 @@ in ((vscode-utils.override { stdenv = gccStdenv; }).buildVscodeMarketplaceExtens
 
     for bn in check-reqs.sh install.sh uninstall.sh; do
       wrapProgram "$PWD/node_modules/@vsliveshare/vscode-launcher-linux/$bn" \
-        --prefix PATH : "${makeBinPath [desktop-file-utils xprop]}"
+        --prefix PATH : "${makeBinPath [ desktop-file-utils xprop ]}"
     done
   '';
 

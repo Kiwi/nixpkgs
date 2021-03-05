@@ -1,6 +1,12 @@
-{ lib, fetchFromGitHub, buildDunePackage, ocaml
+{ lib
+, fetchFromGitHub
+, buildDunePackage
+, ocaml
 , version ? if lib.versionAtLeast ocaml.version "4.07" then "0.15.0" else "0.13.0"
-, ocaml-compiler-libs, ocaml-migrate-parsetree, ppx_derivers, stdio
+, ocaml-compiler-libs
+, ocaml-migrate-parsetree
+, ppx_derivers
+, stdio
 , stdlib-shims
 }:
 
@@ -20,32 +26,35 @@ let param = {
 }."${version}"; in
 
 if param ? max_version && lib.versionAtLeast ocaml.version param.max_version
-|| param ? min_version && !lib.versionAtLeast ocaml.version param.min_version
+  || param ? min_version && !lib.versionAtLeast ocaml.version param.min_version
 then throw "ppxlib-${param.version} is not available for OCaml ${ocaml.version}"
 else
 
-buildDunePackage rec {
-  pname = "ppxlib";
-  inherit version;
+  buildDunePackage rec {
+    pname = "ppxlib";
+    inherit version;
 
-  useDune2 = param.useDune2 or false;
+    useDune2 = param.useDune2 or false;
 
-  src = fetchFromGitHub {
-    owner = "ocaml-ppx";
-    repo = pname;
-    rev = version;
-    inherit (param) sha256;
-  };
+    src = fetchFromGitHub {
+      owner = "ocaml-ppx";
+      repo = pname;
+      rev = version;
+      inherit (param) sha256;
+    };
 
-  propagatedBuildInputs = [
-    ocaml-compiler-libs ocaml-migrate-parsetree ppx_derivers stdio
-    stdlib-shims
-  ];
+    propagatedBuildInputs = [
+      ocaml-compiler-libs
+      ocaml-migrate-parsetree
+      ppx_derivers
+      stdio
+      stdlib-shims
+    ];
 
-  meta = {
-    description = "Comprehensive ppx tool set";
-    license = lib.licenses.mit;
-    maintainers = [ lib.maintainers.vbgl ];
-    inherit (src.meta) homepage;
-  };
-}
+    meta = {
+      description = "Comprehensive ppx tool set";
+      license = lib.licenses.mit;
+      maintainers = [ lib.maintainers.vbgl ];
+      inherit (src.meta) homepage;
+    };
+  }

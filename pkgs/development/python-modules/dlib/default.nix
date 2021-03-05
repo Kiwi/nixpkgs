@@ -1,4 +1,10 @@
-{ buildPythonPackage, stdenv, lib, dlib, python, pytest, more-itertools
+{ buildPythonPackage
+, stdenv
+, lib
+, dlib
+, python
+, pytest
+, more-itertools
 , avxSupport ? stdenv.hostPlatform.avxSupport
 }:
 

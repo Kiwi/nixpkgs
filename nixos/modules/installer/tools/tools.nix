@@ -205,7 +205,8 @@ in
     '';
 
     environment.systemPackages =
-      [ nixos-build-vms
+      [
+        nixos-build-vms
         nixos-install
         nixos-rebuild
         nixos-generate-config

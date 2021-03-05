@@ -28,7 +28,7 @@ stdenv.mkDerivation {
   meta = with stdenv.lib; {
     description = "An OCaml library providing efficient access to a selection of character properties of the Unicode character database";
     homepage = webpage;
-    platforms = ocaml.meta.platforms or [];
+    platforms = ocaml.meta.platforms or [ ];
     license = licenses.bsd3;
     maintainers = [ maintainers.vbgl ];
   };

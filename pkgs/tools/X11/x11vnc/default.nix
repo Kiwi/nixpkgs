@@ -1,6 +1,15 @@
-{ stdenv, fetchFromGitHub, fetchpatch,
-  openssl, zlib, libjpeg, xorg, coreutils, libvncserver,
-  autoreconfHook, pkgconfig }:
+{ stdenv
+, fetchFromGitHub
+, fetchpatch
+, openssl
+, zlib
+, libjpeg
+, xorg
+, coreutils
+, libvncserver
+, autoreconfHook
+, pkgconfig
+}:
 
 stdenv.mkDerivation rec {
   pname = "x11vnc";
@@ -24,11 +33,20 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ autoreconfHook pkgconfig ];
 
   buildInputs =
-    [ xorg.libXfixes xorg.xorgproto openssl xorg.libXdamage
-      zlib xorg.libX11 libjpeg
-      xorg.libXtst xorg.libXinerama xorg.libXrandr
+    [
+      xorg.libXfixes
+      xorg.xorgproto
+      openssl
+      xorg.libXdamage
+      zlib
+      xorg.libX11
+      libjpeg
+      xorg.libXtst
+      xorg.libXinerama
+      xorg.libXrandr
       xorg.libXext
-      xorg.libXi xorg.libXrender
+      xorg.libXi
+      xorg.libXrender
       libvncserver
     ];
 

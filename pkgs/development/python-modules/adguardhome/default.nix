@@ -1,5 +1,13 @@
-{ aiohttp, aresponses, buildPythonPackage, fetchFromGitHub, isPy3k, lib
-, pytest-asyncio, pytestCheckHook, yarl }:
+{ aiohttp
+, aresponses
+, buildPythonPackage
+, fetchFromGitHub
+, isPy3k
+, lib
+, pytest-asyncio
+, pytestCheckHook
+, yarl
+}:
 
 buildPythonPackage rec {
   pname = "adguardhome";

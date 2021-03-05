@@ -1,5 +1,13 @@
-{ stdenv, fetchurl, intltool, pkgconfig, iconnamingutils, imagemagick, librsvg
-, gtk/*any version*/, gnome-icon-theme, hicolor-icon-theme
+{ stdenv
+, fetchurl
+, intltool
+, pkgconfig
+, iconnamingutils
+, imagemagick
+, librsvg
+, gtk/*any version*/
+, gnome-icon-theme
+, hicolor-icon-theme
 }:
 
 stdenv.mkDerivation rec {

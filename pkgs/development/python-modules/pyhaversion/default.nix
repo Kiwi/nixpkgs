@@ -2,13 +2,13 @@
 , buildPythonPackage
 , fetchPypi
 , isPy3k
-# propagatedBuildInputs
+  # propagatedBuildInputs
 , aiohttp
 , async-timeout
 , semantic-version
-# buildInputs
+  # buildInputs
 , pytestrunner
-# checkInputs
+  # checkInputs
 , pytest
 , pytest-asyncio
 , aresponses

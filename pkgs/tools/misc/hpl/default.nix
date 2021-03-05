@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, blas, lapack, mpi } :
+{ stdenv, fetchurl, blas, lapack, mpi }:
 
 assert (!blas.isILP64) && (!lapack.isILP64);
 

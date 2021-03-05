@@ -1,9 +1,19 @@
-{ stdenv, buildPythonApplication, fetchFromGitHub, callPackage
-, mpv, python-mpv-jsonipc, jellyfin-apiclient-python
-, pillow, tkinter, pystray, jinja2, pywebview }:
+{ stdenv
+, buildPythonApplication
+, fetchFromGitHub
+, callPackage
+, mpv
+, python-mpv-jsonipc
+, jellyfin-apiclient-python
+, pillow
+, tkinter
+, pystray
+, jinja2
+, pywebview
+}:
 
 let
-  shaderPack = callPackage ./shader-pack.nix {};
+  shaderPack = callPackage ./shader-pack.nix { };
 in
 buildPythonApplication rec {
   pname = "jellyfin-mpv-shim";

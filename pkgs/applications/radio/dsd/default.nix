@@ -1,6 +1,11 @@
-{ stdenv, fetchFromGitHub, cmake
-, mbelib, libsndfile, itpp
-, portaudioSupport ? true, portaudio ? null
+{ stdenv
+, fetchFromGitHub
+, cmake
+, mbelib
+, libsndfile
+, itpp
+, portaudioSupport ? true
+, portaudio ? null
 }:
 
 assert portaudioSupport -> portaudio != null;
@@ -18,7 +23,9 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake ];
   buildInputs = [
-    mbelib libsndfile itpp
+    mbelib
+    libsndfile
+    itpp
   ] ++ stdenv.lib.optionals portaudioSupport [ portaudio ];
 
   enableParallelBuilding = true;

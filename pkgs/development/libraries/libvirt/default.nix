@@ -1,13 +1,58 @@
-{ stdenv, fetchurl, fetchgit
-, pkgconfig, makeWrapper, autoreconfHook, fetchpatch
-, coreutils, libxml2, gnutls, perl, python2, attr, glib, docutils
-, iproute, iptables, readline, lvm2, util-linux, systemd, libpciaccess, gettext
-, libtasn1, ebtables, libgcrypt, yajl, pmutils, libcap_ng, libapparmor
-, dnsmasq, libnl, libpcap, libxslt, xhtml1, numad, numactl, perlPackages
-, curl, libiconv, gmp, zfs, parted, bridge-utils, dmidecode, dbus, libtirpc, rpcsvc-proto, darwin
-, enableXen ? false, xen ? null
-, enableIscsi ? false, openiscsi
-, enableCeph ? false, ceph
+{ stdenv
+, fetchurl
+, fetchgit
+, pkgconfig
+, makeWrapper
+, autoreconfHook
+, fetchpatch
+, coreutils
+, libxml2
+, gnutls
+, perl
+, python2
+, attr
+, glib
+, docutils
+, iproute
+, iptables
+, readline
+, lvm2
+, util-linux
+, systemd
+, libpciaccess
+, gettext
+, libtasn1
+, ebtables
+, libgcrypt
+, yajl
+, pmutils
+, libcap_ng
+, libapparmor
+, dnsmasq
+, libnl
+, libpcap
+, libxslt
+, xhtml1
+, numad
+, numactl
+, perlPackages
+, curl
+, libiconv
+, gmp
+, zfs
+, parted
+, bridge-utils
+, dmidecode
+, dbus
+, libtirpc
+, rpcsvc-proto
+, darwin
+, enableXen ? false
+, xen ? null
+, enableIscsi ? false
+, openiscsi
+, enableCeph ? false
+, ceph
 }:
 
 with stdenv.lib;
@@ -15,16 +60,18 @@ with stdenv.lib;
 # if you update, also bump <nixpkgs/pkgs/development/python-modules/libvirt/default.nix> and SysVirt in <nixpkgs/pkgs/top-level/perl-packages.nix>
 let
   buildFromTarball = stdenv.isDarwin;
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "libvirt";
   version = "6.6.0";
 
   src =
     if buildFromTarball then
-      fetchurl {
-        url = "https://libvirt.org/sources/${pname}-${version}.tar.xz";
-        sha256 = "1y8y13zvh820f4b15287wb77wq7ra7kbfnpblzhm1dki5pfjvrcl";
-      }
+      fetchurl
+        {
+          url = "https://libvirt.org/sources/${pname}-${version}.tar.xz";
+          sha256 = "1y8y13zvh820f4b15287wb77wq7ra7kbfnpblzhm1dki5pfjvrcl";
+        }
     else
       fetchgit {
         url = "https://gitlab.com/libvirt/libvirt.git";
@@ -34,7 +81,9 @@ in stdenv.mkDerivation rec {
       };
 
   nativeBuildInputs = [
-    makeWrapper pkgconfig docutils
+    makeWrapper
+    pkgconfig
+    docutils
   ] ++ optionals (!buildFromTarball) [
     autoreconfHook
   ] ++ optional (!stdenv.isDarwin) [
@@ -44,11 +93,36 @@ in stdenv.mkDerivation rec {
   ];
 
   buildInputs = [
-    libxml2 gnutls perl python2 readline gettext libtasn1 libgcrypt yajl
-    libxslt xhtml1 perlPackages.XMLXPath curl libpcap glib dbus
+    libxml2
+    gnutls
+    perl
+    python2
+    readline
+    gettext
+    libtasn1
+    libgcrypt
+    yajl
+    libxslt
+    xhtml1
+    perlPackages.XMLXPath
+    curl
+    libpcap
+    glib
+    dbus
   ] ++ optionals stdenv.isLinux [
-    libpciaccess lvm2 util-linux systemd libnl numad zfs
-    libapparmor libcap_ng numactl attr parted libtirpc
+    libpciaccess
+    lvm2
+    util-linux
+    systemd
+    libnl
+    numad
+    zfs
+    libapparmor
+    libcap_ng
+    numactl
+    attr
+    parted
+    libtirpc
   ] ++ optionals (enableXen && stdenv.isLinux && stdenv.isx86_64) [
     xen
   ] ++ optionals enableIscsi [
@@ -56,7 +130,8 @@ in stdenv.mkDerivation rec {
   ] ++ optionals enableCeph [
     ceph
   ] ++ optionals stdenv.isDarwin [
-    libiconv gmp
+    libiconv
+    gmp
   ];
 
   preConfigure = ''
@@ -113,24 +188,26 @@ in stdenv.mkDerivation rec {
     "sysconfdir=$(out)/var/lib"
   ];
 
-  postInstall = let
-    binPath = [ iptables iproute pmutils numad numactl bridge-utils dmidecode dnsmasq ebtables ] ++ optionals enableIscsi [ openiscsi ];
-  in ''
-    substituteInPlace $out/libexec/libvirt-guests.sh \
-      --replace 'ON_BOOT=start'       'ON_BOOT=''${ON_BOOT:-start}' \
-      --replace 'ON_SHUTDOWN=suspend' 'ON_SHUTDOWN=''${ON_SHUTDOWN:-suspend}' \
-      --replace "$out/bin"            '${gettext}/bin' \
-      --replace 'lock/subsys'         'lock' \
-      --replace 'gettext.sh'          'gettext.sh
-  # Added in nixpkgs:
-  gettext() { "${gettext}/bin/gettext" "$@"; }
-  '
-  '' + optionalString stdenv.isLinux ''
-    substituteInPlace $out/lib/systemd/system/libvirtd.service --replace /bin/kill ${coreutils}/bin/kill
-    rm $out/lib/systemd/system/{virtlockd,virtlogd}.*
-    wrapProgram $out/sbin/libvirtd \
-      --prefix PATH : /run/libvirt/nix-emulators:${makeBinPath binPath}
-  '';
+  postInstall =
+    let
+      binPath = [ iptables iproute pmutils numad numactl bridge-utils dmidecode dnsmasq ebtables ] ++ optionals enableIscsi [ openiscsi ];
+    in
+    ''
+        substituteInPlace $out/libexec/libvirt-guests.sh \
+          --replace 'ON_BOOT=start'       'ON_BOOT=''${ON_BOOT:-start}' \
+          --replace 'ON_SHUTDOWN=suspend' 'ON_SHUTDOWN=''${ON_SHUTDOWN:-suspend}' \
+          --replace "$out/bin"            '${gettext}/bin' \
+          --replace 'lock/subsys'         'lock' \
+          --replace 'gettext.sh'          'gettext.sh
+      # Added in nixpkgs:
+      gettext() { "${gettext}/bin/gettext" "$@"; }
+      '
+    '' + optionalString stdenv.isLinux ''
+      substituteInPlace $out/lib/systemd/system/libvirtd.service --replace /bin/kill ${coreutils}/bin/kill
+      rm $out/lib/systemd/system/{virtlockd,virtlogd}.*
+      wrapProgram $out/sbin/libvirtd \
+        --prefix PATH : /run/libvirt/nix-emulators:${makeBinPath binPath}
+    '';
 
   enableParallelBuilding = true;
 

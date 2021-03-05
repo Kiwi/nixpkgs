@@ -15,7 +15,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [ openssl ]
-  ++ stdenv.lib.optionals stdenv.isDarwin [ libiconv Security ];
+    ++ stdenv.lib.optionals stdenv.isDarwin [ libiconv Security ];
 
   meta = with stdenv.lib; {
     description = ''Cargo subcommand "release": everything about releasing a rust crate'';

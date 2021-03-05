@@ -16,13 +16,13 @@ buildPythonPackage rec {
   version = "2.3.2";
   disabled = pythonOlder "3";
 
-   src = fetchFromGitHub {
+  src = fetchFromGitHub {
     owner = "LuminosoInsight";
     repo = "wordfreq";
     # upstream don't tag by version
     rev = "v${version}";
     sha256 = "078657iiksrqzcc2wvwhiilf3xxq5vlinsv0kz03qzqr1qyvbmas";
-   };
+  };
 
   propagatedBuildInputs = [ regex langcodes ftfy msgpack mecab-python3 jieba ];
 
@@ -41,7 +41,7 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "A library for looking up the frequencies of words in many languages, based on many sources of data";
-    homepage =  "https://github.com/LuminosoInsight/wordfreq/";
+    homepage = "https://github.com/LuminosoInsight/wordfreq/";
     license = licenses.mit;
     maintainers = with maintainers; [ ixxie ];
   };

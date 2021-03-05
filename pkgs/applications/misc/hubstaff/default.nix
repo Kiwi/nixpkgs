@@ -1,7 +1,25 @@
-{ stdenv, fetchurl, unzip, makeWrapper, libX11, zlib, libSM, libICE
-, libXext , freetype, libXrender, fontconfig, libXft, libXinerama
-, libXfixes, libXScrnSaver, libnotify, glib , gtk3, libappindicator-gtk3
-, curl }:
+{ stdenv
+, fetchurl
+, unzip
+, makeWrapper
+, libX11
+, zlib
+, libSM
+, libICE
+, libXext
+, freetype
+, libXrender
+, fontconfig
+, libXft
+, libXinerama
+, libXfixes
+, libXScrnSaver
+, libnotify
+, glib
+, gtk3
+, libappindicator-gtk3
+, curl
+}:
 
 let
 
@@ -10,9 +28,26 @@ let
   inherit (data) version url sha256;
 
   rpath = stdenv.lib.makeLibraryPath
-    [ libX11 zlib libSM libICE libXext freetype libXrender fontconfig libXft
-      libXinerama stdenv.cc.cc.lib libnotify glib gtk3 libappindicator-gtk3
-      curl libXfixes libXScrnSaver ];
+    [
+      libX11
+      zlib
+      libSM
+      libICE
+      libXext
+      freetype
+      libXrender
+      fontconfig
+      libXft
+      libXinerama
+      stdenv.cc.cc.lib
+      libnotify
+      glib
+      gtk3
+      libappindicator-gtk3
+      curl
+      libXfixes
+      libXScrnSaver
+    ];
 
 in
 

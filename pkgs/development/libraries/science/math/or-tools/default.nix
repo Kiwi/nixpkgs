@@ -1,6 +1,18 @@
-{ stdenv, fetchFromGitHub, cmake, abseil-cpp, gflags, which
-, lsb-release, glog, protobuf, cbc, zlib
-, ensureNewerSourcesForZipFilesHook, python, swig }:
+{ stdenv
+, fetchFromGitHub
+, cmake
+, abseil-cpp
+, gflags
+, which
+, lsb-release
+, glog
+, protobuf
+, cbc
+, zlib
+, ensureNewerSourcesForZipFilesHook
+, python
+, swig
+}:
 
 stdenv.mkDerivation rec {
   pname = "or-tools";
@@ -44,13 +56,24 @@ stdenv.mkDerivation rec {
   '';
 
   nativeBuildInputs = [
-    cmake lsb-release swig which zlib python
+    cmake
+    lsb-release
+    swig
+    which
+    zlib
+    python
     ensureNewerSourcesForZipFilesHook
-    python.pkgs.setuptools python.pkgs.wheel
+    python.pkgs.setuptools
+    python.pkgs.wheel
   ];
   propagatedBuildInputs = [
-    abseil-cpp gflags glog protobuf cbc
-    python.pkgs.protobuf python.pkgs.six
+    abseil-cpp
+    gflags
+    glog
+    protobuf
+    cbc
+    python.pkgs.protobuf
+    python.pkgs.six
   ];
 
   enableParallelBuilding = true;

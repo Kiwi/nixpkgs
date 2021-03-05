@@ -22,8 +22,8 @@ buildPythonPackage rec {
   checkInputs = [ pytest pytestrunner ];
   propagatedBuildInputs = [ multidict idna ]
     ++ lib.optionals (pythonOlder "3.8") [
-      typing-extensions
-    ];
+    typing-extensions
+  ];
 
   meta = with stdenv.lib; {
     description = "Yet another URL library";

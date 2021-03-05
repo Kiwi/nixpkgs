@@ -1,5 +1,7 @@
-{ stdenv, fetchFromGitHub
-, cmake }:
+{ stdenv
+, fetchFromGitHub
+, cmake
+}:
 
 with stdenv.lib;
 stdenv.mkDerivation rec {
@@ -8,7 +10,7 @@ stdenv.mkDerivation rec {
 
   src = fetchFromGitHub {
     owner = "JWasm";
-    repo  = "JWasm";
+    repo = "JWasm";
     rev = version;
     sha256 = "0m972pc8vk8s9yv1pi85fsjgm6hj24gab7nalw2q04l0359nqi7w";
   };

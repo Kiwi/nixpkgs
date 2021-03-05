@@ -1,6 +1,14 @@
-{ stdenv, fetchzip, lib, makeWrapper, autoPatchelfHook
-, openjdk11, pam, makeDesktopItem, icoutils
-}: let
+{ stdenv
+, fetchzip
+, lib
+, makeWrapper
+, autoPatchelfHook
+, openjdk11
+, pam
+, makeDesktopItem
+, icoutils
+}:
+let
 
   pkg_path = "$out/lib/ghidra";
 
@@ -14,7 +22,8 @@
   };
 
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
 
   pname = "ghidra";
   version = "9.2";

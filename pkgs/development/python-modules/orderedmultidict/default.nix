@@ -13,8 +13,8 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [ six ]
     ++ stdenv.lib.optionals (pythonOlder "3.8") [
-      importlib-metadata
-    ];
+    importlib-metadata
+  ];
 
   meta = with stdenv.lib; {
     description = "Ordered Multivalue Dictionary.";

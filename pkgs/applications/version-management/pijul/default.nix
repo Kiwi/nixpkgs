@@ -29,8 +29,10 @@ rustPlatform.buildRustPackage rec {
   buildInputs = [ openssl libsodium xxHash zstd ]
     ++ (stdenv.lib.optionals gitImportSupport [ libgit2 ])
     ++ (stdenv.lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-      CoreServices Security SystemConfiguration
-    ]));
+    CoreServices
+    Security
+    SystemConfiguration
+  ]));
 
   meta = with stdenv.lib; {
     description = "A distributed version control system";

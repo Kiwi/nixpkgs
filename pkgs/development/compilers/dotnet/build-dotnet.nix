@@ -3,7 +3,7 @@
 , sha512
 }:
 
-assert builtins.elem type [ "aspnetcore" "netcore" "sdk"];
+assert builtins.elem type [ "aspnetcore" "netcore" "sdk" ];
 { stdenv
 , fetchurl
 , libunwind
@@ -15,12 +15,13 @@ assert builtins.elem type [ "aspnetcore" "netcore" "sdk"];
 }:
 
 let
-  pname = if type == "aspnetcore" then
-    "aspnetcore-runtime"
-  else if type == "netcore" then
-    "dotnet-runtime"
-  else
-    "dotnet-sdk";
+  pname =
+    if type == "aspnetcore" then
+      "aspnetcore-runtime"
+    else if type == "netcore" then
+      "dotnet-runtime"
+    else
+      "dotnet-sdk";
   platform = if stdenv.isDarwin then "osx" else "linux";
   suffix = {
     x86_64-linux = "x64";
@@ -38,7 +39,8 @@ let
     netcore = ".NET Core runtime ${version}";
     sdk = ".NET SDK ${version}";
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   inherit pname version;
 
   rpath = stdenv.lib.makeLibraryPath [

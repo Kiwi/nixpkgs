@@ -1,5 +1,10 @@
-{ stdenv, fetchurl, gfortran, blas, lapack
-, enableCuda ? false, cudatoolkit
+{ stdenv
+, fetchurl
+, gfortran
+, blas
+, lapack
+, enableCuda ? false
+, cudatoolkit
 }:
 
 let

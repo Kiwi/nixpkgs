@@ -1,11 +1,14 @@
-{ stdenv, fetchFromGitHub
-, pkgconfig, libftdi1
-, python3, pypy3
+{ stdenv
+, fetchFromGitHub
+, pkgconfig
+, libftdi1
+, python3
+, pypy3
 
-# PyPy yields large improvements in build time and runtime performance,
-# and IceStorm isn't intended to be used as a library other than by the
-# nextpnr build process (which is also sped up by using PyPy), so we
-# use it by default. See 18839e1 for more details.
+  # PyPy yields large improvements in build time and runtime performance,
+  # and IceStorm isn't intended to be used as a library other than by the
+  # nextpnr build process (which is also sped up by using PyPy), so we
+  # use it by default. See 18839e1 for more details.
 , usePyPy ? stdenv.hostPlatform.system == "x86_64-linux"
 }:
 
@@ -19,9 +22,9 @@ stdenv.mkDerivation rec {
   };
 
   src = fetchFromGitHub {
-    owner  = "YosysHQ";
-    repo   = "icestorm";
-    rev    = "da52117ccd5b4147f64dc7345357ec5439cd7543";
+    owner = "YosysHQ";
+    repo = "icestorm";
+    rev = "da52117ccd5b4147f64dc7345357ec5439cd7543";
     sha256 = "072bl3vmvb06ry0ci3b1sfjpm3iigb874khzja4azcai969ybp4k";
   };
 
@@ -58,9 +61,9 @@ stdenv.mkDerivation rec {
       FPGAs and providing simple tools for analyzing and
       creating bitstream files.
     '';
-    homepage    = "http://www.clifford.at/icestorm/";
-    license     = stdenv.lib.licenses.isc;
+    homepage = "http://www.clifford.at/icestorm/";
+    license = stdenv.lib.licenses.isc;
     maintainers = with stdenv.lib.maintainers; [ shell thoughtpolice emily ];
-    platforms   = stdenv.lib.platforms.all;
+    platforms = stdenv.lib.platforms.all;
   };
 }

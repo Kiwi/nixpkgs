@@ -1,11 +1,30 @@
-{ stdenv, fetchFromGitHub, fetchpatch, ncurses, xlibsWrapper, bzip2, zlib
-, brotli, zstd, lzma, openssl, autoreconfHook, gettext, pkgconfig, libev
-, gpm, libidn, tre, expat
+{ stdenv
+, fetchFromGitHub
+, fetchpatch
+, ncurses
+, xlibsWrapper
+, bzip2
+, zlib
+, brotli
+, zstd
+, lzma
+, openssl
+, autoreconfHook
+, gettext
+, pkgconfig
+, libev
+, gpm
+, libidn
+, tre
+, expat
 , # Incompatible licenses, LGPLv3 - GPLv2
-  enableGuile        ? false,                                         guile ? null
-, enablePython       ? false,                                         python ? null
-, enablePerl         ? (stdenv.hostPlatform == stdenv.buildPlatform), perl ? null
-# re-add javascript support when upstream supports modern spidermonkey
+  enableGuile ? false
+, guile ? null
+, enablePython ? false
+, python ? null
+, enablePerl ? (stdenv.hostPlatform == stdenv.buildPlatform)
+, perl ? null
+  # re-add javascript support when upstream supports modern spidermonkey
 }:
 
 assert enableGuile -> guile != null;
@@ -23,14 +42,24 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
-    ncurses xlibsWrapper bzip2 zlib brotli zstd lzma
-    openssl libidn tre expat libev
+    ncurses
+    xlibsWrapper
+    bzip2
+    zlib
+    brotli
+    zstd
+    lzma
+    openssl
+    libidn
+    tre
+    expat
+    libev
   ]
-    ++ stdenv.lib.optional stdenv.isLinux gpm
-    ++ stdenv.lib.optional enableGuile guile
-    ++ stdenv.lib.optional enablePython python
-    ++ stdenv.lib.optional enablePerl perl
-    ;
+  ++ stdenv.lib.optional stdenv.isLinux gpm
+  ++ stdenv.lib.optional enableGuile guile
+  ++ stdenv.lib.optional enablePython python
+  ++ stdenv.lib.optional enablePerl perl
+  ;
 
   nativeBuildInputs = [ autoreconfHook gettext pkgconfig ];
 
@@ -46,10 +75,10 @@ stdenv.mkDerivation rec {
     "--with-lzma"
     "--with-libev"
     "--with-terminfo"
-  ] ++ stdenv.lib.optional enableGuile        "--with-guile"
-    ++ stdenv.lib.optional enablePython       "--with-python"
-    ++ stdenv.lib.optional enablePerl         "--with-perl"
-    ;
+  ] ++ stdenv.lib.optional enableGuile "--with-guile"
+  ++ stdenv.lib.optional enablePython "--with-python"
+  ++ stdenv.lib.optional enablePerl "--with-perl"
+  ;
 
   meta = with stdenv.lib; {
     description = "Full-featured text-mode web browser (package based on the fork felinks)";

@@ -44,7 +44,8 @@ let
 
   mirror = "https://get.geo.opera.com/pub/opera/desktop";
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
 
   pname = "opera";
   version = "68.0.3618.63";

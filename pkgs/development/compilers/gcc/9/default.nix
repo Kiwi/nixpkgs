@@ -1,5 +1,11 @@
-{ stdenv, targetPackages, fetchurl, fetchpatch, noSysDirs
-, langC ? true, langCC ? true, langFortran ? false
+{ stdenv
+, targetPackages
+, fetchurl
+, fetchpatch
+, noSysDirs
+, langC ? true
+, langCC ? true
+, langFortran ? false
 , langAda ? false
 , langObjC ? stdenv.targetPlatform.isDarwin
 , langObjCpp ? stdenv.targetPlatform.isDarwin
@@ -12,7 +18,12 @@
 , enableLTO ? true
 , texinfo ? null
 , perl ? null # optional, for texi2pod (then pod2man)
-, gmp, mpfr, libmpc, gettext, which, patchelf
+, gmp
+, mpfr
+, libmpc
+, gettext
+, which
+, patchelf
 , libelf                      # optional, for link-time optimizations (LTO)
 , isl ? null # optional, for the Graphite optimization framework.
 , zlib ? null
@@ -25,7 +36,7 @@
 , crossStageStatic ? false
 , # Strip kills static libs of other archs (hence no cross)
   stripped ? stdenv.hostPlatform == stdenv.buildPlatform
-          && stdenv.targetPlatform == stdenv.hostPlatform
+    && stdenv.targetPlatform == stdenv.hostPlatform
 , gnused ? null
 , cloog # unused; just for compat with gcc4, as we override the parameter on some places
 , buildPackages
@@ -52,37 +63,38 @@ assert threadsCross != null -> stdenv.targetPlatform.isWindows;
 with stdenv.lib;
 with builtins;
 
-let majorVersion = "9";
-    version = "${majorVersion}.3.0";
+let
+  majorVersion = "9";
+  version = "${majorVersion}.3.0";
 
-    inherit (stdenv) buildPlatform hostPlatform targetPlatform;
+  inherit (stdenv) buildPlatform hostPlatform targetPlatform;
 
-    patches =
-      # Fix ICE: Max. number of generated reload insns per insn is achieved (90)
-      #
-      # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96796
-      #
-      # This patch can most likely be removed by a post 9.3.0-release.
-      [ ./avoid-cycling-subreg-reloads.patch ]
-      ++ optional (targetPlatform != hostPlatform) ../libstdc++-target.patch
-      ++ optional noSysDirs ../no-sys-dirs.patch
-      /* ++ optional (hostPlatform != buildPlatform) (fetchpatch { # XXX: Refine when this should be applied
-        url = "https://git.busybox.net/buildroot/plain/package/gcc/${version}/0900-remove-selftests.patch?id=11271540bfe6adafbc133caf6b5b902a816f5f02";
-        sha256 = ""; # TODO: uncomment and check hash when available.
-      }) */
-      ++ optional langAda ../gnat-cflags.patch
-      ++ optional langD ../libphobos.patch
-      ++ optional langFortran ../gfortran-driving.patch
-      ++ optional (targetPlatform.libc == "musl" && targetPlatform.isPower) ../ppc-musl.patch
-      ++ optional (!crossStageStatic && targetPlatform.isMinGW) (fetchpatch {
-        url = "https://raw.githubusercontent.com/lhmouse/MINGW-packages/${import ../common/mfcgthreads-patches-repo.nix}/mingw-w64-gcc-git/9000-gcc-${majorVersion}-branch-Added-mcf-thread-model-support-from-mcfgthread.patch";
-        sha256 = "1in5kvcknlpi9z1vvjw6jfmwy8k12zvbqlqfnq84qpm99r0rh00a";
-      });
+  patches =
+    # Fix ICE: Max. number of generated reload insns per insn is achieved (90)
+    #
+    # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96796
+    #
+    # This patch can most likely be removed by a post 9.3.0-release.
+    [ ./avoid-cycling-subreg-reloads.patch ]
+    ++ optional (targetPlatform != hostPlatform) ../libstdc++-target.patch
+    ++ optional noSysDirs ../no-sys-dirs.patch
+    /* ++ optional (hostPlatform != buildPlatform) (fetchpatch { # XXX: Refine when this should be applied
+      url = "https://git.busybox.net/buildroot/plain/package/gcc/${version}/0900-remove-selftests.patch?id=11271540bfe6adafbc133caf6b5b902a816f5f02";
+      sha256 = ""; # TODO: uncomment and check hash when available.
+    }) */
+    ++ optional langAda ../gnat-cflags.patch
+    ++ optional langD ../libphobos.patch
+    ++ optional langFortran ../gfortran-driving.patch
+    ++ optional (targetPlatform.libc == "musl" && targetPlatform.isPower) ../ppc-musl.patch
+    ++ optional (!crossStageStatic && targetPlatform.isMinGW) (fetchpatch {
+      url = "https://raw.githubusercontent.com/lhmouse/MINGW-packages/${import ../common/mfcgthreads-patches-repo.nix}/mingw-w64-gcc-git/9000-gcc-${majorVersion}-branch-Added-mcf-thread-model-support-from-mcfgthread.patch";
+      sha256 = "1in5kvcknlpi9z1vvjw6jfmwy8k12zvbqlqfnq84qpm99r0rh00a";
+    });
 
-    /* Cross-gcc settings (build == host != target) */
-    crossMingw = targetPlatform != hostPlatform && targetPlatform.libc == "msvcrt";
-    stageNameAddon = if crossStageStatic then "stage-static" else "stage-final";
-    crossNameAddon = optionalString (targetPlatform != hostPlatform) "${targetPlatform.config}-${stageNameAddon}-";
+  /* Cross-gcc settings (build == host != target) */
+  crossMingw = targetPlatform != hostPlatform && targetPlatform.libc == "msvcrt";
+  stageNameAddon = if crossStageStatic then "stage-static" else "stage-final";
+  crossNameAddon = optionalString (targetPlatform != hostPlatform) "${targetPlatform.config}-${stageNameAddon}-";
 
 in
 
@@ -127,12 +139,12 @@ stdenv.mkDerivation ({
     done
   '' + (
     if targetPlatform != hostPlatform || stdenv.cc.libc != null then
-      # On NixOS, use the right path to the dynamic linker instead of
-      # `/lib/ld*.so'.
+    # On NixOS, use the right path to the dynamic linker instead of
+    # `/lib/ld*.so'.
       let
         libc = if libcCross != null then libcCross else stdenv.cc.libc;
       in
-        (
+      (
         '' echo "fixing the \`GLIBC_DYNAMIC_LINKER', \`UCLIBC_DYNAMIC_LINKER', and \`MUSL_DYNAMIC_LINKER' macros..."
            for header in "gcc/config/"*-gnu.h "gcc/config/"*"/"*.h
            do
@@ -144,16 +156,17 @@ stdenv.mkDerivation ({
            done
         ''
         + stdenv.lib.optionalString (targetPlatform.libc == "musl")
-        ''
+          ''
             sed -i gcc/config/linux.h -e '1i#undef LOCAL_INCLUDE_DIR'
-        ''
-        )
-    else "")
-      + stdenv.lib.optionalString targetPlatform.isAvr ''
-          makeFlagsArray+=(
-             'LIMITS_H_TEST=false'
-          )
-        '';
+          ''
+      )
+    else ""
+  )
+  + stdenv.lib.optionalString targetPlatform.isAvr ''
+    makeFlagsArray+=(
+       'LIMITS_H_TEST=false'
+    )
+  '';
 
   inherit noSysDirs staticCompiler crossStageStatic
     libcCross crossMingw;
@@ -167,26 +180,30 @@ stdenv.mkDerivation ({
     (
       if hostPlatform == buildPlatform then [
         targetPackages.stdenv.cc.bintools # newly-built gcc will be used
-      ] else assert targetPlatform == hostPlatform; [ # build != host == target
+      ] else assert targetPlatform == hostPlatform; [
+        # build != host == target
         stdenv.cc
       ]
     )
     ++ optional targetPlatform.isLinux patchelf;
 
   buildInputs = [
-    gmp mpfr libmpc libelf
+    gmp
+    mpfr
+    libmpc
+    libelf
     targetPackages.stdenv.cc.bintools # For linking code at run-time
   ] ++ (optional (isl != null) isl)
-    ++ (optional (zlib != null) zlib)
-    # The builder relies on GNU sed (for instance, Darwin's `sed' fails with
-    # "-i may not be used with stdin"), and `stdenvNative' doesn't provide it.
-    ++ (optional hostPlatform.isDarwin gnused)
-    ++ (optional langAda gnatboot)
-    ;
+  ++ (optional (zlib != null) zlib)
+  # The builder relies on GNU sed (for instance, Darwin's `sed' fails with
+  # "-i may not be used with stdin"), and `stdenvNative' doesn't provide it.
+  ++ (optional hostPlatform.isDarwin gnused)
+  ++ (optional langAda gnatboot)
+  ;
 
   depsTargetTarget = optional (!crossStageStatic && threadsCross != null) threadsCross;
 
-  NIX_LDFLAGS = stdenv.lib.optionalString  hostPlatform.isSunOS "-lm -ldl";
+  NIX_LDFLAGS = stdenv.lib.optionalString hostPlatform.isSunOS "-lm -ldl";
 
   preConfigure = import ../common/pre-configure.nix {
     inherit (stdenv) lib;
@@ -246,7 +263,7 @@ stdenv.mkDerivation ({
   # compiler (after the specs for the cross-gcc are created). Having
   # LIBRARY_PATH= makes gcc read the specs from ., and the build breaks.
 
-  CPATH = optionals (targetPlatform == hostPlatform) (makeSearchPathOutput "dev" "include" ([]
+  CPATH = optionals (targetPlatform == hostPlatform) (makeSearchPathOutput "dev" "include" ([ ]
     ++ optional (zlib != null) zlib
   ));
 
@@ -272,7 +289,7 @@ stdenv.mkDerivation ({
 
   meta = {
     homepage = "https://gcc.gnu.org/";
-    license = stdenv.lib.licenses.gpl3Plus;  # runtime support libraries are typically LGPLv3+
+    license = stdenv.lib.licenses.gpl3Plus; # runtime support libraries are typically LGPLv3+
     description = "GNU Compiler Collection, version ${version}"
       + (if stripped then "" else " (with debugging info)");
 
@@ -289,9 +306,9 @@ stdenv.mkDerivation ({
 
     platforms =
       stdenv.lib.platforms.linux ++
-      stdenv.lib.platforms.freebsd ++
-      stdenv.lib.platforms.illumos ++
-      stdenv.lib.platforms.darwin;
+        stdenv.lib.platforms.freebsd ++
+        stdenv.lib.platforms.illumos ++
+        stdenv.lib.platforms.darwin;
   };
 }
 

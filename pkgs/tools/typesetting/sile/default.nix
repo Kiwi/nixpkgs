@@ -16,7 +16,7 @@
 }:
 
 let
-  luaEnv = lua.withPackages(ps: with ps; [
+  luaEnv = lua.withPackages (ps: with ps; [
     cassowary
     cosmo
     compat53

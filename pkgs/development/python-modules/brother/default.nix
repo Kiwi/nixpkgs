@@ -1,6 +1,15 @@
-{ lib, buildPythonPackage, fetchFromGitHub, pythonOlder
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, pythonOlder
 , pysnmp
-, asynctest, pytestcov, pytestrunner, pytest-asyncio, pytest-trio, pytest-tornasync }:
+, asynctest
+, pytestcov
+, pytestrunner
+, pytest-asyncio
+, pytest-trio
+, pytest-tornasync
+}:
 
 buildPythonPackage rec {
   pname = "brother";

@@ -1,7 +1,21 @@
-{ stdenv, fetchFromGitHub, python, autoreconfHook, pkgconfig, makeWrapper
+{ stdenv
+, fetchFromGitHub
+, python
+, autoreconfHook
+, pkgconfig
+, makeWrapper
 , flex
-, gettext, libedit, glib, imagemagick, libxml2, boost, gnuplot, graphviz
-, tesseract, gts, libXtst
+, gettext
+, libedit
+, glib
+, imagemagick
+, libxml2
+, boost
+, gnuplot
+, graphviz
+, tesseract
+, gts
+, libXtst
 }:
 stdenv.mkDerivation rec {
   version = "0.42";
@@ -14,21 +28,39 @@ stdenv.mkDerivation rec {
     sha256 = "1jb9nb2mipc5cg99a80dny4m06vz2zral0q30fv75rz2cb6ja4zp";
   };
 
-  nativeBuildInputs = [ autoreconfHook pkgconfig flex makeWrapper
-    python.pkgs.wrapPython ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkgconfig
+    flex
+    makeWrapper
+    python.pkgs.wrapPython
+  ];
 
-  buildInputs = [ python gettext libedit glib imagemagick libxml2 boost
-    gnuplot graphviz tesseract gts 
-    ];
+  buildInputs = [
+    python
+    gettext
+    libedit
+    glib
+    imagemagick
+    libxml2
+    boost
+    gnuplot
+    graphviz
+    tesseract
+    gts
+  ];
 
   propagatedBuildInputs = with python.pkgs; [
-    pyside pydbus pexpect pysideShiboken
+    pyside
+    pydbus
+    pexpect
+    pysideShiboken
   ];
 
   preBuild = ''
     export PYTHONPATH="$PYTHONPATH:$out/lib/python${python.pythonVersion}/site-packages"
     export PATH="$PATH:$out/bin"
-    export LD_LIBRARY_PATH="${stdenv.lib.makeLibraryPath [libXtst]}"
+    export LD_LIBRARY_PATH="${stdenv.lib.makeLibraryPath [ libXtst ]}"
   '';
 
   postInstall = ''

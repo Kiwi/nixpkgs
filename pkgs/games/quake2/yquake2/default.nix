@@ -1,9 +1,21 @@
-{ stdenv, lib, fetchFromGitHub, buildEnv, cmake, makeWrapper
-, SDL2, libGL, curl
-, oggSupport ? true, libogg, libvorbis
-, openalSupport ? true, openal
-, zipSupport ? true, zlib
-, Cocoa, OpenAL
+{ stdenv
+, lib
+, fetchFromGitHub
+, buildEnv
+, cmake
+, makeWrapper
+, SDL2
+, libGL
+, curl
+, oggSupport ? true
+, libogg
+, libvorbis
+, openalSupport ? true
+, openal
+, zipSupport ? true
+, zlib
+, Cocoa
+, OpenAL
 }:
 
 let
@@ -20,7 +32,7 @@ let
     src = fetchFromGitHub {
       owner = "yquake2";
       repo = "yquake2";
-      rev = "QUAKE2_${builtins.replaceStrings ["."] ["_"] version}";
+      rev = "QUAKE2_${builtins.replaceStrings [ "." ] [ "_" ] version}";
       sha256 = "1dszbvxlh1npq4nv9s4wv4lcyfgb01k92ncxrrczsxy1dddg86pp";
     };
 
@@ -66,7 +78,8 @@ let
     };
   };
 
-in {
+in
+{
   inherit yquake2;
 
   yquake2-ctf = wrapper {

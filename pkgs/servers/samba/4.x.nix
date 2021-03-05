@@ -27,16 +27,27 @@
 , rpcsvc-proto
 , nixosTests
 
-, enableLDAP ? false, openldap
-, enablePrinting ? false, cups
+, enableLDAP ? false
+, openldap
+, enablePrinting ? false
+, cups
 , enableProfiling ? true
-, enableMDNS ? false, avahi
-, enableDomainController ? false, gpgme, lmdb
-, enableRegedit ? true, ncurses
-, enableCephFS ? false, libceph
-, enableGlusterFS ? false, glusterfs, libuuid
-, enableAcl ? (!stdenv.isDarwin), acl
-, enablePam ? (!stdenv.isDarwin), pam
+, enableMDNS ? false
+, avahi
+, enableDomainController ? false
+, gpgme
+, lmdb
+, enableRegedit ? true
+, ncurses
+, enableCephFS ? false
+, libceph
+, enableGlusterFS ? false
+, glusterfs
+, libuuid
+, enableAcl ? (!stdenv.isDarwin)
+, acl
+, enablePam ? (!stdenv.isDarwin)
+, pam
 }:
 
 with stdenv.lib;
@@ -89,15 +100,15 @@ stdenv.mkDerivation rec {
     libtasn1
     tdb
   ] ++ optionals stdenv.isLinux [ liburing systemd ]
-    ++ optional enableLDAP openldap
-    ++ optional (enablePrinting && stdenv.isLinux) cups
-    ++ optional enableMDNS avahi
-    ++ optionals enableDomainController [ gpgme lmdb ]
-    ++ optional enableRegedit ncurses
-    ++ optional (enableCephFS && stdenv.isLinux) libceph
-    ++ optionals (enableGlusterFS && stdenv.isLinux) [ glusterfs libuuid ]
-    ++ optional enableAcl acl
-    ++ optional enablePam pam;
+  ++ optional enableLDAP openldap
+  ++ optional (enablePrinting && stdenv.isLinux) cups
+  ++ optional enableMDNS avahi
+  ++ optionals enableDomainController [ gpgme lmdb ]
+  ++ optional enableRegedit ncurses
+  ++ optional (enableCephFS && stdenv.isLinux) libceph
+  ++ optionals (enableGlusterFS && stdenv.isLinux) [ glusterfs libuuid ]
+  ++ optional enableAcl acl
+  ++ optional enablePam pam;
 
   postPatch = ''
     # Removes absolute paths in scripts
@@ -122,8 +133,8 @@ stdenv.mkDerivation rec {
     "--without-ldap"
     "--without-ads"
   ] ++ optional enableProfiling "--with-profiling-data"
-    ++ optional (!enableAcl) "--without-acl-support"
-    ++ optional (!enablePam) "--without-pam";
+  ++ optional (!enableAcl) "--without-acl-support"
+  ++ optional (!enablePam) "--without-pam";
 
   preBuild = ''
     export MAKEFLAGS="-j $NIX_BUILD_CORES"

@@ -11,8 +11,9 @@ stdenv.mkDerivation rec {
 
   buildInputs = [ libpcap ]
     ++ stdenv.lib.optionals stdenv.hostPlatform.isDarwin [
-      Carbon CoreServices
-    ];
+    Carbon
+    CoreServices
+  ];
 
 
   configureFlags = [

@@ -1,18 +1,26 @@
-{ lib, mkDerivation, callPackage, fetchFromGitHub,
-  guile_1_8, qtbase, xmodmap, which, freetype,
-  libjpeg,
-  sqlite,
-  tex ? null,
-  aspell ? null,
-  git ? null,
-  python3 ? null,
-  cmake,
-  pkgconfig,
-  ghostscriptX ? null,
-  extraFonts ? false,
-  chineseFonts ? false,
-  japaneseFonts ? false,
-  koreanFonts ? false }:
+{ lib
+, mkDerivation
+, callPackage
+, fetchFromGitHub
+, guile_1_8
+, qtbase
+, xmodmap
+, which
+, freetype
+, libjpeg
+, sqlite
+, tex ? null
+, aspell ? null
+, git ? null
+, python3 ? null
+, cmake
+, pkgconfig
+, ghostscriptX ? null
+, extraFonts ? false
+, chineseFonts ? false
+, japaneseFonts ? false
+, koreanFonts ? false
+}:
 
 let
   pname = "TeXmacs";
@@ -47,7 +55,10 @@ mkDerivation {
   NIX_LDFLAGS = "-lz";
 
   qtWrapperArgs = [
-    "--suffix" "PATH" ":" (lib.makeBinPath [
+    "--suffix"
+    "PATH"
+    ":"
+    (lib.makeBinPath [
       xmodmap
       which
       ghostscriptX
@@ -66,6 +77,6 @@ mkDerivation {
 
   meta = common.meta // {
     maintainers = [ lib.maintainers.roconnor ];
-    platforms = lib.platforms.gnu ++ lib.platforms.linux;  # arbitrary choice
+    platforms = lib.platforms.gnu ++ lib.platforms.linux; # arbitrary choice
   };
 }

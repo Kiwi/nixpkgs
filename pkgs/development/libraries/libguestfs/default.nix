@@ -1,11 +1,43 @@
-{ stdenv, fetchurl, pkgconfig, autoreconfHook, makeWrapper
-, ncurses, cpio, gperf, cdrkit, flex, bison, qemu, pcre, augeas, libxml2
-, acl, libcap, libcap_ng, libconfig, systemd, fuse, yajl, libvirt, hivex, db
-, gmp, readline, file, numactl, xen, libapparmor, jansson
-, getopt, perlPackages, ocamlPackages
+{ stdenv
+, fetchurl
+, pkgconfig
+, autoreconfHook
+, makeWrapper
+, ncurses
+, cpio
+, gperf
+, cdrkit
+, flex
+, bison
+, qemu
+, pcre
+, augeas
+, libxml2
+, acl
+, libcap
+, libcap_ng
+, libconfig
+, systemd
+, fuse
+, yajl
+, libvirt
+, hivex
+, db
+, gmp
+, readline
+, file
+, numactl
+, xen
+, libapparmor
+, jansson
+, getopt
+, perlPackages
+, ocamlPackages
 , libtirpc
 , appliance ? null
-, javaSupport ? false, jdk ? null }:
+, javaSupport ? false
+, jdk ? null
+}:
 
 assert appliance == null || stdenv.lib.isDerivation appliance;
 assert javaSupport -> jdk != null;
@@ -21,14 +53,39 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ autoreconfHook makeWrapper pkgconfig ];
   buildInputs = [
-    ncurses cpio gperf jansson
-    cdrkit flex bison qemu pcre augeas libxml2 acl libcap libcap_ng libconfig
-    systemd fuse yajl libvirt gmp readline file hivex db
-    numactl xen libapparmor getopt perlPackages.ModuleBuild
+    ncurses
+    cpio
+    gperf
+    jansson
+    cdrkit
+    flex
+    bison
+    qemu
+    pcre
+    augeas
+    libxml2
+    acl
+    libcap
+    libcap_ng
+    libconfig
+    systemd
+    fuse
+    yajl
+    libvirt
+    gmp
+    readline
+    file
+    hivex
+    db
+    numactl
+    xen
+    libapparmor
+    getopt
+    perlPackages.ModuleBuild
     libtirpc
   ] ++ (with perlPackages; [ perl libintl_perl GetoptLong SysVirt ])
-    ++ (with ocamlPackages; [ ocaml findlib ocamlbuild ocaml_libvirt gettext-stub ounit ])
-    ++ stdenv.lib.optional javaSupport jdk;
+  ++ (with ocamlPackages; [ ocaml findlib ocamlbuild ocaml_libvirt gettext-stub ounit ])
+  ++ stdenv.lib.optional javaSupport jdk;
 
   prePatch = ''
     # build-time scripts
@@ -47,7 +104,7 @@ stdenv.mkDerivation rec {
   configureFlags = [ "--disable-appliance" "--disable-daemon" "--with-distro=NixOS" ]
     ++ stdenv.lib.optionals (!javaSupport) [ "--disable-java" "--without-java" ];
   patches = [ ./libguestfs-syms.patch ];
-  NIX_CFLAGS_COMPILE="-I${libxml2.dev}/include/libxml2/";
+  NIX_CFLAGS_COMPILE = "-I${libxml2.dev}/include/libxml2/";
   installFlags = [ "REALLY_INSTALL=yes" ];
   enableParallelBuilding = true;
 
@@ -89,7 +146,7 @@ stdenv.mkDerivation rec {
     description = "Tools for accessing and modifying virtual machine disk images";
     license = with licenses; [ gpl2 lgpl21 ];
     homepage = "https://libguestfs.org/";
-    maintainers = with maintainers; [offline];
+    maintainers = with maintainers; [ offline ];
     platforms = platforms.linux;
     # this is to avoid "output size exceeded"
     hydraPlatforms = if appliance != null then appliance.meta.hydraPlatforms else platforms.linux;

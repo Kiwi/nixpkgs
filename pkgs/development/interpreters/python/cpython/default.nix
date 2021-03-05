@@ -1,4 +1,6 @@
-{ stdenv, fetchurl, fetchpatch
+{ stdenv
+, fetchurl
+, fetchpatch
 , bzip2
 , expat
 , libffi
@@ -8,8 +10,14 @@
 , openssl
 , readline
 , sqlite
-, tcl ? null, tk ? null, tix ? null, libX11 ? null, xorgproto ? null, x11Support ? false
-, bluez ? null, bluezSupport ? false
+, tcl ? null
+, tk ? null
+, tix ? null
+, libX11 ? null
+, xorgproto ? null
+, x11Support ? false
+, bluez ? null
+, bluezSupport ? false
 , zlib
 , self
 , configd
@@ -17,8 +25,8 @@
 , autoconf-archive
 , python-setup-hook
 , nukeReferences
-# For the Python package set
-, packageOverrides ? (self: super: {})
+  # For the Python package set
+, packageOverrides ? (self: super: { })
 , pkgsBuildBuild
 , pkgsBuildHost
 , pkgsBuildTarget
@@ -36,8 +44,8 @@
 , stripBytecode ? false
 , includeSiteCustomize ? true
 , static ? false
-# Not using optimizations on Darwin
-# configure: error: llvm-profdata is required for a --enable-optimizations build but could not be found.
+  # Not using optimizations on Darwin
+  # configure: error: llvm-profdata is required for a --enable-optimizations build but could not be found.
 , enableOptimizations ? (!stdenv.isDarwin)
 , pythonAttr ? "python${sourceVersion.major}${sourceVersion.minor}"
 }:
@@ -48,9 +56,9 @@
 # files.
 
 assert x11Support -> tcl != null
-                  && tk != null
-                  && xorgproto != null
-                  && libX11 != null;
+  && tk != null
+  && xorgproto != null
+  && libX11 != null;
 
 assert bluezSupport -> bluez != null;
 
@@ -72,7 +80,7 @@ let
     pythonOnBuildForHost = pkgsBuildHost.${pythonAttr};
     pythonOnBuildForTarget = pkgsBuildTarget.${pythonAttr};
     pythonOnHostForHost = pkgsHostHost.${pythonAttr};
-    pythonOnTargetForTarget = pkgsTargetTarget.${pythonAttr} or {};
+    pythonOnTargetForTarget = pkgsTargetTarget.${pythonAttr} or { };
   };
 
   version = with sourceVersion; "${major}.${minor}.${patch}${suffix}";
@@ -89,18 +97,30 @@ let
   ];
 
   buildInputs = filter (p: p != null) ([
-    zlib bzip2 expat lzma libffi gdbm sqlite readline ncurses openssl ]
-    ++ optionals x11Support [ tcl tk libX11 xorgproto ]
-    ++ optionals (bluezSupport && stdenv.isLinux) [ bluez ]
-    ++ optionals stdenv.isDarwin [ configd ]);
+    zlib
+    bzip2
+    expat
+    lzma
+    libffi
+    gdbm
+    sqlite
+    readline
+    ncurses
+    openssl
+  ]
+  ++ optionals x11Support [ tcl tk libX11 xorgproto ]
+  ++ optionals (bluezSupport && stdenv.isLinux) [ bluez ]
+  ++ optionals stdenv.isDarwin [ configd ]);
 
   hasDistutilsCxxPatch = !(stdenv.cc.isGNU or false);
 
-  pythonForBuildInterpreter = if stdenv.hostPlatform == stdenv.buildPlatform then
-    "$out/bin/python"
-  else pythonForBuild.interpreter;
+  pythonForBuildInterpreter =
+    if stdenv.hostPlatform == stdenv.buildPlatform then
+      "$out/bin/python"
+    else pythonForBuild.interpreter;
 
-in with passthru; stdenv.mkDerivation {
+in
+with passthru; stdenv.mkDerivation {
   pname = "python3";
   inherit version;
 
@@ -179,7 +199,7 @@ in with passthru; stdenv.mkDerivation {
   LIBS = "${optionalString (!stdenv.isDarwin) "-lcrypt"} ${optionalString (ncurses != null) "-lncurses"}";
   NIX_LDFLAGS = optionalString (stdenv.isLinux && !stdenv.hostPlatform.isMusl) "-lgcc_s" + optionalString stdenv.hostPlatform.isMusl "-lgcc_eh";
   # Determinism: We fix the hashes of str, bytes and datetime objects.
-  PYTHONHASHSEED=0;
+  PYTHONHASHSEED = 0;
 
   configureFlags = [
     "--enable-shared"
@@ -223,7 +243,7 @@ in with passthru; stdenv.mkDerivation {
   ] ++ optional static "LDFLAGS=-static";
 
   preConfigure = ''
-    for i in /usr /sw /opt /pkg; do	# improve purity
+    for i in /usr /sw /opt /pkg; do  # improve purity
       substituteInPlace ./setup.py --replace $i /no-such-path
     done
   '' + optionalString stdenv.isDarwin ''
@@ -278,20 +298,20 @@ in with passthru; stdenv.mkDerivation {
     find $out/lib/python*/config-* -type f -print -exec nuke-refs -e $out '{}' +
     find $out/lib -name '_sysconfigdata*.py*' -print -exec nuke-refs -e $out '{}' +
 
-    '' + optionalString stripConfig ''
+  '' + optionalString stripConfig ''
     rm -R $out/bin/python*-config $out/lib/python*/config-*
-    '' + optionalString stripIdlelib ''
+  '' + optionalString stripIdlelib ''
     # Strip IDLE (and turtledemo, which uses it)
     rm -R $out/bin/idle* $out/lib/python*/{idlelib,turtledemo}
-    '' + optionalString stripTkinter ''
+  '' + optionalString stripTkinter ''
     rm -R $out/lib/python*/tkinter
-    '' + optionalString stripTests ''
+  '' + optionalString stripTests ''
     # Strip tests
     rm -R $out/lib/python*/test $out/lib/python*/**/test{,s}
-    '' + optionalString includeSiteCustomize ''
+  '' + optionalString includeSiteCustomize ''
     # Include a sitecustomize.py file
     cp ${../sitecustomize.py} $out/${sitePackages}/sitecustomize.py
-    '' + optionalString rebuildBytecode ''
+  '' + optionalString rebuildBytecode ''
 
     # Determinism: rebuild all bytecode
     # We exclude lib2to3 because that's Python 2 code which fails
@@ -315,10 +335,11 @@ in with passthru; stdenv.mkDerivation {
   disallowedReferences =
     stdenv.lib.optionals (openssl != null && !static) [ openssl.dev ]
     ++ stdenv.lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
-    # Ensure we don't have references to build-time packages.
-    # These typically end up in shebangs.
-    pythonForBuild buildPackages.bash
-  ];
+      # Ensure we don't have references to build-time packages.
+      # These typically end up in shebangs.
+      pythonForBuild
+      buildPackages.bash
+    ];
 
   inherit passthru;
 

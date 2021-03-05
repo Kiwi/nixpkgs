@@ -3,7 +3,8 @@
 let
   version = "2020-05-11";
   name = "rpiboot-unstable-${version}";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit name;
 
   src = fetchFromGitHub {

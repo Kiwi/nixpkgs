@@ -1,5 +1,13 @@
-{ stdenv, lib, fetchFromGitHub, fetchpatch, callPackage, makeWrapper
-, buildGoPackage, runc, glibc }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, fetchpatch
+, callPackage
+, makeWrapper
+, buildGoPackage
+, runc
+, glibc
+}:
 
 with lib; let
 
@@ -33,7 +41,8 @@ with lib; let
     patches = [ "${nvidia-container-runtime}/runtime/runc/3f2f8b84a77f73d38244dd690525642a72156c64/0001-Add-prestart-hook-nvidia-container-runtime-hook-to-t.patch" ];
   });
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "nvidia-docker";
   version = "2.0.3";
 

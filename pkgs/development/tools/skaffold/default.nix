@@ -5,15 +5,16 @@ buildGoPackage rec {
   version = "1.17.2";
 
   goPackagePath = "github.com/GoogleContainerTools/skaffold";
-  subPackages = ["cmd/skaffold"];
+  subPackages = [ "cmd/skaffold" ];
 
-  buildFlagsArray = let t = "${goPackagePath}/pkg/skaffold"; in  ''
-    -ldflags=
-      -s -w
-      -X ${t}/version.version=v${version}
-      -X ${t}/version.gitCommit=${src.rev}
-      -X ${t}/version.buildDate=unknown
-  '';
+  buildFlagsArray = let t = "${goPackagePath}/pkg/skaffold"; in
+    ''
+      -ldflags=
+        -s -w
+        -X ${t}/version.version=v${version}
+        -X ${t}/version.gitCommit=${src.rev}
+        -X ${t}/version.buildDate=unknown
+    '';
 
   src = fetchFromGitHub {
     owner = "GoogleContainerTools";

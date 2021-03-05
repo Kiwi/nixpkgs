@@ -6,13 +6,15 @@ let
   cfg = config.services.corerad;
 
   writeTOML = name: x:
-    pkgs.runCommandNoCCLocal name {
-      passAsFile = ["config"];
-      config = builtins.toJSON x;
-      buildInputs = [ pkgs.go-toml ];
-    } "jsontoml < $configPath > $out";
+    pkgs.runCommandNoCCLocal name
+      {
+        passAsFile = [ "config" ];
+        config = builtins.toJSON x;
+        buildInputs = [ pkgs.go-toml ];
+      } "jsontoml < $configPath > $out";
 
-in {
+in
+{
   meta.maintainers = with maintainers; [ mdlayher ];
 
   options.services.corerad = {

@@ -35,7 +35,7 @@ let
     auto_pause = true;
     only_admins_can_pause_the_game = true;
     autosave_only_on_server = true;
-    admins = [];
+    admins = [ ];
   } // cfg.extraSettings;
   serverSettingsFile = pkgs.writeText "server-settings.json" (builtins.toJSON (filterAttrsRecursive (n: v: v != null) serverSettings));
   modDir = pkgs.factorio-utils.mkModDirDrv cfg.mods;
@@ -95,7 +95,7 @@ in
       };
       mods = mkOption {
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         description = ''
           Mods the server should install and activate.
 
@@ -121,8 +121,8 @@ in
       };
       extraSettings = mkOption {
         type = types.attrs;
-        default = {};
-        example = { admins = [ "username" ];};
+        default = { };
+        example = { admins = [ "username" ]; };
         description = ''
           Extra game configuration that will go into server-settings.json
         '';
@@ -198,17 +198,17 @@ in
 
   config = mkIf cfg.enable {
     systemd.services.factorio = {
-      description   = "Factorio headless server";
-      wantedBy      = [ "multi-user.target" ];
-      after         = [ "network.target" ];
+      description = "Factorio headless server";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
 
       preStart = toString [
         "test -e ${stateDir}/saves/${cfg.saveName}.zip"
         "||"
         "${cfg.package}/bin/factorio"
-          "--config=${cfg.configFile}"
-          "--create=${mkSavePath cfg.saveName}"
-          (optionalString (cfg.mods != []) "--mod-directory=${modDir}")
+        "--config=${cfg.configFile}"
+        "--create=${mkSavePath cfg.saveName}"
+        (optionalString (cfg.mods != [ ]) "--mod-directory=${modDir}")
       ];
 
       serviceConfig = {
@@ -223,7 +223,7 @@ in
           "--port=${toString cfg.port}"
           "--start-server=${mkSavePath cfg.saveName}"
           "--server-settings=${serverSettingsFile}"
-          (optionalString (cfg.mods != []) "--mod-directory=${modDir}")
+          (optionalString (cfg.mods != [ ]) "--mod-directory=${modDir}")
         ];
 
         # Sandboxing
@@ -242,6 +242,6 @@ in
       };
     };
 
-    networking.firewall.allowedUDPPorts = if cfg.openFirewall then [ cfg.port ] else [];
+    networking.firewall.allowedUDPPorts = if cfg.openFirewall then [ cfg.port ] else [ ];
   };
 }

@@ -49,7 +49,7 @@ in
 
       settings = mkOption {
         type = with types; attrsOf (oneOf [ bool str ]);
-        default = {};
+        default = { };
         description = ''
           <citerefentry><refentrytitle>ssmtp</refentrytitle><manvolnum>5</manvolnum></citerefentry> configuration. Refer
           to <link xlink:href="https://linux.die.net/man/5/ssmtp.conf"/> for details on supported values.
@@ -170,9 +170,9 @@ in
           else builtins.toString value
         ;
       in
-        pkgs.writeText "ssmtp.conf" (concatStringsSep "\n" (mapAttrsToList (key: value: "${key}=${toStr value}") cfg.settings));
+      pkgs.writeText "ssmtp.conf" (concatStringsSep "\n" (mapAttrsToList (key: value: "${key}=${toStr value}") cfg.settings));
 
-    environment.systemPackages = [pkgs.ssmtp];
+    environment.systemPackages = [ pkgs.ssmtp ];
 
     services.mail.sendmailSetuidWrapper = mkIf cfg.setSendmail {
       program = "sendmail";

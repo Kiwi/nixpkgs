@@ -1,5 +1,12 @@
-{ stdenv, lib, buildGoPackage, fetchFromGitHub, makeWrapper, nixosTests
-, systemd, withSystemdSupport ? true }:
+{ stdenv
+, lib
+, buildGoPackage
+, fetchFromGitHub
+, makeWrapper
+, nixosTests
+, systemd
+, withSystemdSupport ? true
+}:
 
 with stdenv.lib;
 

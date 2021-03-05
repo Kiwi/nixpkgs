@@ -2,7 +2,8 @@
 
 let
   drvName = builtins.parseDrvName kodi.name;
-in buildEnv {
+in
+buildEnv {
   name = "${drvName.name}-with-plugins-${drvName.version}";
 
   paths = [ kodi ] ++ plugins;
@@ -11,20 +12,21 @@ in buildEnv {
   buildInputs = [ makeWrapper ];
 
   postBuild = ''
-    mkdir $out/bin
-    for exe in kodi{,-standalone}
-    do
-      makeWrapper ${kodi}/bin/$exe $out/bin/$exe \
-        --prefix PYTHONPATH : ${kodi.pythonPackages.makePythonPath plugins} \
-        --prefix KODI_HOME : $out/share/kodi \
-        --prefix LD_LIBRARY_PATH ":" "${lib.makeLibraryPath
-          (stdenv.lib.concatMap
-            (plugin: plugin.extraRuntimeDependencies or []) plugins)}"
-    done
+        mkdir $out/bin
+        for exe in kodi{,-standalone}
+        do
+          makeWrapper ${kodi}/bin/$exe $out/bin/$exe \
+            --prefix PYTHONPATH : ${kodi.pythonPackages.makePythonPath plugins} \
+            --prefix KODI_HOME : $out/share/kodi \
+            --prefix LD_LIBRARY_PATH ":" "${lib.makeLibraryPath
+              (stdenv.lib.concatMap
+                (plugin: plugin.extraRuntimeDependencies or [ ])
+    plugins)}"
+        done
   '';
 
   meta = kodi.meta // {
     description = kodi.meta.description
-                + " (with plugins: ${lib.concatMapStringsSep ", " (x: x.name) plugins})";
+      + " (with plugins: ${lib.concatMapStringsSep ", " (x: x.name) plugins})";
   };
 }

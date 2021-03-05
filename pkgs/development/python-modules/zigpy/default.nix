@@ -10,7 +10,8 @@
 , pytest-asyncio
 , pytestCheckHook
 , tox
-, voluptuous }:
+, voluptuous
+}:
 
 buildPythonPackage rec {
   pname = "zigpy";

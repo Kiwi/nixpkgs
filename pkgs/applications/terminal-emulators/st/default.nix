@@ -1,5 +1,14 @@
-{ stdenv, fetchurl, pkgconfig, writeText, libX11, ncurses
-, libXft, conf ? null, patches ? [], extraLibs ? []}:
+{ stdenv
+, fetchurl
+, pkgconfig
+, writeText
+, libX11
+, ncurses
+, libXft
+, conf ? null
+, patches ? [ ]
+, extraLibs ? [ ]
+}:
 
 with stdenv.lib;
 
@@ -14,10 +23,10 @@ stdenv.mkDerivation rec {
 
   inherit patches;
 
-  configFile = optionalString (conf!=null) (writeText "config.def.h" conf);
+  configFile = optionalString (conf != null) (writeText "config.def.h" conf);
 
-  postPatch = optionalString (conf!=null) "cp ${configFile} config.def.h"
-            + optionalString stdenv.isDarwin ''
+  postPatch = optionalString (conf != null) "cp ${configFile} config.def.h"
+    + optionalString stdenv.isDarwin ''
     substituteInPlace config.mk --replace "-lrt" ""
   '';
 

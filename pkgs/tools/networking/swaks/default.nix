@@ -12,20 +12,23 @@ stdenv.mkDerivation rec {
   buildInputs = [ perl makeWrapper ];
 
   installPhase = ''
-    mkdir -p $out/bin
-    mv swaks $out/bin/
+        mkdir -p $out/bin
+        mv swaks $out/bin/
 
-    wrapProgram $out/bin/swaks --set PERL5LIB \
-      "${with perlPackages; makePerlPath [
-        NetSSLeay AuthenSASL NetDNS IOSocketInet6
-      ]}"
+        wrapProgram $out/bin/swaks --set PERL5LIB \
+          "${with perlPackages; makePerlPath [
+            NetSSLeay
+    AuthenSASL
+    NetDNS
+    IOSocketInet6
+          ]}"
   '';
 
   meta = with stdenv.lib; {
     homepage = "http://www.jetmore.org/john/code/swaks/";
     description = "A featureful, flexible, scriptable, transaction-oriented SMTP test tool";
     license = licenses.gpl2;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     platforms = platforms.all;
   };
 

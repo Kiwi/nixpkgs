@@ -1,33 +1,45 @@
-{ stdenv, lib, fetchFromGitHub, cmake, pkgconfig
-, alsaLib, asio, avahi, boost170, flac, libogg, libvorbis, soxr
-, nixosTests }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, alsaLib
+, asio
+, avahi
+, boost170
+, flac
+, libogg
+, libvorbis
+, soxr
+, nixosTests
+}:
 
 let
 
   dependency = { name, version, sha256 }:
-  stdenv.mkDerivation {
-    name = "${name}-${version}";
+    stdenv.mkDerivation {
+      name = "${name}-${version}";
 
-    src = fetchFromGitHub {
-      owner = "badaix";
-      repo  = name;
-      rev   = "v${version}";
-      inherit sha256;
+      src = fetchFromGitHub {
+        owner = "badaix";
+        repo = name;
+        rev = "v${version}";
+        inherit sha256;
+      };
+
+      nativeBuildInputs = [ cmake ];
     };
 
-    nativeBuildInputs = [ cmake ];
-  };
-
   aixlog = dependency {
-    name    = "aixlog";
+    name = "aixlog";
     version = "1.2.1";
-    sha256  = "1rh4jib5g41b85bqrxkl5g74hk5ryf187y9fw0am76g59xlymfpr";
+    sha256 = "1rh4jib5g41b85bqrxkl5g74hk5ryf187y9fw0am76g59xlymfpr";
   };
 
   popl = dependency {
-    name    = "popl";
+    name = "popl";
     version = "1.2.0";
-    sha256  = "1z6z7fwffs3d9h56mc2m24d5gp4fc5bi8836zyfb276s6fjyfcai";
+    sha256 = "1z6z7fwffs3d9h56mc2m24d5gp4fc5bi8836zyfb276s6fjyfcai";
   };
 
 in
@@ -37,9 +49,9 @@ stdenv.mkDerivation rec {
   version = "0.20.0";
 
   src = fetchFromGitHub {
-    owner  = "badaix";
-    repo   = "snapcast";
-    rev    = "v${version}";
+    owner = "badaix";
+    repo = "snapcast";
+    rev = "v${version}";
     sha256 = "152ic8hlyawcmj9pykb33xc6yx7il6yb9ilmsy6m9nlh40m8yxls";
   };
 
@@ -47,8 +59,15 @@ stdenv.mkDerivation rec {
   # snapcast also supports building against tremor but as we have libogg, that's
   # not needed
   buildInputs = [
-    alsaLib asio avahi flac libogg libvorbis
-    aixlog popl soxr
+    alsaLib
+    asio
+    avahi
+    flac
+    libogg
+    libvorbis
+    aixlog
+    popl
+    soxr
   ];
 
   # Upstream systemd unit files are pretty awful, so we provide our own in a

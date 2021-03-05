@@ -1,7 +1,17 @@
-{ stdenv, fetchurl, cmake
-, libGL, libGLU, libX11, libXv, libXtst, libjpeg_turbo, fltk
+{ stdenv
+, fetchurl
+, cmake
+, libGL
+, libGLU
+, libX11
+, libXv
+, libXtst
+, libjpeg_turbo
+, fltk
 , xorg
-, opencl-headers, opencl-clhpp, ocl-icd
+, opencl-headers
+, opencl-clhpp
+, ocl-icd
 }:
 
 stdenv.mkDerivation rec {
@@ -19,9 +29,18 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake ];
 
-  buildInputs = [ libjpeg_turbo libGL libGLU fltk
-    libX11 libXv libXtst xorg.xcbutilkeysyms
-    opencl-headers opencl-clhpp ocl-icd
+  buildInputs = [
+    libjpeg_turbo
+    libGL
+    libGLU
+    fltk
+    libX11
+    libXv
+    libXtst
+    xorg.xcbutilkeysyms
+    opencl-headers
+    opencl-clhpp
+    ocl-icd
   ];
 
   fixupPhase = ''

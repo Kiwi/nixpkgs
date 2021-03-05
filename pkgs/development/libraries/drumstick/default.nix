@@ -1,6 +1,16 @@
-{ stdenv, fetchurl
-, cmake, docbook_xml_dtd_45, docbook_xsl, doxygen, pkg-config, wrapQtAppsHook
-, alsaLib, fluidsynth, qtbase, qtsvg, libpulseaudio
+{ stdenv
+, fetchurl
+, cmake
+, docbook_xml_dtd_45
+, docbook_xsl
+, doxygen
+, pkg-config
+, wrapQtAppsHook
+, alsaLib
+, fluidsynth
+, qtbase
+, qtsvg
+, libpulseaudio
 }:
 
 stdenv.mkDerivation rec {
@@ -26,11 +36,21 @@ stdenv.mkDerivation rec {
   enableParallelBuilding = true;
 
   nativeBuildInputs = [
-    cmake docbook_xml_dtd_45 docbook_xml_dtd_45 docbook_xsl doxygen pkg-config wrapQtAppsHook
+    cmake
+    docbook_xml_dtd_45
+    docbook_xml_dtd_45
+    docbook_xsl
+    doxygen
+    pkg-config
+    wrapQtAppsHook
   ];
 
   buildInputs = [
-    alsaLib fluidsynth libpulseaudio qtbase qtsvg
+    alsaLib
+    fluidsynth
+    libpulseaudio
+    qtbase
+    qtsvg
   ];
 
   meta = with stdenv.lib; {

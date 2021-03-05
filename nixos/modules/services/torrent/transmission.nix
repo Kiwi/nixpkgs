@@ -150,31 +150,38 @@ in
       install -d -m 700 '${cfg.home}/${settingsDir}'
       chown -R '${cfg.user}:${cfg.group}' ${cfg.home}/${settingsDir}
       install -d -m '${cfg.downloadDirPermissions}' -o '${cfg.user}' -g '${cfg.group}' '${cfg.settings.download-dir}'
-      '' + optionalString cfg.settings.incomplete-dir-enabled ''
+    '' + optionalString cfg.settings.incomplete-dir-enabled ''
       install -d -m '${cfg.downloadDirPermissions}' -o '${cfg.user}' -g '${cfg.group}' '${cfg.settings.incomplete-dir}'
-      '';
+    '';
 
     assertions = [
-      { assertion = builtins.match "^/.*" cfg.home != null;
+      {
+        assertion = builtins.match "^/.*" cfg.home != null;
         message = "`services.transmission.home' must be an absolute path.";
       }
-      { assertion = types.path.check cfg.settings.download-dir;
+      {
+        assertion = types.path.check cfg.settings.download-dir;
         message = "`services.transmission.settings.download-dir' must be an absolute path.";
       }
-      { assertion = types.path.check cfg.settings.incomplete-dir;
+      {
+        assertion = types.path.check cfg.settings.incomplete-dir;
         message = "`services.transmission.settings.incomplete-dir' must be an absolute path.";
       }
-      { assertion = types.path.check cfg.settings.watch-dir;
+      {
+        assertion = types.path.check cfg.settings.watch-dir;
         message = "`services.transmission.settings.watch-dir' must be an absolute path.";
       }
-      { assertion = cfg.settings.script-torrent-done-filename == "" || types.path.check cfg.settings.script-torrent-done-filename;
+      {
+        assertion = cfg.settings.script-torrent-done-filename == "" || types.path.check cfg.settings.script-torrent-done-filename;
         message = "`services.transmission.settings.script-torrent-done-filename' must be an absolute path.";
       }
-      { assertion = types.port.check cfg.settings.rpc-port;
+      {
+        assertion = types.port.check cfg.settings.rpc-port;
         message = "${toString cfg.settings.rpc-port} is not a valid port number for `services.transmission.settings.rpc-port`.";
       }
       # In case both port and settings.rpc-port are explicitely defined: they must be the same.
-      { assertion = !options.services.transmission.port.isDefined || cfg.port == cfg.settings.rpc-port;
+      {
+        assertion = !options.services.transmission.port.isDefined || cfg.port == cfg.settings.rpc-port;
         message = "`services.transmission.port' is not equal to `services.transmission.settings.rpc-port'";
       }
     ];
@@ -191,21 +198,23 @@ in
 
       serviceConfig = {
         # Use "+" because credentialsFile may not be accessible to User= or Group=.
-        ExecStartPre = [("+" + pkgs.writeShellScript "transmission-prestart" ''
-          set -eu${lib.optionalString (cfg.settings.message-level >= 3) "x"}
-          ${pkgs.jq}/bin/jq --slurp add ${settingsFile} '${cfg.credentialsFile}' |
-          install -D -m 600 -o '${cfg.user}' -g '${cfg.group}' /dev/stdin \
-           '${cfg.home}/${settingsDir}/settings.json'
-        '')];
-        ExecStart="${pkgs.transmission}/bin/transmission-daemon -f -g ${cfg.home}/${settingsDir}";
+        ExecStartPre = [
+          ("+" + pkgs.writeShellScript "transmission-prestart" ''
+            set -eu${lib.optionalString (cfg.settings.message-level >= 3) "x"}
+            ${pkgs.jq}/bin/jq --slurp add ${settingsFile} '${cfg.credentialsFile}' |
+            install -D -m 600 -o '${cfg.user}' -g '${cfg.group}' /dev/stdin \
+             '${cfg.home}/${settingsDir}/settings.json'
+          '')
+        ];
+        ExecStart = "${pkgs.transmission}/bin/transmission-daemon -f -g ${cfg.home}/${settingsDir}";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
         User = cfg.user;
         Group = cfg.group;
         # Create rootDir in the host's mount namespace.
-        RuntimeDirectory = [(baseNameOf rootDir)];
+        RuntimeDirectory = [ (baseNameOf rootDir) ];
         RuntimeDirectoryMode = "755";
         # Avoid mounting rootDir in the own rootDir of ExecStart='s mount namespace.
-        InaccessiblePaths = ["-+${rootDir}"];
+        InaccessiblePaths = [ "-+${rootDir}" ];
         # This is for BindPaths= and BindReadOnlyPaths=
         # to allow traversal of directories they create in RootDirectory=.
         UMask = "0066";
@@ -222,7 +231,8 @@ in
         RootDirectoryStartOnly = true;
         MountAPIVFS = true;
         BindPaths =
-          [ "${cfg.home}/${settingsDir}"
+          [
+            "${cfg.home}/${settingsDir}"
             cfg.settings.download-dir
           ] ++
           optional cfg.settings.incomplete-dir-enabled
@@ -230,17 +240,18 @@ in
           ++
           optional cfg.settings.watch-dir-enabled
             cfg.settings.watch-dir
-          ;
+        ;
         BindReadOnlyPaths = [
           # No confinement done of /nix/store here like in systemd-confinement.nix,
           # an AppArmor profile is provided to get a confinement based upon paths and rights.
           builtins.storeDir
           "/etc"
           "/run"
-          ] ++
-          optional (cfg.settings.script-torrent-done-enabled &&
-                    cfg.settings.script-torrent-done-filename != "")
-            cfg.settings.script-torrent-done-filename;
+        ] ++
+        optional
+          (cfg.settings.script-torrent-done-enabled &&
+            cfg.settings.script-torrent-done-filename != "")
+          cfg.settings.script-torrent-done-filename;
         # The following options are only for optimizing:
         # systemd-analyze security transmission
         AmbientCapabilities = "";
@@ -280,7 +291,13 @@ in
           # Groups in @system-service which do not contain a syscall
           # listed by perf stat -e 'syscalls:sys_enter_*' transmission-daemon -f
           # in tests, and seem likely not necessary for transmission-daemon.
-          "~@aio" "~@chown" "~@keyring" "~@memlock" "~@resources" "~@setuid" "~@timer"
+          "~@aio"
+          "~@chown"
+          "~@keyring"
+          "~@memlock"
+          "~@resources"
+          "~@setuid"
+          "~@timer"
           # In the @privileged group, but reached when querying infos through RPC (eg. with stig).
           "quotactl"
         ];
@@ -310,19 +327,21 @@ in
     networking.firewall = mkIf cfg.openFirewall (
       if cfg.settings.peer-port-random-on-start
       then
-        { allowedTCPPortRanges =
-            [ { from = cfg.settings.peer-port-random-low;
-                to   = cfg.settings.peer-port-random-high;
-              }
-            ];
+        {
+          allowedTCPPortRanges =
+            [{
+              from = cfg.settings.peer-port-random-low;
+              to = cfg.settings.peer-port-random-high;
+            }];
           allowedUDPPortRanges =
-            [ { from = cfg.settings.peer-port-random-low;
-                to   = cfg.settings.peer-port-random-high;
-              }
-            ];
+            [{
+              from = cfg.settings.peer-port-random-low;
+              to = cfg.settings.peer-port-random-high;
+            }];
         }
       else
-        { allowedTCPPorts = [ cfg.settings.peer-port ];
+        {
+          allowedTCPPorts = [ cfg.settings.peer-port ];
           allowedUDPPorts = [ cfg.settings.peer-port ];
         }
     );
@@ -360,91 +379,92 @@ in
 
     security.apparmor.profiles = mkIf apparmor [
       (pkgs.writeText "apparmor-transmission-daemon" ''
-        include <tunables/global>
+                include <tunables/global>
 
-        ${pkgs.transmission}/bin/transmission-daemon {
-          include <abstractions/base>
-          include <abstractions/nameservice>
+                ${pkgs.transmission}/bin/transmission-daemon {
+                  include <abstractions/base>
+                  include <abstractions/nameservice>
 
-          # NOTE: https://github.com/NixOS/nixpkgs/pull/93457
-          # will remove the need for these by fixing <abstractions/base>
-          r ${etc."hosts".source},
-          r /etc/ld-nix.so.preload,
-          ${lib.optionalString (builtins.hasAttr "ld-nix.so.preload" etc) ''
-            r ${etc."ld-nix.so.preload".source},
-            ${concatMapStrings (p: optionalString (p != "") ("mr ${p},\n"))
-              (splitString "\n" config.environment.etc."ld-nix.so.preload".text)}
-          ''}
-          r ${etc."ssl/certs/ca-certificates.crt".source},
-          r ${pkgs.tzdata}/share/zoneinfo/**,
-          r ${pkgs.stdenv.cc.libc}/share/i18n/**,
-          r ${pkgs.stdenv.cc.libc}/share/locale/**,
+                  # NOTE: https://github.com/NixOS/nixpkgs/pull/93457
+                  # will remove the need for these by fixing <abstractions/base>
+                  r ${etc."hosts".source},
+                  r /etc/ld-nix.so.preload,
+                  ${lib.optionalString (builtins.hasAttr "ld-nix.so.preload" etc) ''
+                    r ${etc."ld-nix.so.preload".source},
+                    ${concatMapStrings (p: optionalString (p != "") ("mr ${p},\n"))
+                      (splitString "\n" config.environment.etc."ld-nix.so.preload".text)}
+                  ''}
+                  r ${etc."ssl/certs/ca-certificates.crt".source},
+                  r ${pkgs.tzdata}/share/zoneinfo/**,
+                  r ${pkgs.stdenv.cc.libc}/share/i18n/**,
+                  r ${pkgs.stdenv.cc.libc}/share/locale/**,
 
-          mr ${getLib pkgs.stdenv.cc.cc}/lib/*.so*,
-          mr ${getLib pkgs.stdenv.cc.libc}/lib/*.so*,
-          mr ${getLib pkgs.attr}/lib/libattr*.so*,
-          mr ${getLib pkgs.c-ares}/lib/libcares*.so*,
-          mr ${getLib pkgs.curl}/lib/libcurl*.so*,
-          mr ${getLib pkgs.keyutils}/lib/libkeyutils*.so*,
-          mr ${getLib pkgs.libcap}/lib/libcap*.so*,
-          mr ${getLib pkgs.libevent}/lib/libevent*.so*,
-          mr ${getLib pkgs.libgcrypt}/lib/libgcrypt*.so*,
-          mr ${getLib pkgs.libgpgerror}/lib/libgpg-error*.so*,
-          mr ${getLib pkgs.libkrb5}/lib/lib*.so*,
-          mr ${getLib pkgs.libssh2}/lib/libssh2*.so*,
-          mr ${getLib pkgs.lz4}/lib/liblz4*.so*,
-          mr ${getLib pkgs.nghttp2}/lib/libnghttp2*.so*,
-          mr ${getLib pkgs.openssl}/lib/libcrypto*.so*,
-          mr ${getLib pkgs.openssl}/lib/libssl*.so*,
-          mr ${getLib pkgs.systemd}/lib/libsystemd*.so*,
-          mr ${getLib pkgs.util-linuxMinimal.out}/lib/libblkid.so*,
-          mr ${getLib pkgs.util-linuxMinimal.out}/lib/libmount.so*,
-          mr ${getLib pkgs.util-linuxMinimal.out}/lib/libuuid.so*,
-          mr ${getLib pkgs.xz}/lib/liblzma*.so*,
-          mr ${getLib pkgs.zlib}/lib/libz*.so*,
+                  mr ${getLib pkgs.stdenv.cc.cc}/lib/*.so*,
+                  mr ${getLib pkgs.stdenv.cc.libc}/lib/*.so*,
+                  mr ${getLib pkgs.attr}/lib/libattr*.so*,
+                  mr ${getLib pkgs.c-ares}/lib/libcares*.so*,
+                  mr ${getLib pkgs.curl}/lib/libcurl*.so*,
+                  mr ${getLib pkgs.keyutils}/lib/libkeyutils*.so*,
+                  mr ${getLib pkgs.libcap}/lib/libcap*.so*,
+                  mr ${getLib pkgs.libevent}/lib/libevent*.so*,
+                  mr ${getLib pkgs.libgcrypt}/lib/libgcrypt*.so*,
+                  mr ${getLib pkgs.libgpgerror}/lib/libgpg-error*.so*,
+                  mr ${getLib pkgs.libkrb5}/lib/lib*.so*,
+                  mr ${getLib pkgs.libssh2}/lib/libssh2*.so*,
+                  mr ${getLib pkgs.lz4}/lib/liblz4*.so*,
+                  mr ${getLib pkgs.nghttp2}/lib/libnghttp2*.so*,
+                  mr ${getLib pkgs.openssl}/lib/libcrypto*.so*,
+                  mr ${getLib pkgs.openssl}/lib/libssl*.so*,
+                  mr ${getLib pkgs.systemd}/lib/libsystemd*.so*,
+                  mr ${getLib pkgs.util-linuxMinimal.out}/lib/libblkid.so*,
+                  mr ${getLib pkgs.util-linuxMinimal.out}/lib/libmount.so*,
+                  mr ${getLib pkgs.util-linuxMinimal.out}/lib/libuuid.so*,
+                  mr ${getLib pkgs.xz}/lib/liblzma*.so*,
+                  mr ${getLib pkgs.zlib}/lib/libz*.so*,
 
-          r @{PROC}/sys/kernel/random/uuid,
-          r @{PROC}/sys/vm/overcommit_memory,
-          # @{pid} is not a kernel variable yet but a regexp
-          #r @{PROC}/@{pid}/environ,
-          r @{PROC}/@{pid}/mounts,
-          rwk /tmp/tr_session_id_*,
-          r /run/systemd/resolve/stub-resolv.conf,
+                  r @{PROC}/sys/kernel/random/uuid,
+                  r @{PROC}/sys/vm/overcommit_memory,
+                  # @{pid} is not a kernel variable yet but a regexp
+                  #r @{PROC}/@{pid}/environ,
+                  r @{PROC}/@{pid}/mounts,
+                  rwk /tmp/tr_session_id_*,
+                  r /run/systemd/resolve/stub-resolv.conf,
 
-          r ${pkgs.openssl.out}/etc/**,
-          r ${config.systemd.services.transmission.environment.CURL_CA_BUNDLE},
-          r ${pkgs.transmission}/share/transmission/**,
+                  r ${pkgs.openssl.out}/etc/**,
+                  r ${config.systemd.services.transmission.environment.CURL_CA_BUNDLE},
+                  r ${pkgs.transmission}/share/transmission/**,
 
-          owner rw ${cfg.home}/${settingsDir}/**,
-          rw ${cfg.settings.download-dir}/**,
-          ${optionalString cfg.settings.incomplete-dir-enabled ''
-            rw ${cfg.settings.incomplete-dir}/**,
-          ''}
-          ${optionalString cfg.settings.watch-dir-enabled ''
-            rw ${cfg.settings.watch-dir}/**,
-          ''}
-          profile dirs {
-            rw ${cfg.settings.download-dir}/**,
-            ${optionalString cfg.settings.incomplete-dir-enabled ''
-              rw ${cfg.settings.incomplete-dir}/**,
-            ''}
-            ${optionalString cfg.settings.watch-dir-enabled ''
-              rw ${cfg.settings.watch-dir}/**,
-            ''}
-          }
+                  owner rw ${cfg.home}/${settingsDir}/**,
+                  rw ${cfg.settings.download-dir}/**,
+                  ${optionalString cfg.settings.incomplete-dir-enabled ''
+                    rw ${cfg.settings.incomplete-dir}/**,
+                  ''}
+                  ${optionalString cfg.settings.watch-dir-enabled ''
+                    rw ${cfg.settings.watch-dir}/**,
+                  ''}
+                  profile dirs {
+                    rw ${cfg.settings.download-dir}/**,
+                    ${optionalString cfg.settings.incomplete-dir-enabled ''
+                      rw ${cfg.settings.incomplete-dir}/**,
+                    ''}
+                    ${optionalString cfg.settings.watch-dir-enabled ''
+                      rw ${cfg.settings.watch-dir}/**,
+                    ''}
+                  }
 
-          ${optionalString (cfg.settings.script-torrent-done-enabled &&
-                            cfg.settings.script-torrent-done-filename != "") ''
-            # Stack transmission_directories profile on top of
-            # any existing profile for script-torrent-done-filename
-            # FIXME: to be tested as I'm not sure it works well with NoNewPrivileges=
-            # https://gitlab.com/apparmor/apparmor/-/wikis/AppArmorStacking#seccomp-and-no_new_privs
-            px ${cfg.settings.script-torrent-done-filename} -> &@{dirs},
-          ''}
+                  ${optionalString
+        (cfg.settings.script-torrent-done-enabled &&
+                                    cfg.settings.script-torrent-done-filename != "") ''
+                    # Stack transmission_directories profile on top of
+                    # any existing profile for script-torrent-done-filename
+                    # FIXME: to be tested as I'm not sure it works well with NoNewPrivileges=
+                    # https://gitlab.com/apparmor/apparmor/-/wikis/AppArmorStacking#seccomp-and-no_new_privs
+                    px ${cfg.settings.script-torrent-done-filename} -> &@{dirs},
+                  ''}
 
-          # FIXME: enable customizing using https://github.com/NixOS/nixpkgs/pull/93457
-          # include <local/transmission-daemon>
-        }
+                  # FIXME: enable customizing using https://github.com/NixOS/nixpkgs/pull/93457
+                  # include <local/transmission-daemon>
+                }
       '')
     ];
   };

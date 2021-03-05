@@ -1,4 +1,9 @@
-{ stdenv, buildPythonPackage, pythonOlder, fetchPypi, isPy3k, isPyPy
+{ stdenv
+, buildPythonPackage
+, pythonOlder
+, fetchPypi
+, isPy3k
+, isPyPy
 , atomicwrites
 , attrs
 , funcsigs

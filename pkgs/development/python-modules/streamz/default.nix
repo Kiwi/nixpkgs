@@ -1,4 +1,7 @@
-{ lib, buildPythonPackage, fetchPypi, fetchpatch
+{ lib
+, buildPythonPackage
+, fetchPypi
+, fetchpatch
 , confluent-kafka
 , distributed
 , flaky

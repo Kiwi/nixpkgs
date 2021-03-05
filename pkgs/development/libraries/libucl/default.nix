@@ -38,9 +38,11 @@ stdenv.mkDerivation rec {
 
   buildInputs = with stdenv.lib;
     concatLists (
-      mapAttrsToList (feat: enabled:
-        optionals enabled (featureDeps."${feat}" or [])
-      ) features
+      mapAttrsToList
+        (feat: enabled:
+          optionals enabled (featureDeps."${feat}" or [ ])
+        )
+        features
     );
 
   enableParallelBuilding = true;

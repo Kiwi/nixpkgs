@@ -5,7 +5,7 @@ let
 in
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-eyes-plugin";
+  pname = "xfce4-eyes-plugin";
   version = "4.5.1";
 
   src = fetchurl {
@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
     pkgconfig
     intltool
   ];
-  
+
   buildInputs = [
     libxfce4util
     libxfce4ui
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
     xfconf
     gtk3
   ];
-  
+
   passthru.updateScript = xfce.updateScript {
     inherit pname version;
     attrPath = "xfce.${pname}";

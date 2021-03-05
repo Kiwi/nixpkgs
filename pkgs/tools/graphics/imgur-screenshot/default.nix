@@ -1,7 +1,8 @@
 { stdenv, fetchFromGitHub, makeWrapper, curl, jq, gnugrep, libnotify, scrot, which, xclip }:
 
 let deps = stdenv.lib.makeBinPath [ curl jq gnugrep libnotify scrot which xclip ];
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   version = "2.0.0";
   pname = "imgur-screenshot";
 

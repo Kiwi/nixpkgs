@@ -1,5 +1,9 @@
-{ stdenv, buildPythonPackage, fetchPypi
-, aiohttp, jsonrpc-base, pep8
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, aiohttp
+, jsonrpc-base
+, pep8
 , pytestCheckHook
 , pytest-asyncio
 }:

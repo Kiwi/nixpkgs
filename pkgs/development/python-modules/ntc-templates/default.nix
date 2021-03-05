@@ -16,7 +16,7 @@ buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "networktocode";
     repo = pname;
-    rev = "dc27599b0c5f3bb6ff23049e781b5dab2849c2c3";  # not tagged
+    rev = "dc27599b0c5f3bb6ff23049e781b5dab2849c2c3"; # not tagged
     sha256 = "1vg5y5c51vc9dj3b8qcffh6dz85ri11zb1azxmyvgbq86pcvbx9f";
   };
 

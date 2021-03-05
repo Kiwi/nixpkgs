@@ -2,7 +2,8 @@
 
 let
   version = "2.0.2";
-in fetchFromGitHub {
+in
+fetchFromGitHub {
   name = "stix-two-${version}";
 
   owner = "stipub";

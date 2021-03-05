@@ -1,8 +1,13 @@
 { lib, fetchgit, fetchzip }:
 
-{ owner, repo, rev, name ? "source"
-, fetchSubmodules ? false, private ? false
-, githubBase ? "github.com", varPrefix ? null
+{ owner
+, repo
+, rev
+, name ? "source"
+, fetchSubmodules ? false
+, private ? false
+, githubBase ? "github.com"
+, varPrefix ? null
 , ... # For hash agility
 }@args: assert private -> !fetchSubmodules;
 let
@@ -27,7 +32,8 @@ let
     netrcImpureEnvVars = [ "${varBase}USERNAME" "${varBase}PASSWORD" ];
   };
   fetcherArgs = (if fetchSubmodules
-    then { inherit rev fetchSubmodules; url = "${baseUrl}.git"; }
-    else ({ url = "${baseUrl}/archive/${rev}.tar.gz"; } // privateAttrs)
+  then { inherit rev fetchSubmodules; url = "${baseUrl}.git"; }
+  else ({ url = "${baseUrl}/archive/${rev}.tar.gz"; } // privateAttrs)
   ) // passthruAttrs // { inherit name; };
-in fetcher fetcherArgs // { meta.homepage = baseUrl; inherit rev; }
+in
+fetcher fetcherArgs // { meta.homepage = baseUrl; inherit rev; }

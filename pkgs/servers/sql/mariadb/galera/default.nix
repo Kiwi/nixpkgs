@@ -1,5 +1,11 @@
-{ stdenv, fetchFromGitHub, buildEnv
-, asio, boost, check, openssl, scons
+{ stdenv
+, fetchFromGitHub
+, buildEnv
+, asio
+, boost
+, check
+, openssl
+, scons
 }:
 
 let
@@ -8,7 +14,8 @@ let
     paths = [ openssl.out boost check ];
   };
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "mariadb-galera";
   version = "26.4.5";
 

@@ -1,7 +1,28 @@
-{ lib, fetchurl, boost, cmake, extra-cmake-modules, kparts, kpmcore
-, kservice, libatasmart, libxcb, libyamlcpp, parted, polkit-qt, python, qtbase
-, qtquickcontrols, qtsvg, qttools, qtwebengine, util-linux, glibc, tzdata
-, ckbcomp, xkeyboard_config, mkDerivation
+{ lib
+, fetchurl
+, boost
+, cmake
+, extra-cmake-modules
+, kparts
+, kpmcore
+, kservice
+, libatasmart
+, libxcb
+, libyamlcpp
+, parted
+, polkit-qt
+, python
+, qtbase
+, qtquickcontrols
+, qtsvg
+, qttools
+, qtwebengine
+, util-linux
+, glibc
+, tzdata
+, ckbcomp
+, xkeyboard_config
+, mkDerivation
 }:
 
 mkDerivation rec {
@@ -15,9 +36,24 @@ mkDerivation rec {
   };
 
   buildInputs = [
-    boost cmake extra-cmake-modules kparts.dev kpmcore.out kservice.dev
-    libatasmart libxcb libyamlcpp parted polkit-qt python qtbase
-    qtquickcontrols qtsvg qttools qtwebengine.dev util-linux
+    boost
+    cmake
+    extra-cmake-modules
+    kparts.dev
+    kpmcore.out
+    kservice.dev
+    libatasmart
+    libxcb
+    libyamlcpp
+    parted
+    polkit-qt
+    python
+    qtbase
+    qtquickcontrols
+    qtsvg
+    qttools
+    qtwebengine.dev
+    util-linux
   ];
 
   enableParallelBuilding = false;

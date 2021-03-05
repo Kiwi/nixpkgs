@@ -5,12 +5,13 @@
   # overridable. This is useful when the upstream archive was replaced
   # and nixpkgs is not in sync yet.
 , officeVersion ? {
-  version = "980";
-  edition = "2018";
-  sha256 = "19pgil86aagiz6z4kx22gd4cxbbmrx42ix42arkfb6p6hav1plby";
-}
+    version = "980";
+    edition = "2018";
+    sha256 = "19pgil86aagiz6z4kx22gd4cxbbmrx42ix42arkfb6p6hav1plby";
+  }
 
-, ... } @ args:
+, ...
+} @ args:
 
 callPackage ./generic.nix (args // rec {
   inherit (officeVersion) version edition;

@@ -1,9 +1,14 @@
-{ stdenv, fetchFromGitHub, python, fixDarwinDylibNames
+{ stdenv
+, fetchFromGitHub
+, python
+, fixDarwinDylibNames
 , javaBindings ? false
 , ocamlBindings ? false
 , pythonBindings ? true
 , jdk ? null
-, ocaml ? null, findlib ? null, zarith ? null
+, ocaml ? null
+, findlib ? null
+, zarith ? null
 }:
 
 assert javaBindings -> jdk != null;
@@ -16,16 +21,16 @@ stdenv.mkDerivation rec {
   version = "4.8.9";
 
   src = fetchFromGitHub {
-    owner  = "Z3Prover";
-    repo   = pname;
-    rev    = "z3-${version}";
+    owner = "Z3Prover";
+    repo = pname;
+    rev = "z3-${version}";
     sha256 = "1hnbzq10d23drd7ksm3c1n2611c3kd0q0yxgz8y78zaafwczvwxx";
   };
 
   nativeBuildInputs = optional stdenv.hostPlatform.isDarwin fixDarwinDylibNames;
   buildInputs = [ python ]
-  ++ optional javaBindings jdk
-  ++ optionals ocamlBindings [ ocaml findlib zarith ]
+    ++ optional javaBindings jdk
+    ++ optionals ocamlBindings [ ocaml findlib zarith ]
   ;
   propagatedBuildInputs = [ python.pkgs.setuptools ];
   enableParallelBuilding = true;
@@ -35,12 +40,13 @@ stdenv.mkDerivation rec {
     mkdir -p $OCAMLFIND_DESTDIR/stublibs
   '';
 
-  configurePhase = concatStringsSep " " (
-    [ "${python.interpreter} scripts/mk_make.py --prefix=$out" ]
-    ++ optional javaBindings   "--java"
-    ++ optional ocamlBindings  "--ml"
-    ++ optional pythonBindings "--python --pypkgdir=$out/${python.sitePackages}"
-  ) + "\n" + "cd build";
+  configurePhase = concatStringsSep " "
+    (
+      [ "${python.interpreter} scripts/mk_make.py --prefix=$out" ]
+        ++ optional javaBindings "--java"
+        ++ optional ocamlBindings "--ml"
+        ++ optional pythonBindings "--python --pypkgdir=$out/${python.sitePackages}"
+    ) + "\n" + "cd build";
 
   postInstall = ''
     mkdir -p $dev $lib
@@ -53,14 +59,14 @@ stdenv.mkDerivation rec {
   '';
 
   outputs = [ "out" "lib" "dev" "python" ]
-  ++ optional ocamlBindings "ocaml"
+    ++ optional ocamlBindings "ocaml"
   ;
 
   meta = {
     description = "A high-performance theorem prover and SMT solver";
-    homepage    = "https://github.com/Z3Prover/z3";
-    license     = stdenv.lib.licenses.mit;
-    platforms   = stdenv.lib.platforms.unix;
+    homepage = "https://github.com/Z3Prover/z3";
+    license = stdenv.lib.licenses.mit;
+    platforms = stdenv.lib.platforms.unix;
     maintainers = with stdenv.lib.maintainers; [ thoughtpolice ttuegel ];
   };
 }

@@ -14,7 +14,7 @@ rec {
 
   packageName = "cl-cffi-gtk-pango";
 
-  asdFilesToKeep = ["cl-cffi-gtk-pango.asd"];
+  asdFilesToKeep = [ "cl-cffi-gtk-pango.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-cffi-gtk-pango DESCRIPTION A Lisp binding to Pango SHA256

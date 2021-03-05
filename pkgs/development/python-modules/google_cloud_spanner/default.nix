@@ -1,6 +1,16 @@
-{ stdenv, buildPythonPackage, fetchPypi, pytestCheckHook, pythonOlder
-, grpc_google_iam_v1, grpcio-gcp, google_api_core, google_cloud_core
-, google_cloud_testutils, mock, pytest }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pytestCheckHook
+, pythonOlder
+, grpc_google_iam_v1
+, grpcio-gcp
+, google_api_core
+, google_cloud_core
+, google_cloud_testutils
+, mock
+, pytest
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-spanner";

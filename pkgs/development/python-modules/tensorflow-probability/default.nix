@@ -40,7 +40,7 @@ let
         name = "gast-0.3.patch";
         url = "https://github.com/tensorflow/probability/commit/ae7a9d9771771ec1e7755a3588b9325f050a84cc.patch";
         sha256 = "0kfhx30gshm8f3945na9yjjik71r20qmjzifbigaj4l8dwd9dz1a";
-        excludes = ["testing/*"];
+        excludes = [ "testing/*" ];
       })
       (fetchpatch {
         name = "cloudpickle-1.2.patch";
@@ -82,7 +82,8 @@ let
       '';
     };
   };
-in buildPythonPackage {
+in
+buildPythonPackage {
   inherit version pname;
   format = "wheel";
 

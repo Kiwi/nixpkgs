@@ -1,5 +1,10 @@
-{stdenv, fetchurl, fetchFromGitLab
-, yodl, icmake, flexcpp, bobcat
+{ stdenv
+, fetchurl
+, fetchFromGitLab
+, yodl
+, icmake
+, flexcpp
+, bobcat
 }:
 stdenv.mkDerivation rec {
   pname = "bisonc++";

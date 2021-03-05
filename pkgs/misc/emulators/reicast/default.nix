@@ -46,7 +46,7 @@ stdenv.mkDerivation rec {
     homepage = "https://reicast.com/";
     description = "A multi-platform Sega Dreamcast emulator";
     license = with licenses; [ bsd3 gpl2Only lgpl2Only ];
-    platforms = ["x86_64-linux" ];
+    platforms = [ "x86_64-linux" ];
     maintainers = [ maintainers.ivar ];
   };
 }

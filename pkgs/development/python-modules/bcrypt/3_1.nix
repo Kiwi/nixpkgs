@@ -1,5 +1,12 @@
-{ stdenv, lib, buildPythonPackage, fetchPypi
-, isPyPy, cffi, pytest, six }:
+{ stdenv
+, lib
+, buildPythonPackage
+, fetchPypi
+, isPyPy
+, cffi
+, pytest
+, six
+}:
 
 buildPythonPackage rec {
   version = "3.1.7";

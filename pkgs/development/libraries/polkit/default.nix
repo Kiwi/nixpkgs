@@ -1,12 +1,28 @@
-{ stdenv, fetchurl, pkgconfig, glib, expat, pam, perl, fetchpatch
-, intltool, spidermonkey_78, gobject-introspection, libxslt, docbook_xsl, dbus
-, docbook_xml_dtd_412, gtk-doc, coreutils
-, useSystemd ? (stdenv.isLinux && !stdenv.hostPlatform.isMusl), systemd, elogind
+{ stdenv
+, fetchurl
+, pkgconfig
+, glib
+, expat
+, pam
+, perl
+, fetchpatch
+, intltool
+, spidermonkey_78
+, gobject-introspection
+, libxslt
+, docbook_xsl
+, dbus
+, docbook_xml_dtd_412
+, gtk-doc
+, coreutils
+, useSystemd ? (stdenv.isLinux && !stdenv.hostPlatform.isMusl)
+, systemd
+, elogind
 , withIntrospection ? true
-# A few tests currently fail on musl (polkitunixusertest, polkitunixgrouptest, polkitidentitytest segfault).
-# Not yet investigated; it may be due to the "Make netgroup support optional"
-# patch not updating the tests correctly yet, or doing something wrong,
-# or being unrelated to that.
+  # A few tests currently fail on musl (polkitunixusertest, polkitunixgrouptest, polkitidentitytest segfault).
+  # Not yet investigated; it may be due to the "Make netgroup support optional"
+  # patch not updating the tests correctly yet, or doing something wrong,
+  # or being unrelated to that.
 , doCheck ? (stdenv.isLinux && !stdenv.hostPlatform.isMusl)
 }:
 

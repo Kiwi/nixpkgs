@@ -1,10 +1,32 @@
-{ stdenv, fetchurl, cmake, libGLU, libGL, libX11, xorgproto, libXt, libtiff
+{ stdenv
+, fetchurl
+, cmake
+, libGLU
+, libGL
+, libX11
+, xorgproto
+, libXt
+, libtiff
 , fetchpatch
 , qtLib ? null
-, enablePython ? false, python ? null
-# Darwin support
-, Cocoa, CoreServices, DiskArbitration, IOKit, CFNetwork, Security, GLUT, OpenGL
-, ApplicationServices, CoreText, IOSurface, ImageIO, xpc, libobjc }:
+, enablePython ? false
+, python ? null
+  # Darwin support
+, Cocoa
+, CoreServices
+, DiskArbitration
+, IOKit
+, CFNetwork
+, Security
+, GLUT
+, OpenGL
+, ApplicationServices
+, CoreText
+, IOSurface
+, ImageIO
+, xpc
+, libobjc
+}:
 
 with stdenv.lib;
 
@@ -27,12 +49,24 @@ stdenv.mkDerivation rec {
   buildInputs = [ libtiff ]
     ++ optionals (qtLib != null) (with qtLib; [ qtbase qtx11extras qttools ])
     ++ optionals stdenv.isLinux [ libGLU libGL libX11 xorgproto libXt ]
-    ++ optionals stdenv.isDarwin [ xpc Cocoa CoreServices DiskArbitration IOKit
-                                   CFNetwork Security ApplicationServices CoreText
-                                   IOSurface ImageIO OpenGL GLUT ]
+    ++ optionals stdenv.isDarwin [
+    xpc
+    Cocoa
+    CoreServices
+    DiskArbitration
+    IOKit
+    CFNetwork
+    Security
+    ApplicationServices
+    CoreText
+    IOSurface
+    ImageIO
+    OpenGL
+    GLUT
+  ]
     ++ optional enablePython [
-      python
-    ];
+    python
+  ];
   propagatedBuildInputs = stdenv.lib.optionals stdenv.isDarwin [ libobjc ];
 
   preBuild = ''

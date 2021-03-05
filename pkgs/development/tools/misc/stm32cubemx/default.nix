@@ -16,9 +16,9 @@ stdenv.mkDerivation rec {
 
 
   src = fetchzip {
-    url = "https://sw-center.st.com/packs/resource/library/stm32cube_mx_v${builtins.replaceStrings ["."] [""] version}.zip";
+    url = "https://sw-center.st.com/packs/resource/library/stm32cube_mx_v${builtins.replaceStrings [ "." ] [ "" ] version}.zip";
     sha256 = "15vxca1pgpgxgiz4wisrw0lylffdwnn4n46z9n0q37f8hmzlrk8f";
-    stripRoot= false;
+    stripRoot = false;
   };
 
   nativeBuildInputs = [ libicns imagemagick ];

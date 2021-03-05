@@ -30,7 +30,8 @@ let
   inherit (stdenv.lib) optional optionals optionalString;
   inherit (stdenv) isDarwin;
 
-in buildPythonPackage rec {
+in
+buildPythonPackage rec {
   pname = "pandas";
   version = "0.24.2";
 

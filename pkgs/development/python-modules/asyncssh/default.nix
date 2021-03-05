@@ -1,7 +1,18 @@
-{ stdenv, buildPythonPackage, fetchPypi, pythonOlder
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
 , cryptography
-, bcrypt, gssapi, libnacl, libsodium, nettle, pyopenssl
-, openssl, openssh, pytestCheckHook }:
+, bcrypt
+, gssapi
+, libnacl
+, libsodium
+, nettle
+, pyopenssl
+, openssl
+, openssh
+, pytestCheckHook
+}:
 
 buildPythonPackage rec {
   pname = "asyncssh";

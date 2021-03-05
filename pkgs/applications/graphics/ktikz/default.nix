@@ -1,7 +1,13 @@
-{ stdenv, fetchFromGitHub, fetchpatch
-, pkgconfig, wrapQtAppsHook
-, poppler, gnuplot
-, qmake, qtbase, qttools
+{ stdenv
+, fetchFromGitHub
+, fetchpatch
+, pkgconfig
+, wrapQtAppsHook
+, poppler
+, gnuplot
+, qmake
+, qtbase
+, qttools
 }:
 
 # This package only builds ktikz without KDE integration because KDE4 is

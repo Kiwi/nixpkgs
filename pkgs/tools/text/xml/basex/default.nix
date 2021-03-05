@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   version = "9.4.3";
 
   src = fetchurl {
-    url = "http://files.basex.org/releases/${version}/BaseX${builtins.replaceStrings ["."] [""] version}.zip";
+    url = "http://files.basex.org/releases/${version}/BaseX${builtins.replaceStrings [ "." ] [ "" ] version}.zip";
     hash = "sha256-IZhRg2JcYQXQKU/lYZpLLcsSdjZZO+toY5yvk+RKUCY=";
   };
 

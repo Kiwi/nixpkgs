@@ -1,5 +1,8 @@
-{ stdenv, fetchurl, fetchpatch
-, ncurses }:
+{ stdenv
+, fetchurl
+, fetchpatch
+, ncurses
+}:
 
 with stdenv.lib;
 stdenv.mkDerivation rec {

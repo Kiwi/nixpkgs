@@ -1,6 +1,17 @@
-{ stdenv, buildPythonPackage, fetchPypi, pytestCheckHook, pythonOlder
-, google_api_core, google_cloud_core, google_cloud_testutils, grpcio, libcst
-, mock, proto-plus, pytest-asyncio }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pytestCheckHook
+, pythonOlder
+, google_api_core
+, google_cloud_core
+, google_cloud_testutils
+, grpcio
+, libcst
+, mock
+, proto-plus
+, pytest-asyncio
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-translate";

@@ -14,7 +14,7 @@
 , requests
 , setuptools
 , six
-# Test inputs
+  # Test inputs
 , pytestCheckHook
 , mock
 , pydot
@@ -26,7 +26,7 @@ buildPythonPackage rec {
 
   src = fetchFromGitHub {
     owner = "aws-cloudformation";
-    repo  = "cfn-python-lint";
+    repo = "cfn-python-lint";
     rev = "v${version}";
     sha256 = "1ajb0412hw9fg9m4b3xbpfbp8cixmnpjxrkaks6k749xinzsv7qk";
   };

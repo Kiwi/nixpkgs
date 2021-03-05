@@ -18,31 +18,39 @@
 , enableBigBoards ? false
 , enableCuda ? false
 , enableGPU ? true
-, enableTcmalloc ? true}:
+, enableTcmalloc ? true
+}:
 
 assert !enableGPU -> (
   eigen != null &&
-  !enableCuda);
+    !enableCuda
+);
 
 assert enableCuda -> (
   mesa != null &&
-  cudatoolkit != null &&
-  cudnn != null);
+    cudatoolkit != null &&
+    cudnn != null
+);
 
 assert !enableCuda -> (
   !enableGPU || (
     opencl-headers != null &&
-    ocl-icd != null));
+      ocl-icd != null
+  )
+);
 
 assert enableTcmalloc -> (
-  gperftools != null);
+  gperftools != null
+);
 
 let
-  env = if enableCuda
+  env =
+    if enableCuda
     then gcc8Stdenv
     else stdenv;
 
-in env.mkDerivation rec {
+in
+env.mkDerivation rec {
   pname = "katago";
   version = "1.6.1";
 
@@ -107,9 +115,9 @@ in env.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "Go engine modeled after AlphaGo Zero";
-    homepage    = "https://github.com/lightvector/katago";
-    license     = licenses.mit;
+    homepage = "https://github.com/lightvector/katago";
+    license = licenses.mit;
     maintainers = [ maintainers.omnipotententity ];
-    platforms   = [ "x86_64-linux" ];
+    platforms = [ "x86_64-linux" ];
   };
 }

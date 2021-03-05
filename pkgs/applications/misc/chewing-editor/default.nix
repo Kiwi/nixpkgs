@@ -1,5 +1,12 @@
-{ stdenv, mkDerivation, fetchFromGitHub, cmake, pkgconfig, libchewing, qtbase
-, qttools }:
+{ stdenv
+, mkDerivation
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, libchewing
+, qtbase
+, qttools
+}:
 
 mkDerivation rec {
   pname = "chewing-editor";

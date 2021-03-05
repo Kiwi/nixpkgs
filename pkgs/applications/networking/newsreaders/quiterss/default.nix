@@ -1,5 +1,12 @@
-{ stdenv, fetchFromGitHub, qmake, pkg-config, wrapQtAppsHook
-, qtbase, qttools, qtwebkit, sqlite
+{ stdenv
+, fetchFromGitHub
+, qmake
+, pkg-config
+, wrapQtAppsHook
+, qtbase
+, qttools
+, qtwebkit
+, sqlite
 }:
 
 stdenv.mkDerivation rec {

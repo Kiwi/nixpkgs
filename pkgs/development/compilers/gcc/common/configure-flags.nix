@@ -1,10 +1,15 @@
 { stdenv
 , targetPackages
 
-, crossStageStatic, libcCross
+, crossStageStatic
+, libcCross
 , version
 
-, gmp, mpfr, libmpc, libelf, isl
+, gmp
+, mpfr
+, libmpc
+, libelf
+, isl
 , cloog ? null
 
 , enableLTO
@@ -16,7 +21,10 @@
 , langCC
 , langD ? false
 , langFortran
-, langJava ? false, javaAwtGtk ? false, javaAntlr ? null, javaEcj ? null
+, langJava ? false
+, javaAwtGtk ? false
+, javaAntlr ? null
+, javaEcj ? null
 , langAda ? false
 , langGo
 , langObjC
@@ -73,14 +81,14 @@ let
       "--enable-libssp"
       "--disable-nls"
       # To keep ABI compatibility with upstream mingw-w64
-      "--enable-fully-dynamic-string"      
+      "--enable-fully-dynamic-string"
     ] ++ lib.optionals (crossMingw && targetPlatform.isx86_32) [
       # See Note [Windows Exception Handling]
       "--enable-sjlj-exceptions"
       "--with-dwarf2"
     ] else [
       (if crossDarwin then "--with-sysroot=${lib.getLib libcCross}/share/sysroot"
-       else                "--with-headers=${lib.getDev libcCross}${libcCross.incdir or "/include"}")
+      else "--with-headers=${lib.getDev libcCross}${libcCross.incdir or "/include"}")
       "--enable-__cxa_atexit"
       "--enable-long-long"
       "--enable-threads=${if targetPlatform.isUnix then "posix"
@@ -99,7 +107,7 @@ let
       # musl at least, disable: https://git.buildroot.net/buildroot/commit/?id=873d4019f7fb00f6a80592224236b3ba7d657865
       "--disable-libmpx"
     ] ++ lib.optional (targetPlatform.libc == "newlib") "--with-newlib"
-      ++ lib.optional (targetPlatform.libc == "avrlibc") "--with-avrlibc"
+    ++ lib.optional (targetPlatform.libc == "avrlibc") "--with-avrlibc"
     );
 
   configureFlags =
@@ -124,25 +132,25 @@ let
       "--enable-static"
       "--enable-languages=${
         lib.concatStrings (lib.intersperse ","
-          (  lib.optional langC        "c"
-          ++ lib.optional langCC       "c++"
-          ++ lib.optional langD        "d"
-          ++ lib.optional langFortran  "fortran"
-          ++ lib.optional langJava     "java"
-          ++ lib.optional langAda      "ada"
-          ++ lib.optional langGo       "go"
-          ++ lib.optional langObjC     "objc"
-          ++ lib.optional langObjCpp   "obj-c++"
+          (lib.optional langC "c"
+          ++ lib.optional langCC "c++"
+          ++ lib.optional langD "d"
+          ++ lib.optional langFortran "fortran"
+          ++ lib.optional langJava "java"
+          ++ lib.optional langAda "ada"
+          ++ lib.optional langGo "go"
+          ++ lib.optional langObjC "objc"
+          ++ lib.optional langObjCpp "obj-c++"
           ++ lib.optionals crossDarwin [ "objc" "obj-c++" ]
-          ++ lib.optional langJit      "jit"
+          ++ lib.optional langJit "jit"
           )
         )
       }"
     ]
 
     ++ (if (enableMultilib || targetPlatform.isAvr)
-      then ["--enable-multilib" "--disable-libquadmath"]
-      else ["--disable-multilib"])
+    then [ "--enable-multilib" "--disable-libquadmath" ]
+    else [ "--disable-multilib" ])
     ++ lib.optional (!enableShared) "--disable-shared"
     ++ [
       (lib.enableFeature enablePlugin "plugin")
@@ -178,22 +186,28 @@ let
     # Platform-specific flags
     ++ lib.optional (targetPlatform == hostPlatform && targetPlatform.isx86_32) "--with-arch=${stdenv.hostPlatform.parsed.cpu.name}"
     ++ lib.optionals hostPlatform.isSunOS [
-      "--enable-long-long" "--enable-libssp" "--enable-threads=posix" "--disable-nls" "--enable-__cxa_atexit"
+      "--enable-long-long"
+      "--enable-libssp"
+      "--enable-threads=posix"
+      "--disable-nls"
+      "--enable-__cxa_atexit"
       # On Illumos/Solaris GNU as is preferred
-      "--with-gnu-as" "--without-gnu-ld"
+      "--with-gnu-as"
+      "--without-gnu-ld"
     ]
     ++ lib.optionals (targetPlatform == hostPlatform && targetPlatform.libc == "musl") [
       "--disable-libsanitizer"
       "--disable-symvers"
       "libat_cv_have_ifunc=no"
       "--disable-gnu-indirect-function"
-    ] 
+    ]
     ++ lib.optionals langJit [
       "--enable-host-shared"
-    ] 
+    ]
     ++ lib.optionals (langD) [
       "--with-target-system-zlib=yes"
     ]
   ;
 
-in configureFlags
+in
+configureFlags

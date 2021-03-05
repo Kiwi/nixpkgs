@@ -1,11 +1,34 @@
-{ lib, buildPythonPackage, fetchFromGitHub, xdg_utils
-, requests, filetype, pyparsing, configparser, arxiv2bib
-, pyyaml, chardet, beautifulsoup4, colorama, bibtexparser
-, click, python-slugify, habanero, isbnlib, typing-extensions
-, prompt_toolkit, pygments, stevedore, tqdm, lxml
-, python-doi, isPy3k, pythonOlder, pytestcov
-#, optional, dependencies
-, whoosh, pytest
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, xdg_utils
+, requests
+, filetype
+, pyparsing
+, configparser
+, arxiv2bib
+, pyyaml
+, chardet
+, beautifulsoup4
+, colorama
+, bibtexparser
+, click
+, python-slugify
+, habanero
+, isbnlib
+, typing-extensions
+, prompt_toolkit
+, pygments
+, stevedore
+, tqdm
+, lxml
+, python-doi
+, isPy3k
+, pythonOlder
+, pytestcov
+  #, optional, dependencies
+, whoosh
+, pytest
 , stdenv
 }:
 
@@ -23,11 +46,26 @@ buildPythonPackage rec {
   };
 
   propagatedBuildInputs = [
-    requests filetype pyparsing configparser arxiv2bib
-    pyyaml chardet beautifulsoup4 colorama bibtexparser
-    click python-slugify habanero isbnlib
-    prompt_toolkit pygments typing-extensions
-    stevedore tqdm lxml
+    requests
+    filetype
+    pyparsing
+    configparser
+    arxiv2bib
+    pyyaml
+    chardet
+    beautifulsoup4
+    colorama
+    bibtexparser
+    click
+    python-slugify
+    habanero
+    isbnlib
+    prompt_toolkit
+    pygments
+    typing-extensions
+    stevedore
+    tqdm
+    lxml
     python-doi
     # optional dependencies
     whoosh
@@ -44,7 +82,8 @@ buildPythonPackage rec {
   doCheck = !stdenv.isDarwin && pythonOlder "3.8";
 
   checkInputs = ([
-    pytest pytestcov
+    pytest
+    pytestcov
   ]) ++ [
     xdg_utils
   ];

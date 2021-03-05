@@ -1,5 +1,18 @@
-{ stdenv, fetchFromGitLab, symlinkJoin, gfortran, perl, procps
-, libyaml, libxc, fftw, blas, lapack, gsl, netcdf, arpack, autoreconfHook
+{ stdenv
+, fetchFromGitLab
+, symlinkJoin
+, gfortran
+, perl
+, procps
+, libyaml
+, libxc
+, fftw
+, blas
+, lapack
+, gsl
+, netcdf
+, arpack
+, autoreconfHook
 }:
 
 assert (!blas.isILP64) && (!lapack.isILP64);

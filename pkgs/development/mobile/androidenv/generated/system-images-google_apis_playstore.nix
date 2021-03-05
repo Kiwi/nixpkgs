@@ -1,4 +1,4 @@
-{fetchurl}:
+{ fetchurl }:
 
 {
   "24".google_apis_playstore."x86" = {

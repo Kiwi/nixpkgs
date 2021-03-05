@@ -1,4 +1,7 @@
-{ stdenv, buildPythonPackage, fetchPypi, setuptools_scm
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, setuptools_scm
 , toml
 }:
 

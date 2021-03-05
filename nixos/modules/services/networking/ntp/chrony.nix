@@ -13,7 +13,7 @@ let
     ${concatMapStringsSep "\n" (server: "server " + server + " iburst") cfg.servers}
 
     ${optionalString
-      (cfg.initstepslew.enabled && (cfg.servers != []))
+      (cfg.initstepslew.enabled && (cfg.servers != [ ]))
       "initstepslew ${toString cfg.initstepslew.threshold} ${concatStringsSep " " cfg.servers}"
     }
 
@@ -68,7 +68,7 @@ in
       };
 
       extraFlags = mkOption {
-        default = [];
+        default = [ ];
         example = [ "-s" ];
         type = types.listOf types.str;
         description = "Extra flags passed to the chronyd command.";
@@ -84,7 +84,8 @@ in
     users.groups.chrony.gid = config.ids.gids.chrony;
 
     users.users.chrony =
-      { uid = config.ids.uids.chrony;
+      {
+        uid = config.ids.uids.chrony;
         group = "chrony";
         description = "chrony daemon user";
         home = stateDir;
@@ -101,19 +102,21 @@ in
     ];
 
     systemd.services.chronyd =
-      { description = "chrony NTP daemon";
+      {
+        description = "chrony NTP daemon";
 
         wantedBy = [ "multi-user.target" ];
-        wants    = [ "time-sync.target" ];
-        before   = [ "time-sync.target" ];
-        after    = [ "network.target" ];
+        wants = [ "time-sync.target" ];
+        before = [ "time-sync.target" ];
+        after = [ "network.target" ];
         conflicts = [ "ntpd.service" "systemd-timesyncd.service" ];
 
         path = [ pkgs.chrony ];
 
         unitConfig.ConditionCapability = "CAP_SYS_TIME";
         serviceConfig =
-          { Type = "simple";
+          {
+            Type = "simple";
             ExecStart = "${pkgs.chrony}/bin/chronyd ${chronyFlags}";
 
             ProtectHome = "yes";

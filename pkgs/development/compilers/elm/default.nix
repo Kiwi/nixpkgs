@@ -1,63 +1,73 @@
-{ lib, stdenv, pkgs
-, haskell, nodejs
-, fetchurl, fetchpatch, makeWrapper, writeScriptBin
+{ lib
+, stdenv
+, pkgs
+, haskell
+, nodejs
+, fetchurl
+, fetchpatch
+, makeWrapper
+, writeScriptBin
   # Rust dependecies
-, rustPlatform, openssl, pkg-config }:
+, rustPlatform
+, openssl
+, pkg-config
+}:
 let
   fetchElmDeps = import ./fetchElmDeps.nix { inherit stdenv lib fetchurl; };
 
   hsPkgs = haskell.packages.ghc883.override {
     overrides = self: super: with haskell.lib;
       let elmPkgs = rec {
-            elm = overrideCabal (self.callPackage ./packages/elm.nix { }) (drv: {
-              # sadly with parallelism most of the time breaks compilation
-              enableParallelBuilding = false;
-              preConfigure = self.fetchElmDeps {
-                elmPackages = (import ./packages/elm-srcs.nix);
-                elmVersion = drv.version;
-                registryDat = ./registry.dat;
-              };
-              buildTools = drv.buildTools or [] ++ [ makeWrapper ];
-              jailbreak = true;
-              postInstall = ''
-                wrapProgram $out/bin/elm \
-                  --prefix PATH ':' ${lib.makeBinPath [ nodejs ]}
-              '';
-            });
-
-            /*
-            The elm-format expression is updated via a script in the https://github.com/avh4/elm-format repo:
-            `package/nix/build.sh`
-            */
-            elm-format = justStaticExecutables (overrideCabal (self.callPackage ./packages/elm-format.nix {}) (drv: {
-              jailbreak = true;
-            }));
-
-            elmi-to-json = justStaticExecutables (overrideCabal (self.callPackage ./packages/elmi-to-json.nix {}) (drv: {
-              prePatch = ''
-                substituteInPlace package.yaml --replace "- -Werror" ""
-                hpack
-              '';
-              jailbreak = true;
-            }));
-
-            elm-instrument = justStaticExecutables (overrideCabal (self.callPackage ./packages/elm-instrument.nix {}) (drv: {
-              prePatch = ''
-                sed "s/desc <-.*/let desc = \"${drv.version}\"/g" Setup.hs --in-place
-              '';
-              jailbreak = true;
-              # Tests are failing because of missing instances for Eq and Show type classes
-              doCheck = false;
-            }));
-
-            inherit fetchElmDeps;
-            elmVersion = elmPkgs.elm.version;
+        elm = overrideCabal (self.callPackage ./packages/elm.nix { }) (drv: {
+          # sadly with parallelism most of the time breaks compilation
+          enableParallelBuilding = false;
+          preConfigure = self.fetchElmDeps {
+            elmPackages = (import ./packages/elm-srcs.nix);
+            elmVersion = drv.version;
+            registryDat = ./registry.dat;
           };
-      in elmPkgs // {
+          buildTools = drv.buildTools or [ ] ++ [ makeWrapper ];
+          jailbreak = true;
+          postInstall = ''
+            wrapProgram $out/bin/elm \
+              --prefix PATH ':' ${lib.makeBinPath [ nodejs ]}
+          '';
+        });
+
+        /*
+        The elm-format expression is updated via a script in the https://github.com/avh4/elm-format repo:
+        `package/nix/build.sh`
+        */
+        elm-format = justStaticExecutables (overrideCabal (self.callPackage ./packages/elm-format.nix { }) (drv: {
+          jailbreak = true;
+        }));
+
+        elmi-to-json = justStaticExecutables (overrideCabal (self.callPackage ./packages/elmi-to-json.nix { }) (drv: {
+          prePatch = ''
+            substituteInPlace package.yaml --replace "- -Werror" ""
+            hpack
+          '';
+          jailbreak = true;
+        }));
+
+        elm-instrument = justStaticExecutables (overrideCabal (self.callPackage ./packages/elm-instrument.nix { }) (drv: {
+          prePatch = ''
+            sed "s/desc <-.*/let desc = \"${drv.version}\"/g" Setup.hs --in-place
+          '';
+          jailbreak = true;
+          # Tests are failing because of missing instances for Eq and Show type classes
+          doCheck = false;
+        }));
+
+        inherit fetchElmDeps;
+        elmVersion = elmPkgs.elm.version;
+      };
+      in
+      elmPkgs // {
         inherit elmPkgs;
 
         # Needed for elm-format
-        indents = self.callPackage ./packages/indents.nix {};
+        indents = self.callPackage ./packages/indents.nix { };
       };
   };
 
@@ -83,20 +93,22 @@ let
   elmNodePackages = with elmLib;
     let
       nodePkgs = import ./packages/node-composition.nix {
-          inherit nodejs pkgs;
-          inherit (stdenv.hostPlatform) system;
-        };
-    in with hsPkgs.elmPkgs; {
+        inherit nodejs pkgs;
+        inherit (stdenv.hostPlatform) system;
+      };
+    in
+    with hsPkgs.elmPkgs; {
 
-      elm-test = patchBinwrap [elmi-to-json]
+      elm-test = patchBinwrap [ elmi-to-json ]
         nodePkgs.elm-test;
 
-      elm-verify-examples = patchBinwrap [elmi-to-json]
+      elm-verify-examples = patchBinwrap [ elmi-to-json ]
         nodePkgs.elm-verify-examples;
 
       elm-coverage =
-        let patched = patchNpmElm (patchBinwrap [elmi-to-json] nodePkgs.elm-coverage);
-        in patched.override (old: {
+        let patched = patchNpmElm (patchBinwrap [ elmi-to-json ] nodePkgs.elm-coverage);
+        in
+        patched.override (old: {
           # Symlink Elm instrument binary
           preRebuild = (old.preRebuild or "") + ''
             # Noop custom installation script
@@ -113,10 +125,10 @@ let
           '';
         });
 
-      create-elm-app = patchNpmElm (patchBinwrap [elmi-to-json]
+      create-elm-app = patchNpmElm (patchBinwrap [ elmi-to-json ]
         nodePkgs.create-elm-app);
 
-      elm-review = patchBinwrap [elmRustPackages.elm-json]
+      elm-review = patchBinwrap [ elmRustPackages.elm-json ]
         nodePkgs.elm-review;
 
       elm-language-server = nodePkgs."@elm-tooling/elm-language-server";
@@ -126,6 +138,7 @@ let
       inherit (nodePkgs) elm-doc-preview elm-live elm-upgrade elm-xref elm-analyse;
     };
 
-in hsPkgs.elmPkgs // elmNodePackages // elmRustPackages // {
+in
+hsPkgs.elmPkgs // elmNodePackages // elmRustPackages // {
   lib = elmLib;
 }

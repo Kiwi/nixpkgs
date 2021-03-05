@@ -1,4 +1,4 @@
-{fetchFromGitLab}:
+{ fetchFromGitLab }:
 rec {
   version = "2.0.1";
   src = fetchFromGitLab {

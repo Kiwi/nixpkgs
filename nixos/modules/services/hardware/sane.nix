@@ -4,7 +4,8 @@ with lib;
 
 let
 
-  pkg = if config.hardware.sane.snapshot
+  pkg =
+    if config.hardware.sane.snapshot
     then pkgs.sane-backends-git
     else pkgs.sane-backends;
 
@@ -64,7 +65,7 @@ in
 
     hardware.sane.extraBackends = mkOption {
       type = types.listOf types.path;
-      default = [];
+      default = [ ];
       description = ''
         Packages providing extra SANE backends to enable.
 

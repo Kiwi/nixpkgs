@@ -1,6 +1,18 @@
-{ stdenv, fetchFromGitHub, cmake, extra-cmake-modules, pkgconfig
-, qtbase, qtimageformats, qtwebengine, qtx11extras, mkDerivation
-, libarchive, libXdmcp, libpthreadstubs, xcbutilkeysyms  }:
+{ stdenv
+, fetchFromGitHub
+, cmake
+, extra-cmake-modules
+, pkgconfig
+, qtbase
+, qtimageformats
+, qtwebengine
+, qtx11extras
+, mkDerivation
+, libarchive
+, libXdmcp
+, libpthreadstubs
+, xcbutilkeysyms
+}:
 
 mkDerivation rec {
   pname = "zeal";
@@ -25,9 +37,14 @@ mkDerivation rec {
   nativeBuildInputs = [ cmake extra-cmake-modules pkgconfig ];
 
   buildInputs = [
-    qtbase qtimageformats qtwebengine qtx11extras
+    qtbase
+    qtimageformats
+    qtwebengine
+    qtx11extras
     libarchive
-    libXdmcp libpthreadstubs xcbutilkeysyms
+    libXdmcp
+    libpthreadstubs
+    xcbutilkeysyms
   ];
 
   meta = with stdenv.lib; {

@@ -1,4 +1,7 @@
-{ stdenv, fetchPypi, buildPythonPackage, flask
+{ stdenv
+, fetchPypi
+, buildPythonPackage
+, flask
 , brotli
 }:
 

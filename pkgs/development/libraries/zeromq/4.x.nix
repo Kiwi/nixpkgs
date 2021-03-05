@@ -1,5 +1,11 @@
-{ stdenv, fetchFromGitHub, cmake, asciidoc, pkg-config, libsodium
-, enableDrafts ? false }:
+{ stdenv
+, fetchFromGitHub
+, cmake
+, asciidoc
+, pkg-config
+, libsodium
+, enableDrafts ? false
+}:
 
 stdenv.mkDerivation rec {
   pname = "zeromq";

@@ -1,10 +1,11 @@
-{ buildPythonPackage,
-  fetchFromGitHub,
-  isPy27,
-  libopus,
-  nose,
-  stdenv,
-  substituteAll,
+{ buildPythonPackage
+, fetchFromGitHub
+, isPy27
+, libopus
+, nose
+, stdenv
+, substituteAll
+,
 }:
 
 buildPythonPackage rec {

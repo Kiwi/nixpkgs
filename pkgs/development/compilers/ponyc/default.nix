@@ -1,5 +1,18 @@
-{ stdenv, fetchFromGitHub, fetchurl, makeWrapper, pcre2, coreutils, which, libressl, libxml2, cmake, z3, substituteAll,
-  cc ? stdenv.cc, lto ? !stdenv.isDarwin }:
+{ stdenv
+, fetchFromGitHub
+, fetchurl
+, makeWrapper
+, pcre2
+, coreutils
+, which
+, libressl
+, libxml2
+, cmake
+, z3
+, substituteAll
+, cc ? stdenv.cc
+, lto ? !stdenv.isDarwin
+}:
 
 stdenv.mkDerivation (rec {
   pname = "ponyc";
@@ -11,14 +24,14 @@ stdenv.mkDerivation (rec {
     rev = version;
     sha256 = "1hk810k9h3bl641pgw91y4x2qw67rvbapx6p2pk9qz5p7nfcn7qh";
 
-# Due to a bug in LLVM 9.x, ponyc has to include its own vendored patched
-# LLVM.  (The submodule is a specific tag in the LLVM source tree).
-#
-# The pony developers are currently working to get off 9.x as quickly
-# as possible so hopefully in a few revisions this package build will
-# become a lot simpler.
-#
-# https://reviews.llvm.org/rG9f4f237e29e7150dfcf04ae78fa287d2dc8d48e2
+    # Due to a bug in LLVM 9.x, ponyc has to include its own vendored patched
+    # LLVM.  (The submodule is a specific tag in the LLVM source tree).
+    #
+    # The pony developers are currently working to get off 9.x as quickly
+    # as possible so hopefully in a few revisions this package build will
+    # become a lot simpler.
+    #
+    # https://reviews.llvm.org/rG9f4f237e29e7150dfcf04ae78fa287d2dc8d48e2
 
     fetchSubmodules = true;
   };
@@ -79,8 +92,8 @@ stdenv.mkDerivation (rec {
     "PONYC_VERSION=${version}"
     "prefix=${placeholder "out"}"
   ]
-    ++ stdenv.lib.optionals stdenv.isDarwin [ "bits=64" ]
-    ++ stdenv.lib.optionals (stdenv.isDarwin && (!lto)) [ "lto=no" ];
+  ++ stdenv.lib.optionals stdenv.isDarwin [ "bits=64" ]
+  ++ stdenv.lib.optionals (stdenv.isDarwin && (!lto)) [ "lto=no" ];
 
   enableParallelBuilding = true;
 
@@ -90,9 +103,9 @@ stdenv.mkDerivation (rec {
 
   installPhase = ''
     make config=release prefix=$out ''
-    + stdenv.lib.optionalString stdenv.isDarwin '' bits=64 ''
-    + stdenv.lib.optionalString (stdenv.isDarwin && (!lto)) '' lto=no ''
-    + '' install
+  + stdenv.lib.optionalString stdenv.isDarwin '' bits=64 ''
+  + stdenv.lib.optionalString (stdenv.isDarwin && (!lto)) '' lto=no ''
+  + '' install
 
     wrapProgram $out/bin/ponyc \
       --prefix PATH ":" "${stdenv.cc}/bin" \

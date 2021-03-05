@@ -10,11 +10,12 @@ let
       echo '${builtins.toJSON conf}' | ${pkgs.buildPackages.jq}/bin/jq '.' > $out
     '';
 
-  generateConfig = extraLabels: (map (path: {
-    name = "rspamd_${replaceStrings [ "." " " ] [ "_" "_" ] path}";
-    path = "$.${path}";
-    labels = extraLabels;
-  }) [
+  generateConfig = extraLabels: (map
+    (path: {
+      name = "rspamd_${replaceStrings [ "." " " ] [ "_" "_" ] path}";
+      path = "$.${path}";
+      labels = extraLabels;
+    }) [
     "actions.'add header'"
     "actions.'no action'"
     "actions.'rewrite subject'"
@@ -40,10 +41,12 @@ let
     name = "rspamd_statfiles";
     type = "object";
     path = "$.statfiles[*]";
-    labels = recursiveUpdate {
-      symbol = "$.symbol";
-      type = "$.type";
-    } extraLabels;
+    labels = recursiveUpdate
+      {
+        symbol = "$.symbol";
+        type = "$.type";
+      }
+      extraLabels;
     values = {
       revision = "$.revision";
       size = "$.size";
@@ -57,7 +60,7 @@ in
 {
   port = 7980;
   extraOpts = {
-    listenAddress = {}; # not used
+    listenAddress = { }; # not used
 
     url = mkOption {
       type = types.str;

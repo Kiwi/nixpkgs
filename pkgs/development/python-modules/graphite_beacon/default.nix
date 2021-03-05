@@ -1,5 +1,9 @@
-{ stdenv, buildPythonPackage, fetchPypi
-, tornado_5, pyyaml, funcparserlib
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, tornado_5
+, pyyaml
+, funcparserlib
 , nixosTests
 }:
 

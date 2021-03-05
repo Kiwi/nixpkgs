@@ -1,5 +1,10 @@
-{ stdenv, appimageTools, autoPatchelfHook, desktop-file-utils
-  , fetchurl, runtimeShell }:
+{ stdenv
+, appimageTools
+, autoPatchelfHook
+, desktop-file-utils
+, fetchurl
+, runtimeShell
+}:
 
 let
   version = "3.5.11";
@@ -27,7 +32,8 @@ let
 
   nativeBuildInputs = [ autoPatchelfHook desktop-file-utils ];
 
-in appimageTools.wrapType2 rec {
+in
+appimageTools.wrapType2 rec {
   inherit name src;
 
   extraInstallCommands = ''

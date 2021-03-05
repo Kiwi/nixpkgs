@@ -21,7 +21,7 @@ buildPythonPackage rec {
     homepage = "http://www.pykka.org";
     description = "A Python implementation of the actor model";
     license = licenses.asl20;
-    maintainers = [];
+    maintainers = [ ];
   };
 
 }

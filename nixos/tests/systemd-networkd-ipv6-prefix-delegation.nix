@@ -7,7 +7,7 @@
 # - VLAN 1 is the connection between the ISP and the router
 # - VLAN 2 is the connection between the router and the client
 
-import ./make-test-python.nix ({pkgs, ...}: {
+import ./make-test-python.nix ({ pkgs, ... }: {
   name = "systemd-networkd-ipv6-prefix-delegation";
   meta = with pkgs.stdenv.lib.maintainers; {
     maintainers = [ andir ];
@@ -29,7 +29,7 @@ import ./make-test-python.nix ({pkgs, ...}: {
       networking = {
         useDHCP = false;
         firewall.enable = false;
-        interfaces.eth1.ipv4.addresses = lib.mkForce []; # no need for legacy IP
+        interfaces.eth1.ipv4.addresses = lib.mkForce [ ]; # no need for legacy IP
         interfaces.eth1.ipv6.addresses = lib.mkForce [
           { address = "2001:DB8::1"; prefixLength = 64; }
         ];
@@ -163,7 +163,7 @@ import ./make-test-python.nix ({pkgs, ...}: {
               # always force that option on the DHPCv6 server since there are
               # certain CPEs that are just not setting this field but happily
               # accept the delegated prefix.
-              PrefixDelegationHint  = "::/48";
+              PrefixDelegationHint = "::/48";
             };
             ipv6PrefixDelegationConfig = {
               # Let networkd know that we would very much like to use DHCPv6

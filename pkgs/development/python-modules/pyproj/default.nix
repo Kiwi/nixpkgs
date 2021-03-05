@@ -1,4 +1,11 @@
-{ lib, buildPythonPackage, fetchFromGitHub, python, pkgs, pythonOlder, isPy27, substituteAll
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, python
+, pkgs
+, pythonOlder
+, isPy27
+, substituteAll
 , aenum
 , cython
 , pytestCheckHook
@@ -31,7 +38,8 @@ buildPythonPackage rec {
   buildInputs = [ cython pkgs.proj ];
 
   propagatedBuildInputs = [
-    numpy shapely
+    numpy
+    shapely
   ] ++ lib.optional (pythonOlder "3.6") aenum;
 
   checkInputs = [ pytestCheckHook mock ];

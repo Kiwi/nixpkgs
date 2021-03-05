@@ -2,7 +2,7 @@
 
 let
   bad-shebang = stdenv.mkDerivation {
-    name         = "bad-shebang";
+    name = "bad-shebang";
     dontUnpack = true;
     installPhase = ''
       mkdir -p $out/bin
@@ -11,7 +11,9 @@ let
       chmod +x $out/bin/test
     '';
   };
-in runCommand "patch-shebangs-test" {
+in
+runCommand "patch-shebangs-test"
+{
   passthru = { inherit bad-shebang; };
   meta.platforms = stdenv.lib.platforms.all;
 } ''

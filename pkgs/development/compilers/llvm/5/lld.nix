@@ -25,9 +25,9 @@ stdenv.mkDerivation {
 
   meta = {
     description = "The LLVM Linker";
-    homepage    = "https://lld.llvm.org/";
-    license     = stdenv.lib.licenses.ncsa;
-    platforms   = stdenv.lib.platforms.all;
+    homepage = "https://lld.llvm.org/";
+    license = stdenv.lib.licenses.ncsa;
+    platforms = stdenv.lib.platforms.all;
     badPlatforms = [ "x86_64-darwin" ];
   };
 }

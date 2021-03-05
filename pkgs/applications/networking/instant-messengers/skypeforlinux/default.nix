@@ -1,7 +1,36 @@
-{ stdenv, fetchurl, dpkg
-, alsaLib, atk, cairo, cups, curl, dbus, expat, fontconfig, freetype, gdk-pixbuf, glib, glibc, gnome2, gnome3
-, gtk3, libappindicator-gtk3, libnotify, libpulseaudio, libsecret, libv4l, nspr, nss, pango, systemd, wrapGAppsHook, xorg
-, at-spi2-atk, libuuid, at-spi2-core }:
+{ stdenv
+, fetchurl
+, dpkg
+, alsaLib
+, atk
+, cairo
+, cups
+, curl
+, dbus
+, expat
+, fontconfig
+, freetype
+, gdk-pixbuf
+, glib
+, glibc
+, gnome2
+, gnome3
+, gtk3
+, libappindicator-gtk3
+, libnotify
+, libpulseaudio
+, libsecret
+, libv4l
+, nspr
+, nss
+, pango
+, systemd
+, wrapGAppsHook
+, xorg
+, at-spi2-atk
+, libuuid
+, at-spi2-core
+}:
 
 let
 
@@ -59,18 +88,20 @@ let
 
   src =
     if stdenv.hostPlatform.system == "x86_64-linux" then
-      fetchurl {
-        urls = [
-          "https://repo.skype.com/deb/pool/main/s/skypeforlinux/skypeforlinux_${version}_amd64.deb"
-          "https://mirror.cs.uchicago.edu/skype/pool/main/s/skypeforlinux/skypeforlinux_${version}_amd64.deb"
-          "https://web.archive.org/web/https://repo.skype.com/deb/pool/main/s/skypeforlinux/skypeforlinux_${version}_amd64.deb"
-        ];
-        sha256 = "11bpzr3j6fa5x62xrx2q2sr1wxjrn0a37053j4prxjcvdrc5in8f";
-      }
+      fetchurl
+        {
+          urls = [
+            "https://repo.skype.com/deb/pool/main/s/skypeforlinux/skypeforlinux_${version}_amd64.deb"
+            "https://mirror.cs.uchicago.edu/skype/pool/main/s/skypeforlinux/skypeforlinux_${version}_amd64.deb"
+            "https://web.archive.org/web/https://repo.skype.com/deb/pool/main/s/skypeforlinux/skypeforlinux_${version}_amd64.deb"
+          ];
+          sha256 = "11bpzr3j6fa5x62xrx2q2sr1wxjrn0a37053j4prxjcvdrc5in8f";
+        }
     else
       throw "Skype for linux is not supported on ${stdenv.hostPlatform.system}";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "skypeforlinux";
   inherit version;
 

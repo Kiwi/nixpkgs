@@ -1,8 +1,20 @@
-{ stdenv, fetchgit, buildPythonPackage
+{ stdenv
+, fetchgit
+, buildPythonPackage
 , python
 , buildGoModule
-, pgpy, srht, redis, bcrypt, qrcode, stripe, zxcvbn, alembic, pystache
-, sshpubkeys, weasyprint }:
+, pgpy
+, srht
+, redis
+, bcrypt
+, qrcode
+, stripe
+, zxcvbn
+, alembic
+, pystache
+, sshpubkeys
+, weasyprint
+}:
 
 let
   version = "0.51.2";
@@ -13,7 +25,8 @@ let
 
     vendorSha256 = "0k7i7j604wqvzjavmcsw7g2x059jkkgrgz1qyvzlqc0y4ws59xkq";
   };
-in buildPythonPackage rec {
+in
+buildPythonPackage rec {
   pname = "metasrht";
   inherit version;
 

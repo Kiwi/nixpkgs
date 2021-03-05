@@ -1,7 +1,7 @@
-{ stdenv, fetchFromGitHub, autoconf, automake, libtool , pkgconfig, glib, libxml2, libxslt, getopt, libiconv, gettext, nix, disnix, libnixxml }:
+{ stdenv, fetchFromGitHub, autoconf, automake, libtool, pkgconfig, glib, libxml2, libxslt, getopt, libiconv, gettext, nix, disnix, libnixxml }:
 
 stdenv.mkDerivation rec {
-  version="2020-07-04";
+  version = "2020-07-04";
   name = "dydisnix-${version}";
 
   src = fetchFromGitHub {

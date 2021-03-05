@@ -1,12 +1,43 @@
-{ stdenv, lib, fetchFromGitHub, writeScript, desktop-file-utils
-, pkgconfig, autoconf213, alsaLib, bzip2, cairo
-, dbus, dbus-glib, ffmpeg_3, file, fontconfig, freetype
-, gnome2, gnum4, gtk2, hunspell, libevent, libjpeg
-, libnotify, libstartup_notification, wrapGAppsHook
-, libGLU, libGL, perl, python2, libpulseaudio
-, unzip, xorg, wget, which, yasm, zip, zlib
+{ stdenv
+, lib
+, fetchFromGitHub
+, writeScript
+, desktop-file-utils
+, pkgconfig
+, autoconf213
+, alsaLib
+, bzip2
+, cairo
+, dbus
+, dbus-glib
+, ffmpeg_3
+, file
+, fontconfig
+, freetype
+, gnome2
+, gnum4
+, gtk2
+, hunspell
+, libevent
+, libjpeg
+, libnotify
+, libstartup_notification
+, wrapGAppsHook
+, libGLU
+, libGL
+, perl
+, python2
+, libpulseaudio
+, unzip
+, xorg
+, wget
+, which
+, yasm
+, zip
+, zlib
 
-, withGTK3 ? false, gtk3
+, withGTK3 ? false
+, gtk3
 }:
 
 let
@@ -14,7 +45,8 @@ let
   libPath = lib.makeLibraryPath [ ffmpeg_3 libpulseaudio ];
   gtkVersion = if withGTK3 then "3" else "2";
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "palemoon";
   version = "28.16.0";
 
@@ -43,18 +75,51 @@ in stdenv.mkDerivation rec {
   '';
 
   nativeBuildInputs = [
-    desktop-file-utils file gnum4 perl pkgconfig python2 wget which wrapGAppsHook
+    desktop-file-utils
+    file
+    gnum4
+    perl
+    pkgconfig
+    python2
+    wget
+    which
+    wrapGAppsHook
   ];
 
   buildInputs = [
-    alsaLib bzip2 cairo dbus dbus-glib ffmpeg_3 fontconfig freetype
-    gnome2.GConf gtk2 hunspell libevent libjpeg libnotify
-    libstartup_notification libGLU libGL
-    libpulseaudio unzip yasm zip zlib
+    alsaLib
+    bzip2
+    cairo
+    dbus
+    dbus-glib
+    ffmpeg_3
+    fontconfig
+    freetype
+    gnome2.GConf
+    gtk2
+    hunspell
+    libevent
+    libjpeg
+    libnotify
+    libstartup_notification
+    libGLU
+    libGL
+    libpulseaudio
+    unzip
+    yasm
+    zip
+    zlib
   ]
   ++ (with xorg; [
-    libX11 libXext libXft libXi libXrender libXScrnSaver
-    libXt pixman xorgproto
+    libX11
+    libXext
+    libXft
+    libXi
+    libXrender
+    libXScrnSaver
+    libXt
+    pixman
+    xorgproto
   ])
   ++ lib.optional withGTK3 gtk3;
 
@@ -151,9 +216,9 @@ in stdenv.mkDerivation rec {
       experience, while offering full customization and a growing collection of
       extensions and themes to make the browser truly your own.
     '';
-    homepage    = "https://www.palemoon.org/";
-    license     = licenses.mpl20;
+    homepage = "https://www.palemoon.org/";
+    license = licenses.mpl20;
     maintainers = with maintainers; [ AndersonTorres OPNA2608 ];
-    platforms   = [ "i686-linux" "x86_64-linux" ];
+    platforms = [ "i686-linux" "x86_64-linux" ];
   };
 }

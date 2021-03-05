@@ -22,11 +22,13 @@
 # cgit) that are needed here should be included directly in Nixpkgs as
 # files.
 
-{ stdenv, lib
+{ stdenv
+, lib
 , buildPackages
 , fetchurl
 , linuxHeaders ? null
-, gd ? null, libpng ? null
+, gd ? null
+, libpng ? null
 , libidn2
 , bison
 , python3Minimal
@@ -148,7 +150,8 @@ stdenv.mkDerivation ({
     '';
 
   configureFlags =
-    [ "-C"
+    [
+      "-C"
       "--enable-add-ons"
       "--sysconfdir=/etc"
       "--enable-stackguard-randomization"
@@ -158,7 +161,7 @@ stdenv.mkDerivation ({
       "--enable-kernel=3.2.0" # can't get below with glibc >= 2.26
     ] ++ lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
       (lib.flip lib.withFeature "fp"
-         (stdenv.hostPlatform.platform.gcc.float or (stdenv.hostPlatform.parsed.abi.float or "hard") == "soft"))
+        (stdenv.hostPlatform.platform.gcc.float or (stdenv.hostPlatform.parsed.abi.float or "hard") == "soft"))
       "--with-__thread"
     ] ++ lib.optionals (stdenv.hostPlatform == stdenv.buildPlatform && stdenv.hostPlatform.isAarch32) [
       "--host=arm-linux-gnueabi"

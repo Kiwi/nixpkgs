@@ -5,9 +5,9 @@ buildGoModule rec {
   version = "0.24.2";
 
   src = fetchFromGitHub {
-    owner  = "derailed";
-    repo   = "k9s";
-    rev    = "v${version}";
+    owner = "derailed";
+    repo = "k9s";
+    rev = "v${version}";
     sha256 = "0cr7ap9yfd9flcph98rxap2f46fc3v689v31mc8n7vxi9jr07irh";
   };
 

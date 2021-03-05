@@ -1,5 +1,11 @@
-{ stdenv, fetchFromGitHub, fetchpatch, makeFontsConf
-, inkscape, xcursorgen, bc }:
+{ stdenv
+, fetchFromGitHub
+, fetchpatch
+, makeFontsConf
+, inkscape
+, xcursorgen
+, bc
+}:
 
 stdenv.mkDerivation rec {
   pname = "capitaine-cursors";

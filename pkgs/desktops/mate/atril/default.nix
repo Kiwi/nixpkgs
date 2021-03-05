@@ -12,10 +12,14 @@
 , texlive
 , mate
 , wrapGAppsHook
-, enableEpub ? true, webkitgtk
-, enableDjvu ? true, djvulibre
-, enablePostScript ? true, libspectre
-, enableXps ? true, libgxps
+, enableEpub ? true
+, webkitgtk
+, enableDjvu ? true
+, djvulibre
+, enablePostScript ? true
+, libspectre
+, enableXps ? true
+, libgxps
 , enableImages ? false
 }:
 
@@ -46,7 +50,7 @@ stdenv.mkDerivation rec {
     mate.caja
     mate.mate-desktop
     hicolor-icon-theme
-    texlive.bin.core  # for synctex, used by the pdf back-end
+    texlive.bin.core # for synctex, used by the pdf back-end
   ]
   ++ optionals enableDjvu [ djvulibre ]
   ++ optionals enableEpub [ webkitgtk ]

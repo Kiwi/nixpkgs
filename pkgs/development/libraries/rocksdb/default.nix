@@ -8,7 +8,8 @@
 , snappy
 , zlib
 , zstd
-, enableJemalloc ? false, jemalloc
+, enableJemalloc ? false
+, jemalloc
 , enableLite ? false
 , enableShared ? true
 }:
@@ -48,8 +49,8 @@ stdenv.mkDerivation rec {
     "-DUSE_RTTI=1"
     "-DROCKSDB_INSTALL_ON_WINDOWS=YES" # harmless elsewhere
     (stdenv.lib.optional
-        (stdenv.hostPlatform.isx86 && stdenv.hostPlatform.isLinux)
-        "-DFORCE_SSE42=1")
+      (stdenv.hostPlatform.isx86 && stdenv.hostPlatform.isLinux)
+      "-DFORCE_SSE42=1")
     (stdenv.lib.optional enableLite "-DROCKSDB_LITE=1")
     "-DFAIL_ON_WARNINGS=${if stdenv.hostPlatform.isMinGW then "NO" else "YES"}"
   ] ++ stdenv.lib.optional (!enableShared) "-DROCKSDB_BUILD_SHARED=0";

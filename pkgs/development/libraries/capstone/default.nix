@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   version = "4.0.2";
 
   src = fetchurl {
-    url    = "https://github.com/aquynh/capstone/archive/${version}.tar.gz";
+    url = "https://github.com/aquynh/capstone/archive/${version}.tar.gz";
     sha256 = "0sjjbqps48az4map0kmai7j7dak3gy0xcq0sgx8fg09g0acdg0bw";
   };
 
@@ -26,7 +26,7 @@ stdenv.mkDerivation rec {
 
   installPhase = (stdenv.lib.optionalString stdenv.isDarwin "HOMEBREW_CAPSTONE=1 ")
     + "PREFIX=$out ./make.sh install";
-  
+
   nativeBuildInputs = [
     pkgconfig
   ];
@@ -35,9 +35,9 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "Advanced disassembly library";
-    homepage    = "http://www.capstone-engine.org";
-    license     = stdenv.lib.licenses.bsd3;
-    platforms   = stdenv.lib.platforms.unix;
+    homepage = "http://www.capstone-engine.org";
+    license = stdenv.lib.licenses.bsd3;
+    platforms = stdenv.lib.platforms.unix;
     maintainers = with stdenv.lib.maintainers; [ thoughtpolice ris ];
   };
 }

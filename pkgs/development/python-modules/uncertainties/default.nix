@@ -1,5 +1,9 @@
-{ stdenv, fetchPypi, buildPythonPackage
-, nose, numpy, future
+{ stdenv
+, fetchPypi
+, buildPythonPackage
+, nose
+, numpy
+, future
 }:
 
 buildPythonPackage rec {

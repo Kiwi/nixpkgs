@@ -1,4 +1,4 @@
-{fetchurl}:
+{ fetchurl }:
 
 {
   "10".google_apis."armeabi-v7a" = {

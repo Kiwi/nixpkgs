@@ -1,5 +1,11 @@
-{ stdenv, fetchurl, pkg-config, perl
-, openssl, db, zlib, cyrus_sasl
+{ stdenv
+, fetchurl
+, pkg-config
+, perl
+, openssl
+, db
+, zlib
+, cyrus_sasl
 }:
 
 stdenv.mkDerivation rec {

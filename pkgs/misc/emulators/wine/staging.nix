@@ -1,11 +1,13 @@
 { stdenv, callPackage, wineUnstable }:
 
-with callPackage ./util.nix {};
+with callPackage ./util.nix { };
 
-let patch = (callPackage ./sources.nix {}).staging;
-    build-inputs = pkgNames: extra:
-      (mkBuildInputs wineUnstable.pkgArches pkgNames) ++ extra;
-in assert stdenv.lib.getVersion wineUnstable == patch.version;
+let
+  patch = (callPackage ./sources.nix { }).staging;
+  build-inputs = pkgNames: extra:
+    (mkBuildInputs wineUnstable.pkgArches pkgNames) ++ extra;
+in
+assert stdenv.lib.getVersion wineUnstable == patch.version;
 
 (stdenv.lib.overrideDerivation wineUnstable (self: {
   buildInputs = build-inputs [ "perl" "util-linux" "autoconf" "gitMinimal" ] self.buildInputs;

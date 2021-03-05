@@ -1,5 +1,6 @@
 { stdenv
-, fetchFromGitHub }:
+, fetchFromGitHub
+}:
 stdenv.mkDerivation rec {
   pname = "simple-mpv-ui";
   version = "1.0.0";

@@ -1,10 +1,29 @@
-{ stdenv, buildPythonApplication, fetchPypi, pythonOlder
+{ stdenv
+, buildPythonApplication
+, fetchPypi
+, pythonOlder
 , installShellFiles
-, mock, pytest, nose
-, pyyaml, backports_ssl_match_hostname, colorama, docopt
-, dockerpty, docker, ipaddress, jsonschema, requests
-, six, texttable, websocket_client, cached-property
-, enum34, functools32, paramiko, distro, python-dotenv
+, mock
+, pytest
+, nose
+, pyyaml
+, backports_ssl_match_hostname
+, colorama
+, docopt
+, dockerpty
+, docker
+, ipaddress
+, jsonschema
+, requests
+, six
+, texttable
+, websocket_client
+, cached-property
+, enum34
+, functools32
+, paramiko
+, distro
+, python-dotenv
 }:
 
 buildPythonApplication rec {
@@ -21,12 +40,25 @@ buildPythonApplication rec {
   nativeBuildInputs = [ installShellFiles ];
   checkInputs = [ mock pytest nose ];
   propagatedBuildInputs = [
-    pyyaml backports_ssl_match_hostname colorama dockerpty docker
-    ipaddress jsonschema requests six texttable websocket_client
-    docopt cached-property paramiko distro python-dotenv
+    pyyaml
+    backports_ssl_match_hostname
+    colorama
+    dockerpty
+    docker
+    ipaddress
+    jsonschema
+    requests
+    six
+    texttable
+    websocket_client
+    docopt
+    cached-property
+    paramiko
+    distro
+    python-dotenv
   ] ++
-    stdenv.lib.optional (pythonOlder "3.4") enum34 ++
-    stdenv.lib.optional (pythonOlder "3.2") functools32;
+  stdenv.lib.optional (pythonOlder "3.4") enum34 ++
+  stdenv.lib.optional (pythonOlder "3.2") functools32;
 
   postPatch = ''
     # Remove upper bound on requires, see also

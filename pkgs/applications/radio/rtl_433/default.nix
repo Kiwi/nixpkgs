@@ -1,5 +1,10 @@
-{ stdenv, fetchFromGitHub, cmake, pkgconfig
-, libusb1, rtl-sdr, soapysdr-with-plugins
+{ stdenv
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, libusb1
+, rtl-sdr
+, soapysdr-with-plugins
 }:
 
 stdenv.mkDerivation rec {

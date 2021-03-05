@@ -1,10 +1,28 @@
-{ stdenv, fetchFromGitHub , alsaLib, boost, cairo, cmake, fftwSinglePrec, fltk, pcre
-, libjack2, libsndfile, libXdmcp, readline, lv2, libGLU, libGL, minixml, pkgconfig, zlib, xorg
+{ stdenv
+, fetchFromGitHub
+, alsaLib
+, boost
+, cairo
+, cmake
+, fftwSinglePrec
+, fltk
+, pcre
+, libjack2
+, libsndfile
+, libXdmcp
+, readline
+, lv2
+, libGLU
+, libGL
+, minixml
+, pkgconfig
+, zlib
+, xorg
 }:
 
 assert stdenv ? glibc;
 
-stdenv.mkDerivation  rec {
+stdenv.mkDerivation rec {
   pname = "yoshimi";
   # Fix build with lv2 1.18: https://github.com/Yoshimi/yoshimi/pull/102/commits/86996cbb235f0fe138ae814a6758c2c8ba1c2a38
   version = "unstable-2020-05-10";
@@ -16,8 +34,22 @@ stdenv.mkDerivation  rec {
     sha256 = "0bgcc5fbgwpdjircq00wlii30pakf45yzligpbnf02a554hh4j01";
   };
   buildInputs = [
-    alsaLib boost cairo fftwSinglePrec fltk libjack2 libsndfile libXdmcp readline lv2 libGLU libGL
-    minixml zlib xorg.libpthreadstubs pcre
+    alsaLib
+    boost
+    cairo
+    fftwSinglePrec
+    fltk
+    libjack2
+    libsndfile
+    libXdmcp
+    readline
+    lv2
+    libGLU
+    libGL
+    minixml
+    zlib
+    xorg.libpthreadstubs
+    pcre
   ];
 
   nativeBuildInputs = [ cmake pkgconfig ];

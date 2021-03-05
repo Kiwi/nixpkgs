@@ -1,7 +1,19 @@
-{ stdenv, lib, fetchFromGitHub, fetchpatch, meson, pkg-config, ninja, wayland
+{ stdenv
+, lib
+, fetchFromGitHub
+, fetchpatch
+, meson
+, pkg-config
+, ninja
+, wayland
 , libdrm
-, minimal ? false, libva-minimal
-, libX11, libXext, libXfixes, libffi, libGL
+, minimal ? false
+, libva-minimal
+, libX11
+, libXext
+, libXfixes
+, libffi
+, libGL
 , mesa
 }:
 
@@ -10,9 +22,9 @@ stdenv.mkDerivation rec {
   version = "2.10.0";
 
   src = fetchFromGitHub {
-    owner  = "intel";
-    repo   = "libva";
-    rev    = version;
+    owner = "intel";
+    repo = "libva";
+    rev = version;
     sha256 = "1xyxnxmq04s3s6135v6av1rl5z809j9vxvg7af9wvyh3dgsxrlds";
   };
 

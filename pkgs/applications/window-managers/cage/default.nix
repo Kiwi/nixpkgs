@@ -1,7 +1,18 @@
-{ stdenv, fetchFromGitHub
-, meson, ninja, pkg-config, wayland, scdoc, makeWrapper
-, wlroots, wayland-protocols, pixman, libxkbcommon
-, systemd, libGL, libX11
+{ stdenv
+, fetchFromGitHub
+, meson
+, ninja
+, pkg-config
+, wayland
+, scdoc
+, makeWrapper
+, wlroots
+, wayland-protocols
+, pixman
+, libxkbcommon
+, systemd
+, libGL
+, libX11
 , xwayland ? null
 , nixosTests
 }:
@@ -25,8 +36,14 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ meson ninja pkg-config wayland scdoc makeWrapper ];
 
   buildInputs = [
-    wlroots wayland wayland-protocols pixman libxkbcommon
-    systemd libGL libX11
+    wlroots
+    wayland
+    wayland-protocols
+    pixman
+    libxkbcommon
+    systemd
+    libGL
+    libX11
   ];
 
   mesonFlags = [ "-Dxwayland=${stdenv.lib.boolToString (xwayland != null)}" ];
@@ -40,9 +57,9 @@ stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "A Wayland kiosk that runs a single, maximized application";
-    homepage    = "https://www.hjdskes.nl/projects/cage/";
-    license     = licenses.mit;
-    platforms   = platforms.linux;
+    homepage = "https://www.hjdskes.nl/projects/cage/";
+    license = licenses.mit;
+    platforms = platforms.linux;
     maintainers = with maintainers; [ primeos ];
   };
 }

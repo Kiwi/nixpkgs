@@ -1,5 +1,20 @@
-{ stdenv, callPackage, fetchurl, fetchgit, buildPythonPackage, fetchFromGitHub, python, cmake
-, pyqt5, numpy, scipy, shapely, libarcusLulzbot, doxygen, gettext, pythonOlder }:
+{ stdenv
+, callPackage
+, fetchurl
+, fetchgit
+, buildPythonPackage
+, fetchFromGitHub
+, python
+, cmake
+, pyqt5
+, numpy
+, scipy
+, shapely
+, libarcusLulzbot
+, doxygen
+, gettext
+, pythonOlder
+}:
 
 buildPythonPackage {
   version = "3.6.21";

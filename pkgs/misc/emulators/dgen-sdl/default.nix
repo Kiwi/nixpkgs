@@ -8,7 +8,8 @@
 let
   pname = "dgen-sdl";
   version = "1.33";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit pname version;
 
   src = fetchurl {

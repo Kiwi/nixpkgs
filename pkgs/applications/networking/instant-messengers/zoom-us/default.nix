@@ -1,14 +1,40 @@
-{ stdenv, fetchurl, mkDerivation, autoPatchelfHook, bash
+{ stdenv
+, fetchurl
+, mkDerivation
+, autoPatchelfHook
+, bash
 , fetchFromGitHub
-# Dynamic libraries
-, dbus, glib, libGL, libX11, libXfixes, libuuid, libxcb, qtbase, qtdeclarative
-, qtgraphicaleffects, qtimageformats, qtlocation, qtquickcontrols
-, qtquickcontrols2, qtscript, qtsvg , qttools, qtwayland, qtwebchannel
+  # Dynamic libraries
+, dbus
+, glib
+, libGL
+, libX11
+, libXfixes
+, libuuid
+, libxcb
+, qtbase
+, qtdeclarative
+, qtgraphicaleffects
+, qtimageformats
+, qtlocation
+, qtquickcontrols
+, qtquickcontrols2
+, qtscript
+, qtsvg
+, qttools
+, qtwayland
+, qtwebchannel
 , qtwebengine
-# Runtime
-, coreutils, faac, pciutils, procps, util-linux
-, pulseaudioSupport ? true, libpulseaudio ? null
-, alsaSupport ? stdenv.isLinux, alsaLib ? null
+  # Runtime
+, coreutils
+, faac
+, pciutils
+, procps
+, util-linux
+, pulseaudioSupport ? true
+, libpulseaudio ? null
+, alsaSupport ? stdenv.isLinux
+, alsaLib ? null
 }:
 
 assert pulseaudioSupport -> libpulseaudio != null;
@@ -32,7 +58,8 @@ let
     sha256 = "0w3pdd5484r3nsb4iahi37jdlm37vm1053sb8k2zlqb9s554zjwp";
   };
 
-in mkDerivation {
+in
+mkDerivation {
   pname = "zoom-us";
   inherit version;
 
@@ -41,9 +68,27 @@ in mkDerivation {
   nativeBuildInputs = [ autoPatchelfHook ];
 
   buildInputs = [
-    dbus glib libGL libX11 libXfixes libuuid libxcb faac qtbase
-    qtdeclarative qtgraphicaleffects qtlocation qtquickcontrols qtquickcontrols2
-    qtscript qtwebchannel qtwebengine qtimageformats qtsvg qttools qtwayland
+    dbus
+    glib
+    libGL
+    libX11
+    libXfixes
+    libuuid
+    libxcb
+    faac
+    qtbase
+    qtdeclarative
+    qtgraphicaleffects
+    qtlocation
+    qtquickcontrols
+    qtquickcontrols2
+    qtscript
+    qtwebchannel
+    qtwebengine
+    qtimageformats
+    qtsvg
+    qttools
+    qtwayland
   ];
 
   runtimeDependencies = optional pulseaudioSupport libpulseaudio
@@ -64,7 +109,8 @@ in mkDerivation {
         "zoom.sh"
         "zopen"
       ];
-    in ''
+    in
+    ''
       runHook preInstall
 
       mkdir -p $out/{bin,share/zoom-us}

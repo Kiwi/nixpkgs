@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  buildInputs = [jre makeWrapper];
+  buildInputs = [ jre makeWrapper ];
 
   installPhase = ''
     mkdir -pv $out/{share,bin}
@@ -37,7 +37,7 @@ stdenv.mkDerivation rec {
     homepage = "http://www.cytoscape.org";
     description = "A general platform for complex network analysis and visualization";
     license = stdenv.lib.licenses.lgpl21;
-    maintainers = [stdenv.lib.maintainers.mimame];
+    maintainers = [ stdenv.lib.maintainers.mimame ];
     platforms = stdenv.lib.platforms.unix;
   };
 }

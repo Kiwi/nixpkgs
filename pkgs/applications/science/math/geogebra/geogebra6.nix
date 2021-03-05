@@ -17,9 +17,9 @@ let
 
     src = fetchurl {
       urls = [
-          "https://download.geogebra.org/installers/6.0/GeoGebra-Linux64-Portable-${version}.zip"
-          "https://web.archive.org/web/20201022200156/https://download.geogebra.org/installers/6.0/GeoGebra-Linux64-Portable-${version}.zip"
-        ];
+        "https://download.geogebra.org/installers/6.0/GeoGebra-Linux64-Portable-${version}.zip"
+        "https://web.archive.org/web/20201022200156/https://download.geogebra.org/installers/6.0/GeoGebra-Linux64-Portable-${version}.zip"
+      ];
       sha256 = "0rzcbq587x8827g9v03awa9hz27vyfjc0cz45ymbchqp31lsx49b";
     };
 

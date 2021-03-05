@@ -1,12 +1,33 @@
-{ stdenv, mkDerivation, fetchFromGitHub, pkgconfig
-, libXtst, libvorbis, hunspell, lzo, xz, bzip2, libiconv
-, qtbase, qtsvg, qtwebkit, qtx11extras, qttools, qmake
-, withCC ? true, opencc
-, withEpwing ? true, libeb
-, withExtraTiff ? true, libtiff
-, withFFmpeg ? true, libao, ffmpeg_3
+{ stdenv
+, mkDerivation
+, fetchFromGitHub
+, pkgconfig
+, libXtst
+, libvorbis
+, hunspell
+, lzo
+, xz
+, bzip2
+, libiconv
+, qtbase
+, qtsvg
+, qtwebkit
+, qtx11extras
+, qttools
+, qmake
+, withCC ? true
+, opencc
+, withEpwing ? true
+, libeb
+, withExtraTiff ? true
+, libtiff
+, withFFmpeg ? true
+, libao
+, ffmpeg_3
 , withMultimedia ? true
-, withZim ? true, zstd }:
+, withZim ? true
+, zstd
+}:
 
 mkDerivation rec {
   pname = "goldendict";
@@ -32,15 +53,21 @@ mkDerivation rec {
 
   nativeBuildInputs = [ pkgconfig qmake ];
   buildInputs = [
-    qtbase qtsvg qtwebkit qttools
-    libvorbis hunspell xz lzo
+    qtbase
+    qtsvg
+    qtwebkit
+    qttools
+    libvorbis
+    hunspell
+    xz
+    lzo
   ] ++ stdenv.lib.optionals stdenv.isLinux [ qtx11extras libXtst ]
-    ++ stdenv.lib.optionals stdenv.isDarwin [ bzip2 libiconv ]
-    ++ stdenv.lib.optional withCC opencc
-    ++ stdenv.lib.optional withEpwing libeb
-    ++ stdenv.lib.optional withExtraTiff libtiff
-    ++ stdenv.lib.optionals withFFmpeg [ libao ffmpeg_3 ]
-    ++ stdenv.lib.optional withZim zstd;
+  ++ stdenv.lib.optionals stdenv.isDarwin [ bzip2 libiconv ]
+  ++ stdenv.lib.optional withCC opencc
+  ++ stdenv.lib.optional withEpwing libeb
+  ++ stdenv.lib.optional withExtraTiff libtiff
+  ++ stdenv.lib.optionals withFFmpeg [ libao ffmpeg_3 ]
+  ++ stdenv.lib.optional withZim zstd;
 
   qmakeFlags = with stdenv.lib; [
     "goldendict.pro"
@@ -49,7 +76,7 @@ mkDerivation rec {
     (optional (!withEpwing) "CONFIG+=no_epwing_support")
     (optional (!withExtraTiff) "CONFIG+=no_extra_tiff_handler")
     (optional (!withFFmpeg) "CONFIG+=no_ffmpeg_player")
-    (optional (!withMultimedia)"CONFIG+=no_qtmultimedia_player")
+    (optional (!withMultimedia) "CONFIG+=no_qtmultimedia_player")
     (optional withZim "CONFIG+=zim_support")
   ];
 

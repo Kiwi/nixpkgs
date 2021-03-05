@@ -157,7 +157,7 @@ stdenv.mkDerivation rec {
   '';
 
   passthru = {
-    providedSessions = ["cinnamon" "cinnamon2d"];
+    providedSessions = [ "cinnamon" "cinnamon2d" ];
   };
 
   meta = with stdenv.lib; {

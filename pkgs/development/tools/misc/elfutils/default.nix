@@ -27,7 +27,8 @@ stdenv.mkDerivation rec {
   '';
 
   configureFlags =
-    [ "--program-prefix=eu-" # prevent collisions with binutils
+    [
+      "--program-prefix=eu-" # prevent collisions with binutils
       "--enable-deterministic-archives"
       "--disable-debuginfod"
     ];

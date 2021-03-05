@@ -3,7 +3,7 @@
 , buildPythonPackage
 , isPy27
 , fetchpatch
-# Mitmproxy requirements
+  # Mitmproxy requirements
 , blinker
 , brotli
 , certifi
@@ -28,7 +28,7 @@
 , wsproto
 , publicsuffix2
 , zstandard
-# Additional check requirements
+  # Additional check requirements
 , beautifulsoup4
 , glibcLocales
 , pytest
@@ -47,9 +47,9 @@ buildPythonPackage rec {
   disabled = isPy27;
 
   src = fetchFromGitHub {
-    owner  = pname;
-    repo   = pname;
-    rev    = "v${version}";
+    owner = pname;
+    repo = pname;
+    rev = "v${version}";
     sha256 = "04y7fxxssrs14i7zl7fwlwrpnms39i7a6m18481sg8vlrkbagxjr";
   };
 
@@ -109,8 +109,8 @@ buildPythonPackage rec {
 
   meta = with stdenv.lib; {
     description = "Man-in-the-middle proxy";
-    homepage    = "https://mitmproxy.org/";
-    license     = licenses.mit;
+    homepage = "https://mitmproxy.org/";
+    license = licenses.mit;
     maintainers = with maintainers; [ fpletz kamilchm ];
   };
 }

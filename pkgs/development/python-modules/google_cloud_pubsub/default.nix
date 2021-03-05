@@ -1,6 +1,16 @@
-{ stdenv, buildPythonPackage, fetchPypi, pythonOlder, pytestCheckHook
-, google_api_core, google_cloud_testutils, grpc_google_iam_v1, libcst, mock
-, proto-plus, pytest-asyncio }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, pytestCheckHook
+, google_api_core
+, google_cloud_testutils
+, grpc_google_iam_v1
+, libcst
+, mock
+, proto-plus
+, pytest-asyncio
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-pubsub";

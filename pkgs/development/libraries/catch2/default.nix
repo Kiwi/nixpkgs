@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
     owner = "catchorg";
     repo = "Catch2";
     rev = "v${version}";
-    sha256="0m7pwsam1nb93akgnf5fxi737pgbrbcj0y28bavhzcss7yrm4gys";
+    sha256 = "0m7pwsam1nb93akgnf5fxi737pgbrbcj0y28bavhzcss7yrm4gys";
   };
 
   nativeBuildInputs = [ cmake ];

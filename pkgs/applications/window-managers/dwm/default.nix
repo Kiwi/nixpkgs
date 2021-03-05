@@ -1,4 +1,4 @@
-{stdenv, fetchurl, libX11, libXinerama, libXft, writeText, patches ? [], conf ? null}:
+{ stdenv, fetchurl, libX11, libXinerama, libXft, writeText, patches ? [ ], conf ? null }:
 
 with stdenv.lib;
 
@@ -21,14 +21,15 @@ stdenv.mkDerivation {
   inherit patches;
 
   # Allow users to set the config.def.h file containing the configuration
-  postPatch = let configFile = if isDerivation conf || builtins.isPath conf then conf else writeText "config.def.h" conf;
-  in optionalString (conf!=null) "cp ${configFile} config.def.h";
+  postPatch =
+    let configFile = if isDerivation conf || builtins.isPath conf then conf else writeText "config.def.h" conf;
+    in optionalString (conf != null) "cp ${configFile} config.def.h";
 
   meta = {
     homepage = "https://suckless.org/";
     description = "Dynamic window manager for X";
     license = stdenv.lib.licenses.mit;
-    maintainers = with stdenv.lib.maintainers; [viric];
+    maintainers = with stdenv.lib.maintainers; [ viric ];
     platforms = with stdenv.lib.platforms; all;
   };
 }

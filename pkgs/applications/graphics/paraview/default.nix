@@ -1,6 +1,25 @@
-{ boost, cmake, fetchFromGitHub, ffmpeg, qtbase, qtx11extras,
-  qttools, qtxmlpatterns, qtsvg, gdal, gfortran, libXt, makeWrapper,
-  mkDerivation, ninja, openmpi, python3, stdenv, tbb, libGLU, libGL }:
+{ boost
+, cmake
+, fetchFromGitHub
+, ffmpeg
+, qtbase
+, qtx11extras
+, qttools
+, qtxmlpatterns
+, qtsvg
+, gdal
+, gfortran
+, libXt
+, makeWrapper
+, mkDerivation
+, ninja
+, openmpi
+, python3
+, stdenv
+, tbb
+, libGLU
+, libGL
+}:
 
 mkDerivation rec {
   pname = "paraview";
@@ -63,7 +82,8 @@ mkDerivation rec {
   ];
 
   buildInputs = [
-    libGLU libGL
+    libGLU
+    libGL
     libXt
     openmpi
     tbb

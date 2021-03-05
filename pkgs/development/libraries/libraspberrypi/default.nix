@@ -10,7 +10,8 @@ stdenv.mkDerivation rec {
     sha256 = "1r7n05rv96hqjq0rn0qzchmfqs0j7vh3p8jalgh66s6l0vms5mwy";
   };
 
-  cmakeFlags = if (stdenv.targetPlatform.system == "aarch64-linux")
+  cmakeFlags =
+    if (stdenv.targetPlatform.system == "aarch64-linux")
     then "-DARM64=ON"
     else "-DARM64=OFF";
   preConfigure = ''cmakeFlags="$cmakeFlags -DVMCS_INSTALL_PREFIX=$out"'';

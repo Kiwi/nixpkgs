@@ -3,7 +3,8 @@
 , fetchPypi
 , nose
 , can
-, canmatrix }:
+, canmatrix
+}:
 
 buildPythonPackage rec {
   pname = "canopen";
@@ -15,7 +16,8 @@ buildPythonPackage rec {
   };
 
   propagatedBuildInputs =
-    [ can
+    [
+      can
       canmatrix
     ];
 

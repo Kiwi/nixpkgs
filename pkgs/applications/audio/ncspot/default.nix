@@ -1,8 +1,17 @@
-{ lib, fetchFromGitHub, rustPlatform, pkg-config, ncurses, openssl
-, withALSA ? true, alsaLib ? null
-, withPulseAudio ? false, libpulseaudio ? null
-, withPortAudio ? false, portaudio ? null
-, withMPRIS ? false, dbus ? null
+{ lib
+, fetchFromGitHub
+, rustPlatform
+, pkg-config
+, ncurses
+, openssl
+, withALSA ? true
+, alsaLib ? null
+, withPulseAudio ? false
+, libpulseaudio ? null
+, withPortAudio ? false
+, portaudio ? null
+, withMPRIS ? false
+, dbus ? null
 }:
 
 let

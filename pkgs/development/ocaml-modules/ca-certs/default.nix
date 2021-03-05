@@ -1,5 +1,14 @@
-{ lib, buildDunePackage, fetchurl
-, bos, fpath, rresult, ptime, mirage-crypto, x509, astring, logs
+{ lib
+, buildDunePackage
+, fetchurl
+, bos
+, fpath
+, rresult
+, ptime
+, mirage-crypto
+, x509
+, astring
+, logs
 }:
 
 buildDunePackage rec {

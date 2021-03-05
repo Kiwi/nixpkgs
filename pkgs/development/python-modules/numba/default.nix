@@ -25,8 +25,8 @@ buildPythonPackage rec {
 
   NIX_CFLAGS_COMPILE = stdenv.lib.optionalString stdenv.isDarwin "-I${libcxx}/include/c++/v1";
 
-  propagatedBuildInputs = [numpy llvmlite]
-    ++ stdenv.lib.optionals isPy27 [ funcsigs singledispatch];
+  propagatedBuildInputs = [ numpy llvmlite ]
+    ++ stdenv.lib.optionals isPy27 [ funcsigs singledispatch ];
 
   # Copy test script into $out and run the test suite.
   checkPhase = ''
@@ -35,7 +35,7 @@ buildPythonPackage rec {
   # ImportError: cannot import name '_typeconv'
   doCheck = false;
 
-  meta =  {
+  meta = {
     homepage = "http://numba.pydata.org/";
     license = stdenv.lib.licenses.bsd2;
     description = "Compiling Python code using LLVM";

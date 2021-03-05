@@ -13,7 +13,8 @@
 , gdk-pixbuf
 , gobject-introspection
 , desktop-file-utils
-, appstream-glib }:
+, appstream-glib
+}:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "gnome-passwordsafe";

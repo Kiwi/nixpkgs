@@ -16,7 +16,7 @@ let
     optionalString (any isLocalAddress cfg.forwardAddresses) ''
       do-not-query-localhost: no
     ''
-    + optionalString (cfg.forwardAddresses != []) ''
+    + optionalString (cfg.forwardAddresses != [ ]) ''
       forward-zone:
         name: .
     ''
@@ -73,14 +73,14 @@ in
       interfaces = mkOption {
         default = [ "127.0.0.1" ] ++ optional config.networking.enableIPv6 "::1";
         type = types.listOf types.str;
-        description =  ''
+        description = ''
           What addresses the server should listen on. This supports the interface syntax documented in
           <citerefentry><refentrytitle>unbound.conf</refentrytitle><manvolnum>8</manvolnum></citerefentry>.
         '';
       };
 
       forwardAddresses = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.str;
         description = "What servers to forward queries to.";
       };
@@ -142,7 +142,7 @@ in
     # control socket. Unbound allows access to the socket only to the unbound
     # user and the primary group.
     users.groups = lib.mkIf (cfg.localControlSocketPath != null) {
-      unbound = {};
+      unbound = { };
     };
 
     networking.resolvconf.useLocalResolver = mkDefault true;

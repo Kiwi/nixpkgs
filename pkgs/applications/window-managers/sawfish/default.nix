@@ -27,10 +27,21 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ autoreconfHook pkg-config ];
-  buildInputs = [ which
-    rep-gtk pango gdk-pixbuf-xlib imlib gettext texinfo
-    libXinerama libXrandr libXtst libICE libSM
-    makeWrapper ];
+  buildInputs = [
+    which
+    rep-gtk
+    pango
+    gdk-pixbuf-xlib
+    imlib
+    gettext
+    texinfo
+    libXinerama
+    libXrandr
+    libXtst
+    libICE
+    libSM
+    makeWrapper
+  ];
 
   patchPhase = ''
     sed -e 's|REP_DL_LOAD_PATH=|REP_DL_LOAD_PATH=$(REP_DL_LOAD_PATH):|g' -i Makedefs.in

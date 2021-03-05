@@ -1,6 +1,21 @@
-{ stdenv, fetchPypi, isPy27, python, buildPythonPackage, pythonOlder
-, numpy, hdf5, cython, six, pkgconfig, unittest2, fetchpatch
-, mpi4py ? null, openssh, pytestCheckHook, cached-property }:
+{ stdenv
+, fetchPypi
+, isPy27
+, python
+, buildPythonPackage
+, pythonOlder
+, numpy
+, hdf5
+, cython
+, six
+, pkgconfig
+, unittest2
+, fetchpatch
+, mpi4py ? null
+, openssh
+, pytestCheckHook
+, cached-property
+}:
 
 assert hdf5.mpiSupport -> mpi4py != null && hdf5.mpi == mpi4py.mpi;
 
@@ -9,7 +24,8 @@ with stdenv.lib;
 let
   mpi = hdf5.mpi;
   mpiSupport = hdf5.mpiSupport;
-in buildPythonPackage rec {
+in
+buildPythonPackage rec {
   version = "3.1.0";
   pname = "h5py";
   disabled = isPy27;
@@ -42,7 +58,7 @@ in buildPythonPackage rec {
   nativeBuildInputs = [ pkgconfig cython ];
   buildInputs = [ hdf5 ]
     ++ optional mpiSupport mpi;
-  propagatedBuildInputs = [ numpy six]
+  propagatedBuildInputs = [ numpy six ]
     ++ optionals mpiSupport [ mpi4py openssh ]
     ++ optionals (pythonOlder "3.8") [ cached-property ];
 

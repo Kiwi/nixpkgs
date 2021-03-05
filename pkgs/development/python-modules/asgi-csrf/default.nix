@@ -1,5 +1,14 @@
-{ stdenv, buildPythonPackage, isPy27, fetchFromGitHub, itsdangerous, python-multipart
-, pytestCheckHook, starlette, httpx, pytest-asyncio }:
+{ stdenv
+, buildPythonPackage
+, isPy27
+, fetchFromGitHub
+, itsdangerous
+, python-multipart
+, pytestCheckHook
+, starlette
+, httpx
+, pytest-asyncio
+}:
 
 buildPythonPackage rec {
   version = "0.7.1";

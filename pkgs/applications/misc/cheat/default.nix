@@ -1,5 +1,8 @@
-{ stdenv, fetchFromGitHub
-, buildGoModule, installShellFiles }:
+{ stdenv
+, fetchFromGitHub
+, buildGoModule
+, installShellFiles
+}:
 
 buildGoModule rec {
   pname = "cheat";

@@ -1,4 +1,6 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
 , matplotlib
 , mock
 , numpy

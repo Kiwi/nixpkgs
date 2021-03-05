@@ -1,5 +1,13 @@
-{ stdenv, fetchurl, pkgs, python3Packages, makeWrapper
-, enablePlayer ? true, libvlc ? null, qt5, lib }:
+{ stdenv
+, fetchurl
+, pkgs
+, python3Packages
+, makeWrapper
+, enablePlayer ? true
+, libvlc ? null
+, qt5
+, lib
+}:
 
 stdenv.mkDerivation rec {
   pname = "tribler";

@@ -10,13 +10,14 @@ let
     rev = "10b9500b67983f0a9c42d8ce8bf8e8c469f7078c";
     sha256 = "1yy8by15kfklw8lwh17z1swpj067q0skjjih12yawbryraig41m0";
   };
-  
+
   nodePackages = import ./nodepkgs.nix {
     inherit pkgs;
     inherit (stdenv.hostPlatform) system;
   };
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "remarkjs";
 
   version = "0.7.0";
@@ -40,12 +41,14 @@ in stdenv.mkDerivation rec {
   ]);
 
   configurePhase = ''
-    mkdir -p node_modules/.bin
-    ${concatStrings (map (dep: ''
-      test -d ${dep}/bin && (for b in $(ls ${dep}/bin); do
-        ln -sv -t node_modules/.bin ${dep}/bin/$b
-      done)
-    '') buildInputs)}
+        mkdir -p node_modules/.bin
+        ${concatStrings (map
+    (dep: ''
+          test -d ${dep}/bin && (for b in $(ls ${dep}/bin); do
+            ln -sv -t node_modules/.bin ${dep}/bin/$b
+          done)
+        '')
+    buildInputs)}
   '';
 
   buildPhase = ''
@@ -62,7 +65,7 @@ in stdenv.mkDerivation rec {
   meta = {
     homepage = "https://remarkjs.com";
     description = "A simple, in-browser, markdown-driven slideshow tool";
-    maintainers = [];
+    maintainers = [ ];
     platforms = stdenv.lib.platforms.linux;
     license = stdenv.lib.licenses.mit;
     broken = true;

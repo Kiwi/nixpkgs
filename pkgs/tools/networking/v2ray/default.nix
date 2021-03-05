@@ -1,5 +1,12 @@
-{ lib, fetchFromGitHub, fetchurl, linkFarm, buildGoModule, runCommand, makeWrapper, nixosTests
-, assetOverrides ? {}
+{ lib
+, fetchFromGitHub
+, fetchurl
+, linkFarm
+, buildGoModule
+, runCommand
+, makeWrapper
+, nixosTests
+, assetOverrides ? { }
 }:
 
 let
@@ -16,28 +23,34 @@ let
 
   assets = {
     # MIT licensed
-    "geoip.dat" = let
-      geoipRev = "202012030015";
-      geoipSha256 = "1qy9h0721y5kjcp0s859lhj253jfi3d3i658gpc4kmij2l5dxm5w";
-    in fetchurl {
-      url = "https://github.com/v2fly/geoip/releases/download/${geoipRev}/geoip.dat";
-      sha256 = geoipSha256;
-    };
+    "geoip.dat" =
+      let
+        geoipRev = "202012030015";
+        geoipSha256 = "1qy9h0721y5kjcp0s859lhj253jfi3d3i658gpc4kmij2l5dxm5w";
+      in
+      fetchurl {
+        url = "https://github.com/v2fly/geoip/releases/download/${geoipRev}/geoip.dat";
+        sha256 = geoipSha256;
+      };
 
     # MIT licensed
-    "geosite.dat" = let
-      geositeRev = "20201207123222";
-      geositeSha256 = "03xckk39rrda42cam2awbsh0gib6rhmz28asc8vx29lsp9g2bj6n";
-    in fetchurl {
-      url = "https://github.com/v2fly/domain-list-community/releases/download/${geositeRev}/dlc.dat";
-      sha256 = geositeSha256;
-    };
+    "geosite.dat" =
+      let
+        geositeRev = "20201207123222";
+        geositeSha256 = "03xckk39rrda42cam2awbsh0gib6rhmz28asc8vx29lsp9g2bj6n";
+      in
+      fetchurl {
+        url = "https://github.com/v2fly/domain-list-community/releases/download/${geositeRev}/dlc.dat";
+        sha256 = geositeSha256;
+      };
 
   } // assetOverrides;
 
-  assetsDrv = linkFarm "v2ray-assets" (lib.mapAttrsToList (name: path: {
-    inherit name path;
-  }) assets);
+  assetsDrv = linkFarm "v2ray-assets" (lib.mapAttrsToList
+    (name: path: {
+      inherit name path;
+    })
+    assets);
 
   core = buildGoModule rec {
     pname = "v2ray-core";
@@ -68,7 +81,9 @@ let
     };
   };
 
-in runCommand "v2ray-${version}" {
+in
+runCommand "v2ray-${version}"
+{
   inherit version;
   inherit (core) meta;
 

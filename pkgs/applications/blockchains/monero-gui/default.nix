@@ -1,26 +1,45 @@
-{ stdenv, wrapQtAppsHook, makeDesktopItem
+{ stdenv
+, wrapQtAppsHook
+, makeDesktopItem
 , fetchFromGitHub
-, cmake, qttools, pkgconfig
-, qtbase, qtdeclarative, qtgraphicaleffects
-, qtmultimedia, qtxmlpatterns
-, qtquickcontrols, qtquickcontrols2
-, monero, miniupnpc, unbound, readline
-, boost, libunwind, libsodium, pcsclite
-, randomx, zeromq, libgcrypt, libgpgerror
-, hidapi, rapidjson
+, cmake
+, qttools
+, pkgconfig
+, qtbase
+, qtdeclarative
+, qtgraphicaleffects
+, qtmultimedia
+, qtxmlpatterns
+, qtquickcontrols
+, qtquickcontrols2
+, monero
+, miniupnpc
+, unbound
+, readline
+, boost
+, libunwind
+, libsodium
+, pcsclite
+, randomx
+, zeromq
+, libgcrypt
+, libgpgerror
+, hidapi
+, rapidjson
 , trezorSupport ? true
-,   libusb1  ? null
-,   protobuf ? null
-,   python3  ? null
+, libusb1 ? null
+, protobuf ? null
+, python3 ? null
 }:
 
 with stdenv.lib;
 
-assert trezorSupport -> all (x: x!=null) [ libusb1 protobuf python3 ];
+assert trezorSupport -> all (x: x != null) [ libusb1 protobuf python3 ];
 
 let
-  arch = if stdenv.isx86_64  then "x86-64"
-    else if stdenv.isi686    then "i686"
+  arch =
+    if stdenv.isx86_64 then "x86-64"
+    else if stdenv.isi686 then "i686"
     else if stdenv.isAarch64 then "armv8-a"
     else throw "unsupported architecture";
 in
@@ -30,25 +49,41 @@ stdenv.mkDerivation rec {
   version = "0.17.1.6";
 
   src = fetchFromGitHub {
-    owner  = "monero-project";
-    repo   = "monero-gui";
-    rev    = "v${version}";
+    owner = "monero-project";
+    repo = "monero-gui";
+    rev = "v${version}";
     sha256 = "0kn5wvx2psbdaqmy1cxlbf5l1mdpvh0b6hh9drah3s7nj3654a3r";
   };
 
   nativeBuildInputs = [
-    cmake pkgconfig wrapQtAppsHook
+    cmake
+    pkgconfig
+    wrapQtAppsHook
     (getDev qttools)
   ];
 
   buildInputs = [
-    qtbase qtdeclarative qtgraphicaleffects
-    qtmultimedia qtquickcontrols qtquickcontrols2
+    qtbase
+    qtdeclarative
+    qtgraphicaleffects
+    qtmultimedia
+    qtquickcontrols
+    qtquickcontrols2
     qtxmlpatterns
-    monero miniupnpc unbound readline
-    randomx libgcrypt libgpgerror
-    boost libunwind libsodium pcsclite
-    zeromq hidapi rapidjson
+    monero
+    miniupnpc
+    unbound
+    readline
+    randomx
+    libgcrypt
+    libgpgerror
+    boost
+    libunwind
+    libsodium
+    pcsclite
+    zeromq
+    hidapi
+    rapidjson
   ] ++ optionals trezorSupport [ libusb1 protobuf python3 ];
 
   postUnpack = ''
@@ -83,7 +118,7 @@ stdenv.mkDerivation rec {
     icon = "monero";
     desktopName = "Monero";
     genericName = "Wallet";
-    categories  = "Network;Utility;";
+    categories = "Network;Utility;";
   };
 
   postInstall = ''
@@ -101,11 +136,11 @@ stdenv.mkDerivation rec {
   '';
 
   meta = {
-    description  = "Private, secure, untraceable currency";
-    homepage     = "https://getmonero.org/";
-    license      = licenses.bsd3;
-    platforms    = platforms.all;
+    description = "Private, secure, untraceable currency";
+    homepage = "https://getmonero.org/";
+    license = licenses.bsd3;
+    platforms = platforms.all;
     badPlatforms = platforms.darwin;
-    maintainers  = with maintainers; [ rnhmjoj ];
+    maintainers = with maintainers; [ rnhmjoj ];
   };
 }

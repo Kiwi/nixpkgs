@@ -1,6 +1,17 @@
-{ lib, buildPythonPackage, fetchFromGitHub
-, acme, aiohttp, snitun, attrs, pycognito, warrant
-, pytest-aiohttp, asynctest, atomicwrites, pytest }:
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, acme
+, aiohttp
+, snitun
+, attrs
+, pycognito
+, warrant
+, pytest-aiohttp
+, asynctest
+, atomicwrites
+, pytest
+}:
 
 buildPythonPackage rec {
   pname = "hass-nabucasa";
@@ -20,7 +31,13 @@ buildPythonPackage rec {
   '';
 
   propagatedBuildInputs = [
-    acme aiohttp atomicwrites snitun attrs warrant pycognito
+    acme
+    aiohttp
+    atomicwrites
+    snitun
+    attrs
+    warrant
+    pycognito
   ];
 
   checkInputs = [ pytest pytest-aiohttp asynctest ];

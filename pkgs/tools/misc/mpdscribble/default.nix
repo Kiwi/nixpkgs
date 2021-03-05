@@ -6,7 +6,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url =
-    "https://www.musicpd.org/download/mpdscribble/${version}/mpdscribble-${version}.tar.xz";
+      "https://www.musicpd.org/download/mpdscribble/${version}/mpdscribble-${version}.tar.xz";
     sha256 = "0s66zqscb44p88cl3kcv5jkjcqsskcnrv7xgrjhzrchf2kcpwf53";
   };
 

@@ -1,6 +1,11 @@
-{ stdenv, fetchFromGitHub
-, pkg-config, autoreconfHook
-, gtk3, gobject-introspection, gtk-doc, vala
+{ stdenv
+, fetchFromGitHub
+, pkg-config
+, autoreconfHook
+, gtk3
+, gobject-introspection
+, gtk-doc
+, vala
 }:
 
 stdenv.mkDerivation rec {

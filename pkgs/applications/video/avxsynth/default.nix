@@ -1,6 +1,15 @@
-{ stdenv, fetchFromGitHub, autoreconfHook, pkgconfig
-, cairo, ffmpeg_3, ffms, libjpeg, log4cpp, pango
-, avxeditSupport ? false, qt4 ? null
+{ stdenv
+, fetchFromGitHub
+, autoreconfHook
+, pkgconfig
+, cairo
+, ffmpeg_3
+, ffms
+, libjpeg
+, log4cpp
+, pango
+, avxeditSupport ? false
+, qt4 ? null
 }:
 
 let

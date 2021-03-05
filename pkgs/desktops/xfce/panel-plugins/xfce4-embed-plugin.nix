@@ -6,7 +6,7 @@ in
 
 with stdenv.lib;
 stdenv.mkDerivation rec {
-  pname  = "xfce4-embed-plugin";
+  pname = "xfce4-embed-plugin";
   version = "1.6.0";
 
   src = fetchurl {

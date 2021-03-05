@@ -1,5 +1,8 @@
-{ stdenv, buildPackages
-, fetchurl, linuxHeaders, libiconvReal
+{ stdenv
+, buildPackages
+, fetchurl
+, linuxHeaders
+, libiconvReal
 , extraConfig ? ""
 }:
 

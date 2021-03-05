@@ -3,7 +3,7 @@
 stdenv.mkDerivation {
   pname = "ssh-ident";
   version = "2016-04-21";
-  src = fetchFromGitHub  {
+  src = fetchFromGitHub {
     owner = "ccontavalli";
     repo = "ssh-ident";
     rev = "ebf8282728211dc4448d50f7e16e546ed03c22d2";
@@ -15,7 +15,7 @@ stdenv.mkDerivation {
     mkdir -p $out/bin
     install -m 755 ssh-ident $out/bin/ssh-ident
     wrapProgram $out/bin/ssh-ident \
-      --prefix PATH : ${lib.makeBinPath [ openssh  ]}
+      --prefix PATH : ${lib.makeBinPath [ openssh ]}
   '';
 
   meta = {

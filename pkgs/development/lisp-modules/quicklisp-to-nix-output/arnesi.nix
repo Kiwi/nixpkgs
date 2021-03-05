@@ -16,7 +16,7 @@ rec {
 
   packageName = "arnesi";
 
-  asdFilesToKeep = ["arnesi.asd"];
+  asdFilesToKeep = [ "arnesi.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM arnesi DESCRIPTION

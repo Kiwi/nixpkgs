@@ -1,6 +1,16 @@
-{ gccStdenv, fetchzip, boost, cmake, ncurses, python3, coreutils
-, z3Support ? true, z3 ? null, cvc4Support ? true, cvc4 ? null
-, cln ? null, gmp ? null
+{ gccStdenv
+, fetchzip
+, boost
+, cmake
+, ncurses
+, python3
+, coreutils
+, z3Support ? true
+, z3 ? null
+, cvc4Support ? true
+, cvc4 ? null
+, cln ? null
+, gmp ? null
 }:
 
 # compiling source/libsmtutil/CVC4Interface.cpp breaks on clang on Darwin,

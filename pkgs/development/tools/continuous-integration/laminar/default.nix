@@ -34,7 +34,8 @@ let
       "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css";
     sha256 = "11vx860prsx7wsy8b0yrrk04ih8kvrxkk8l16snsc4n286bdkyri";
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "laminar";
   version = "0.8";
   src = fetchurl {

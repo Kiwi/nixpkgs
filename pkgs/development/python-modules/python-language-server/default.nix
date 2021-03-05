@@ -1,8 +1,25 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub, fetchpatch, pythonOlder, isPy27
-, backports_functools_lru_cache, configparser, futures, future, jedi, pluggy, python-jsonrpc-server, flake8
-, pytestCheckHook, mock, pytestcov, coverage, setuptools, ujson
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, fetchpatch
+, pythonOlder
+, isPy27
+, backports_functools_lru_cache
+, configparser
+, futures
+, future
+, jedi
+, pluggy
+, python-jsonrpc-server
+, flake8
+, pytestCheckHook
+, mock
+, pytestcov
+, coverage
+, setuptools
+, ujson
 , # Allow building a limited set of providers, e.g. ["pycodestyle"].
-  providers ? ["*"]
+  providers ? [ "*" ]
   # The following packages are optional and
   # can be overwritten with null as your liking.
 , autopep8 ? null
@@ -44,10 +61,13 @@ buildPythonPackage rec {
   '';
 
   # The tests require all the providers, disable otherwise.
-  doCheck = providers == ["*"];
+  doCheck = providers == [ "*" ];
 
   checkInputs = [
-    pytestCheckHook mock pytestcov coverage
+    pytestCheckHook
+    mock
+    pytestcov
+    coverage
     # rope is technically a dependency, but we don't add it by default since we
     # already have jedi, which is the preferred option
     rope

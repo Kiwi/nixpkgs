@@ -1,8 +1,18 @@
-{ stdenv, fetchFromGitHub
-, buildPythonApplication, python
-, pytestCheckHook, mock, pathpy, pyhamcrest, pytest-html
+{ stdenv
+, fetchFromGitHub
+, buildPythonApplication
+, python
+, pytestCheckHook
+, mock
+, pathpy
+, pyhamcrest
+, pytest-html
 , glibcLocales
-, colorama, cucumber-tag-expressions, parse, parse-type, six
+, colorama
+, cucumber-tag-expressions
+, parse
+, parse-type
+, six
 }:
 
 buildPythonApplication rec {

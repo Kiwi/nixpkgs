@@ -1,6 +1,23 @@
-{ stdenv, mkDerivation, fetchurl, cmake, pkgconfig, darwin
-, openexr, zlib, imagemagick, libGLU, libGL, freeglut, fftwFloat
-, fftw, gsl, libexif, perl, opencv2, qtbase, netpbm
+{ stdenv
+, mkDerivation
+, fetchurl
+, cmake
+, pkgconfig
+, darwin
+, openexr
+, zlib
+, imagemagick
+, libGLU
+, libGL
+, freeglut
+, fftwFloat
+, fftw
+, gsl
+, libexif
+, perl
+, opencv2
+, qtbase
+, netpbm
 }:
 
 mkDerivation rec {
@@ -12,7 +29,7 @@ mkDerivation rec {
     sha256 = "04rlb705gmdiphcybf9dyr0d5lla2cfs3c308zz37x0vwi445six";
   };
 
-  outputs = [ "out" "dev" "man"];
+  outputs = [ "out" "dev" "man" ];
 
   cmakeFlags = [ "-DWITH_MATLAB=false" ];
 
@@ -27,12 +44,25 @@ mkDerivation rec {
 
   nativeBuildInputs = [ cmake pkgconfig ];
   buildInputs = [
-    openexr zlib imagemagick fftwFloat
-    fftw gsl libexif perl opencv2 qtbase netpbm
-  ] ++ (if stdenv.isDarwin then (with darwin.apple_sdk.frameworks; [
-    OpenGL GLUT
-  ]) else [
-    libGLU libGL freeglut
+    openexr
+    zlib
+    imagemagick
+    fftwFloat
+    fftw
+    gsl
+    libexif
+    perl
+    opencv2
+    qtbase
+    netpbm
+  ] ++ (if stdenv.isDarwin then
+    (with darwin.apple_sdk.frameworks; [
+      OpenGL
+      GLUT
+    ]) else [
+    libGLU
+    libGL
+    freeglut
   ]);
 
   patches = [ ./threads.patch ./pfstools.patch ./pfsalign.patch ];

@@ -1,5 +1,16 @@
-{ stdenv, fetchurl, netcat
-, systemd ? null, ejabberd ? null, mysql ? null, postgresql ? null, subversion ? null, mongodb ? null, mongodb-tools ? null, influxdb ? null, supervisor ? null, docker ? null
+{ stdenv
+, fetchurl
+, netcat
+, systemd ? null
+, ejabberd ? null
+, mysql ? null
+, postgresql ? null
+, subversion ? null
+, mongodb ? null
+, mongodb-tools ? null
+, influxdb ? null
+, supervisor ? null
+, docker ? null
 , enableApacheWebApplication ? false
 , enableAxis2WebService ? false
 , enableEjabberdDump ? false
@@ -36,19 +47,19 @@ stdenv.mkDerivation {
   preConfigure = if enableEjabberdDump then "export PATH=$PATH:${ejabberd}/sbin" else "";
 
   configureFlags = [
-     (if enableApacheWebApplication then "--with-apache" else "--without-apache")
-     (if enableAxis2WebService then "--with-axis2" else "--without-axis2")
-     (if enableEjabberdDump then "--with-ejabberd" else "--without-ejabberd")
-     (if enableMySQLDatabase then "--with-mysql" else "--without-mysql")
-     (if enablePostgreSQLDatabase then "--with-postgresql" else "--without-postgresql")
-     (if enableSubversionRepository then "--with-subversion" else "--without-subversion")
-     (if enableTomcatWebApplication then "--with-tomcat=${catalinaBaseDir}" else "--without-tomcat")
-     (if enableMongoDatabase then "--with-mongodb" else "--without-mongodb")
-     (if enableInfluxDatabase then "--with-influxdb" else "--without-influxdb")
-     (if enableSupervisordProgram then "--with-supervisord" else "--without-supervisord")
-     (if enableDockerContainer then "--with-docker" else "--without-docker")
-     "--with-job-template=${jobTemplate}"
-   ] ++ stdenv.lib.optional enableLegacy "--enable-legacy";
+    (if enableApacheWebApplication then "--with-apache" else "--without-apache")
+    (if enableAxis2WebService then "--with-axis2" else "--without-axis2")
+    (if enableEjabberdDump then "--with-ejabberd" else "--without-ejabberd")
+    (if enableMySQLDatabase then "--with-mysql" else "--without-mysql")
+    (if enablePostgreSQLDatabase then "--with-postgresql" else "--without-postgresql")
+    (if enableSubversionRepository then "--with-subversion" else "--without-subversion")
+    (if enableTomcatWebApplication then "--with-tomcat=${catalinaBaseDir}" else "--without-tomcat")
+    (if enableMongoDatabase then "--with-mongodb" else "--without-mongodb")
+    (if enableInfluxDatabase then "--with-influxdb" else "--without-influxdb")
+    (if enableSupervisordProgram then "--with-supervisord" else "--without-supervisord")
+    (if enableDockerContainer then "--with-docker" else "--without-docker")
+    "--with-job-template=${jobTemplate}"
+  ] ++ stdenv.lib.optional enableLegacy "--enable-legacy";
 
   buildInputs = [ getopt netcat ]
     ++ stdenv.lib.optional stdenv.isLinux systemd

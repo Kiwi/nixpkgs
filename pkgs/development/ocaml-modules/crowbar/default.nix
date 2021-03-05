@@ -1,14 +1,25 @@
-{ stdenv, buildDunePackage, fetchFromGitHub, ocplib-endian, cmdliner, afl-persistent
-, calendar, fpath, pprint, uutf, uunf, uucp }:
+{ stdenv
+, buildDunePackage
+, fetchFromGitHub
+, ocplib-endian
+, cmdliner
+, afl-persistent
+, calendar
+, fpath
+, pprint
+, uutf
+, uunf
+, uucp
+}:
 
 buildDunePackage rec {
   pname = "crowbar";
   version = "0.2";
 
   src = fetchFromGitHub {
-    owner  = "stedolan";
-    repo   = pname;
-    rev    = "v${version}";
+    owner = "stedolan";
+    repo = pname;
+    rev = "v${version}";
     sha256 = "0wjfc9irvirfkic32ivvj6qb7r838w08b0d3vmngigbjpjyc9b14";
   };
 

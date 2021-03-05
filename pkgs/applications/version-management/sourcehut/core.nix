@@ -1,9 +1,29 @@
-{ stdenv, fetchgit, fetchNodeModules, buildPythonPackage
-, pgpy, flask, bleach, humanize, html5lib, markdown, psycopg2, pygments
-, requests, sqlalchemy, cryptography, beautifulsoup4, sqlalchemy-utils, prometheus_client
-, celery, alembic, importlib-metadata, mistletoe
-, sassc, nodejs
-, writeText }:
+{ stdenv
+, fetchgit
+, fetchNodeModules
+, buildPythonPackage
+, pgpy
+, flask
+, bleach
+, humanize
+, html5lib
+, markdown
+, psycopg2
+, pygments
+, requests
+, sqlalchemy
+, cryptography
+, beautifulsoup4
+, sqlalchemy-utils
+, prometheus_client
+, celery
+, alembic
+, importlib-metadata
+, mistletoe
+, sassc
+, nodejs
+, writeText
+}:
 
 buildPythonPackage rec {
   pname = "srht";

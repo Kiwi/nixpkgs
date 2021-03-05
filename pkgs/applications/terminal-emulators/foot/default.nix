@@ -1,6 +1,18 @@
-{ stdenv, fetchgit
-, fcft, freetype, pixman, libxkbcommon, fontconfig, wayland
-, meson, ninja, ncurses, scdoc, tllist, wayland-protocols, pkg-config
+{ stdenv
+, fetchgit
+, fcft
+, freetype
+, pixman
+, libxkbcommon
+, fontconfig
+, wayland
+, meson
+, ninja
+, ncurses
+, scdoc
+, tllist
+, wayland-protocols
+, pkg-config
 }:
 
 stdenv.mkDerivation rec {
@@ -14,10 +26,21 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    meson ninja ncurses scdoc tllist wayland-protocols pkg-config
+    meson
+    ninja
+    ncurses
+    scdoc
+    tllist
+    wayland-protocols
+    pkg-config
   ];
   buildInputs = [
-    fontconfig freetype pixman wayland libxkbcommon fcft
+    fontconfig
+    freetype
+    pixman
+    wayland
+    libxkbcommon
+    fcft
   ];
 
   # recommended build flags for foot as per INSTALL.md

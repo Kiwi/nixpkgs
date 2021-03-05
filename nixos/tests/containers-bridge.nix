@@ -7,7 +7,7 @@ let
   containerIp6 = "fc00::2/7";
 in
 
-import ./make-test-python.nix ({ pkgs, ...} : {
+import ./make-test-python.nix ({ pkgs, ... }: {
   name = "containers-bridge";
   meta = with pkgs.stdenv.lib.maintainers; {
     maintainers = [ aristid aszlig eelco kampfschlaefer ];
@@ -15,13 +15,14 @@ import ./make-test-python.nix ({ pkgs, ...} : {
 
   machine =
     { pkgs, ... }:
-    { imports = [ ../modules/installer/cd-dvd/channel.nix ];
+    {
+      imports = [ ../modules/installer/cd-dvd/channel.nix ];
       virtualisation.writableStore = true;
       virtualisation.memorySize = 768;
 
       networking.bridges = {
         br0 = {
-          interfaces = [];
+          interfaces = [ ];
         };
       };
       networking.interfaces = {
@@ -39,7 +40,8 @@ import ./make-test-python.nix ({ pkgs, ...} : {
           localAddress = containerIp;
           localAddress6 = containerIp6;
           config =
-            { services.httpd.enable = true;
+            {
+              services.httpd.enable = true;
               services.httpd.adminAddr = "foo@example.org";
               networking.firewall.allowedTCPPorts = [ 80 ];
             };
@@ -51,7 +53,8 @@ import ./make-test-python.nix ({ pkgs, ...} : {
           privateNetwork = true;
           hostBridge = "br0";
           config =
-            { services.httpd.enable = true;
+            {
+              services.httpd.enable = true;
               services.httpd.adminAddr = "foo@example.org";
               networking.firewall.allowedTCPPorts = [ 80 ];
             };

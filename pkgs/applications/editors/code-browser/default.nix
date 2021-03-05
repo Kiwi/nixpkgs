@@ -7,7 +7,8 @@
 , gtk3
 , pkg-config
 , withQt ? false
-, withGtk ? false, wrapQtAppsHook ? null
+, withGtk ? false
+, wrapQtAppsHook ? null
 }:
 stdenv.mkDerivation rec {
   pname = "code-browser";
@@ -21,16 +22,17 @@ stdenv.mkDerivation rec {
     substituteInPlace libs/copper-ui/Makefile --replace "moc -o" "${qtbase.dev}/bin/moc -o"
     patchShebangs .
   '';
-  nativeBuildInputs = [ copper
-                        python3
-                        ruby
-                        qtbase
-                        gtk3
-                        pkg-config
-                      ]
+  nativeBuildInputs = [
+    copper
+    python3
+    ruby
+    qtbase
+    gtk3
+    pkg-config
+  ]
   ++ stdenv.lib.optionals withQt [ wrapQtAppsHook ];
   buildInputs = stdenv.lib.optionals withQt [ qtbase ]
-                ++ stdenv.lib.optionals withGtk [ gtk3 ];
+    ++ stdenv.lib.optionals withGtk [ gtk3 ];
   makeFlags = [
     "prefix=$(out)"
     "COPPER=${copper}/bin/copper-elf64"

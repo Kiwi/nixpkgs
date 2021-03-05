@@ -1,10 +1,22 @@
-{ stdenv, fetchurl, intltool, gtk3, gnome3, librsvg, pkgconfig, pango, atk, gtk2
-, gdk-pixbuf, hicolor-icon-theme }:
+{ stdenv
+, fetchurl
+, intltool
+, gtk3
+, gnome3
+, librsvg
+, pkgconfig
+, pango
+, atk
+, gtk2
+, gdk-pixbuf
+, hicolor-icon-theme
+}:
 
 let
   pname = "gnome-themes-extra";
   version = "3.28";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "${pname}-${version}";
 
   src = fetchurl {

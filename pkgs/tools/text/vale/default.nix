@@ -8,9 +8,9 @@ buildGoModule rec {
   outputs = [ "out" "data" ];
 
   src = fetchFromGitHub {
-    owner  = "errata-ai";
-    repo   = "vale";
-    rev    = "v${version}";
+    owner = "errata-ai";
+    repo = "vale";
+    rev = "v${version}";
     sha256 = "0rvcxlw8xd7sjcsvr6di04l8ml990im2c8yl3hn8054wkp51yb4l";
   };
 

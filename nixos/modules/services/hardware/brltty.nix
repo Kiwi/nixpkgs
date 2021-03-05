@@ -5,7 +5,8 @@ with lib;
 let
   cfg = config.services.brltty;
 
-in {
+in
+{
 
   options = {
 

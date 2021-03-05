@@ -1,8 +1,22 @@
-{ stdenv, fetchFromGitHub
-, meson, ninja, pkg-config, wayland, scdoc, makeWrapper
-, wlroots, wayland-protocols, pixman, libxkbcommon
-, cairo , pango, fontconfig, pandoc, systemd
-, withXwayland ? true, xwayland
+{ stdenv
+, fetchFromGitHub
+, meson
+, ninja
+, pkg-config
+, wayland
+, scdoc
+, makeWrapper
+, wlroots
+, wayland-protocols
+, pixman
+, libxkbcommon
+, cairo
+, pango
+, fontconfig
+, pandoc
+, systemd
+, withXwayland ? true
+, xwayland
 , nixosTests
 }:
 
@@ -20,8 +34,16 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ meson ninja pkg-config wayland scdoc makeWrapper ];
 
   buildInputs = [
-    wlroots wayland wayland-protocols pixman libxkbcommon cairo
-    pango fontconfig pandoc systemd
+    wlroots
+    wayland
+    wayland-protocols
+    pixman
+    libxkbcommon
+    cairo
+    pango
+    fontconfig
+    pandoc
+    systemd
   ];
 
   outputs = [ "out" "contrib" ];

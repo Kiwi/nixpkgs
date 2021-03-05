@@ -7,10 +7,10 @@ python3Packages.buildPythonApplication {
   # the tools are available as part of the source distribution from GH but
   # not pypi, so we have to fetch them here.
   src = fetchFromGitHub {
-    owner  = "mjg59";
-    repo   = "python-broadlink";
+    owner = "mjg59";
+    repo = "python-broadlink";
     # this rev is version 0.15.0
-    rev    = "99add9e6feea6e47be4f3a58783556d7838b759c";
+    rev = "99add9e6feea6e47be4f3a58783556d7838b759c";
     sha256 = "1q1q62brvfjcb18i0j4ca5cxqzjwv1iywdrdby0yjqa4wm6ywq6b";
   };
 

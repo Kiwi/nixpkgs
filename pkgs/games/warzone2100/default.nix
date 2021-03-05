@@ -1,6 +1,22 @@
-{ stdenv, mkDerivation, fetchurl, autoconf, automake
-, perl, unzip, zip, which, pkgconfig, qtbase, qtscript
-, SDL2, libtheora, openal, glew, physfs, fribidi, libXrandr
+{ stdenv
+, mkDerivation
+, fetchurl
+, autoconf
+, automake
+, perl
+, unzip
+, zip
+, which
+, pkgconfig
+, qtbase
+, qtscript
+, SDL2
+, libtheora
+, openal
+, glew
+, physfs
+, fribidi
+, libXrandr
 , withVideos ? false
 }:
 
@@ -14,7 +30,7 @@ in
 
 mkDerivation rec {
   inherit pname;
-  version  = "3.3.0";
+  version = "3.3.0";
 
   src = fetchurl {
     url = "mirror://sourceforge/${pname}/releases/${version}/${pname}-${version}_src.tar.xz";
@@ -22,11 +38,23 @@ mkDerivation rec {
   };
 
   buildInputs = [
-    qtbase qtscript SDL2 libtheora openal
-    glew physfs fribidi libXrandr
+    qtbase
+    qtscript
+    SDL2
+    libtheora
+    openal
+    glew
+    physfs
+    fribidi
+    libXrandr
   ];
   nativeBuildInputs = [
-    perl zip unzip pkgconfig autoconf automake
+    perl
+    zip
+    unzip
+    pkgconfig
+    autoconf
+    automake
   ];
 
   preConfigure = "./autogen.sh";

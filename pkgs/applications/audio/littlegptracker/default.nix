@@ -32,7 +32,7 @@ stdenv.mkDerivation rec {
   preBuild = "cd projects";
 
   makeFlags = [ "CXX=${stdenv.cc.targetPrefix}c++" ]
-    ++ stdenv.lib.optionals stdenv.isLinux  [ "PLATFORM=DEB" ]
+    ++ stdenv.lib.optionals stdenv.isLinux [ "PLATFORM=DEB" ]
     ++ stdenv.lib.optionals stdenv.isDarwin [ "PLATFORM=OSX" ];
 
   NIX_CFLAGS_COMPILE = [ "-fpermissive" ] ++
@@ -40,7 +40,8 @@ stdenv.mkDerivation rec {
 
   NIX_LDFLAGS = stdenv.lib.optional stdenv.isDarwin "-framework Foundation";
 
-  installPhase = let extension = if stdenv.isDarwin then "app" else "deb-exe";
+  installPhase =
+    let extension = if stdenv.isDarwin then "app" else "deb-exe";
     in "install -Dm555 lgpt.${extension} $out/bin/lgpt";
 
   passthru.updateScript = unstableGitUpdater { };

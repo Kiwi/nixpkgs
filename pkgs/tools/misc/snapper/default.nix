@@ -1,7 +1,26 @@
-{ stdenv, fetchFromGitHub
-, autoreconfHook, pkgconfig, docbook_xsl, libxslt, docbook_xml_dtd_45
-, acl, attr, boost, btrfs-progs, dbus, diffutils, e2fsprogs, libxml2
-, lvm2, pam, python, util-linux, fetchpatch, json_c, nixosTests }:
+{ stdenv
+, fetchFromGitHub
+, autoreconfHook
+, pkgconfig
+, docbook_xsl
+, libxslt
+, docbook_xml_dtd_45
+, acl
+, attr
+, boost
+, btrfs-progs
+, dbus
+, diffutils
+, e2fsprogs
+, libxml2
+, lvm2
+, pam
+, python
+, util-linux
+, fetchpatch
+, json_c
+, nixosTests
+}:
 
 stdenv.mkDerivation rec {
   pname = "snapper";
@@ -15,12 +34,26 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    autoreconfHook pkgconfig
-    docbook_xsl libxslt docbook_xml_dtd_45
+    autoreconfHook
+    pkgconfig
+    docbook_xsl
+    libxslt
+    docbook_xml_dtd_45
   ];
   buildInputs = [
-    acl attr boost btrfs-progs dbus diffutils e2fsprogs libxml2
-    lvm2 pam python util-linux json_c
+    acl
+    attr
+    boost
+    btrfs-progs
+    dbus
+    diffutils
+    e2fsprogs
+    libxml2
+    lvm2
+    pam
+    python
+    util-linux
+    json_c
   ];
 
   passthru.tests.snapper = nixosTests.snapper;
@@ -46,7 +79,7 @@ stdenv.mkDerivation rec {
   '';
 
   configureFlags = [
-    "--disable-ext4"	# requires patched kernel & e2fsprogs
+    "--disable-ext4" # requires patched kernel & e2fsprogs
   ];
 
   enableParallelBuilding = true;

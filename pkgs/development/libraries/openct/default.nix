@@ -1,5 +1,11 @@
-{ stdenv, fetchFromGitHub, autoreconfHook, pkgconfig, pcsclite, libusb-compat-0_1
-, doxygen, libxslt
+{ stdenv
+, fetchFromGitHub
+, autoreconfHook
+, pkgconfig
+, pcsclite
+, libusb-compat-0_1
+, doxygen
+, libxslt
 }:
 
 stdenv.mkDerivation rec {

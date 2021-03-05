@@ -1,6 +1,19 @@
-{ stdenv, lib, fetchFromGitHub, cmake, boost, tbb
-, gmp, llvm, clang, sqlite, python3
-, ocamlPackages, mpfr, ppl, doxygen, graphviz
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, boost
+, tbb
+, gmp
+, llvm
+, clang
+, sqlite
+, python3
+, ocamlPackages
+, mpfr
+, ppl
+, doxygen
+, graphviz
 }:
 
 let
@@ -20,8 +33,21 @@ stdenv.mkDerivation rec {
     sha256 = "0k3kp1af0qx3l1x6a4sl4fm8qlwchjvwkvs2ck0fhfnc62q2im5f";
   };
 
-  buildInputs = [ cmake boost tbb gmp clang llvm sqlite python
-                  ocamlPackages.apron mpfr ppl doxygen graphviz ];
+  buildInputs = [
+    cmake
+    boost
+    tbb
+    gmp
+    clang
+    llvm
+    sqlite
+    python
+    ocamlPackages.apron
+    mpfr
+    ppl
+    doxygen
+    graphviz
+  ];
 
   cmakeFlags = [ "-DAPRON_ROOT=${ocamlPackages.apron}" ];
 

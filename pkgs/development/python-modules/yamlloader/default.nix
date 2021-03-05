@@ -1,5 +1,8 @@
-{ lib, buildPythonPackage, fetchPypi
-, pytest, pyyaml
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pytest
+, pyyaml
 }:
 
 buildPythonPackage rec {

@@ -1,6 +1,20 @@
-{ stdenv, buildPythonPackage, fetchPypi, pytestCheckHook, pythonOlder, freezegun
-, google_api_core, google_cloud_core, google_cloud_testutils
-, google_resumable_media, grpcio, ipython, mock, pandas, proto-plus, pyarrow }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pytestCheckHook
+, pythonOlder
+, freezegun
+, google_api_core
+, google_cloud_core
+, google_cloud_testutils
+, google_resumable_media
+, grpcio
+, ipython
+, mock
+, pandas
+, proto-plus
+, pyarrow
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-bigquery";

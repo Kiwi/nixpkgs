@@ -1,5 +1,7 @@
-{ stdenv, fetchFromGitHub
-, libX11 }:
+{ stdenv
+, fetchFromGitHub
+, libX11
+}:
 
 stdenv.mkDerivation rec {
   pname = "tinywm";

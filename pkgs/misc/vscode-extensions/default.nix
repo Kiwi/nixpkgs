@@ -1,4 +1,4 @@
-{ stdenv, config, lib, callPackage, vscode-utils, nodePackages,llvmPackages_8, llvmPackages_latest }:
+{ stdenv, config, lib, callPackage, vscode-utils, nodePackages, llvmPackages_8, llvmPackages_latest }:
 
 let
   inherit (vscode-utils) buildVscodeMarketplaceExtension;
@@ -191,9 +191,9 @@ let
         };
       };
 
-      ms-vscode.cpptools = callPackage ./cpptools {};
+      ms-vscode.cpptools = callPackage ./cpptools { };
 
-      ms-vscode-remote.remote-ssh = callPackage ./remote-ssh {};
+      ms-vscode-remote.remote-ssh = callPackage ./remote-ssh { };
 
       ms-python.python = callPackage ./python {
         extractNuGet = callPackage ./python/extract-nuget.nix { };
@@ -223,7 +223,7 @@ let
         };
       };
 
-      matklad.rust-analyzer = callPackage ./rust-analyzer {};
+      matklad.rust-analyzer = callPackage ./rust-analyzer { };
 
       pkief.material-icon-theme = buildVscodeMarketplaceExtension {
         mktplcRef = {
@@ -301,7 +301,7 @@ let
         lldb = llvmPackages_latest.lldb;
       };
 
-      ms-vsliveshare.vsliveshare = callPackage ./ms-vsliveshare-vsliveshare {};
+      ms-vsliveshare.vsliveshare = callPackage ./ms-vsliveshare-vsliveshare { };
 
       vscodevim.vim = buildVscodeMarketplaceExtension {
         mktplcRef = {
@@ -330,20 +330,20 @@ let
 
       llvm-org.lldb-vscode = llvmPackages_8.lldb;
 
-      WakaTime.vscode-wakatime = callPackage ./wakatime {};
+      WakaTime.vscode-wakatime = callPackage ./wakatime { };
     };
 
-    aliases = self: super: {
-      # aliases
-      ms-vscode = lib.recursiveUpdate super.ms-vscode { inherit (super.golang) Go; };
-    };
+  aliases = self: super: {
+    # aliases
+    ms-vscode = lib.recursiveUpdate super.ms-vscode { inherit (super.golang) Go; };
+  };
 
-    # TODO: add overrides overlay, so that we can have a generated.nix
-    # then apply extension specific modifcations to packages.
+  # TODO: add overrides overlay, so that we can have a generated.nix
+  # then apply extension specific modifcations to packages.
 
-    # overlays will be applied left to right, overrides should come after aliases.
-    overlays = lib.optionals (config.allowAliases or true) [ aliases ];
+  # overlays will be applied left to right, overrides should come after aliases.
+  overlays = lib.optionals (config.allowAliases or true) [ aliases ];
 
-    toFix = lib.foldl' (lib.flip lib.extends) baseExtensions overlays;
+  toFix = lib.foldl' (lib.flip lib.extends) baseExtensions overlays;
 in
-  lib.fix toFix
+lib.fix toFix

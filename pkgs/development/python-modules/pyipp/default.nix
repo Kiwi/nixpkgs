@@ -1,6 +1,15 @@
-{ lib, buildPythonPackage, fetchFromGitHub, isPy27
-, aiohttp, deepmerge, yarl
-, aresponses, pytest, pytest-asyncio, pytestcov }:
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, isPy27
+, aiohttp
+, deepmerge
+, yarl
+, aresponses
+, pytest
+, pytest-asyncio
+, pytestcov
+}:
 
 buildPythonPackage rec {
   pname = "pyipp";
@@ -8,10 +17,10 @@ buildPythonPackage rec {
   disabled = isPy27;
 
   src = fetchFromGitHub {
-   owner = "ctalkington";
-   repo = "python-ipp";
-   rev = version;
-   sha256 = "0ar3mkyfa9qi3av3885bvacpwlxh420if9ymdj8i4x06ymzc213d";
+    owner = "ctalkington";
+    repo = "python-ipp";
+    rev = version;
+    sha256 = "0ar3mkyfa9qi3av3885bvacpwlxh420if9ymdj8i4x06ymzc213d";
   };
 
   propagatedBuildInputs = [

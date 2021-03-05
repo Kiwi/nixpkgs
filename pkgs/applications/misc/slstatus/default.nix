@@ -1,4 +1,4 @@
-{ stdenv, fetchgit, pkgconfig, writeText, libX11, conf ? null, patches ? [] }:
+{ stdenv, fetchgit, pkgconfig, writeText, libX11, conf ? null, patches ? [ ] }:
 
 with stdenv.lib;
 
@@ -12,8 +12,8 @@ stdenv.mkDerivation rec {
     sha256 = "0kayyhpmppybhwndxgabw48wsk9v8x9xdb05xrly9szkw3jbvgw4";
   };
 
-  configFile = optionalString (conf!=null) (writeText "config.def.h" conf);
-  preBuild = optionalString (conf!=null) "cp ${configFile} config.def.h";
+  configFile = optionalString (conf != null) (writeText "config.def.h" conf);
+  preBuild = optionalString (conf != null) "cp ${configFile} config.def.h";
 
   inherit patches;
 

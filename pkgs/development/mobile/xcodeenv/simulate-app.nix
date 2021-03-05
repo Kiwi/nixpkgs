@@ -1,5 +1,5 @@
-{stdenv, composeXcodeWrapper}:
-{name, app ? null, bundleId ? null, ...}@args:
+{ stdenv, composeXcodeWrapper }:
+{ name, app ? null, bundleId ? null, ... }@args:
 
 assert app != null -> bundleId != null;
 
@@ -9,7 +9,7 @@ let
   xcodewrapper = composeXcodeWrapper xcodewrapperArgs;
 in
 stdenv.mkDerivation {
-  name = stdenv.lib.replaceChars [" "] [""] name;
+  name = stdenv.lib.replaceChars [ " " ] [ "" ] name;
   buildCommand = ''
     mkdir -p $out/bin
     cat > $out/bin/run-test-simulator << "EOF"

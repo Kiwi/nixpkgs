@@ -1,4 +1,4 @@
-{stdenv, fetchurl}:
+{ stdenv, fetchurl }:
 stdenv.mkDerivation rec {
   version = "5.2.0";
   src = fetchurl {

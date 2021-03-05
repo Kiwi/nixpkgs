@@ -9,9 +9,12 @@
 , imagemagick
 , ghostscript
 , transfig
-, enableEmacs ? false, emacs ? null
-, enableLout ? true, lout ? null
-, enableTex ? true, tex ? null
+, enableEmacs ? false
+, emacs ? null
+, enableLout ? true
+, lout ? null
+, enableTex ? true
+, tex ? null
 , makeWrapper
 }:
 
@@ -19,7 +22,8 @@ let
   pname = "skribilo";
   version = "0.9.5";
   inherit (stdenv.lib) optional;
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit pname version;
 
   src = fetchurl {
@@ -30,9 +34,9 @@ in stdenv.mkDerivation {
   nativeBuildInputs = [ pkgconfig makeWrapper ];
 
   buildInputs = [ gettext guile ploticus imagemagick ghostscript transfig ]
-  ++ optional enableEmacs emacs
-  ++ optional enableLout lout
-  ++ optional enableTex tex;
+    ++ optional enableEmacs emacs
+    ++ optional enableLout lout
+    ++ optional enableTex tex;
 
   propagatedBuildInputs = [ guile-reader guile-lib ];
 

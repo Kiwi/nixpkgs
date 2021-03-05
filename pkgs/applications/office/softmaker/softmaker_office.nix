@@ -6,12 +6,13 @@
   # Softmaker Office or when the upstream archive was replaced and
   # nixpkgs is not in sync yet.
 , officeVersion ? {
-  version = "1020";
-  edition = "2021";
-  sha256 = "1v227pih1p33x7axsw7wz8pz5walpbqnk0iqng711ixk883nqxn5";
-}
+    version = "1020";
+    edition = "2021";
+    sha256 = "1v227pih1p33x7axsw7wz8pz5walpbqnk0iqng711ixk883nqxn5";
+  }
 
-, ... } @ args:
+, ...
+} @ args:
 
 callPackage ./generic.nix (args // rec {
   inherit (officeVersion) version edition;

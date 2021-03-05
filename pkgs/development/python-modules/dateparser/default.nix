@@ -1,4 +1,6 @@
-{ lib, fetchPypi, buildPythonPackage
+{ lib
+, fetchPypi
+, buildPythonPackage
 , nose
 , parameterized
 , mock
@@ -33,7 +35,7 @@ buildPythonPackage rec {
     six
     glibcLocales
   ];
-  preCheck =''
+  preCheck = ''
     # skip because of missing convertdate module, which is an extra requirement
     rm tests/test_jalali.py
   '';
@@ -48,9 +50,14 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [
     # install_requires
-    dateutil pytz regex tzlocal
+    dateutil
+    pytz
+    regex
+    tzlocal
     # extra_requires
-    jdatetime ruamel_yaml umalqurra
+    jdatetime
+    ruamel_yaml
+    umalqurra
   ];
 
   meta = with lib; {

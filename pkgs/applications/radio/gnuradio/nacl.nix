@@ -1,6 +1,17 @@
-{ stdenv, fetchFromGitHub, cmake, pkgconfig, boost, gnuradio, uhd
-, makeWrapper, libsodium, cppunit, log4cpp
-, pythonSupport ? true, python, swig
+{ stdenv
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, boost
+, gnuradio
+, uhd
+, makeWrapper
+, libsodium
+, cppunit
+, log4cpp
+, pythonSupport ? true
+, python
+, swig
 }:
 
 assert pythonSupport -> python != null && swig != null;
@@ -18,7 +29,14 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [
-    cmake boost gnuradio uhd makeWrapper libsodium cppunit log4cpp
+    cmake
+    boost
+    gnuradio
+    uhd
+    makeWrapper
+    libsodium
+    cppunit
+    log4cpp
   ] ++ stdenv.lib.optionals pythonSupport [ python swig ];
 
   postInstall = ''

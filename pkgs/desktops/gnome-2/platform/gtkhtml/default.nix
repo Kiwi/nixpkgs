@@ -1,5 +1,13 @@
-{ stdenv, fetchurl, pkgconfig, gtk2, intltool,
-GConf, enchant, isocodes, gnome-icon-theme }:
+{ stdenv
+, fetchurl
+, pkgconfig
+, gtk2
+, intltool
+, GConf
+, enchant
+, isocodes
+, gnome-icon-theme
+}:
 
 stdenv.mkDerivation rec {
   name = "gtkhtml-3.32.2";

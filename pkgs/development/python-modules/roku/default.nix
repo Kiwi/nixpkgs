@@ -1,4 +1,10 @@
-{ stdenv, fetchFromGitHub, buildPythonPackage, requests, pytest, flask, isPy27
+{ stdenv
+, fetchFromGitHub
+, buildPythonPackage
+, requests
+, pytest
+, flask
+, isPy27
 }:
 
 buildPythonPackage rec {

@@ -1,4 +1,4 @@
-{fetchurl}:
+{ fetchurl }:
 
 {
   "23".android-wear."armeabi-v7a" = {

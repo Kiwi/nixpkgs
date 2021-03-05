@@ -30,5 +30,5 @@ buildPythonPackage rec {
     homepage = "https://github.com/irmen/Serpent";
     license = licenses.mit;
     maintainers = with maintainers; [ prusnak ];
-    };
+  };
 }

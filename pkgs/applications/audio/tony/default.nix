@@ -1,7 +1,30 @@
-{ stdenv, fetchurl, pkgconfig, wrapQtAppsHook
-, alsaLib, boost, bzip2, fftw, fftwFloat, libX11, libfishsound, libid3tag
-, libjack2, liblo, libmad, libogg, liboggz, libpulseaudio, libsamplerate
-, libsndfile, lrdf, opusfile, qtbase, qtsvg, rubberband, serd, sord
+{ stdenv
+, fetchurl
+, pkgconfig
+, wrapQtAppsHook
+, alsaLib
+, boost
+, bzip2
+, fftw
+, fftwFloat
+, libX11
+, libfishsound
+, libid3tag
+, libjack2
+, liblo
+, libmad
+, libogg
+, liboggz
+, libpulseaudio
+, libsamplerate
+, libsndfile
+, lrdf
+, opusfile
+, qtbase
+, qtsvg
+, rubberband
+, serd
+, sord
 }:
 
 stdenv.mkDerivation rec {
@@ -15,9 +38,29 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ pkgconfig wrapQtAppsHook ];
 
   buildInputs = [
-    alsaLib boost bzip2 fftw fftwFloat libX11 libfishsound libid3tag
-    libjack2 liblo libmad libogg liboggz libpulseaudio libsamplerate
-    libsndfile lrdf opusfile qtbase qtsvg rubberband serd sord
+    alsaLib
+    boost
+    bzip2
+    fftw
+    fftwFloat
+    libX11
+    libfishsound
+    libid3tag
+    libjack2
+    liblo
+    libmad
+    libogg
+    liboggz
+    libpulseaudio
+    libsamplerate
+    libsndfile
+    lrdf
+    opusfile
+    qtbase
+    qtsvg
+    rubberband
+    serd
+    sord
   ];
 
   # comment out the tests

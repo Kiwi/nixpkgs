@@ -1,5 +1,17 @@
-{ stdenv, fetchurl, jre, autoPatchelfHook, zlib, writeScript
-, common-updater-scripts, git, nixfmt, nix, coreutils, gnused, nixosTests }:
+{ stdenv
+, fetchurl
+, jre
+, autoPatchelfHook
+, zlib
+, writeScript
+, common-updater-scripts
+, git
+, nixfmt
+, nix
+, coreutils
+, gnused
+, nixosTests
+}:
 
 stdenv.mkDerivation rec {
   pname = "sbt";

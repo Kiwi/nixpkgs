@@ -13,43 +13,45 @@ let
   configBool = b: if b then "TRUE" else "FALSE";
 
   confFile = pkgs.writeText "nntp-proxy.conf" ''
-    nntp_server:
-    {
-      # NNTP Server host and port address
-      server = "${cfg.upstreamServer}";
-      port = ${toString cfg.upstreamPort};
-      # NNTP username
-      username = "${cfg.upstreamUser}";
-      # NNTP password in clear text
-      password = "${cfg.upstreamPassword}";
-      # Maximum number of connections allowed by the NNTP
-      max_connections = ${toString cfg.upstreamMaxConnections};
-    };
+        nntp_server:
+        {
+          # NNTP Server host and port address
+          server = "${cfg.upstreamServer}";
+          port = ${toString cfg.upstreamPort};
+          # NNTP username
+          username = "${cfg.upstreamUser}";
+          # NNTP password in clear text
+          password = "${cfg.upstreamPassword}";
+          # Maximum number of connections allowed by the NNTP
+          max_connections = ${toString cfg.upstreamMaxConnections};
+        };
 
-    proxy:
-    {
-      # Local address and port to bind to
-      bind_ip = "${cfg.listenAddress}";
-      bind_port = ${toString cfg.port};
+        proxy:
+        {
+          # Local address and port to bind to
+          bind_ip = "${cfg.listenAddress}";
+          bind_port = ${toString cfg.port};
 
-      # SSL key and cert file
-      ssl_key = "${cfg.sslKey}";
-      ssl_cert = "${cfg.sslCert}";
+          # SSL key and cert file
+          ssl_key = "${cfg.sslKey}";
+          ssl_cert = "${cfg.sslCert}";
 
-      # prohibit users from posting
-      prohibit_posting = ${configBool cfg.prohibitPosting};
-      # Verbose levels: ERROR, WARNING, NOTICE, INFO, DEBUG
-      verbose = "${toUpper cfg.verbosity}";
-      # Password is made with: 'mkpasswd -m sha-512 <password>'
-      users = (${concatStringsSep ",\n" (mapAttrsToList (username: userConfig:
-        ''
-          {
-              username = "${username}";
-              password = "${userConfig.passwordHash}";
-              max_connections = ${toString userConfig.maxConnections};
-          }
-        '') cfg.users)});
-    };
+          # prohibit users from posting
+          prohibit_posting = ${configBool cfg.prohibitPosting};
+          # Verbose levels: ERROR, WARNING, NOTICE, INFO, DEBUG
+          verbose = "${toUpper cfg.verbosity}";
+          # Password is made with: 'mkpasswd -m sha-512 <password>'
+          users = (${concatStringsSep ",\n" (mapAttrsToList
+    (username: userConfig:
+            ''
+              {
+                  username = "${username}";
+                  password = "${userConfig.passwordHash}";
+                  max_connections = ${toString userConfig.maxConnections};
+              }
+            '')
+    cfg.users)});
+        };
   '';
 
 in
@@ -190,7 +192,7 @@ in
           NNTP-Proxy user configuration
         '';
 
-        default = {};
+        default = { };
         example = literalExample ''
           "user1" = {
             passwordHash = "$6$1l0t5Kn2Dk$appzivc./9l/kjq57eg5UCsBKlcfyCr0zNWYNerKoPsI1d7eAwiT0SVsOVx/CTgaBNT/u4fi2vN.iGlPfv1ek0";
@@ -211,7 +213,8 @@ in
   config = mkIf cfg.enable {
 
     users.users.${proxyUser} =
-      { uid = config.ids.uids.nntp-proxy;
+      {
+        uid = config.ids.uids.nntp-proxy;
         description = "NNTP-Proxy daemon user";
       };
 
@@ -219,7 +222,7 @@ in
       description = "NNTP proxy";
       after = [ "network.target" "nss-lookup.target" ];
       wantedBy = [ "multi-user.target" ];
-      serviceConfig = { User="${proxyUser}"; };
+      serviceConfig = { User = "${proxyUser}"; };
       serviceConfig.ExecStart = "${nntp-proxy}/bin/nntp-proxy ${confFile}";
       preStart = ''
         if [ ! \( -f ${cfg.sslCert} -a -f ${cfg.sslKey} \) ]; then

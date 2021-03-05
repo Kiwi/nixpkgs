@@ -1,4 +1,9 @@
-{ stdenv, buildPythonPackage, fetchPypi, isPy3k, certifi, six
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, isPy3k
+, certifi
+, six
 , setuptools_scm
 }:
 

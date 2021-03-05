@@ -1,6 +1,20 @@
-{ stdenv, fetchFromGitHub, cmake, pkgconfig, wrapQtAppsHook
-, alsaLib, ladspa-sdk, lash, libarchive, libjack2, liblo, libpulseaudio, libsndfile, lrdf
-, qtbase, qttools, qtxmlpatterns
+{ stdenv
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, wrapQtAppsHook
+, alsaLib
+, ladspa-sdk
+, lash
+, libarchive
+, libjack2
+, liblo
+, libpulseaudio
+, libsndfile
+, lrdf
+, qtbase
+, qttools
+, qtxmlpatterns
 }:
 
 stdenv.mkDerivation rec {
@@ -16,8 +30,18 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake pkgconfig wrapQtAppsHook ];
   buildInputs = [
-    alsaLib ladspa-sdk lash libarchive libjack2 liblo libpulseaudio libsndfile lrdf
-    qtbase qttools qtxmlpatterns
+    alsaLib
+    ladspa-sdk
+    lash
+    libarchive
+    libjack2
+    liblo
+    libpulseaudio
+    libsndfile
+    lrdf
+    qtbase
+    qttools
+    qtxmlpatterns
   ];
 
   cmakeFlags = [

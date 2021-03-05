@@ -27,12 +27,13 @@ let
       "web files group" = "root";
     };
   };
-  mkConfig = generators.toINI {} (recursiveUpdate localConfig cfg.config);
+  mkConfig = generators.toINI { } (recursiveUpdate localConfig cfg.config);
   configFile = pkgs.writeText "netdata.conf" (if cfg.configText != null then cfg.configText else mkConfig);
 
   defaultUser = "netdata";
 
-in {
+in
+{
   options = {
     services.netdata = {
       enable = mkEnableOption "netdata";
@@ -77,7 +78,7 @@ in {
           '';
         };
         extraPackages = mkOption {
-          default = ps: [];
+          default = ps: [ ];
           defaultText = "ps: []";
           example = literalExample ''
             ps: [
@@ -113,7 +114,7 @@ in {
 
       config = mkOption {
         type = types.attrsOf types.attrs;
-        default = {};
+        default = { };
         description = "netdata.conf configuration as nix attributes. cannot be combined with configText.";
         example = literalExample ''
           global = {
@@ -122,16 +123,16 @@ in {
             "error log" = "syslog";
           };
         '';
-        };
       };
     };
+  };
 
   config = mkIf cfg.enable {
     assertions =
-      [ { assertion = cfg.config != {} -> cfg.configText == null ;
-          message = "Cannot specify both config and configText";
-        }
-      ];
+      [{
+        assertion = cfg.config != { } -> cfg.configText == null;
+        message = "Cannot specify both config and configText";
+      }];
 
     systemd.services.netdata = {
       description = "Real time performance monitoring";
@@ -140,7 +141,7 @@ in {
       path = (with pkgs; [ curl gawk which ]) ++ lib.optional cfg.python.enable
         (pkgs.python3.withPackages cfg.python.extraPackages);
       serviceConfig = {
-        Environment="PYTHONPATH=${cfg.package}/libexec/netdata/python.d/python_modules";
+        Environment = "PYTHONPATH=${cfg.package}/libexec/netdata/python.d/python_modules";
         ExecStart = "${cfg.package}/bin/netdata -P /run/netdata/netdata.pid -D -c ${configFile}";
         ExecReload = "${pkgs.util-linux}/bin/kill -s HUP -s USR1 -s USR2 $MAINPID";
         TimeoutStopSec = 60;
@@ -167,14 +168,14 @@ in {
         ConfigurationDirectoryMode = "0755";
         # Capabilities
         CapabilityBoundingSet = [
-          "CAP_DAC_OVERRIDE"      # is required for freeipmi and slabinfo plugins
-          "CAP_DAC_READ_SEARCH"   # is required for apps plugin
-          "CAP_FOWNER"            # is required for freeipmi plugin
-          "CAP_SETPCAP"           # is required for apps, perf and slabinfo plugins
-          "CAP_SYS_ADMIN"         # is required for perf plugin
-          "CAP_SYS_PTRACE"        # is required for apps plugin
-          "CAP_SYS_RESOURCE"      # is required for ebpf plugin
-          "CAP_NET_RAW"           # is required for fping app
+          "CAP_DAC_OVERRIDE" # is required for freeipmi and slabinfo plugins
+          "CAP_DAC_READ_SEARCH" # is required for apps plugin
+          "CAP_FOWNER" # is required for freeipmi plugin
+          "CAP_SETPCAP" # is required for apps, perf and slabinfo plugins
+          "CAP_SYS_ADMIN" # is required for perf plugin
+          "CAP_SYS_PTRACE" # is required for apps plugin
+          "CAP_SYS_RESOURCE" # is required for ebpf plugin
+          "CAP_NET_RAW" # is required for fping app
         ];
         # Sandboxing
         ProtectSystem = "full";

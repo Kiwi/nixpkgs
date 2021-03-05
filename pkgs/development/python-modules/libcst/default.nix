@@ -1,5 +1,14 @@
-{ lib, buildPythonPackage, fetchFromGitHub, pythonOlder, black, isort
-, pytestCheckHook, pyyaml, typing-extensions, typing-inspect }:
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, pythonOlder
+, black
+, isort
+, pytestCheckHook
+, pyyaml
+, typing-extensions
+, typing-inspect
+}:
 
 buildPythonPackage rec {
   pname = "libcst";

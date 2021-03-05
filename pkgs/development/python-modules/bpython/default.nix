@@ -8,7 +8,8 @@
 , requests
 , substituteAll
 , urwid
-, which }:
+, which
+}:
 
 buildPythonPackage rec {
   pname = "bpython";
@@ -19,10 +20,12 @@ buildPythonPackage rec {
     sha256 = "6e7738806013b469be57b0117082b9c4557ed7c92c70ceb79f96d674d89c7503";
   };
 
-  patches = [ (substituteAll {
-    src = ./clipboard-make-which-substitutable.patch;
-    which = "${which}/bin/which";
-  })];
+  patches = [
+    (substituteAll {
+      src = ./clipboard-make-which-substitutable.patch;
+      which = "${which}/bin/which";
+    })
+  ];
 
   propagatedBuildInputs = [ curtsies greenlet pygments requests urwid ];
 

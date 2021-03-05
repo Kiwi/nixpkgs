@@ -1,4 +1,5 @@
-{ stdenv, fetchurl
+{ stdenv
+, fetchurl
 , gnome3
 , gnunet
 , gnutls
@@ -19,7 +20,7 @@ stdenv.mkDerivation rec {
     sha256 = "1zdzgq16h77w6ybwg3lqjsjr965np6iqvncqvkbj07glqd4wss0j";
   };
 
-  nativeBuildInputs= [
+  nativeBuildInputs = [
     pkg-config
     wrapGAppsHook
   ];

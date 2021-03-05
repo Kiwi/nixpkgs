@@ -1,8 +1,17 @@
-{ stdenv, fetchurl
-, attr, e2fsprogs
-, curl, librsync, libthreadar
-, gpgme, libgcrypt, openssl
-, bzip2, lzo, xz, zlib
+{ stdenv
+, fetchurl
+, attr
+, e2fsprogs
+, curl
+, librsync
+, libthreadar
+, gpgme
+, libgcrypt
+, openssl
+, bzip2
+, lzo
+, xz
+, zlib
 }:
 
 with stdenv.lib;
@@ -19,9 +28,16 @@ stdenv.mkDerivation rec {
   outputs = [ "out" "dev" ];
 
   buildInputs = [
-    curl librsync libthreadar
-    gpgme libgcrypt openssl
-    bzip2 lzo xz zlib
+    curl
+    librsync
+    libthreadar
+    gpgme
+    libgcrypt
+    openssl
+    bzip2
+    lzo
+    xz
+    zlib
   ] ++ optionals stdenv.isLinux [ attr e2fsprogs ];
 
   configureFlags = [

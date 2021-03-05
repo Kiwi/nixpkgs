@@ -1,4 +1,4 @@
-{ symlinkJoin, lib, makeWrapper, zathura_core, file, plugins ? [] }:
+{ symlinkJoin, lib, makeWrapper, zathura_core, file, plugins ? [ ] }:
 symlinkJoin {
   name = "zathura-with-plugins-${zathura_core.version}";
 

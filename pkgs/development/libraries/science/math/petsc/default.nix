@@ -1,4 +1,4 @@
-{ stdenv , darwin , fetchurl , blas , gfortran , lapack , python }:
+{ stdenv, darwin, fetchurl, blas, gfortran, lapack, python }:
 
 stdenv.mkDerivation rec {
   pname = "petsc";

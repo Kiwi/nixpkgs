@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
     sha256 = "sOeXNVsCaBSD9i82GRUDrkyreGeQ7qaJWjjy/uLL0/0=";
   });
 
-  cmakeFlags = []
+  cmakeFlags = [ ]
     ++ stdenv.lib.optional staticOnly "-DBUILD_SHARED_LIBS=OFF";
 
   outputs = [ "out" "dev" "lib" ];
@@ -34,13 +34,13 @@ stdenv.mkDerivation rec {
   # This breaks on Darwin because our cmake hook tries to make a build folder
   # and the wonderful bazel BUILD file is already there (yay case-insensitivity?)
   prePatch = ''
-      rm BUILD
+    rm BUILD
 
-      # Upstream fixed this reference to runtime-path after the release
-      # and with this references g++ complains about invalid option -R
-      sed -i 's/ -R''${libdir}//' scripts/libbrotli*.pc.in
-      cat scripts/libbrotli*.pc.in
-    '';
+    # Upstream fixed this reference to runtime-path after the release
+    # and with this references g++ complains about invalid option -R
+    sed -i 's/ -R''${libdir}//' scripts/libbrotli*.pc.in
+    cat scripts/libbrotli*.pc.in
+  '';
 
   # Don't bother with "man" output for now,
   # it currently only makes the manpages hard to use.

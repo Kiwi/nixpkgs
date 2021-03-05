@@ -1,8 +1,30 @@
-{ boost, cmake, fetchFromGitHub, freeglut, freetype, glew, libjpeg, libmypaint
-, libpng, libtiff, libusb1, lz4, lzma, lzo, openblas, pkgconfig, qtbase
-, qtmultimedia, qtscript, stdenv, superlu, wrapQtAppsHook, }:
+{ boost
+, cmake
+, fetchFromGitHub
+, freeglut
+, freetype
+, glew
+, libjpeg
+, libmypaint
+, libpng
+, libtiff
+, libusb1
+, lz4
+, lzma
+, lzo
+, openblas
+, pkgconfig
+, qtbase
+, qtmultimedia
+, qtscript
+, stdenv
+, superlu
+, wrapQtAppsHook
+,
+}:
 let source = import ./source.nix { inherit fetchFromGitHub; };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   inherit (source) src;
 
   pname = "opentoonz";

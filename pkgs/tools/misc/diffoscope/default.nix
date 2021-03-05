@@ -1,8 +1,66 @@
-{ lib, stdenv, fetchurl, runCommand, makeWrapper, python3Packages, docutils, help2man
-, abootimg, acl, apktool, binutils-unwrapped, build-tools, bzip2, cbfstool, cdrkit, colord, colordiff, coreutils, cpio, db, diffutils, dtc
-, e2fsprogs, file, findutils, fontforge-fonttools, ffmpeg, fpc, gettext, ghc, ghostscriptX, giflib, gnumeric, gnupg, gnutar
-, gzip, hdf5, imagemagick, jdk, libarchive, libcaca, llvm, lz4, mono, openssh, openssl, pdftk, pgpdump, poppler_utils, qemu, R
-, sng, sqlite, squashfsTools, tcpdump, odt2txt, unzip, wabt, xxd, xz, zip, zstd
+{ lib
+, stdenv
+, fetchurl
+, runCommand
+, makeWrapper
+, python3Packages
+, docutils
+, help2man
+, abootimg
+, acl
+, apktool
+, binutils-unwrapped
+, build-tools
+, bzip2
+, cbfstool
+, cdrkit
+, colord
+, colordiff
+, coreutils
+, cpio
+, db
+, diffutils
+, dtc
+, e2fsprogs
+, file
+, findutils
+, fontforge-fonttools
+, ffmpeg
+, fpc
+, gettext
+, ghc
+, ghostscriptX
+, giflib
+, gnumeric
+, gnupg
+, gnutar
+, gzip
+, hdf5
+, imagemagick
+, jdk
+, libarchive
+, libcaca
+, llvm
+, lz4
+, mono
+, openssh
+, openssl
+, pdftk
+, pgpdump
+, poppler_utils
+, qemu
+, R
+, sng
+, sqlite
+, squashfsTools
+, tcpdump
+, odt2txt
+, unzip
+, wabt
+, xxd
+, xz
+, zip
+, zstd
 , enableBloat ? false
 }:
 
@@ -19,7 +77,7 @@ python3Packages.buildPythonApplication rec {
   version = "163";
 
   src = fetchurl {
-    url    = "https://diffoscope.org/archive/diffoscope-${version}.tar.bz2";
+    url = "https://diffoscope.org/archive/diffoscope-${version}.tar.bz2";
     sha256 = "sha256-pCAOMRZ3sn1jhdT5RuIZoMR1e6GEYJYyd4mZt7+0lWE=";
   };
 
@@ -45,20 +103,76 @@ python3Packages.buildPythonApplication rec {
   #
   # Still missing these tools: docx2txt dumppdf dumpxsb enjarify lipo ocamlobjinfo oggDump otool procyon
   pythonPath = [
-      binutils-unwrapped bzip2 colordiff coreutils cpio db diffutils
-      dtc e2fsprogs file findutils fontforge-fonttools gettext gnutar gzip
-      libarchive libcaca lz4 openssl pgpdump sng sqlite squashfsTools unzip xxd
-      xz zip zstd
-    ]
-    ++ (with python3Packages; [
-      argcomplete debian defusedxml jsondiff jsbeautifier libarchive-c
-      python_magic progressbar33 pypdf2 rpm tlsh
-    ])
-    ++ lib.optionals stdenv.isLinux [ python3Packages.pyxattr acl cdrkit ]
-    ++ lib.optionals enableBloat ([
-      abootimg apksigner apktool cbfstool colord ffmpeg fpc ghc ghostscriptX giflib gnupg gnumeric
-      hdf5 imagemagick llvm jdk mono odt2txt openssh pdftk poppler_utils qemu R tcpdump wabt
-    ] ++ (with python3Packages; [ binwalk guestfs h5py ]));
+    binutils-unwrapped
+    bzip2
+    colordiff
+    coreutils
+    cpio
+    db
+    diffutils
+    dtc
+    e2fsprogs
+    file
+    findutils
+    fontforge-fonttools
+    gettext
+    gnutar
+    gzip
+    libarchive
+    libcaca
+    lz4
+    openssl
+    pgpdump
+    sng
+    sqlite
+    squashfsTools
+    unzip
+    xxd
+    xz
+    zip
+    zstd
+  ]
+  ++ (with python3Packages; [
+    argcomplete
+    debian
+    defusedxml
+    jsondiff
+    jsbeautifier
+    libarchive-c
+    python_magic
+    progressbar33
+    pypdf2
+    rpm
+    tlsh
+  ])
+  ++ lib.optionals stdenv.isLinux [ python3Packages.pyxattr acl cdrkit ]
+  ++ lib.optionals enableBloat ([
+    abootimg
+    apksigner
+    apktool
+    cbfstool
+    colord
+    ffmpeg
+    fpc
+    ghc
+    ghostscriptX
+    giflib
+    gnupg
+    gnumeric
+    hdf5
+    imagemagick
+    llvm
+    jdk
+    mono
+    odt2txt
+    openssh
+    pdftk
+    poppler_utils
+    qemu
+    R
+    tcpdump
+    wabt
+  ] ++ (with python3Packages; [ binwalk guestfs h5py ]));
 
   checkInputs = with python3Packages; [ pytest ] ++ pythonPath;
 
@@ -80,9 +194,9 @@ python3Packages.buildPythonApplication rec {
       diffoscope is developed as part of the "reproducible builds" Debian
       project and was formerly known as "debbindiff".
     '';
-    homepage    = "https://diffoscope.org/";
-    license     = licenses.gpl3Plus;
+    homepage = "https://diffoscope.org/";
+    license = licenses.gpl3Plus;
     maintainers = with maintainers; [ dezgeg ma27 danielfullmer ];
-    platforms   = platforms.unix;
+    platforms = platforms.unix;
   };
 }

@@ -6,9 +6,9 @@ stdenv.mkDerivation rec {
 
 
   src = fetchFromGitHub {
-    owner  = "szcnick";
-    repo   = pname;
-    rev    = "v${version}";
+    owner = "szcnick";
+    repo = pname;
+    rev = "v${version}";
     sha256 = "0gczdmypwbfnxzb11rjrrndjkkb3jzxfby2cchn5j8ysny13mfps";
   }
   ;
@@ -34,9 +34,9 @@ stdenv.mkDerivation rec {
   preConfigure = ''
     makeFlagsArray=(DEST_HOME=$out)
       buildFlags=all3
-        '' + stdenv.lib.optionalString stdenv.isDarwin ''
-        cp makefile.macosx_llvm_64bits makefile.machine
-'';
+  '' + stdenv.lib.optionalString stdenv.isDarwin ''
+    cp makefile.macosx_llvm_64bits makefile.machine
+  '';
 
   enableParallelBuilding = true;
 

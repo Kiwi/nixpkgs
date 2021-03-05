@@ -1,7 +1,18 @@
-{ stdenv, fetchurl, autoPatchelfHook, makeWrapper
-, alsaLib, xorg, libjack2
-, gtk3, pango, gdk-pixbuf, cairo, glib, freetype
-, libpulseaudio, xdg_utils
+{ stdenv
+, fetchurl
+, autoPatchelfHook
+, makeWrapper
+, alsaLib
+, xorg
+, libjack2
+, gtk3
+, pango
+, gdk-pixbuf
+, cairo
+, glib
+, freetype
+, libpulseaudio
+, xdg_utils
 }:
 
 stdenv.mkDerivation rec {
@@ -9,7 +20,7 @@ stdenv.mkDerivation rec {
   version = "6.12c";
 
   src = fetchurl {
-    url = "https://www.reaper.fm/files/${stdenv.lib.versions.major version}.x/reaper${builtins.replaceStrings ["."] [""] version}_linux_x86_64.tar.xz";
+    url = "https://www.reaper.fm/files/${stdenv.lib.versions.major version}.x/reaper${builtins.replaceStrings [ "." ] [ "" ] version}_linux_x86_64.tar.xz";
     sha256 = "1xnd4qvgwsz1dmgb656i611776dqcb84m1gh30i8jhpwcr9ym46w";
   };
 

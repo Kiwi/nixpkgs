@@ -1,5 +1,10 @@
-{ stdenv, lib, fetchFromGitHub, cmake, gflags
-, staticOnly ? false }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, gflags
+, staticOnly ? false
+}:
 
 stdenv.mkDerivation rec {
   pname = "crc32c";
@@ -16,7 +21,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake ];
   buildInputs = [ gflags ];
   NIX_CFLAGS_COMPILE = stdenv.lib.optionalString stdenv.isAarch64 "-march=armv8-a+crc";
-  cmakeFlags = lib.optionals (!staticOnly) [ "-DBUILD_SHARED_LIBS=1"  ];
+  cmakeFlags = lib.optionals (!staticOnly) [ "-DBUILD_SHARED_LIBS=1" ];
 
   meta = with stdenv.lib; {
     homepage = "https://github.com/google/crc32c";

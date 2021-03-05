@@ -1,7 +1,19 @@
-{ stdenv, fetchurl, pkgconfig, libevent, openssl, zlib, torsocks
-, libseccomp, systemd, libcap, lzma, zstd, scrypt, nixosTests
+{ stdenv
+, fetchurl
+, pkgconfig
+, libevent
+, openssl
+, zlib
+, torsocks
+, libseccomp
+, systemd
+, libcap
+, lzma
+, zstd
+, scrypt
+, nixosTests
 
-# for update.nix
+  # for update.nix
 , writeScript
 , common-updater-scripts
 , bash
@@ -68,7 +80,7 @@ stdenv.mkDerivation rec {
         gnugrep
         gnused
         nix
-      ;
+        ;
     };
   };
 

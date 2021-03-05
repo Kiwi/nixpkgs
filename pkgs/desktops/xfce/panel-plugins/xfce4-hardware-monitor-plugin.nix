@@ -1,9 +1,20 @@
-{ stdenv, fetchurl, pkgconfig, intltool, autoreconfHook, gnome2, gtkmm2,
-  libgtop, libxfce4ui, libxfce4util, xfce4-panel, lm_sensors, xfce
+{ stdenv
+, fetchurl
+, pkgconfig
+, intltool
+, autoreconfHook
+, gnome2
+, gtkmm2
+, libgtop
+, libxfce4ui
+, libxfce4util
+, xfce4-panel
+, lm_sensors
+, xfce
 }:
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-hardware-monitor-plugin";
+  pname = "xfce4-hardware-monitor-plugin";
   version = "1.6.0";
 
   src = fetchurl {
@@ -26,7 +37,7 @@ stdenv.mkDerivation rec {
     libxfce4util
     xfce4-panel
     lm_sensors
-   ];
+  ];
 
   enableParallelBuilding = true;
 

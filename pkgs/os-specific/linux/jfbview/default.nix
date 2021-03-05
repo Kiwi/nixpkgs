@@ -1,14 +1,26 @@
-{ stdenv, fetchFromGitHub
-, freetype, harfbuzz, jbig2dec, libjpeg, libX11, mupdf_1_17, ncurses, openjpeg
+{ stdenv
+, fetchFromGitHub
+, freetype
+, harfbuzz
+, jbig2dec
+, libjpeg
+, libX11
+, mupdf_1_17
+, ncurses
+, openjpeg
 , openssl
 
-, imageSupport ? true, imlib2 ? null }:
+, imageSupport ? true
+, imlib2 ? null
+}:
 
 let
-  package = if imageSupport
+  package =
+    if imageSupport
     then "jfbview"
     else "jfbpdf";
-  binaries = if imageSupport
+  binaries =
+    if imageSupport
     then [ "jfbview" "jpdfcat" "jpdfgrep" ] # all require imlib2
     else [ "jfbpdf" ]; # does not
 in
@@ -32,7 +44,14 @@ stdenv.mkDerivation rec {
   hardeningDisable = [ "format" ];
 
   buildInputs = [
-    freetype harfbuzz jbig2dec libjpeg libX11 mupdf_1_17 ncurses openjpeg
+    freetype
+    harfbuzz
+    jbig2dec
+    libjpeg
+    libX11
+    mupdf_1_17
+    ncurses
+    openjpeg
     openssl
   ] ++ stdenv.lib.optionals imageSupport [
     imlib2

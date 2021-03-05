@@ -1,6 +1,13 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub
-, click, enum-compat, pyscard, pycountry, terminaltables
-, pytestCheckHook, pythonOlder
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, click
+, enum-compat
+, pyscard
+, pycountry
+, terminaltables
+, pytestCheckHook
+, pythonOlder
 }:
 
 buildPythonPackage rec {

@@ -1,4 +1,12 @@
-{ stdenv, fetchFromGitHub, rofi, systemd, coreutils, util-linux, gawk, makeWrapper, jq
+{ stdenv
+, fetchFromGitHub
+, rofi
+, systemd
+, coreutils
+, util-linux
+, gawk
+, makeWrapper
+, jq
 }:
 
 stdenv.mkDerivation rec {

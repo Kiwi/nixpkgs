@@ -1,6 +1,29 @@
-{ stdenv, lib, fetchurl, makeDesktopItem, dpkg, atk, at-spi2-atk, glib, pango, gdk-pixbuf
-, gtk3, cairo, freetype, fontconfig, dbus, xorg, nss, nspr, alsaLib, cups, expat
-, udev, libpulseaudio, util-linux, makeWrapper }:
+{ stdenv
+, lib
+, fetchurl
+, makeDesktopItem
+, dpkg
+, atk
+, at-spi2-atk
+, glib
+, pango
+, gdk-pixbuf
+, gtk3
+, cairo
+, freetype
+, fontconfig
+, dbus
+, xorg
+, nss
+, nspr
+, alsaLib
+, cups
+, expat
+, udev
+, libpulseaudio
+, util-linux
+, makeWrapper
+}:
 
 stdenv.mkDerivation rec {
   pname = "todoist-electron";
@@ -26,34 +49,63 @@ stdenv.mkDerivation rec {
     dpkg-deb -x $src pkg
     sourceRoot=pkg
   '';
-  installPhase = let
-    libPath = lib.makeLibraryPath ([
-      stdenv.cc.cc gtk3 atk at-spi2-atk glib pango gdk-pixbuf cairo freetype fontconfig dbus
-      nss nspr alsaLib libpulseaudio cups expat udev util-linux
-    ] ++ (with xorg; [
-      libXi libXcursor libXdamage libXrandr libXcomposite libXext libXfixes libxcb
-      libXrender libX11 libXtst libXScrnSaver
-    ]));
-  in ''
-    mkdir -p "$out/bin"
-    mv opt "$out/"
-    mv usr/share "$out/share"
+  installPhase =
+    let
+      libPath = lib.makeLibraryPath ([
+        stdenv.cc.cc
+        gtk3
+        atk
+        at-spi2-atk
+        glib
+        pango
+        gdk-pixbuf
+        cairo
+        freetype
+        fontconfig
+        dbus
+        nss
+        nspr
+        alsaLib
+        libpulseaudio
+        cups
+        expat
+        udev
+        util-linux
+      ] ++ (with xorg; [
+        libXi
+        libXcursor
+        libXdamage
+        libXrandr
+        libXcomposite
+        libXext
+        libXfixes
+        libxcb
+        libXrender
+        libX11
+        libXtst
+        libXScrnSaver
+      ]));
+    in
+    ''
+      mkdir -p "$out/bin"
+      mv opt "$out/"
+      mv usr/share "$out/share"
 
-    # Patch binary
-    patchelf \
-      --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-      --set-rpath "${libPath}:\$ORIGIN" \
-      $out/opt/Todoist/todoist
+      # Patch binary
+      patchelf \
+        --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+        --set-rpath "${libPath}:\$ORIGIN" \
+        $out/opt/Todoist/todoist
 
-    # Hacky workaround for RPATH problems
-    makeWrapper $out/opt/Todoist/todoist $out/bin/todoist \
-      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ libpulseaudio udev ]}
+      # Hacky workaround for RPATH problems
+      makeWrapper $out/opt/Todoist/todoist $out/bin/todoist \
+        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ libpulseaudio udev ]}
 
-    # Desktop item
-    mkdir -p "$out/share"
-    rm -r "$out/share/applications"
-    cp -r "${desktopItem}/share/applications" "$out/share/applications"
-  '';
+      # Desktop item
+      mkdir -p "$out/share"
+      rm -r "$out/share/applications"
+      cp -r "${desktopItem}/share/applications" "$out/share/applications"
+    '';
 
   meta = with lib; {
     homepage = "https://github.com/KryDos/todoist-linux";

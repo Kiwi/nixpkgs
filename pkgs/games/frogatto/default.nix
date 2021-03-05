@@ -15,7 +15,8 @@ let
     categories = "Game;ArcadeGame;";
   };
   version = "unstable-2018-12-18";
-in buildEnv {
+in
+buildEnv {
   name = "frogatto-${version}";
 
   buildInputs = [ makeWrapper ];

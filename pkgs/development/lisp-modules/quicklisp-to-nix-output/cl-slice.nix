@@ -16,7 +16,7 @@ rec {
 
   packageName = "cl-slice";
 
-  asdFilesToKeep = ["cl-slice.asd"];
+  asdFilesToKeep = [ "cl-slice.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-slice DESCRIPTION DSL for array slices in Common Lisp. SHA256

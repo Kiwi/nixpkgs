@@ -1,5 +1,17 @@
-{ stdenv, lib, fetchgit, pkg-config, meson, ninja, scdoc
-,freetype, fontconfig, harfbuzz, pixman, tllist, check }:
+{ stdenv
+, lib
+, fetchgit
+, pkg-config
+, meson
+, ninja
+, scdoc
+, freetype
+, fontconfig
+, harfbuzz
+, pixman
+, tllist
+, check
+}:
 
 stdenv.mkDerivation rec {
   pname = "fcft";

@@ -1,9 +1,20 @@
-{ stdenv, fetchurl
-# Build depends
-, docutils, meson, ninja, pkgconfig, python3
-# Runtime depends
-, glfw, SDL2, SDL2_mixer
-, freetype, libpng, libwebp, libzip, zlib
+{ stdenv
+, fetchurl
+  # Build depends
+, docutils
+, meson
+, ninja
+, pkgconfig
+, python3
+  # Runtime depends
+, glfw
+, SDL2
+, SDL2_mixer
+, freetype
+, libpng
+, libwebp
+, libzip
+, zlib
 }:
 
 stdenv.mkDerivation rec {
@@ -16,12 +27,22 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    docutils meson ninja pkgconfig python3
+    docutils
+    meson
+    ninja
+    pkgconfig
+    python3
   ];
 
   buildInputs = [
-    glfw SDL2 SDL2_mixer
-    freetype libpng libwebp libzip zlib
+    glfw
+    SDL2
+    SDL2_mixer
+    freetype
+    libpng
+    libwebp
+    libzip
+    zlib
   ];
 
   patches = [ ./0001-lto-fix.patch ];

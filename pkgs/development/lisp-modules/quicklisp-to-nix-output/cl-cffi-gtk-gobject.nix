@@ -14,7 +14,7 @@ rec {
 
   packageName = "cl-cffi-gtk-gobject";
 
-  asdFilesToKeep = ["cl-cffi-gtk-gobject.asd"];
+  asdFilesToKeep = [ "cl-cffi-gtk-gobject.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-cffi-gtk-gobject DESCRIPTION A Lisp binding GObject 2 SHA256

@@ -4,7 +4,8 @@
 , libX11
 , libGL
 , libGLU
-, freeglut }:
+, freeglut
+}:
 
 stdenv.mkDerivation rec {
   pname = "antiprism";

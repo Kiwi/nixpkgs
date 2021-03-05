@@ -13,7 +13,7 @@
 # TODO: bzr support is missing because nixpkgs switched to `breezy`
 
 buildPythonPackage rec {
-  version  = "2.8.1";
+  version = "2.8.1";
   pname = "powerline";
 
   src = fetchFromGitHub {
@@ -49,8 +49,8 @@ buildPythonPackage rec {
   '';
 
   meta = {
-    homepage    = "https://github.com/powerline/powerline";
+    homepage = "https://github.com/powerline/powerline";
     description = "The ultimate statusline/prompt utility";
-    license     = lib.licenses.mit;
+    license = lib.licenses.mit;
   };
 }

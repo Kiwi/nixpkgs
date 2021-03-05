@@ -1,5 +1,7 @@
-{ stdenv, fetchurl
-, alsaLib, caps
+{ stdenv
+, fetchurl
+, alsaLib
+, caps
 }:
 
 stdenv.mkDerivation rec {

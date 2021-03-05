@@ -1,6 +1,15 @@
-{ lib, buildDunePackage, fetchurl, ocaml
-, fmt, bigstringaf, bigarray-compat
-, bigarray-overlap, angstrom, ke, alcotest }:
+{ lib
+, buildDunePackage
+, fetchurl
+, ocaml
+, fmt
+, bigstringaf
+, bigarray-compat
+, bigarray-overlap
+, angstrom
+, ke
+, alcotest
+}:
 
 buildDunePackage rec {
   pname = "encore";

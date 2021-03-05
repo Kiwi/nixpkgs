@@ -23,7 +23,8 @@ let
     installPhase = "mv build $out";
     distPhase = "true";
   };
-in buildGoPackage rec {
+in
+buildGoPackage rec {
   pname = "prometheus";
   inherit src version;
 
@@ -34,20 +35,22 @@ in buildGoPackage rec {
     ln -s ${webui} web/ui/static/react
   '';
 
-  buildFlagsArray = let
-    t = "${goPackagePath}/vendor/github.com/prometheus/common/version";
-  in [
-    "-tags=builtinassets"
-    ''
-      -ldflags=
-         -X ${t}.Version=${version}
-         -X ${t}.Revision=unknown
-         -X ${t}.Branch=unknown
-         -X ${t}.BuildUser=nix@nixpkgs
-         -X ${t}.BuildDate=unknown
-         -X ${t}.GoVersion=${lib.getVersion go}
-    ''
-  ];
+  buildFlagsArray =
+    let
+      t = "${goPackagePath}/vendor/github.com/prometheus/common/version";
+    in
+    [
+      "-tags=builtinassets"
+      ''
+        -ldflags=
+           -X ${t}.Version=${version}
+           -X ${t}.Revision=unknown
+           -X ${t}.Branch=unknown
+           -X ${t}.BuildUser=nix@nixpkgs
+           -X ${t}.BuildDate=unknown
+           -X ${t}.GoVersion=${lib.getVersion go}
+      ''
+    ];
 
   preBuild = ''
     make -C go/src/${goPackagePath} assets

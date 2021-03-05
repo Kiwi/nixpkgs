@@ -53,7 +53,7 @@ stdenv.mkDerivation rec {
 
   # If we were to use "dev" here instead of headers, the setupHook would be
   # placed in that output instead of "out".
-  outputs = ["out" "headers"];
+  outputs = [ "out" "headers" ];
   outputInclude = "headers";
 
   src = fetchFromGitHub {
@@ -99,9 +99,9 @@ stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "LunarG Vulkan loader";
-    homepage    = "https://www.lunarg.com";
-    platforms   = platforms.linux;
-    license     = licenses.asl20;
+    homepage = "https://www.lunarg.com";
+    platforms = platforms.linux;
+    license = licenses.asl20;
     maintainers = [ maintainers.ralith ];
   };
 }

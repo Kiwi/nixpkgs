@@ -1,6 +1,21 @@
-{ stdenv, fetchFromGitHub, makeWrapper, runCommand
-, moreutils, jq, git, zip, rsync, pkgconfig, yarn, python2
-, nodejs-12_x, libsecret, xorg, ripgrep, nettools }:
+{ stdenv
+, fetchFromGitHub
+, makeWrapper
+, runCommand
+, moreutils
+, jq
+, git
+, zip
+, rsync
+, pkgconfig
+, yarn
+, python2
+, nodejs-12_x
+, libsecret
+, xorg
+, ripgrep
+, nettools
+}:
 
 let
   system = stdenv.hostPlatform.system;
@@ -8,9 +23,10 @@ let
   nodejs = nodejs-12_x;
   python = python2;
   yarn' = yarn.override { inherit nodejs; };
-  defaultYarnOpts = [ "frozen-lockfile" "non-interactive" "no-progress"];
+  defaultYarnOpts = [ "frozen-lockfile" "non-interactive" "no-progress" ];
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "code-server";
   version = "3.4.1";
   commit = "d3773c11f147bdd7a4f5acfefdee23c26f069e76";
@@ -26,7 +42,7 @@ in stdenv.mkDerivation rec {
   yarnCache = stdenv.mkDerivation {
     name = "${pname}-${version}-${system}-yarn-cache";
     inherit src;
-    phases = ["unpackPhase" "buildPhase"];
+    phases = [ "unpackPhase" "buildPhase" ];
     nativeBuildInputs = [ yarn' git ];
     buildPhase = ''
       export HOME=$PWD
@@ -54,13 +70,22 @@ in stdenv.mkDerivation rec {
 
   # Extract the Node.js source code which is used to compile packages with
   # native bindings
-  nodeSources = runCommand "node-sources" {} ''
+  nodeSources = runCommand "node-sources" { } ''
     tar --no-same-owner --no-same-permissions -xf ${nodejs.src}
     mv node-* $out
   '';
 
   nativeBuildInputs = [
-    nodejs yarn' python pkgconfig zip makeWrapper git rsync jq moreutils
+    nodejs
+    yarn'
+    python
+    pkgconfig
+    zip
+    makeWrapper
+    git
+    rsync
+    jq
+    moreutils
   ];
   buildInputs = [ libsecret xorg.libX11 xorg.libxkbfile ];
 
@@ -100,19 +125,21 @@ in stdenv.mkDerivation rec {
   '';
 
   configurePhase = ''
-    # set default yarn opts
-    ${stdenv.lib.concatMapStrings (option: ''
-      yarn --offline config set ${option}
-    '') defaultYarnOpts}
+        # set default yarn opts
+        ${stdenv.lib.concatMapStrings
+    (option: ''
+          yarn --offline config set ${option}
+        '')
+    defaultYarnOpts}
 
-    # set offline mirror to yarn cache we created in previous steps
-    yarn --offline config set yarn-offline-mirror "${yarnCache}"
+        # set offline mirror to yarn cache we created in previous steps
+        yarn --offline config set yarn-offline-mirror "${yarnCache}"
 
-    # set nodedir, so we can build binaries later
-    npm config set nodedir "${nodeSources}"
+        # set nodedir, so we can build binaries later
+        npm config set nodedir "${nodeSources}"
 
-    # skip browser downloads for playwright
-    export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD="true"
+        # skip browser downloads for playwright
+        export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD="true"
   '';
 
   buildPhase = ''
@@ -182,6 +209,6 @@ in stdenv.mkDerivation rec {
     homepage = "https://github.com/cdr/code-server";
     license = licenses.mit;
     maintainers = with maintainers; [ offline ];
-    platforms = ["x86_64-linux"];
+    platforms = [ "x86_64-linux" ];
   };
 }

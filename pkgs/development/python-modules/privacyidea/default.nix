@@ -1,11 +1,43 @@
-{ lib, buildPythonPackage, fetchFromGitHub, cacert, openssl, python
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, cacert
+, openssl
+, python
 
-, cryptography, pyrad, pymysql, python-dateutil, flask-versioned, flask_script
-, defusedxml, croniter, flask_migrate, pyjwt, configobj, sqlsoup, pillow
-, python-gnupg, passlib, pyopenssl, beautifulsoup4, smpplib, flask-babel
-, ldap3, huey, pyyaml, qrcode, oauth2client, requests, lxml, cbor2, psycopg2
+, cryptography
+, pyrad
+, pymysql
+, python-dateutil
+, flask-versioned
+, flask_script
+, defusedxml
+, croniter
+, flask_migrate
+, pyjwt
+, configobj
+, sqlsoup
+, pillow
+, python-gnupg
+, passlib
+, pyopenssl
+, beautifulsoup4
+, smpplib
+, flask-babel
+, ldap3
+, huey
+, pyyaml
+, qrcode
+, oauth2client
+, requests
+, lxml
+, cbor2
+, psycopg2
 
-, mock, pytest, responses, testfixtures
+, mock
+, pytest
+, responses
+, testfixtures
 }:
 
 buildPythonPackage rec {
@@ -20,10 +52,34 @@ buildPythonPackage rec {
   };
 
   propagatedBuildInputs = [
-    cryptography pyrad pymysql python-dateutil flask-versioned flask_script
-    defusedxml croniter flask_migrate pyjwt configobj sqlsoup pillow
-    python-gnupg passlib pyopenssl beautifulsoup4 smpplib flask-babel
-    ldap3 huey pyyaml qrcode oauth2client requests lxml cbor2 psycopg2
+    cryptography
+    pyrad
+    pymysql
+    python-dateutil
+    flask-versioned
+    flask_script
+    defusedxml
+    croniter
+    flask_migrate
+    pyjwt
+    configobj
+    sqlsoup
+    pillow
+    python-gnupg
+    passlib
+    pyopenssl
+    beautifulsoup4
+    smpplib
+    flask-babel
+    ldap3
+    huey
+    pyyaml
+    qrcode
+    oauth2client
+    requests
+    lxml
+    cbor2
+    psycopg2
   ];
 
   checkInputs = [ openssl mock pytest responses testfixtures ];

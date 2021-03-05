@@ -1,7 +1,6 @@
-{stdenv, lib, coreutils, unzip, jq, zip, fetchurl,writeScript,  ...}:
+{ stdenv, lib, coreutils, unzip, jq, zip, fetchurl, writeScript, ... }:
 
-{
-  name
+{ name
 , url
 , md5 ? ""
 , sha1 ? ""
@@ -16,7 +15,7 @@ stdenv.mkDerivation rec {
   inherit name;
   extid = if fixedExtid == null then "nixos@${name}" else fixedExtid;
   passthru = {
-    exitd=extid;
+    exitd = extid;
   };
 
   builder = writeScript "xpibuilder" ''
@@ -37,5 +36,5 @@ stdenv.mkDerivation rec {
     url = url;
     inherit md5 sha1 sha256 sha512 hash;
   };
-  nativeBuildInputs = [ coreutils unzip zip jq  ];
+  nativeBuildInputs = [ coreutils unzip zip jq ];
 }

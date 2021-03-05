@@ -1,5 +1,11 @@
-{ stdenv, fetchPypi, buildPythonPackage, isPy27
-, mock, pytestCheckHook, nose, hypothesis
+{ stdenv
+, fetchPypi
+, buildPythonPackage
+, isPy27
+, mock
+, pytestCheckHook
+, nose
+, hypothesis
 }:
 
 buildPythonPackage rec {

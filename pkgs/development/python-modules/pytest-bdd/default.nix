@@ -1,4 +1,6 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
 , execnet
 , glob2
 , Mako

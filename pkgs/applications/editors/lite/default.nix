@@ -4,7 +4,7 @@
 , lua52Packages
 , pkg-config
 , makeWrapper
-} :
+}:
 
 stdenv.mkDerivation rec {
   pname = "lite";

@@ -9,7 +9,7 @@
 }:
 
 let
-  pythonEnv = python3.withPackages(ps: with ps; [
+  pythonEnv = python3.withPackages (ps: with ps; [
     chardet
     cheetah3
     cherrypy
@@ -19,7 +19,8 @@ let
     sabyenc3
   ]);
   path = stdenv.lib.makeBinPath [ par2cmdline unrar unzip p7zip ];
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   version = "3.1.1";
   pname = "sabnzbd";
 

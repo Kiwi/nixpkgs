@@ -189,15 +189,17 @@ stdenv.mkDerivation rec {
     "installed_test_metadir=${placeholder "installedTests"}/share/installed-tests/flatpak"
   ];
 
-  postPatch = let
-    vsc-py = python3.withPackages (pp: [
-      pp.pyparsing
-    ]);
-  in ''
-    patchShebangs buildutil
-    patchShebangs tests
-    PATH=${stdenv.lib.makeBinPath [vsc-py]}:$PATH patchShebangs --build variant-schema-compiler/variant-schema-compiler
-  '';
+  postPatch =
+    let
+      vsc-py = python3.withPackages (pp: [
+        pp.pyparsing
+      ]);
+    in
+    ''
+      patchShebangs buildutil
+      patchShebangs tests
+      PATH=${stdenv.lib.makeBinPath [ vsc-py ]}:$PATH patchShebangs --build variant-schema-compiler/variant-schema-compiler
+    '';
 
   preConfigure = ''
     # TODO: remove the condition once autogen.sh is shipped in the tarball

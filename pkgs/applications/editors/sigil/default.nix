@@ -1,6 +1,18 @@
-{ stdenv, mkDerivation, fetchFromGitHub, cmake, pkgconfig, makeWrapper
-, boost, xercesc, hunspell, zlib, pcre16
-, qtbase, qttools, qtwebengine, qtxmlpatterns
+{ stdenv
+, mkDerivation
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, makeWrapper
+, boost
+, xercesc
+, hunspell
+, zlib
+, pcre16
+, qtbase
+, qttools
+, qtwebengine
+, qtxmlpatterns
 , python3Packages
 }:
 
@@ -20,7 +32,12 @@ mkDerivation rec {
   nativeBuildInputs = [ cmake pkgconfig makeWrapper ];
 
   buildInputs = [
-    boost xercesc qtbase qttools qtwebengine qtxmlpatterns
+    boost
+    xercesc
+    qtbase
+    qttools
+    qtwebengine
+    qtxmlpatterns
     python3Packages.lxml
   ];
 

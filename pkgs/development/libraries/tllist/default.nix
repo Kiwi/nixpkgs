@@ -11,7 +11,8 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    meson ninja
+    meson
+    ninja
   ];
 
   doCheck = true;

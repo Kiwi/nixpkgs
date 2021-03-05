@@ -14,7 +14,7 @@ rec {
 
   packageName = "simple-date-time";
 
-  asdFilesToKeep = ["simple-date-time.asd"];
+  asdFilesToKeep = [ "simple-date-time.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM simple-date-time DESCRIPTION date and time library for common lisp

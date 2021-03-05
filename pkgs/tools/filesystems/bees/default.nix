@@ -14,12 +14,12 @@ let
     };
 
     buildInputs = [
-      btrfs-progs               # for btrfs/ioctl.h
-      util-linux                 # for uuid.h
+      btrfs-progs # for btrfs/ioctl.h
+      util-linux # for uuid.h
     ];
 
     nativeBuildInputs = [
-      python3Packages.markdown   # documentation build
+      python3Packages.markdown # documentation build
     ];
 
     preBuild = ''
@@ -55,7 +55,8 @@ let
 
 in
 
-runCommand "bees-service" {
+runCommand "bees-service"
+{
   inherit bash bees coreutils;
   utillinux = util-linux; # needs to be a valid shell variable name
   btrfsProgs = btrfs-progs; # needs to be a valid shell variable name

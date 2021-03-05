@@ -1,5 +1,8 @@
-{ lib, buildDunePackage, ocaml
-, functoria, mirage-runtime
+{ lib
+, buildDunePackage
+, ocaml
+, functoria
+, mirage-runtime
 }:
 
 buildDunePackage rec {

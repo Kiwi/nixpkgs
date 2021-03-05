@@ -1,5 +1,15 @@
-{ stdenv, fetchFromGitHub, fetchpatch, makeWrapper, pkgconfig, alsaLib, dbus, libjack2
-, python3Packages , meson, ninja }:
+{ stdenv
+, fetchFromGitHub
+, fetchpatch
+, makeWrapper
+, pkgconfig
+, alsaLib
+, dbus
+, libjack2
+, python3Packages
+, meson
+, ninja
+}:
 
 stdenv.mkDerivation rec {
   pname = "a2jmidid";
@@ -14,7 +24,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkgconfig makeWrapper meson ninja ];
   buildInputs = [ alsaLib dbus libjack2 ] ++
-                (with python3Packages; [ python dbus-python ]);
+    (with python3Packages; [ python dbus-python ]);
 
   postInstall = ''
     wrapProgram $out/bin/a2j_control --set PYTHONPATH $PYTHONPATH

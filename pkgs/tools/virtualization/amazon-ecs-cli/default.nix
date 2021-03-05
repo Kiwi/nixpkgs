@@ -1,4 +1,4 @@
-{ stdenv, fetchurl}:
+{ stdenv, fetchurl }:
 
 stdenv.mkDerivation rec {
   pname = "amazon-ecs-cli";
@@ -6,15 +6,17 @@ stdenv.mkDerivation rec {
 
   src =
     if stdenv.hostPlatform.system == "x86_64-linux" then
-      fetchurl {
-        url = "https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-v${version}";
-        sha256 = "11cw2hk48x66wlsg5bzay95l2pgncwnawzj4xmqmbchhhvphrvxr";
-      }
+      fetchurl
+        {
+          url = "https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-v${version}";
+          sha256 = "11cw2hk48x66wlsg5bzay95l2pgncwnawzj4xmqmbchhhvphrvxr";
+        }
     else if stdenv.hostPlatform.system == "x86_64-darwin" then
-      fetchurl {
-        url = "https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-darwin-amd64-v${version}";
-        sha256 = "1f4yq04sgwkj2p0j598a8vc54dzihmqvg9daa6mxnqj403ln0rg1";
-      }
+      fetchurl
+        {
+          url = "https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-darwin-amd64-v${version}";
+          sha256 = "1f4yq04sgwkj2p0j598a8vc54dzihmqvg9daa6mxnqj403ln0rg1";
+        }
     else throw "Architecture not supported";
 
   dontUnpack = true;
@@ -24,7 +26,7 @@ stdenv.mkDerivation rec {
       mkdir -p $out/bin
       cp $src $out/bin/ecs-cli
       chmod +x $out/bin/ecs-cli
-    '';  # */
+    ''; # */
 
   meta = with stdenv.lib; {
     homepage = "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI.html";

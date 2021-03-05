@@ -1,6 +1,20 @@
-{ stdenv, lib, fetchFromGitHub, cmake, pkgconfig, doxygen, libGL, glew
-, xorg , ffmpeg_3, python3 , libjpeg, libpng, libtiff, eigen
-, Carbon ? null, Cocoa ? null
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, doxygen
+, libGL
+, glew
+, xorg
+, ffmpeg_3
+, python3
+, libjpeg
+, libpng
+, libtiff
+, eigen
+, Carbon ? null
+, Cocoa ? null
 }:
 
 stdenv.mkDerivation {

@@ -5,7 +5,7 @@ let
 in
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-systemload-plugin";
+  pname = "xfce4-systemload-plugin";
   version = "1.2.3";
 
   src = fetchurl {

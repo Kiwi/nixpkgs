@@ -7,9 +7,11 @@
 , SDL2
 , glib
 , noto-fonts
-, nerdfonts }:
+, nerdfonts
+}:
 let font-droid = nerdfonts.override { fonts = [ "DroidSansMono" ]; };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "koreader";
   version = "2020.11";
 

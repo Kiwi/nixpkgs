@@ -1,5 +1,14 @@
-{ stdenv, lib, unzip, util-linux,
-  libusb1, evdi, systemd, makeWrapper, requireFile, substituteAll }:
+{ stdenv
+, lib
+, unzip
+, util-linux
+, libusb1
+, evdi
+, systemd
+, makeWrapper
+, requireFile
+, substituteAll
+}:
 
 let
   arch =
@@ -9,7 +18,8 @@ let
   bins = "${arch}-ubuntu-1604";
   libPath = lib.makeLibraryPath [ stdenv.cc.cc util-linux libusb1 evdi ];
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "displaylink";
   version = "5.3.1.34";
 
@@ -39,10 +49,12 @@ in stdenv.mkDerivation rec {
     ./displaylink-driver-${version}.run --target . --noexec --nodiskspace
   '';
 
-  patches = [ (substituteAll {
-    src = ./udev-installer.patch;
-    inherit systemd;
-  })];
+  patches = [
+    (substituteAll {
+      src = ./udev-installer.patch;
+      inherit systemd;
+    })
+  ];
 
   installPhase = ''
     sed -i "s,/opt/displaylink/udev.sh,$out/lib/udev/displaylink.sh,g" udev-installer.sh

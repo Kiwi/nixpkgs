@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchPypi, buildPythonPackage, isPy3k
+{ lib
+, stdenv
+, fetchPypi
+, buildPythonPackage
+, isPy3k
 , jaraco_text
 , more-itertools
 , portend
@@ -58,7 +62,7 @@ buildPythonPackage rec {
     rm pytest.ini
   '';
 
-  disabledTests= [
+  disabledTests = [
     "tls" # touches network
     "peercreds_unix_sock" # test urls no longer allowed
   ] ++ lib.optionals stdenv.isDarwin [

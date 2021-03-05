@@ -1,6 +1,11 @@
-{ stdenv, pkgconfig, fetchPypi, buildPythonPackage
+{ stdenv
+, pkgconfig
+, fetchPypi
+, buildPythonPackage
 , buildPackages
-, zstd, pytest }:
+, zstd
+, pytest
+}:
 
 buildPythonPackage rec {
   pname = "zstd";

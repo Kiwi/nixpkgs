@@ -1,5 +1,21 @@
-{ stdenv, fetchurl, qt4, qwt6_qt4, libGLU, libGL, glew, gdal, cgal
-, proj, boost, cmake, python2, doxygen, graphviz, gmp, mpfr }:
+{ stdenv
+, fetchurl
+, qt4
+, qwt6_qt4
+, libGLU
+, libGL
+, glew
+, gdal
+, cgal
+, proj
+, boost
+, cmake
+, python2
+, doxygen
+, graphviz
+, gmp
+, mpfr
+}:
 
 stdenv.mkDerivation rec {
   pname = "gplates";
@@ -11,15 +27,27 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
-    qt4 qwt6_qt4 libGLU libGL glew gdal cgal proj cmake python2
-    doxygen graphviz gmp mpfr
+    qt4
+    qwt6_qt4
+    libGLU
+    libGL
+    glew
+    gdal
+    cgal
+    proj
+    cmake
+    python2
+    doxygen
+    graphviz
+    gmp
+    mpfr
     (boost.override {
       enablePython = true;
       python = python2;
     })
   ];
 
-  NIX_CFLAGS_LINK="-ldl -lpthread -lutil";
+  NIX_CFLAGS_LINK = "-ldl -lpthread -lutil";
 
   meta = with stdenv.lib; {
     description = "Desktop software for the interactive visualisation of plate-tectonics";

@@ -19,7 +19,8 @@
 
 let version = "20.3";
 
-in buildPythonApplication {
+in
+buildPythonApplication {
   pname = "cloud-init";
   inherit version;
   namePrefix = "";
@@ -63,7 +64,8 @@ in buildPythonApplication {
 
   makeWrapperArgs = [
     "--prefix PATH : ${lib.makeBinPath [
-      dmidecode cloud-utils.guest
+      dmidecode
+cloud-utils.guest
     ]}/bin"
   ];
 

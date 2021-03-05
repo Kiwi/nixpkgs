@@ -14,7 +14,7 @@ rec {
 
   packageName = "trivial-main-thread";
 
-  asdFilesToKeep = ["trivial-main-thread.asd"];
+  asdFilesToKeep = [ "trivial-main-thread.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM trivial-main-thread DESCRIPTION

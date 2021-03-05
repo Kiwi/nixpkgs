@@ -1,4 +1,8 @@
-{ stdenv, fetchFromGitHub, gzip, popt, autoreconfHook
+{ stdenv
+, fetchFromGitHub
+, gzip
+, popt
+, autoreconfHook
 , mailutils ? null
 }:
 

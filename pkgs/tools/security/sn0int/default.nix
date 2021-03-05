@@ -1,4 +1,10 @@
-{ lib, fetchFromGitHub, rustPlatform, libsodium, libseccomp, sqlite, pkgconfig
+{ lib
+, fetchFromGitHub
+, rustPlatform
+, libsodium
+, libseccomp
+, sqlite
+, pkgconfig
 }:
 
 rustPlatform.buildRustPackage rec {

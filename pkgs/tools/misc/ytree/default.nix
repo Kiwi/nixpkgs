@@ -14,7 +14,8 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
-    ncurses readline
+    ncurses
+    readline
   ];
 
   # don't save timestamp, in order to improve reproducibility

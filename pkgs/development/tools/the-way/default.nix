@@ -13,7 +13,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ installShellFiles ];
 
-  buildInputs = stdenv.lib.optionals stdenv.isDarwin  [ AppKit Security ];
+  buildInputs = stdenv.lib.optionals stdenv.isDarwin [ AppKit Security ];
 
   cargoSha256 = "1aiyfsvmrqcmlw0z1944i9s5g3yxc39na5mf16pb9a4bhw8zcwjr";
   checkFlagsArray = stdenv.lib.optionals stdenv.isDarwin [ "--skip=copy" ];

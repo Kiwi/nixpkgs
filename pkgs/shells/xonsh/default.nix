@@ -12,9 +12,9 @@ python3Packages.buildPythonApplication rec {
 
   # fetch from github because the pypi package ships incomplete tests
   src = fetchFromGitHub {
-    owner  = "xonsh";
-    repo   = "xonsh";
-    rev    = version;
+    owner = "xonsh";
+    repo = "xonsh";
+    rev = version;
     sha256 = "1nk7kbiv7jzmr6narsnr0nyzkhlc7xw3b2bksyq2j6nda67b9b3y";
   };
 

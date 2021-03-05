@@ -14,7 +14,7 @@ rec {
 
   packageName = "cl-webkit2";
 
-  asdFilesToKeep = ["cl-webkit2.asd"];
+  asdFilesToKeep = [ "cl-webkit2.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-webkit2 DESCRIPTION An FFI binding to WebKit2GTK+ SHA256

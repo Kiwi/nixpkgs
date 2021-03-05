@@ -19,44 +19,48 @@
 , src ? null
 , srcs ? null
 , unpackPhase ? null
-, cargoPatches ? []
-, patches ? []
+, cargoPatches ? [ ]
+, patches ? [ ]
 , sourceRoot ? null
 , logLevel ? ""
-, buildInputs ? []
-, nativeBuildInputs ? []
+, buildInputs ? [ ]
+, nativeBuildInputs ? [ ]
 , cargoUpdateHook ? ""
 , cargoDepsHook ? ""
-, cargoBuildFlags ? []
+, cargoBuildFlags ? [ ]
 , buildType ? "release"
-, meta ? {}
+, meta ? { }
 , target ? rust.toRustTargetSpec stdenv.hostPlatform
 , cargoVendorDir ? null
 , checkType ? buildType
-, depsExtraArgs ? {}
+, depsExtraArgs ? { }
 , cargoParallelTestThreads ? true
 
-# Toggles whether a custom sysroot is created when the target is a .json file.
+  # Toggles whether a custom sysroot is created when the target is a .json file.
 , __internal_dontAddSysroot ? false
 
-# Needed to `pushd`/`popd` into a subdir of a tarball if this subdir
-# contains a Cargo.toml, but isn't part of a workspace (which is e.g. the
-# case for `rustfmt`/etc from the `rust-sources).
-# Otherwise, everything from the tarball would've been built/tested.
+  # Needed to `pushd`/`popd` into a subdir of a tarball if this subdir
+  # contains a Cargo.toml, but isn't part of a workspace (which is e.g. the
+  # case for `rustfmt`/etc from the `rust-sources).
+  # Otherwise, everything from the tarball would've been built/tested.
 , buildAndTestSubdir ? null
-, ... } @ args:
+, ...
+} @ args:
 
 assert cargoVendorDir == null -> cargoSha256 != "unset";
 assert buildType == "release" || buildType == "debug";
 
 let
 
-  cargoDeps = if cargoVendorDir == null
-    then fetchCargoTarball ({
-        inherit name src srcs sourceRoot unpackPhase cargoUpdateHook;
-        patches = cargoPatches;
-        sha256 = cargoSha256;
-      } // depsExtraArgs)
+  cargoDeps =
+    if cargoVendorDir == null
+    then
+      fetchCargoTarball
+        ({
+          inherit name src srcs sourceRoot unpackPhase cargoUpdateHook;
+          patches = cargoPatches;
+          sha256 = cargoSha256;
+        } // depsExtraArgs)
     else null;
 
   # If we have a cargoSha256 fixed-output derivation, validate it at build time
@@ -67,11 +71,15 @@ let
   # dependencies. This copies the vendor directory into the build tree and makes
   # it writable. If we're using a tarball, the unpackFile hook already handles
   # this for us automatically.
-  setupVendorDir = if cargoVendorDir == null
-    then (''
-      unpackFile "$cargoDeps"
-      cargoDepsCopy=$(stripHash $cargoDeps)
-    '')
+  setupVendorDir =
+    if cargoVendorDir == null
+    then
+      (
+        ''
+          unpackFile "$cargoDeps"
+          cargoDepsCopy=$(stripHash $cargoDeps)
+        ''
+      )
     else ''
       cargoDepsCopy="$sourceRoot/${cargoVendorDir}"
     '';
@@ -81,20 +89,21 @@ let
 
   # see https://github.com/rust-lang/cargo/blob/964a16a28e234a3d397b2a7031d4ab4a428b1391/src/cargo/core/compiler/compile_kind.rs#L151-L168
   # the "${}" is needed to transform the path into a /nix/store path before baseNameOf
-  shortTarget = if targetIsJSON then
+  shortTarget =
+    if targetIsJSON then
       (stdenv.lib.removeSuffix ".json" (builtins.baseNameOf "${target}"))
     else target;
 
-  sysroot = (callPackage ./sysroot {}) {
+  sysroot = (callPackage ./sysroot { }) {
     inherit target shortTarget;
     RUSTFLAGS = args.RUSTFLAGS or "";
     originalCargoToml = src + /Cargo.toml; # profile info is later extracted
   };
 
-  ccForBuild="${buildPackages.stdenv.cc}/bin/${buildPackages.stdenv.cc.targetPrefix}cc";
-  cxxForBuild="${buildPackages.stdenv.cc}/bin/${buildPackages.stdenv.cc.targetPrefix}c++";
-  ccForHost="${stdenv.cc}/bin/${stdenv.cc.targetPrefix}cc";
-  cxxForHost="${stdenv.cc}/bin/${stdenv.cc.targetPrefix}c++";
+  ccForBuild = "${buildPackages.stdenv.cc}/bin/${buildPackages.stdenv.cc.targetPrefix}cc";
+  cxxForBuild = "${buildPackages.stdenv.cc}/bin/${buildPackages.stdenv.cc.targetPrefix}c++";
+  ccForHost = "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}cc";
+  cxxForHost = "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}c++";
   releaseDir = "target/${shortTarget}/${buildType}";
   tmpDir = "${releaseDir}-tmp";
 
@@ -106,10 +115,10 @@ let
 in
 
 # Tests don't currently work for `no_std`, and all custom sysroots are currently built without `std`.
-# See https://os.phil-opp.com/testing/ for more information.
+  # See https://os.phil-opp.com/testing/ for more information.
 assert useSysroot -> !(args.doCheck or true);
 
-stdenv.mkDerivation ((removeAttrs args ["depsExtraArgs"]) // stdenv.lib.optionalAttrs useSysroot {
+stdenv.mkDerivation ((removeAttrs args [ "depsExtraArgs" ]) // stdenv.lib.optionalAttrs useSysroot {
   RUSTFLAGS = "--sysroot ${sysroot} " + (args.RUSTFLAGS or "");
 } // {
   inherit cargoDeps;
@@ -230,17 +239,20 @@ stdenv.mkDerivation ((removeAttrs args ["depsExtraArgs"]) // stdenv.lib.optional
       -executable ! \( -regex ".*\.\(so.[0-9.]+\|so\|a\|dylib\)" \))
   '';
 
-  checkPhase = args.checkPhase or (let
-    argstr = "${stdenv.lib.optionalString (checkType == "release") "--release"} --target ${target} --frozen";
-    threads = if cargoParallelTestThreads then "$NIX_BUILD_CORES" else "1";
-  in ''
-    ${stdenv.lib.optionalString (buildAndTestSubdir != null) "pushd ${buildAndTestSubdir}"}
-    runHook preCheck
-    echo "Running cargo test ${argstr} -- ''${checkFlags} ''${checkFlagsArray+''${checkFlagsArray[@]}}"
-    cargo test -j $NIX_BUILD_CORES ${argstr} -- --test-threads=${threads} ''${checkFlags} ''${checkFlagsArray+"''${checkFlagsArray[@]}"}
-    runHook postCheck
-    ${stdenv.lib.optionalString (buildAndTestSubdir != null) "popd"}
-  '');
+  checkPhase = args.checkPhase or (
+    let
+      argstr = "${stdenv.lib.optionalString (checkType == "release") "--release"} --target ${target} --frozen";
+      threads = if cargoParallelTestThreads then "$NIX_BUILD_CORES" else "1";
+    in
+    ''
+      ${stdenv.lib.optionalString (buildAndTestSubdir != null) "pushd ${buildAndTestSubdir}"}
+      runHook preCheck
+      echo "Running cargo test ${argstr} -- ''${checkFlags} ''${checkFlagsArray+''${checkFlagsArray[@]}}"
+      cargo test -j $NIX_BUILD_CORES ${argstr} -- --test-threads=${threads} ''${checkFlags} ''${checkFlagsArray+"''${checkFlagsArray[@]}"}
+      runHook postCheck
+      ${stdenv.lib.optionalString (buildAndTestSubdir != null) "popd"}
+    ''
+  );
 
   doCheck = args.doCheck or true;
 
@@ -268,7 +280,7 @@ stdenv.mkDerivation ((removeAttrs args ["depsExtraArgs"]) // stdenv.lib.optional
     runHook postInstall
   '';
 
-  passthru = { inherit cargoDeps; } // (args.passthru or {});
+  passthru = { inherit cargoDeps; } // (args.passthru or { });
 
   meta = {
     # default to Rust's platforms

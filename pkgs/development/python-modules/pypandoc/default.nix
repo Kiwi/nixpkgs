@@ -1,5 +1,11 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub, fetchpatch
-, pandoc, haskellPackages, texlive }:
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, fetchpatch
+, pandoc
+, haskellPackages
+, texlive
+}:
 
 buildPythonPackage rec {
   pname = "pypandoc";

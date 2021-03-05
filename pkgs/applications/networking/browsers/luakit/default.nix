@@ -1,6 +1,15 @@
-{ stdenv, fetchFromGitHub, pkgconfig, wrapGAppsHook
-, help2man, luafilesystem, luajit, sqlite
-, webkitgtk, gtk3, gst_all_1, glib-networking
+{ stdenv
+, fetchFromGitHub
+, pkgconfig
+, wrapGAppsHook
+, help2man
+, luafilesystem
+, luajit
+, sqlite
+, webkitgtk
+, gtk3
+, gst_all_1
+, glib-networking
 }:
 
 stdenv.mkDerivation rec {
@@ -15,14 +24,26 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    pkgconfig help2man wrapGAppsHook
+    pkgconfig
+    help2man
+    wrapGAppsHook
   ];
 
   buildInputs = [
-    webkitgtk luafilesystem luajit sqlite gtk3
+    webkitgtk
+    luafilesystem
+    luajit
+    sqlite
+    gtk3
     glib-networking # TLS support
-  ] ++ ( with gst_all_1; [ gstreamer gst-plugins-base gst-plugins-good
-                           gst-plugins-bad gst-plugins-ugly gst-libav ]);
+  ] ++ (with gst_all_1; [
+    gstreamer
+    gst-plugins-base
+    gst-plugins-good
+    gst-plugins-bad
+    gst-plugins-ugly
+    gst-libav
+  ]);
 
   preBuild = ''
     # build-utils/docgen/gen.lua:2: module 'lib.lousy.util' not found
@@ -41,15 +62,17 @@ stdenv.mkDerivation rec {
     "XDGPREFIX=${placeholder "out"}/etc/xdg"
   ];
 
-  preFixup = let
-    luaKitPath = "$out/share/luakit/lib/?/init.lua;$out/share/luakit/lib/?.lua";
-  in ''
-    gappsWrapperArgs+=(
-      --prefix XDG_CONFIG_DIRS : "$out/etc/xdg"
-      --prefix LUA_PATH ';' "${luaKitPath};$LUA_PATH"
-      --prefix LUA_CPATH ';' "$LUA_CPATH"
-    )
-  '';
+  preFixup =
+    let
+      luaKitPath = "$out/share/luakit/lib/?/init.lua;$out/share/luakit/lib/?.lua";
+    in
+    ''
+      gappsWrapperArgs+=(
+        --prefix XDG_CONFIG_DIRS : "$out/etc/xdg"
+        --prefix LUA_PATH ';' "${luaKitPath};$LUA_PATH"
+        --prefix LUA_CPATH ';' "$LUA_CPATH"
+      )
+    '';
 
   meta = with stdenv.lib; {
     description = "Fast, small, webkit-based browser framework extensible in Lua";
@@ -60,9 +83,9 @@ stdenv.mkDerivation rec {
       power users, developers and anyone who wants to have fine-grained control
       over their web browser’s behaviour and interface.
     '';
-    homepage    = "https://luakit.github.io/";
-    license     = licenses.gpl3Only;
-    platforms   = platforms.unix;
+    homepage = "https://luakit.github.io/";
+    license = licenses.gpl3Only;
+    platforms = platforms.unix;
     maintainers = [ maintainers.AndersonTorres ];
   };
 }

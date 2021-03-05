@@ -36,14 +36,15 @@ buildPythonPackage rec {
   ];
 
   buildInputs = [ openssl ]
-             ++ stdenv.lib.optional stdenv.isDarwin darwin.apple_sdk.frameworks.Security;
+    ++ stdenv.lib.optional stdenv.isDarwin darwin.apple_sdk.frameworks.Security;
   propagatedBuildInputs = [
     packaging
     six
   ] ++ stdenv.lib.optionals (!isPyPy) [
     cffi
   ] ++ stdenv.lib.optionals isPy27 [
-    ipaddress enum34
+    ipaddress
+    enum34
   ];
 
   checkInputs = [

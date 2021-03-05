@@ -19,13 +19,15 @@ rustPlatform.buildRustPackage rec {
   };
 
   # fix outdated Cargo.lock
-  cargoPatches = [ (writeText "fix-nym-cargo-lock.patch" ''
-    --- a/Cargo.lock
-    +++ b/Cargo.lock
-    @@ -1826 +1826 @@
-    -version = "0.8.0"
-    +version = "0.8.1"
-  '') ];
+  cargoPatches = [
+    (writeText "fix-nym-cargo-lock.patch" ''
+      --- a/Cargo.lock
+      +++ b/Cargo.lock
+      @@ -1826 +1826 @@
+      -version = "0.8.0"
+      +version = "0.8.1"
+    '')
+  ];
 
   cargoSha256 = "0zr5nzmglmvn6xfqgvipbzy8nw5cl3nf7zjmghkqdwi6zj9p9272";
 

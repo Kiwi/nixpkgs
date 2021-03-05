@@ -4,7 +4,8 @@ with stdenv.lib;
 
 let version = "2.5.4";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "magma";
   inherit version;
   src = fetchurl {
@@ -23,7 +24,7 @@ in stdenv.mkDerivation {
     export CC=${cudatoolkit.cc}/bin/gcc CXX=${cudatoolkit.cc}/bin/g++
   '';
 
-  enableParallelBuilding=true;
+  enableParallelBuilding = true;
   buildFlags = [ "magma" "magma_sparse" ];
 
   # MAGMA's default CMake setup does not care about installation. So we copy files directly.

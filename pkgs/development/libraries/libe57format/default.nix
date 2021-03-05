@@ -1,13 +1,12 @@
-{
-  stdenv,
-  cmake,
-  fetchFromGitHub,
-  boost,
-  xercesc,
-  icu,
-
-  dos2unix,
-  fetchpatch,
+{ stdenv
+, cmake
+, fetchFromGitHub
+, boost
+, xercesc
+, icu
+, dos2unix
+, fetchpatch
+,
 }:
 
 stdenv.mkDerivation rec {

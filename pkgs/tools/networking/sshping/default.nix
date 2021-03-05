@@ -1,4 +1,4 @@
-{stdenv, fetchFromGitHub, libssh}:
+{ stdenv, fetchFromGitHub, libssh }:
 
 stdenv.mkDerivation rec {
   pname = "sshping";
@@ -14,12 +14,12 @@ stdenv.mkDerivation rec {
   buildInputs = [ libssh ];
 
   buildPhase = ''
-      $CXX -Wall -I ext/ -o bin/sshping src/sshping.cxx -lssh
-    '';
+    $CXX -Wall -I ext/ -o bin/sshping src/sshping.cxx -lssh
+  '';
 
   installPhase = ''
-      install -Dm755 bin/sshping $out/bin/sshping
-    '';
+    install -Dm755 bin/sshping $out/bin/sshping
+  '';
 
   meta = with stdenv.lib; {
     homepage = "https://github.com/spook/sshping";

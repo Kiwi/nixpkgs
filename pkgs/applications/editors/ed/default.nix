@@ -1,4 +1,6 @@
-{ stdenv, fetchurl, lzip
+{ stdenv
+, fetchurl
+, lzip
 }:
 
 # Note: this package is used for bootstrapping fetchurl, and thus

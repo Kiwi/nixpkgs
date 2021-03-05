@@ -5,7 +5,8 @@ with lib;
 let
   cfg = config.hardware.ksm;
 
-in {
+in
+{
   imports = [
     (mkRenamedOptionModule [ "hardware" "enableKSM" ] [ "hardware" "ksm" "enable" ])
   ];

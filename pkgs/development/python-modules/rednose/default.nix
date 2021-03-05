@@ -1,5 +1,13 @@
-{ stdenv, buildPythonPackage, fetchPypi, isPy27, pythonAtLeast
-, nose, six, colorama, termstyle }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, isPy27
+, pythonAtLeast
+, nose
+, six
+, colorama
+, termstyle
+}:
 
 buildPythonPackage rec {
   pname = "rednose";

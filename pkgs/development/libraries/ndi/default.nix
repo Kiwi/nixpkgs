@@ -6,8 +6,8 @@ stdenv.mkDerivation rec {
   version = builtins.head (builtins.splitVersion fullVersion);
 
   src = requireFile rec {
-    name    = "InstallNDISDK_v${version}_Linux.tar.gz";
-    sha256  = "0w9f4a4a3xzg0nvmvrlda1wwkyi0m5aqvk07immmwgg7f1z1sqj5";
+    name = "InstallNDISDK_v${version}_Linux.tar.gz";
+    sha256 = "0w9f4a4a3xzg0nvmvrlda1wwkyi0m5aqvk07immmwgg7f1z1sqj5";
     message = ''
       In order to use NDI SDK version ${fullVersion}, you need to comply with
       NewTek's license and download the appropriate Linux tarball from:
@@ -54,8 +54,8 @@ stdenv.mkDerivation rec {
   meta = with stdenv.lib; {
     homepage = "https://ndi.tv/sdk/";
     description = "NDI Software Developer Kit";
-    platforms = ["x86_64-linux"];
-    hydraPlatforms = [];
+    platforms = [ "x86_64-linux" ];
+    hydraPlatforms = [ ];
     license = licenses.unfree;
   };
 }

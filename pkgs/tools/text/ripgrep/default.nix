@@ -25,7 +25,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ asciidoctor installShellFiles ];
   buildInputs = (stdenv.lib.optional withPCRE2 pcre2)
-  ++ (stdenv.lib.optional stdenv.isDarwin Security);
+    ++ (stdenv.lib.optional stdenv.isDarwin Security);
 
   preFixup = ''
     installManPage $releaseDir/build/ripgrep-*/out/rg.1

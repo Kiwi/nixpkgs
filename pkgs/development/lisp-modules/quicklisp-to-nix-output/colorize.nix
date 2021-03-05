@@ -14,7 +14,7 @@ rec {
 
   packageName = "colorize";
 
-  asdFilesToKeep = ["colorize.asd"];
+  asdFilesToKeep = [ "colorize.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM colorize DESCRIPTION A Syntax highlighting library SHA256

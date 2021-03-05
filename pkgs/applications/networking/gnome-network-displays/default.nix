@@ -1,7 +1,7 @@
 { stdenv
 , fetchurl
 , fetchpatch
-# native
+  # native
 , meson
 , ninja
 , pkg-config
@@ -10,7 +10,7 @@
 , appstream-glib
 , wrapGAppsHook
 , python3
-# Not native
+  # Not native
 , gst_all_1
 , gsettings-desktop-schemas
 , gtk3

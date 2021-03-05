@@ -1,10 +1,40 @@
-{ stdenv, fetchFromGitHub, cmake, gettext, perl, asciidoc
-, libjpeg, libtiff, libungif, libpng, imlib, expat
-, freetype, fontconfig, pkgconfig, gdk-pixbuf, gdk-pixbuf-xlib, glib
-, mkfontdir, libX11, libXft, libXext, libXinerama
-, libXrandr, libICE, libSM, libXpm, libXdmcp, libxcb
-, libpthreadstubs, pcre, libXdamage, libXcomposite, libXfixes
-, libsndfile, fribidi }:
+{ stdenv
+, fetchFromGitHub
+, cmake
+, gettext
+, perl
+, asciidoc
+, libjpeg
+, libtiff
+, libungif
+, libpng
+, imlib
+, expat
+, freetype
+, fontconfig
+, pkgconfig
+, gdk-pixbuf
+, gdk-pixbuf-xlib
+, glib
+, mkfontdir
+, libX11
+, libXft
+, libXext
+, libXinerama
+, libXrandr
+, libICE
+, libSM
+, libXpm
+, libXdmcp
+, libxcb
+, libpthreadstubs
+, pcre
+, libXdamage
+, libXcomposite
+, libXfixes
+, libsndfile
+, fribidi
+}:
 
 with stdenv.lib;
 stdenv.mkDerivation rec {
@@ -12,7 +42,7 @@ stdenv.mkDerivation rec {
   version = "1.9.2";
 
   src = fetchFromGitHub {
-    owner  = "bbidulock";
+    owner = "bbidulock";
     repo = pname;
     rev = version;
     sha256 = "16a9ikknjmhrrlc5r6z2ilkjj5vzyfk4ypwab39mg7vcmd7jzc41";
@@ -21,10 +51,37 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake pkgconfig perl asciidoc ];
 
   buildInputs = [
-    gettext libjpeg libtiff libungif libpng imlib expat freetype fontconfig
-    gdk-pixbuf gdk-pixbuf-xlib glib mkfontdir libX11 libXft libXext libXinerama
-    libXrandr libICE libSM libXpm libXdmcp libxcb libpthreadstubs pcre
-    libsndfile fribidi libXdamage libXcomposite libXfixes ];
+    gettext
+    libjpeg
+    libtiff
+    libungif
+    libpng
+    imlib
+    expat
+    freetype
+    fontconfig
+    gdk-pixbuf
+    gdk-pixbuf-xlib
+    glib
+    mkfontdir
+    libX11
+    libXft
+    libXext
+    libXinerama
+    libXrandr
+    libICE
+    libSM
+    libXpm
+    libXdmcp
+    libxcb
+    libpthreadstubs
+    pcre
+    libsndfile
+    fribidi
+    libXdamage
+    libXcomposite
+    libXfixes
+  ];
 
   cmakeFlags = [ "-DPREFIX=$out" "-DCFGDIR=/etc/icewm" ];
 

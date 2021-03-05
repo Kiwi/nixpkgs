@@ -1,6 +1,14 @@
-{ stdenv, fetchurl
-, cairo, fftwSinglePrec, libX11, libXft, libclthreads, libclxclient, libjack2
-, xorgproto, zita-resampler
+{ stdenv
+, fetchurl
+, cairo
+, fftwSinglePrec
+, libX11
+, libXft
+, libclthreads
+, libclxclient
+, libjack2
+, xorgproto
+, zita-resampler
 }:
 
 stdenv.mkDerivation rec {
@@ -12,8 +20,15 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
-    cairo fftwSinglePrec libX11 libXft libclthreads libclxclient libjack2
-    xorgproto zita-resampler
+    cairo
+    fftwSinglePrec
+    libX11
+    libXft
+    libclthreads
+    libclxclient
+    libjack2
+    xorgproto
+    zita-resampler
   ];
 
   preConfigure = ''

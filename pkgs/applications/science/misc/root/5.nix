@@ -1,6 +1,26 @@
-{ stdenv, fetchurl, fetchpatch, cmake, pcre, pkgconfig, python2
-, libX11, libXpm, libXft, libXext, libGLU, libGL, zlib, libxml2, lz4, lzma, gsl_1, xxHash
-, Cocoa, OpenGL, noSplash ? false }:
+{ stdenv
+, fetchurl
+, fetchpatch
+, cmake
+, pcre
+, pkgconfig
+, python2
+, libX11
+, libXpm
+, libXft
+, libXext
+, libGLU
+, libGL
+, zlib
+, libxml2
+, lz4
+, lzma
+, gsl_1
+, xxHash
+, Cocoa
+, OpenGL
+, noSplash ? false
+}:
 
 stdenv.mkDerivation rec {
   pname = "root";
@@ -15,7 +35,7 @@ stdenv.mkDerivation rec {
   buildInputs = [ cmake pcre python2 zlib libxml2 lz4 lzma gsl_1 xxHash ]
     ++ stdenv.lib.optionals (!stdenv.isDarwin) [ libX11 libXpm libXft libXext libGLU libGL ]
     ++ stdenv.lib.optionals (stdenv.isDarwin) [ Cocoa OpenGL ]
-    ;
+  ;
 
   patches = [
     ./sw_vers_root5.patch

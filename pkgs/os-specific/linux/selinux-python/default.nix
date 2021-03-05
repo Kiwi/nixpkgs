@@ -1,5 +1,11 @@
-{ stdenv, fetchurl, python3
-, libselinux, libsemanage, libsepol, setools }:
+{ stdenv
+, fetchurl
+, python3
+, libselinux
+, libsemanage
+, libsepol
+, setools
+}:
 
 # this is python3 only because setools only supports python3
 

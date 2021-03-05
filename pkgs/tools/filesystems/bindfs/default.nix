@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   pname = "bindfs";
 
   src = fetchurl {
-    url    = "https://bindfs.org/downloads/${pname}-${version}.tar.gz";
+    url = "https://bindfs.org/downloads/${pname}-${version}.tar.gz";
     sha256 = "15y4brlcrqhxl6z73785m0dr1vp2q3wc6xss08x9jjr0apzmmjp5";
   };
 
@@ -19,9 +19,9 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "A FUSE filesystem for mounting a directory to another location";
-    homepage    = "https://bindfs.org";
-    license     = stdenv.lib.licenses.gpl2;
+    homepage = "https://bindfs.org";
+    license = stdenv.lib.licenses.gpl2;
     maintainers = with stdenv.lib.maintainers; [ lovek323 ];
-    platforms   = stdenv.lib.platforms.unix;
+    platforms = stdenv.lib.platforms.unix;
   };
 }

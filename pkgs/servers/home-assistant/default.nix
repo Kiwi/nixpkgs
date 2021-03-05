@@ -1,19 +1,26 @@
-{ stdenv, nixosTests, lib, fetchurl, fetchFromGitHub, fetchpatch, python3, protobuf3_6
+{ stdenv
+, nixosTests
+, lib
+, fetchurl
+, fetchFromGitHub
+, fetchpatch
+, python3
+, protobuf3_6
 
-# Look up dependencies of specified components in component-packages.nix
+  # Look up dependencies of specified components in component-packages.nix
 , extraComponents ? [ ]
 
-# Additional packages to add to propagatedBuildInputs
-, extraPackages ? ps: []
+  # Additional packages to add to propagatedBuildInputs
+, extraPackages ? ps: [ ]
 
-# Override Python packages using
-# self: super: { pkg = super.pkg.overridePythonAttrs (oldAttrs: { ... }); }
-# Applied after defaultOverrides
-, packageOverrides ? self: super: {
-}
+  # Override Python packages using
+  # self: super: { pkg = super.pkg.overridePythonAttrs (oldAttrs: { ... }); }
+  # Applied after defaultOverrides
+, packageOverrides ? self: super: { }
 
-# Skip pip install of required packages on startup
-, skipPip ? true }:
+  # Skip pip install of required packages on startup
+, skipPip ? true
+}:
 
 let
   defaultOverrides = [
@@ -64,7 +71,8 @@ let
   # Don't forget to run parse-requirements.py after updating
   hassVersion = "2020.12.1";
 
-in with py.pkgs; buildPythonApplication rec {
+in
+with py.pkgs; buildPythonApplication rec {
   pname = "homeassistant";
   version = assert (componentPackages.version == hassVersion); hassVersion;
 
@@ -82,7 +90,7 @@ in with py.pkgs; buildPythonApplication rec {
   };
 
   # leave this in, so users don't have to constantly update their downstream patch handling
-  patches = [];
+  patches = [ ];
 
   postPatch = ''
     substituteInPlace setup.py \
@@ -98,20 +106,53 @@ in with py.pkgs; buildPythonApplication rec {
 
   propagatedBuildInputs = [
     # From setup.py
-    aiohttp astral async-timeout attrs bcrypt certifi ciso8601 httpx jinja2
-    pyjwt cryptography pip python-slugify pytz pyyaml requests ruamel_yaml
-    setuptools voluptuous voluptuous-serialize yarl
+    aiohttp
+    astral
+    async-timeout
+    attrs
+    bcrypt
+    certifi
+    ciso8601
+    httpx
+    jinja2
+    pyjwt
+    cryptography
+    pip
+    python-slugify
+    pytz
+    pyyaml
+    requests
+    ruamel_yaml
+    setuptools
+    voluptuous
+    voluptuous-serialize
+    yarl
     # From default_config. frontend, http, image, mobile_app and recorder components as well as
     # the auth.mfa_modules.totp module
-    aiohttp-cors defusedxml distro emoji hass-frontend pynacl pillow pyotp
-    pyqrcode sqlalchemy
+    aiohttp-cors
+    defusedxml
+    distro
+    emoji
+    hass-frontend
+    pynacl
+    pillow
+    pyotp
+    pyqrcode
+    sqlalchemy
   ] ++ componentBuildInputs ++ extraBuildInputs;
 
   # upstream only tests on Linux, so do we.
   doCheck = stdenv.isLinux;
 
   checkInputs = [
-    asynctest pytestCheckHook pytest-aiohttp pytest_xdist requests-mock hass-nabucasa netdisco pydispatcher
+    asynctest
+    pytestCheckHook
+    pytest-aiohttp
+    pytest_xdist
+    requests-mock
+    hass-nabucasa
+    netdisco
+    pydispatcher
   ];
 
   # We cannot test all components, since they'd introduce lots of dependencies, some of which are unpackaged,

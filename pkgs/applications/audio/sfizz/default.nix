@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub , cmake, libjack2, libsndfile, pkgconfig }:
+{ stdenv, fetchFromGitHub, cmake, libjack2, libsndfile, pkgconfig }:
 
 stdenv.mkDerivation rec {
   pname = "sfizz";

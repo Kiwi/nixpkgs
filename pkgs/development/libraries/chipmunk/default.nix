@@ -1,5 +1,17 @@
-{ stdenv, fetchurl, cmake, freeglut, libGLU, libGL, glfw2, glew, libX11, xorgproto
-, libXi, libXmu, fetchpatch, libXrandr
+{ stdenv
+, fetchurl
+, cmake
+, freeglut
+, libGLU
+, libGL
+, glfw2
+, glew
+, libX11
+, xorgproto
+, libXi
+, libXmu
+, fetchpatch
+, libXrandr
 }:
 
 stdenv.mkDerivation rec {

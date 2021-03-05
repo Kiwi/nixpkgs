@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
     description = "Graph Coarsening and Partitioning Library";
     homepage = "https://github.com/ScottKolo/Mongoose";
     license = licenses.gpl3;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     platforms = with platforms; unix;
   };
 }

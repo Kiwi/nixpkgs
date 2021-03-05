@@ -40,7 +40,8 @@ in
     ./xmonad.nix
     ./yeahwm.nix
     ./qtile.nix
-    ./none.nix ];
+    ./none.nix
+  ];
 
   options = {
 
@@ -48,7 +49,7 @@ in
 
       session = mkOption {
         internal = true;
-        default = [];
+        default = [ ];
         example = [{
           name = "wmii";
           start = "...";

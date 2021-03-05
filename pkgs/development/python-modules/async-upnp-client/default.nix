@@ -1,6 +1,15 @@
-{ lib, buildPythonPackage, fetchFromGitHub, pythonOlder
-, voluptuous, aiohttp, async-timeout, python-didl-lite, defusedxml
-, pytest_6, pytest-asyncio }:
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, pythonOlder
+, voluptuous
+, aiohttp
+, async-timeout
+, python-didl-lite
+, defusedxml
+, pytest_6
+, pytest-asyncio
+}:
 
 buildPythonPackage rec {
   pname = "async-upnp-client";

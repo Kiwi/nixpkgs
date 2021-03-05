@@ -10,7 +10,8 @@
 
 let version = "20181024";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "dale";
   inherit version;
 
@@ -23,7 +24,7 @@ in stdenv.mkDerivation {
 
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [ cmake libffi llvm_6 ]
-             ++ stdenv.lib.optional doCheck perl;
+    ++ stdenv.lib.optional doCheck perl;
 
   inherit doCheck;
 

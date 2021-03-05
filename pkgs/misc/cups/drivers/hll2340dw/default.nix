@@ -1,4 +1,4 @@
-{stdenv, fetchurl, cups, dpkg, gnused, makeWrapper, ghostscript, file, a2ps, coreutils, gawk, perl, gnugrep, which}:
+{ stdenv, fetchurl, cups, dpkg, gnused, makeWrapper, ghostscript, file, a2ps, coreutils, gawk, perl, gnugrep, which }:
 
 let
   version = "3.2.0-1";
@@ -22,40 +22,43 @@ stdenv.mkDerivation {
   dontUnpack = true;
 
   installPhase = ''
-    mkdir -p $out
-    dpkg-deb -x ${cupsdeb} $out
-    dpkg-deb -x ${lprdeb} $out
+        mkdir -p $out
+        dpkg-deb -x ${cupsdeb} $out
+        dpkg-deb -x ${lprdeb} $out
 
-    substituteInPlace $out/opt/brother/Printers/HLL2340D/lpd/filter_HLL2340D \
-      --replace /opt "$out/opt" \
-      --replace /usr/bin/perl ${perl}/bin/perl \
-      --replace "BR_PRT_PATH =~" "BR_PRT_PATH = \"$out/opt/brother/Printers/HLL2340D/\"; #" \
-      --replace "PRINTER =~" "PRINTER = \"HLL2340D\"; #"
+        substituteInPlace $out/opt/brother/Printers/HLL2340D/lpd/filter_HLL2340D \
+          --replace /opt "$out/opt" \
+          --replace /usr/bin/perl ${perl}/bin/perl \
+          --replace "BR_PRT_PATH =~" "BR_PRT_PATH = \"$out/opt/brother/Printers/HLL2340D/\"; #" \
+          --replace "PRINTER =~" "PRINTER = \"HLL2340D\"; #"
 
-    patchelf --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
-      $out/opt/brother/Printers/HLL2340D/lpd/brprintconflsr3
-    patchelf --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
-      $out/opt/brother/Printers/HLL2340D/lpd/rawtobr3
+        patchelf --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
+          $out/opt/brother/Printers/HLL2340D/lpd/brprintconflsr3
+        patchelf --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
+          $out/opt/brother/Printers/HLL2340D/lpd/rawtobr3
 
-    for f in \
-      $out/opt/brother/Printers/HLL2340D/cupswrapper/brother_lpdwrapper_HLL2340D \
-      $out/opt/brother/Printers/HLL2340D/cupswrapper/paperconfigml1 \
-    ; do
-      wrapProgram $f \
-        --prefix PATH : ${stdenv.lib.makeBinPath [
-          coreutils ghostscript gnugrep gnused
-        ]}
-    done
+        for f in \
+          $out/opt/brother/Printers/HLL2340D/cupswrapper/brother_lpdwrapper_HLL2340D \
+          $out/opt/brother/Printers/HLL2340D/cupswrapper/paperconfigml1 \
+        ; do
+          wrapProgram $f \
+            --prefix PATH : ${stdenv.lib.makeBinPath [
+              coreutils
+    ghostscript
+    gnugrep
+    gnused
+            ]}
+        done
 
-    mkdir -p $out/lib/cups/filter/
-    ln -s $out/opt/brother/Printers/HLL2340D/lpd/filter_HLL2340D $out/lib/cups/filter/brother_lpdwrapper_HLL2340D
+        mkdir -p $out/lib/cups/filter/
+        ln -s $out/opt/brother/Printers/HLL2340D/lpd/filter_HLL2340D $out/lib/cups/filter/brother_lpdwrapper_HLL2340D
 
-    mkdir -p $out/share/cups/model
-    ln -s $out/opt/brother/Printers/HLL2340D/cupswrapper/brother-HLL2340D-cups-en.ppd $out/share/cups/model/
+        mkdir -p $out/share/cups/model
+        ln -s $out/opt/brother/Printers/HLL2340D/cupswrapper/brother-HLL2340D-cups-en.ppd $out/share/cups/model/
 
-    wrapProgram $out/opt/brother/Printers/HLL2340D/lpd/filter_HLL2340D \
-      --prefix PATH ":" ${ stdenv.lib.makeBinPath [ ghostscript a2ps file gnused gnugrep coreutils which ] }
-    '';
+        wrapProgram $out/opt/brother/Printers/HLL2340D/lpd/filter_HLL2340D \
+          --prefix PATH ":" ${ stdenv.lib.makeBinPath [ ghostscript a2ps file gnused gnugrep coreutils which ] }
+  '';
 
   meta = with stdenv.lib; {
     homepage = "http://www.brother.com/";

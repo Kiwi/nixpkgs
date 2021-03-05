@@ -7,11 +7,12 @@
 
 let
   version = "2.2.10";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "expat-${version}";
 
   src = fetchurl {
-    url = "https://github.com/libexpat/libexpat/releases/download/R_${lib.replaceStrings ["."] ["_"] version}/${name}.tar.xz";
+    url = "https://github.com/libexpat/libexpat/releases/download/R_${lib.replaceStrings [ "." ] [ "_" ] version}/${name}.tar.xz";
     sha256 = "sha256-Xf5Tj4tbY/A+mO2sUg19mmpNIuSC5cltTQb8xUhcJfI=";
   };
 

@@ -1,17 +1,15 @@
-{
-  lib,
-  buildPythonApplication,
-  fetchFromGitHub,
-  fetchpatch,
-
-  cpyparsing,
-  ipykernel,
-  mypy,
-  pygments,
-  pytest,
-  prompt_toolkit,
-  tkinter,
-  watchdog
+{ lib
+, buildPythonApplication
+, fetchFromGitHub
+, fetchpatch
+, cpyparsing
+, ipykernel
+, mypy
+, pygments
+, pytest
+, prompt_toolkit
+, tkinter
+, watchdog
 }:
 
 buildPythonApplication rec {

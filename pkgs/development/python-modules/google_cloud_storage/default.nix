@@ -1,7 +1,18 @@
-{ lib, buildPythonPackage, fetchPypi, pytestCheckHook, pythonOlder
-, google_api_core, google_auth, google-cloud-iam, google_cloud_core
-, google_cloud_kms, google_cloud_testutils, google_resumable_media, mock
-, requests }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pytestCheckHook
+, pythonOlder
+, google_api_core
+, google_auth
+, google-cloud-iam
+, google_cloud_core
+, google_cloud_kms
+, google_cloud_testutils
+, google_resumable_media
+, mock
+, requests
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-storage";

@@ -1,5 +1,11 @@
-{ stdenv, fetchFromGitHub, cmake
-, curl, glib, sqlite, pkgconfig }:
+{ stdenv
+, fetchFromGitHub
+, cmake
+, curl
+, glib
+, sqlite
+, pkgconfig
+}:
 
 stdenv.mkDerivation rec {
   version = "1.0.10";

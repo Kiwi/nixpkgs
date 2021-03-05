@@ -1,7 +1,13 @@
-{ stdenv, fetchurl, pkgconfig
+{ stdenv
+, fetchurl
+, pkgconfig
 
-# Optional Dependencies
-, alsaLib ? null, db ? null, libuuid ? null, libffado ? null, celt ? null
+  # Optional Dependencies
+, alsaLib ? null
+, db ? null
+, libuuid ? null
+, libffado ? null
+, celt ? null
 }:
 
 let

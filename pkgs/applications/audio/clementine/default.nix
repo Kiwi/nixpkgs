@@ -1,8 +1,39 @@
-{ stdenv, mkDerivation, fetchFromGitHub, fetchpatch, boost, cmake, chromaprint, gettext, gst_all_1, liblastfm
-, qtbase, qtx11extras
-, taglib, fftw, glew, qjson, sqlite, libgpod, libplist, usbmuxd, libmtp
-, libpulseaudio, gvfs, libcdio, libechonest, libspotify, pcre, projectm, protobuf
-, qca2, pkgconfig, sparsehash, config, makeWrapper, gst_plugins }:
+{ stdenv
+, mkDerivation
+, fetchFromGitHub
+, fetchpatch
+, boost
+, cmake
+, chromaprint
+, gettext
+, gst_all_1
+, liblastfm
+, qtbase
+, qtx11extras
+, taglib
+, fftw
+, glew
+, qjson
+, sqlite
+, libgpod
+, libplist
+, usbmuxd
+, libmtp
+, libpulseaudio
+, gvfs
+, libcdio
+, libechonest
+, libspotify
+, pcre
+, projectm
+, protobuf
+, qca2
+, pkgconfig
+, sparsehash
+, config
+, makeWrapper
+, gst_plugins
+}:
 
 let
   withIpod = config.clementine.ipod or false;
@@ -48,10 +79,10 @@ let
     sqlite
     taglib
   ]
-  ++ stdenv.lib.optionals (withIpod) [libgpod libplist usbmuxd]
-  ++ stdenv.lib.optionals (withMTP) [libmtp]
-  ++ stdenv.lib.optionals (withCD) [libcdio]
-  ++ stdenv.lib.optionals (withCloud) [sparsehash];
+  ++ stdenv.lib.optionals (withIpod) [ libgpod libplist usbmuxd ]
+  ++ stdenv.lib.optionals (withMTP) [ libmtp ]
+  ++ stdenv.lib.optionals (withCD) [ libcdio ]
+  ++ stdenv.lib.optionals (withCloud) [ sparsehash ];
 
   postPatch = ''
     sed -i src/CMakeLists.txt \
@@ -133,4 +164,5 @@ let
     };
   };
 
-in free
+in
+free

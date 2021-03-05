@@ -1,7 +1,20 @@
-{ stdenv, fetchFromGitHub, autoreconfHook, pkgconfig, zlib, readline, openssl
-, libiconv, pcsclite, libassuan, libXt
-, docbook_xsl, libxslt, docbook_xml_dtd_412
-, Carbon, PCSC, buildPackages
+{ stdenv
+, fetchFromGitHub
+, autoreconfHook
+, pkgconfig
+, zlib
+, readline
+, openssl
+, libiconv
+, pcsclite
+, libassuan
+, libXt
+, docbook_xsl
+, libxslt
+, docbook_xml_dtd_412
+, Carbon
+, PCSC
+, buildPackages
 , withApplePCSC ? stdenv.isDarwin
 }:
 
@@ -18,8 +31,14 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkgconfig autoreconfHook ];
   buildInputs = [
-    zlib readline openssl libassuan
-    libXt libxslt libiconv docbook_xml_dtd_412
+    zlib
+    readline
+    openssl
+    libassuan
+    libXt
+    libxslt
+    libiconv
+    docbook_xml_dtd_412
   ]
   ++ stdenv.lib.optional stdenv.isDarwin Carbon
   ++ (if withApplePCSC then [ PCSC ] else [ pcsclite ]);

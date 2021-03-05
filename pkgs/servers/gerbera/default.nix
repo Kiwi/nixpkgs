@@ -1,9 +1,18 @@
-{ stdenv, fetchFromGitHub
-, cmake, pkg-config
-# required
-, libupnp, libuuid, pugixml, libiconv, sqlite, zlib, spdlog, fmt
+{ stdenv
+, fetchFromGitHub
+, cmake
+, pkg-config
+  # required
+, libupnp
+, libuuid
+, pugixml
+, libiconv
+, sqlite
+, zlib
+, spdlog
+, fmt
 , pkgs
-# options
+  # options
 , enableDuktape ? true
 , enableCurl ? true
 , enableTaglib ? true
@@ -19,7 +28,8 @@
 with stdenv.lib;
 let
   optionOnOff = option: if option then "on" else "off";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "gerbera";
   version = "1.6.4";
 
@@ -48,7 +58,13 @@ in stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake pkg-config ];
 
   buildInputs = [
-    libupnp libuuid pugixml libiconv sqlite zlib fmt.dev
+    libupnp
+    libuuid
+    pugixml
+    libiconv
+    sqlite
+    zlib
+    fmt.dev
     spdlog
   ]
   ++ optionals enableDuktape [ pkgs.duktape ]

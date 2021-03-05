@@ -4,7 +4,7 @@
 , darwin
 , git
 , nettle
-# Use the same llvmPackages version as Rust
+  # Use the same llvmPackages version as Rust
 , llvmPackages_10
 , cargo
 , rustc
@@ -44,7 +44,7 @@ rustPlatform.buildRustPackage rec {
     ensureNewerSourcesForZipFilesHook
     capnproto
   ] ++
-    lib.optionals pythonSupport [ pythonPackages.setuptools ]
+  lib.optionals pythonSupport [ pythonPackages.setuptools ]
   ;
 
   checkInputs = lib.optionals pythonSupport [
@@ -57,7 +57,7 @@ rustPlatform.buildRustPackage rec {
     sqlite
     nettle
   ] ++ lib.optionals pythonSupport [ pythonPackages.python pythonPackages.cffi ]
-    ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Security ]
+  ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Security ]
   ;
 
   makeFlags = [

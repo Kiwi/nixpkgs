@@ -1,4 +1,4 @@
-{fetchurl}:
+{ fetchurl }:
 
 {
   "10".default."armeabi-v7a" = {

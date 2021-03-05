@@ -1,27 +1,47 @@
-{ lib, mkDerivation, fetchurl, makeFontsConf, appimageTools,
-  qtbase, qtsvg, qtmultimedia, qtwebsockets, qtimageformats,
-  autoPatchelfHook, desktop-file-utils, imagemagick, makeWrapper,
-  twemoji-color-font, xorg, libsodium, libopus, libGL, zlib, alsaLib }:
+{ lib
+, mkDerivation
+, fetchurl
+, makeFontsConf
+, appimageTools
+, qtbase
+, qtsvg
+, qtmultimedia
+, qtwebsockets
+, qtimageformats
+, autoPatchelfHook
+, desktop-file-utils
+, imagemagick
+, makeWrapper
+, twemoji-color-font
+, xorg
+, libsodium
+, libopus
+, libGL
+, zlib
+, alsaLib
+}:
 
 mkDerivation rec {
   pname = "ripcord";
   version = "0.4.26";
 
-  src = let
-    appimage = fetchurl {
-      url = "https://cancel.fm/dl/Ripcord-${version}-x86_64.AppImage";
-      sha256 = "0i9l21gyqga27ainzqp6icn8vbc22v1knq01pglgg1lg3p504ikq";
-      name = "${pname}-${version}.AppImage";
+  src =
+    let
+      appimage = fetchurl {
+        url = "https://cancel.fm/dl/Ripcord-${version}-x86_64.AppImage";
+        sha256 = "0i9l21gyqga27ainzqp6icn8vbc22v1knq01pglgg1lg3p504ikq";
+        name = "${pname}-${version}.AppImage";
+      };
+    in
+    appimageTools.extract {
+      name = "${pname}-${version}";
+      src = appimage;
     };
-  in appimageTools.extract {
-    name = "${pname}-${version}";
-    src = appimage;
-  };
 
   nativeBuildInputs = [ autoPatchelfHook desktop-file-utils imagemagick ];
   buildInputs = [ libsodium libopus libGL alsaLib ] ++
-                [ qtbase qtsvg qtmultimedia qtwebsockets qtimageformats ] ++
-                (with xorg; [ libX11 libXScrnSaver libXcursor xkeyboardconfig ]);
+    [ qtbase qtsvg qtmultimedia qtwebsockets qtimageformats ] ++
+    (with xorg; [ libX11 libXScrnSaver libXcursor xkeyboardconfig ]);
 
   fontsConf = makeFontsConf {
     fontDirectories = [ twemoji-color-font ];

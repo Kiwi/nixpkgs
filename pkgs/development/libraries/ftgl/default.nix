@@ -13,10 +13,10 @@ stdenv.mkDerivation {
 
   buildInputs = [ freetype ]
     ++ (if stdenv.isDarwin then
-      [ OpenGL ]
-    else
-      [ libGL libGLU ])
-    ;
+    [ OpenGL ]
+  else
+    [ libGL libGLU ])
+  ;
 
   configureFlags = [ "--with-ft-prefix=${stdenv.lib.getDev freetype}" ];
 
@@ -35,6 +35,6 @@ stdenv.mkDerivation {
     '';
 
     platforms = stdenv.lib.platforms.unix;
-    maintainers = [];
+    maintainers = [ ];
   };
 }

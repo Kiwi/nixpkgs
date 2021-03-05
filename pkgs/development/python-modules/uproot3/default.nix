@@ -1,7 +1,21 @@
-{ lib, fetchFromGitHub, buildPythonPackage, isPy27
-, awkward0, backports_lzma, cachetools, lz4, pandas
-, pytestCheckHook, pytestrunner, pkgconfig, mock
-, numpy, requests, uproot3-methods, xxhash, zstandard
+{ lib
+, fetchFromGitHub
+, buildPythonPackage
+, isPy27
+, awkward0
+, backports_lzma
+, cachetools
+, lz4
+, pandas
+, pytestCheckHook
+, pytestrunner
+, pkgconfig
+, mock
+, numpy
+, requests
+, uproot3-methods
+, xxhash
+, zstandard
 }:
 
 buildPythonPackage rec {

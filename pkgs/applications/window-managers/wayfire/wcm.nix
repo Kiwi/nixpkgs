@@ -1,5 +1,18 @@
-{ stdenv, lib, fetchFromGitHub, meson, ninja, pkg-config, wayland, wrapGAppsHook
-, gnome3, libevdev, libxml2, wayfire, wayland-protocols, wf-config, wf-shell
+{ stdenv
+, lib
+, fetchFromGitHub
+, meson
+, ninja
+, pkg-config
+, wayland
+, wrapGAppsHook
+, gnome3
+, libevdev
+, libxml2
+, wayfire
+, wayland-protocols
+, wf-config
+, wf-shell
 }:
 
 stdenv.mkDerivation rec {
@@ -15,8 +28,14 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ meson ninja pkg-config wayland wrapGAppsHook ];
   buildInputs = [
-    gnome3.gtk libevdev libxml2 wayfire wayland
-    wayland-protocols wf-config wf-shell
+    gnome3.gtk
+    libevdev
+    libxml2
+    wayfire
+    wayland
+    wayland-protocols
+    wf-config
+    wf-shell
   ];
 
   meta = with lib; {

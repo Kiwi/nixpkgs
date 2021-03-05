@@ -1,5 +1,16 @@
-{ stdenv, fetchFromGitHub, pkg-config, python3
-, alsaLib, curl, freetype, gtk3, libGL, libX11, libXext, libXinerama, webkitgtk
+{ stdenv
+, fetchFromGitHub
+, pkg-config
+, python3
+, alsaLib
+, curl
+, freetype
+, gtk3
+, libGL
+, libX11
+, libXext
+, libXinerama
+, webkitgtk
 }:
 
 stdenv.mkDerivation {
@@ -22,7 +33,8 @@ stdenv.mkDerivation {
   '';
 
   makeFlags = [
-    "-C" "src/tunefish4/Builds/LinuxMakefile"
+    "-C"
+    "src/tunefish4/Builds/LinuxMakefile"
     "CONFIG=Release"
   ];
 

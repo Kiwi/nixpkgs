@@ -5,7 +5,8 @@ with skawarePackages;
 let
   pname = "s6-portable-utils";
 
-in buildPackage {
+in
+buildPackage {
   pname = pname;
   version = "2.2.3.0";
   sha256 = "063zwifigg2b3wsixdcz4h9yvr6fkqssvx0iyfsprjfmm1yapfi9";

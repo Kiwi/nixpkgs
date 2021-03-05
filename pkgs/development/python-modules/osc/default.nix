@@ -1,5 +1,11 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub, bashInteractive, urlgrabber
-, m2crypto, rpm, chardet
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, bashInteractive
+, urlgrabber
+, m2crypto
+, rpm
+, chardet
 }:
 
 buildPythonPackage rec {

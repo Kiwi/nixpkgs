@@ -47,7 +47,8 @@ let
     '';
   });
   boost_python = boost.override { enablePython = true; inherit python; };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "glom";
   version = "1.32.0";
 

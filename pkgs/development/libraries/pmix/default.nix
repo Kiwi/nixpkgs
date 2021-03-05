@@ -1,11 +1,22 @@
-{ stdenv, fetchFromGitHub, perl, autoconf, automake
-, libtool, flex, libevent, hwloc, munge, zlib, pandoc
-} :
+{ stdenv
+, fetchFromGitHub
+, perl
+, autoconf
+, automake
+, libtool
+, flex
+, libevent
+, hwloc
+, munge
+, zlib
+, pandoc
+}:
 
 let
   version = "3.2.1";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "pmix";
   inherit version;
 

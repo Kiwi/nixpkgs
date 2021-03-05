@@ -1,10 +1,19 @@
-{ stdenv, fetchurl, curl, tzdata, autoPatchelfHook, fixDarwinDylibNames, glibc
-, version, hashes }:
+{ stdenv
+, fetchurl
+, curl
+, tzdata
+, autoPatchelfHook
+, fixDarwinDylibNames
+, glibc
+, version
+, hashes
+}:
 with stdenv;
 let
   OS = if hostPlatform.isDarwin then "osx" else hostPlatform.parsed.kernel.name;
   MODEL = toString hostPlatform.parsed.cpu.bits;
-in mkDerivation {
+in
+mkDerivation {
   pname = "dmd-bootstrap";
   inherit version;
 

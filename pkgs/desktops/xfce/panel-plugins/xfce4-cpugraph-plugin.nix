@@ -5,7 +5,7 @@ let
 in
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-cpugraph-plugin";
+  pname = "xfce4-cpugraph-plugin";
   version = "1.1.0";
 
   src = fetchurl {

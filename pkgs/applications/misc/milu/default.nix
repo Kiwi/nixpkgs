@@ -24,9 +24,9 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [
-     glib
-     unzip
-     llvmPackages.libclang
+    glib
+    unzip
+    llvmPackages.libclang
   ];
 
   meta = {

@@ -2,7 +2,8 @@
 
 let
   inherit (stdenv.lib.versions) majorMinor;
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   version = "2.5.1";
   pname = "ferm";
 
@@ -40,7 +41,7 @@ in stdenv.mkDerivation rec {
       language, which can contain levels and lists.
     '';
     license = stdenv.lib.licenses.gpl2;
-    maintainers = with stdenv.lib.maintainers; [mic92];
+    maintainers = with stdenv.lib.maintainers; [ mic92 ];
     platforms = stdenv.lib.platforms.linux;
   };
 }

@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, pidgin } :
+{ stdenv, fetchFromGitHub, pidgin }:
 
 let
   version = "0.8";

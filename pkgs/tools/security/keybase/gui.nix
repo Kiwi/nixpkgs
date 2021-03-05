@@ -1,7 +1,30 @@
-{ stdenv, lib, fetchurl, alsaLib, atk, cairo, cups, udev
-, dbus, expat, fontconfig, freetype, gdk-pixbuf, glib, gtk3, libappindicator-gtk3
-, libnotify, nspr, nss, pango, systemd, xorg, autoPatchelfHook, wrapGAppsHook
-, runtimeShell, gsettings-desktop-schemas }:
+{ stdenv
+, lib
+, fetchurl
+, alsaLib
+, atk
+, cairo
+, cups
+, udev
+, dbus
+, expat
+, fontconfig
+, freetype
+, gdk-pixbuf
+, glib
+, gtk3
+, libappindicator-gtk3
+, libnotify
+, nspr
+, nss
+, pango
+, systemd
+, xorg
+, autoPatchelfHook
+, wrapGAppsHook
+, runtimeShell
+, gsettings-desktop-schemas
+}:
 
 let
   versionSuffix = "20201016183637.d4ebf7d999";

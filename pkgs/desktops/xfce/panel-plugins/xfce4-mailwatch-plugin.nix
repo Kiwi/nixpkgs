@@ -1,12 +1,23 @@
-{ stdenv, fetchurl, pkgconfig, intltool, libxfce4util, xfce4-panel, libxfce4ui,
-  gtk2, exo, gnutls, libgcrypt, xfce }:
+{ stdenv
+, fetchurl
+, pkgconfig
+, intltool
+, libxfce4util
+, xfce4-panel
+, libxfce4ui
+, gtk2
+, exo
+, gnutls
+, libgcrypt
+, xfce
+}:
 
 let
   category = "panel-plugins";
 in
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-mailwatch-plugin";
+  pname = "xfce4-mailwatch-plugin";
   version = "1.2.0";
 
   src = fetchurl {

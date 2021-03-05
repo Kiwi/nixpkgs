@@ -18,7 +18,10 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   makeWrapperArgs = [
-    "--prefix" "PATH" ":" (lib.makeBinPath [ nixFlakes git ])
+    "--prefix"
+    "PATH"
+    ":"
+    (lib.makeBinPath [ nixFlakes git ])
   ];
 
   meta = with stdenv.lib; {

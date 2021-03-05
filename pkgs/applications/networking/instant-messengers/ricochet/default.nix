@@ -1,6 +1,16 @@
-{ mkDerivation, stdenv, fetchurl, pkgconfig, makeDesktopItem
-, qtbase, qttools, qtmultimedia, qtquick1, qtquickcontrols
-, openssl, protobuf, qmake
+{ mkDerivation
+, stdenv
+, fetchurl
+, pkgconfig
+, makeDesktopItem
+, qtbase
+, qttools
+, qtmultimedia
+, qtquick1
+, qtquickcontrols
+, openssl
+, protobuf
+, qmake
 }:
 
 mkDerivation rec {
@@ -23,8 +33,13 @@ mkDerivation rec {
   };
 
   buildInputs = [
-    qtbase qttools qtmultimedia qtquick1 qtquickcontrols
-    openssl protobuf
+    qtbase
+    qttools
+    qtmultimedia
+    qtquick1
+    qtquickcontrols
+    openssl
+    protobuf
   ];
 
   nativeBuildInputs = [ pkgconfig qmake ];

@@ -1,30 +1,80 @@
-{stdenv, fetchurl, fuse, bison, flex_2_5_35, openssl, python3, ncurses, readline,
- autoconf, automake, libtool, pkgconfig, zlib, libaio, libxml2, acl, sqlite,
- liburcu, attr, makeWrapper, coreutils, gnused, gnugrep, which,
- openssh, gawk, findutils, util-linux, lvm2, btrfs-progs, e2fsprogs, xfsprogs, systemd,
- rsync, glibc, rpcsvc-proto, libtirpc
+{ stdenv
+, fetchurl
+, fuse
+, bison
+, flex_2_5_35
+, openssl
+, python3
+, ncurses
+, readline
+, autoconf
+, automake
+, libtool
+, pkgconfig
+, zlib
+, libaio
+, libxml2
+, acl
+, sqlite
+, liburcu
+, attr
+, makeWrapper
+, coreutils
+, gnused
+, gnugrep
+, which
+, openssh
+, gawk
+, findutils
+, util-linux
+, lvm2
+, btrfs-progs
+, e2fsprogs
+, xfsprogs
+, systemd
+, rsync
+, glibc
+, rpcsvc-proto
+, libtirpc
 }:
 let
   s =
-  rec {
-    baseName="glusterfs";
-    # NOTE: On each glusterfs release, it should be checked if gluster added
-    #       new, or changed, Python scripts whose PYTHONPATH has to be set in
-    #       `postFixup` below, and whose runtime deps need to go into
-    #       `nativeBuildInputs`.
-    #       The command
-    #         find /nix/store/...-glusterfs-.../ -name '*.py' -executable
-    #       can help with finding new Python scripts.
-    version = "7.6";
-    name="${baseName}-${version}";
-    url="https://github.com/gluster/glusterfs/archive/v${version}.tar.gz";
-    sha256 = "0zdcv2jk8dp67id8ic30mkn97ccp07jf20g7v09a5k31pw9aqyih";
-  };
+    rec {
+      baseName = "glusterfs";
+      # NOTE: On each glusterfs release, it should be checked if gluster added
+      #       new, or changed, Python scripts whose PYTHONPATH has to be set in
+      #       `postFixup` below, and whose runtime deps need to go into
+      #       `nativeBuildInputs`.
+      #       The command
+      #         find /nix/store/...-glusterfs-.../ -name '*.py' -executable
+      #       can help with finding new Python scripts.
+      version = "7.6";
+      name = "${baseName}-${version}";
+      url = "https://github.com/gluster/glusterfs/archive/v${version}.tar.gz";
+      sha256 = "0zdcv2jk8dp67id8ic30mkn97ccp07jf20g7v09a5k31pw9aqyih";
+    };
 
   buildInputs = [
-    fuse bison flex_2_5_35 openssl ncurses readline
-    autoconf automake libtool pkgconfig zlib libaio libxml2
-    acl sqlite liburcu attr makeWrapper util-linux libtirpc
+    fuse
+    bison
+    flex_2_5_35
+    openssl
+    ncurses
+    readline
+    autoconf
+    automake
+    libtool
+    pkgconfig
+    zlib
+    libaio
+    libxml2
+    acl
+    sqlite
+    liburcu
+    attr
+    makeWrapper
+    util-linux
+    libtirpc
     (python3.withPackages (pkgs: [
       pkgs.flask
       pkgs.prettytable
@@ -94,11 +144,11 @@ stdenv.mkDerivation
     echo "v${s.version}" > VERSION
     ./autogen.sh
     export PYTHON=${python3}/bin/python
-    '';
+  '';
 
   configureFlags = [
     ''--localstatedir=/var''
-    ];
+  ];
 
   nativeBuildInputs = [ rpcsvc-proto ];
 
@@ -109,7 +159,7 @@ stdenv.mkDerivation
   postInstall = ''
     cp -r $out/$out/* $out
     rm -r $out/nix
-    '';
+  '';
 
   postFixup = ''
     # glusterd invokes `gluster` and other utilities when telling other glusterd nodes to run commands.
@@ -153,7 +203,7 @@ stdenv.mkDerivation
     wrapProgram $out/share/glusterfs/scripts/eventsdash.py --set PATH "$GLUSTER_PATH" --set PYTHONPATH "$GLUSTER_PYTHONPATH" --set LD_LIBRARY_PATH "$GLUSTER_LD_LIBRARY_PATH"
     wrapProgram $out/libexec/glusterfs/glusterfind/brickfind.py --set PATH "$GLUSTER_PATH" --set PYTHONPATH "$GLUSTER_PYTHONPATH" --set LD_LIBRARY_PATH "$GLUSTER_LD_LIBRARY_PATH"
     wrapProgram $out/libexec/glusterfs/glusterfind/changelog.py --set PATH "$GLUSTER_PATH" --set PYTHONPATH "$GLUSTER_PYTHONPATH" --set LD_LIBRARY_PATH "$GLUSTER_LD_LIBRARY_PATH"
-    '';
+  '';
 
   doInstallCheck = true;
 
@@ -185,7 +235,7 @@ stdenv.mkDerivation
 
     # this gets falsely loaded as module by glusterfind
     rm -r $out/bin/conf.py
-    '';
+  '';
 
   src = fetchurl {
     inherit (s) url sha256;

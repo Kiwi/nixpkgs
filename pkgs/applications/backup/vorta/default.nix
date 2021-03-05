@@ -1,6 +1,17 @@
-{ buildPythonApplication, fetchFromGitHub, lib, paramiko, peewee, pyqt5
-, python-dateutil, APScheduler, psutil, qdarkstyle, secretstorage
-, appdirs, setuptools, qt5
+{ buildPythonApplication
+, fetchFromGitHub
+, lib
+, paramiko
+, peewee
+, pyqt5
+, python-dateutil
+, APScheduler
+, psutil
+, qdarkstyle
+, secretstorage
+, appdirs
+, setuptools
+, qt5
 }:
 
 buildPythonApplication rec {
@@ -21,8 +32,16 @@ buildPythonApplication rec {
   nativeBuildInputs = [ qt5.wrapQtAppsHook ];
 
   propagatedBuildInputs = [
-    paramiko peewee pyqt5 python-dateutil APScheduler psutil qdarkstyle
-    secretstorage appdirs setuptools
+    paramiko
+    peewee
+    pyqt5
+    python-dateutil
+    APScheduler
+    psutil
+    qdarkstyle
+    secretstorage
+    appdirs
+    setuptools
   ];
 
   # QT setup in tests broken.

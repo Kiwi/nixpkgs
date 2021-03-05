@@ -1,10 +1,16 @@
-{ lib, fetchPypi, buildPythonPackage
-, lxml, pycryptodomex, construct
-, argon2_cffi, dateutil, future
+{ lib
+, fetchPypi
+, buildPythonPackage
+, lxml
+, pycryptodomex
+, construct
+, argon2_cffi
+, dateutil
+, future
 }:
 
 buildPythonPackage rec {
-  pname   = "pykeepass";
+  pname = "pykeepass";
   version = "3.2.1";
 
   src = fetchPypi {
@@ -17,8 +23,12 @@ buildPythonPackage rec {
   '';
 
   propagatedBuildInputs = [
-    lxml pycryptodomex construct
-    argon2_cffi dateutil future
+    lxml
+    pycryptodomex
+    construct
+    argon2_cffi
+    dateutil
+    future
   ];
 
   # no tests in PyPI tarball

@@ -8,7 +8,8 @@
 , parameterized
 , pyjwt
 , pytestCheckHook
-, requests }:
+, requests
+}:
 
 buildPythonPackage rec {
   pname = "PyGithub";

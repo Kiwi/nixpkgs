@@ -17,13 +17,15 @@ stdenv.mkDerivation rec {
   buildInputs = [
     python
   ]
-    ++ stdenv.lib.optionals (lapackSupport)
+  ++ stdenv.lib.optionals (lapackSupport)
     # Check that the same index size is used for both libraries
-    (assert (blas.isILP64 == lapack.isILP64); [
-      gfortran
-      blas
-      lapack
-    ])
+    (
+      assert (blas.isILP64 == lapack.isILP64); [
+        gfortran
+        blas
+        lapack
+      ]
+    )
   # KLU support is based on Suitesparse.
   # It is tested upstream according to the section 1.1.4 of
   # [INSTALL_GUIDE.pdf](https://raw.githubusercontent.com/LLNL/sundials/master/INSTALL_GUIDE.pdf)
@@ -68,9 +70,9 @@ stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "Suite of nonlinear differential/algebraic equation solvers";
-    homepage    = "https://computation.llnl.gov/projects/sundials";
-    platforms   = platforms.all;
+    homepage = "https://computation.llnl.gov/projects/sundials";
+    platforms = platforms.all;
     maintainers = with maintainers; [ idontgetoutmuch ];
-    license     = licenses.bsd3;
+    license = licenses.bsd3;
   };
 }

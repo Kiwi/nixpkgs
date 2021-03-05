@@ -1,5 +1,15 @@
-{ stdenv, fetchFromGitHub, pkg-config, cmake, gtk3,
-  wxGTK30-gtk3, curl, gettext, glib, indilib, libnova }:
+{ stdenv
+, fetchFromGitHub
+, pkg-config
+, cmake
+, gtk3
+, wxGTK30-gtk3
+, curl
+, gettext
+, glib
+, indilib
+, libnova
+}:
 
 stdenv.mkDerivation rec {
   pname = "phd2";

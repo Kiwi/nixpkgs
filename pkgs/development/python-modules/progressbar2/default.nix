@@ -25,8 +25,13 @@ buildPythonPackage rec {
   propagatedBuildInputs = [ python-utils ];
   nativeBuildInputs = [ pytestrunner ];
   checkInputs = [
-    pytest sphinx flake8 pytest-flakes pytestcov
-    pytestcache freezegun
+    pytest
+    sphinx
+    flake8
+    pytest-flakes
+    pytestcov
+    pytestcache
+    freezegun
   ];
   # ignore tests on the nix wrapped setup.py
   checkPhase = ''

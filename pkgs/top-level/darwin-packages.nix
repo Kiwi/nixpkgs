@@ -1,5 +1,11 @@
-{ buildPackages, pkgs, targetPackages
-, darwin, stdenv, callPackage, callPackages, newScope
+{ buildPackages
+, pkgs
+, targetPackages
+, darwin
+, stdenv
+, callPackage
+, callPackages
+, newScope
 }:
 
 let
@@ -11,7 +17,7 @@ in
   callPackage = newScope (darwin.apple_sdk.frameworks // darwin);
 
   stdenvNoCF = stdenv.override {
-    extraBuildInputs = [];
+    extraBuildInputs = [ ];
   };
 
   apple_sdk = callPackage ../os-specific/darwin/apple-sdk {
@@ -90,9 +96,9 @@ in
 
   darling = callPackage ../os-specific/darwin/darling/default.nix { };
 
-  libtapi = callPackage ../os-specific/darwin/libtapi {};
+  libtapi = callPackage ../os-specific/darwin/libtapi { };
 
-  ios-deploy = callPackage ../os-specific/darwin/ios-deploy {};
+  ios-deploy = callPackage ../os-specific/darwin/ios-deploy { };
 
   discrete-scroll = callPackage ../os-specific/darwin/discrete-scroll {
     inherit (darwin.apple_sdk.frameworks) Cocoa;

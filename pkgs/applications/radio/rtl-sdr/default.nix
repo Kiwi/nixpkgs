@@ -10,11 +10,13 @@ stdenv.mkDerivation rec {
     sha256 = "0lmvsnb4xw4hmz6zs0z5ilsah5hjz29g1s0050n59fllskqr3b8k";
   };
 
-  patches = [ (fetchpatch {
-    name = "hardened-udev-rules.patch";
-    url = "https://osmocom.org/projects/rtl-sdr/repository/revisions/b2814731563be4d5a0a68554ece6454a2c63af12/diff?format=diff";
-    sha256 = "0ns740s2rys4glq4la4bh0sxfv1mn61yfjns2yllhx70rsb2fqrn";
-  }) ];
+  patches = [
+    (fetchpatch {
+      name = "hardened-udev-rules.patch";
+      url = "https://osmocom.org/projects/rtl-sdr/repository/revisions/b2814731563be4d5a0a68554ece6454a2c63af12/diff?format=diff";
+      sha256 = "0ns740s2rys4glq4la4bh0sxfv1mn61yfjns2yllhx70rsb2fqrn";
+    })
+  ];
 
   nativeBuildInputs = [ pkgconfig cmake ];
   buildInputs = [ libusb1 ];

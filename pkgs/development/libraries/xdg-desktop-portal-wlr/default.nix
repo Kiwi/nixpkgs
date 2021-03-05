@@ -1,6 +1,15 @@
-{ stdenv, fetchFromGitHub
-, meson, ninja, pkgconfig, wayland-protocols
-, pipewire, wayland, elogind, systemd, libdrm }:
+{ stdenv
+, fetchFromGitHub
+, meson
+, ninja
+, pkgconfig
+, wayland-protocols
+, pipewire
+, wayland
+, elogind
+, systemd
+, libdrm
+}:
 
 stdenv.mkDerivation rec {
   pname = "xdg-desktop-portal-wlr";

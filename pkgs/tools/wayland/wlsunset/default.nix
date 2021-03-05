@@ -1,4 +1,9 @@
-{ stdenv, fetchurl, meson, pkg-config, ninja, wayland
+{ stdenv
+, fetchurl
+, meson
+, pkg-config
+, ninja
+, wayland
 , wayland-protocols
 }:
 

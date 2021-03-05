@@ -1,6 +1,13 @@
-{ stdenv, buildPythonPackage, fetchPypi, isPy27
-, requests, six
-, backports_unittest-mock, pytestCheckHook, pytestrunner }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, isPy27
+, requests
+, six
+, backports_unittest-mock
+, pytestCheckHook
+, pytestrunner
+}:
 
 buildPythonPackage rec {
   pname = "sseclient";

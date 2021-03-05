@@ -1,5 +1,13 @@
-{ callPackage, fetchurl, fetchpatch, stdenv
-, ocamlPackages, coqPackages, rubber, hevea, emacs }:
+{ callPackage
+, fetchurl
+, fetchpatch
+, stdenv
+, ocamlPackages
+, coqPackages
+, rubber
+, hevea
+, emacs
+}:
 
 stdenv.mkDerivation {
   pname = "why3";
@@ -11,18 +19,26 @@ stdenv.mkDerivation {
   };
 
   buildInputs = with ocamlPackages; [
-    ocaml findlib ocamlgraph zarith menhir
+    ocaml
+    findlib
+    ocamlgraph
+    zarith
+    menhir
     # Compressed Sessions
     # Emacs compilation of why3.el
     emacs
     # Documentation
-    rubber hevea
+    rubber
+    hevea
     # GUI
     lablgtk
     # WebIDE
-    js_of_ocaml js_of_ocaml-ppx
+    js_of_ocaml
+    js_of_ocaml-ppx
     # Coq Support
-    coqPackages.coq coqPackages.flocq ocamlPackages.camlp5
+    coqPackages.coq
+    coqPackages.flocq
+    ocamlPackages.camlp5
   ];
 
   propagatedBuildInputs = with ocamlPackages; [ camlzip num ];
@@ -37,13 +53,13 @@ stdenv.mkDerivation {
 
   installTargets = [ "install" "install-lib" ];
 
-  passthru.withProvers = callPackage ./with-provers.nix {};
+  passthru.withProvers = callPackage ./with-provers.nix { };
 
   meta = with stdenv.lib; {
     description = "A platform for deductive program verification";
-    homepage    = "http://why3.lri.fr/";
-    license     = licenses.lgpl21;
-    platforms   = platforms.unix;
+    homepage = "http://why3.lri.fr/";
+    license = licenses.lgpl21;
+    platforms = platforms.unix;
     maintainers = with maintainers; [ thoughtpolice vbgl ];
   };
 }

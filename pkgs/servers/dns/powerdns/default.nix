@@ -1,6 +1,21 @@
-{ stdenv, fetchurl, pkgconfig, nixosTests
-, boost, libyamlcpp, libsodium, sqlite, protobuf, openssl, systemd
-, mysql57, postgresql, lua, openldap, geoip, curl, unixODBC
+{ stdenv
+, fetchurl
+, pkgconfig
+, nixosTests
+, boost
+, libyamlcpp
+, libsodium
+, sqlite
+, protobuf
+, openssl
+, systemd
+, mysql57
+, postgresql
+, lua
+, openldap
+, geoip
+, curl
+, unixODBC
 }:
 
 stdenv.mkDerivation rec {
@@ -14,8 +29,20 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [
-    boost mysql57.connector-c postgresql lua openldap sqlite protobuf geoip
-    libyamlcpp libsodium curl unixODBC openssl systemd
+    boost
+    mysql57.connector-c
+    postgresql
+    lua
+    openldap
+    sqlite
+    protobuf
+    geoip
+    libyamlcpp
+    libsodium
+    curl
+    unixODBC
+    openssl
+    systemd
   ];
 
   # nix destroy with-modules arguments, when using configureFlags

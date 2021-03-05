@@ -1,11 +1,10 @@
 { lib, callPackage, runCommandLocal, writeShellScriptBin, stdenv, coreutils, bubblewrap }:
 
-args @ {
-  name
+args @ { name
 , runScript ? "bash"
 , extraInstallCommands ? ""
-, meta ? {}
-, passthru ? {}
+, meta ? { }
+, passthru ? { }
 , unshareUser ? true
 , unshareIpc ? true
 , unsharePid ? true
@@ -20,45 +19,55 @@ let
   buildFHSEnv = callPackage ./env.nix { };
 
   env = buildFHSEnv (removeAttrs args [
-    "runScript" "extraInstallCommands" "meta" "passthru"
-    "unshareUser" "unshareCgroup" "unshareUts" "unshareNet" "unsharePid" "unshareIpc"
+    "runScript"
+    "extraInstallCommands"
+    "meta"
+    "passthru"
+    "unshareUser"
+    "unshareCgroup"
+    "unshareUts"
+    "unshareNet"
+    "unsharePid"
+    "unshareIpc"
   ]);
 
-  chrootenv = callPackage ./chrootenv {};
+  chrootenv = callPackage ./chrootenv { };
 
-  etcBindFlags = let
-    files = [
-      # NixOS Compatibility
-      "static"
-      # Users, Groups, NSS
-      "passwd"
-      "group"
-      "shadow"
-      "hosts"
-      "resolv.conf"
-      "nsswitch.conf"
-      # Sudo & Su
-      "login.defs"
-      "sudoers"
-      "sudoers.d"
-      # Time
-      "localtime"
-      "zoneinfo"
-      # Other Core Stuff
-      "machine-id"
-      "os-release"
-      # PAM
-      "pam.d"
-      # Fonts
-      "fonts"
-      # ALSA
-      "asound.conf"
-      # SSL
-      "ssl/certs"
-      "pki"
-    ];
-  in concatStringsSep "\n  "
-  (map (file: "--ro-bind-try /etc/${file} /etc/${file}") files);
+  etcBindFlags =
+    let
+      files = [
+        # NixOS Compatibility
+        "static"
+        # Users, Groups, NSS
+        "passwd"
+        "group"
+        "shadow"
+        "hosts"
+        "resolv.conf"
+        "nsswitch.conf"
+        # Sudo & Su
+        "login.defs"
+        "sudoers"
+        "sudoers.d"
+        # Time
+        "localtime"
+        "zoneinfo"
+        # Other Core Stuff
+        "machine-id"
+        "os-release"
+        # PAM
+        "pam.d"
+        # Fonts
+        "fonts"
+        # ALSA
+        "asound.conf"
+        # SSL
+        "ssl/certs"
+        "pki"
+      ];
+    in
+    concatStringsSep "\n  "
+      (map (file: "--ro-bind-try /etc/${file} /etc/${file}") files);
 
   init = run: writeShellScriptBin "${name}-init" ''
     source /etc/profile
@@ -117,13 +126,16 @@ let
 
   bin = writeShellScriptBin name (bwrapCmd { initArgs = ''"$@"''; });
 
-in runCommandLocal name {
+in
+runCommandLocal name
+{
   inherit meta;
 
   passthru = passthru // {
-    env = runCommandLocal "${name}-shell-env" {
-      shellHook = bwrapCmd {};
-    } ''
+    env = runCommandLocal "${name}-shell-env"
+      {
+        shellHook = bwrapCmd { };
+      } ''
       echo >&2 ""
       echo >&2 "*** User chroot 'env' attributes are intended for interactive nix-shell sessions, not for building! ***"
       echo >&2 ""

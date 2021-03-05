@@ -1,4 +1,8 @@
-{ stdenv, buildPythonPackage, fetchPypi, requests, isPy27
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, requests
+, isPy27
 }:
 
 buildPythonPackage rec {

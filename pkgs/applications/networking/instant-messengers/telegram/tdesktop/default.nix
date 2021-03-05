@@ -1,10 +1,40 @@
-{ mkDerivation, lib, fetchurl, callPackage
-, pkgconfig, cmake, ninja, python3, wrapGAppsHook, wrapQtAppsHook, removeReferencesTo
-, qtbase, qtimageformats, gtk3, libsForQt5, enchant2, lz4, xxHash
-, dee, ffmpeg, openalSoft, minizip, libopus, alsaLib, libpulseaudio, range-v3
-, tl-expected, hunspell
-# TODO: Shouldn't be required:
-, pcre, xorg, util-linux, libselinux, libsepol, epoxy, at-spi2-core, libXtst
+{ mkDerivation
+, lib
+, fetchurl
+, callPackage
+, pkgconfig
+, cmake
+, ninja
+, python3
+, wrapGAppsHook
+, wrapQtAppsHook
+, removeReferencesTo
+, qtbase
+, qtimageformats
+, gtk3
+, libsForQt5
+, enchant2
+, lz4
+, xxHash
+, dee
+, ffmpeg
+, openalSoft
+, minizip
+, libopus
+, alsaLib
+, libpulseaudio
+, range-v3
+, tl-expected
+, hunspell
+  # TODO: Shouldn't be required:
+, pcre
+, xorg
+, util-linux
+, libselinux
+, libsepol
+, epoxy
+, at-spi2-core
+, libXtst
 , xdg_utils
 }:
 
@@ -18,9 +48,10 @@ with lib;
 # - https://github.com/void-linux/void-packages/blob/master/srcpkgs/telegram-desktop/template
 
 let
-  tg_owt = callPackage ./tg_owt.nix {};
+  tg_owt = callPackage ./tg_owt.nix { };
 
-in mkDerivation rec {
+in
+mkDerivation rec {
   pname = "telegram-desktop";
   version = "2.4.7";
 
@@ -44,12 +75,34 @@ in mkDerivation rec {
   nativeBuildInputs = [ pkgconfig cmake ninja python3 wrapGAppsHook wrapQtAppsHook removeReferencesTo ];
 
   buildInputs = [
-    qtbase qtimageformats gtk3 libsForQt5.libdbusmenu enchant2 lz4 xxHash
-    dee ffmpeg openalSoft minizip libopus alsaLib libpulseaudio range-v3
-    tl-expected hunspell
+    qtbase
+    qtimageformats
+    gtk3
+    libsForQt5.libdbusmenu
+    enchant2
+    lz4
+    xxHash
+    dee
+    ffmpeg
+    openalSoft
+    minizip
+    libopus
+    alsaLib
+    libpulseaudio
+    range-v3
+    tl-expected
+    hunspell
     tg_owt
     # TODO: Shouldn't be required:
-    pcre xorg.libpthreadstubs xorg.libXdmcp util-linux libselinux libsepol epoxy at-spi2-core libXtst
+    pcre
+    xorg.libpthreadstubs
+    xorg.libXdmcp
+    util-linux
+    libselinux
+    libsepol
+    epoxy
+    at-spi2-core
+    libXtst
   ];
 
   enableParallelBuilding = true;

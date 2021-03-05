@@ -1,6 +1,20 @@
-{ lib, stdenv, fetchsvn, cmake, pkg-config, gcc, pkgconfig, fftwFloat, alsaLib
-, zlib, wavpack, wxGTK31, udev, jackaudioSupport ? false, libjack2
-, includeDemo ? true }:
+{ lib
+, stdenv
+, fetchsvn
+, cmake
+, pkg-config
+, gcc
+, pkgconfig
+, fftwFloat
+, alsaLib
+, zlib
+, wavpack
+, wxGTK31
+, udev
+, jackaudioSupport ? false
+, libjack2
+, includeDemo ? true
+}:
 
 stdenv.mkDerivation rec {
   pname = "grandorgue";

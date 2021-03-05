@@ -49,7 +49,8 @@ let
 
   thinkfan = pkgs.thinkfan.override { smartSupport = cfg.smartSupport; };
 
-in {
+in
+{
 
   options = {
 
@@ -77,7 +78,7 @@ in {
         default = ''
           tp_thermal /proc/acpi/ibm/thermal (0,0,10)
         '';
-        description =''
+        description = ''
           thinkfan can read temperatures from three possible sources:
 
             /proc/acpi/ibm/thermal
@@ -100,7 +101,7 @@ in {
       fan = mkOption {
         type = types.str;
         default = "tp_fan /proc/acpi/ibm/fan";
-        description =''
+        description = ''
           Specifies the fan we want to use.
           On anything other than a Thinkpad you'll probably
           use some PWM control file in /sys/class/hwmon.

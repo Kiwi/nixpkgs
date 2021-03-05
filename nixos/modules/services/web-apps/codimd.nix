@@ -6,9 +6,10 @@ let
   cfg = config.services.codimd;
 
   prettyJSON = conf:
-    pkgs.runCommandLocal "codimd-config.json" {
-      nativeBuildInputs = [ pkgs.jq ];
-    } ''
+    pkgs.runCommandLocal "codimd-config.json"
+      {
+        nativeBuildInputs = [ pkgs.jq ];
+      } ''
       echo '${builtins.toJSON conf}' | jq \
         '{production:del(.[]|nulls)|del(.[][]?|nulls)}' > $out
     '';
@@ -19,7 +20,7 @@ in
 
     groups = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = ''
         Groups to which the codimd user should be added.
       '';
@@ -76,7 +77,7 @@ in
       };
       allowOrigin = mkOption {
         type = types.listOf types.str;
-        default = [];
+        default = [ ];
         example = [ "localhost" "codimd.org" ];
         description = ''
           List of domains to whitelist.
@@ -209,7 +210,7 @@ in
       };
       db = mkOption {
         type = types.attrs;
-        default = {};
+        default = { };
         example = literalExample ''
           {
             dialect = "sqlite";
@@ -224,7 +225,7 @@ in
           Note: This option overrides <option>db</option>.
         '';
       };
-      sslKeyPath= mkOption {
+      sslKeyPath = mkOption {
         type = types.nullOr types.str;
         default = null;
         example = "/var/lib/codimd/codimd.key";
@@ -242,7 +243,7 @@ in
       };
       sslCAPath = mkOption {
         type = types.listOf types.str;
-        default = [];
+        default = [ ];
         example = [ "/var/lib/codimd/ca.crt" ];
         description = ''
           SSL ca chain. Needed when <option>useSSL</option> is enabled.
@@ -831,7 +832,7 @@ in
             };
             externalGroups = mkOption {
               type = types.listOf types.str;
-              default = [];
+              default = [ ];
               example = [ "Temporary-staff" "External-users" ];
               description = ''
                 Excluded group names.
@@ -839,7 +840,7 @@ in
             };
             requiredGroups = mkOption {
               type = types.listOf types.str;
-              default = [];
+              default = [ ];
               example = [ "Hackmd-users" "Codimd-users" ];
               description = ''
                 Required group names.
@@ -921,12 +922,14 @@ in
 
   config = mkIf cfg.enable {
     assertions = [
-      { assertion = cfg.configuration.db == {} -> (
+      {
+        assertion = cfg.configuration.db == { } -> (
           cfg.configuration.dbURL != "" && cfg.configuration.dbURL != null
         );
-        message = "Database configuration for CodiMD missing."; }
+        message = "Database configuration for CodiMD missing.";
+      }
     ];
-    users.groups.codimd = {};
+    users.groups.codimd = { };
     users.users.codimd = {
       description = "CodiMD service user";
       group = "codimd";

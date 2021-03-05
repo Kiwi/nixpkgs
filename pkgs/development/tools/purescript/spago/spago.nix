@@ -1,13 +1,61 @@
-{ mkDerivation, aeson, aeson-pretty, ansi-terminal, async-pool
-, base, bower-json, bytestring, Cabal, containers, dhall, directory
-, either, exceptions, extra, fetchgit, file-embed, filepath, foldl
-, fsnotify, github, Glob, hpack, hspec, hspec-discover
-, hspec-megaparsec, http-client, http-conduit, http-types
-, lens-family-core, megaparsec, mtl, network-uri, open-browser
-, optparse-applicative, prettyprinter, process, QuickCheck, retry
-, rio, rio-orphans, safe, semver-range, stdenv, stm, tar
-, template-haskell, temporary, text, time, transformers, turtle
-, unliftio, unordered-containers, vector, versions, with-utf8, zlib
+{ mkDerivation
+, aeson
+, aeson-pretty
+, ansi-terminal
+, async-pool
+, base
+, bower-json
+, bytestring
+, Cabal
+, containers
+, dhall
+, directory
+, either
+, exceptions
+, extra
+, fetchgit
+, file-embed
+, filepath
+, foldl
+, fsnotify
+, github
+, Glob
+, hpack
+, hspec
+, hspec-discover
+, hspec-megaparsec
+, http-client
+, http-conduit
+, http-types
+, lens-family-core
+, megaparsec
+, mtl
+, network-uri
+, open-browser
+, optparse-applicative
+, prettyprinter
+, process
+, QuickCheck
+, retry
+, rio
+, rio-orphans
+, safe
+, semver-range
+, stdenv
+, stm
+, tar
+, template-haskell
+, temporary
+, text
+, time
+, transformers
+, turtle
+, unliftio
+, unordered-containers
+, vector
+, versions
+, with-utf8
+, zlib
 }:
 mkDerivation {
   pname = "spago";
@@ -21,20 +69,72 @@ mkDerivation {
   isLibrary = true;
   isExecutable = true;
   libraryHaskellDepends = [
-    aeson aeson-pretty ansi-terminal async-pool base bower-json
-    bytestring Cabal containers dhall directory either exceptions
-    file-embed filepath foldl fsnotify github Glob http-client
-    http-conduit http-types lens-family-core megaparsec mtl network-uri
-    open-browser optparse-applicative prettyprinter process retry rio
-    rio-orphans safe semver-range stm tar template-haskell temporary
-    text time transformers turtle unliftio unordered-containers vector
-    versions with-utf8 zlib
+    aeson
+    aeson-pretty
+    ansi-terminal
+    async-pool
+    base
+    bower-json
+    bytestring
+    Cabal
+    containers
+    dhall
+    directory
+    either
+    exceptions
+    file-embed
+    filepath
+    foldl
+    fsnotify
+    github
+    Glob
+    http-client
+    http-conduit
+    http-types
+    lens-family-core
+    megaparsec
+    mtl
+    network-uri
+    open-browser
+    optparse-applicative
+    prettyprinter
+    process
+    retry
+    rio
+    rio-orphans
+    safe
+    semver-range
+    stm
+    tar
+    template-haskell
+    temporary
+    text
+    time
+    transformers
+    turtle
+    unliftio
+    unordered-containers
+    vector
+    versions
+    with-utf8
+    zlib
   ];
   libraryToolDepends = [ hpack ];
   executableHaskellDepends = [ base text turtle with-utf8 ];
   testHaskellDepends = [
-    base containers directory extra hspec hspec-megaparsec megaparsec
-    process QuickCheck temporary text turtle versions
+    base
+    containers
+    directory
+    extra
+    hspec
+    hspec-megaparsec
+    megaparsec
+    process
+    QuickCheck
+    temporary
+    text
+    turtle
+    versions
   ];
   testToolDepends = [ hspec-discover ];
   prePatch = "hpack";

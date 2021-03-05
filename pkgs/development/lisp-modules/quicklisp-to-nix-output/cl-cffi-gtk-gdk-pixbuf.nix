@@ -14,7 +14,7 @@ rec {
 
   packageName = "cl-cffi-gtk-gdk-pixbuf";
 
-  asdFilesToKeep = ["cl-cffi-gtk-gdk-pixbuf.asd"];
+  asdFilesToKeep = [ "cl-cffi-gtk-gdk-pixbuf.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-cffi-gtk-gdk-pixbuf DESCRIPTION A Lisp binding to GDK Pixbuf 2

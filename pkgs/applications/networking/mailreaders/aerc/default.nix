@@ -1,6 +1,14 @@
-{ stdenv, buildGoModule, fetchurl
-, go, ncurses, notmuch, scdoc
-, python3, perl, w3m, dante
+{ stdenv
+, buildGoModule
+, fetchurl
+, go
+, ncurses
+, notmuch
+, scdoc
+, python3
+, perl
+, w3m
+, dante
 , fetchFromGitHub
 }:
 

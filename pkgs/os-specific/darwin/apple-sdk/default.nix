@@ -17,7 +17,7 @@ let
     #  3. ???
     #  4. Profit
     src = fetchurl {
-      url    = "http://swcdn.apple.com/content/downloads/33/36/041-90419-A_7JJ4H9ZHO2/xs88ob5wjz6riz7g6764twblnvksusg4ps/DevSDK_OSX1012.pkg";
+      url = "http://swcdn.apple.com/content/downloads/33/36/041-90419-A_7JJ4H9ZHO2/xs88ob5wjz6riz7g6764twblnvksusg4ps/DevSDK_OSX1012.pkg";
       sha256 = "13xq34sb7383b37hwy076gnhf96prpk1b4087p87xnwswxbrisih";
     };
 
@@ -54,15 +54,16 @@ let
     meta = with stdenv.lib; {
       description = "Apple SDK ${version}";
       maintainers = with maintainers; [ copumpkin ];
-      platforms   = platforms.darwin;
+      platforms = platforms.darwin;
     };
   };
 
   mkFrameworkSubs = name: deps:
-  let
-    deps' = deps // { "${name}" = placeholder "out"; };
-    substArgs = lib.concatMap (x: [ "--subst-var-by" x deps'."${x}" ]) (lib.attrNames deps');
-  in lib.escapeShellArgs substArgs;
+    let
+      deps' = deps // { "${name}" = placeholder "out"; };
+      substArgs = lib.concatMap (x: [ "--subst-var-by" x deps'."${x}" ]) (lib.attrNames deps');
+    in
+    lib.escapeShellArgs substArgs;
 
   framework = name: deps: stdenv.mkDerivation {
     name = "apple-framework-${name}";
@@ -76,7 +77,7 @@ let
 
     nativeBuildInputs = [ print-reexports ];
 
-    extraTBDFiles = [];
+    extraTBDFiles = [ ];
 
     installPhase = ''
       linkFramework() {
@@ -186,7 +187,7 @@ let
     meta = with stdenv.lib; {
       description = "Apple SDK framework ${name}";
       maintainers = with maintainers; [ copumpkin ];
-      platforms   = platforms.darwin;
+      platforms = platforms.darwin;
     };
   };
 
@@ -200,10 +201,11 @@ let
       # NOTE there's no re-export checking here, this is probably wrong
     '';
   };
-in rec {
+in
+rec {
   libs = {
     xpc = stdenv.mkDerivation {
-      name   = "apple-lib-xpc";
+      name = "apple-lib-xpc";
       dontUnpack = true;
 
       installPhase = ''
@@ -216,14 +218,20 @@ in rec {
     };
 
     Xplugin = stdenv.mkDerivation {
-      name   = "apple-lib-Xplugin";
+      name = "apple-lib-Xplugin";
       dontUnpack = true;
 
       # Not enough
       __propagatedImpureHostDeps = [ "/usr/lib/libXplugin.1.dylib" ];
 
       propagatedBuildInputs = with frameworks; [
-        OpenGL ApplicationServices Carbon IOKit CoreGraphics CoreServices CoreText
+        OpenGL
+        ApplicationServices
+        Carbon
+        IOKit
+        CoreGraphics
+        CoreServices
+        CoreText
       ];
 
       installPhase = ''
@@ -235,7 +243,7 @@ in rec {
     };
 
     utmp = stdenv.mkDerivation {
-      name   = "apple-lib-utmp";
+      name = "apple-lib-utmp";
       dontUnpack = true;
 
       installPhase = ''
@@ -305,7 +313,7 @@ in rec {
         "Versions/A/Frameworks/WebKitLegacy.framework/Versions/A/WebKitLegacy.tbd"
       ];
     });
-  } // lib.genAttrs [ "ContactsPersistence" "UIFoundation" "GameCenter" ] (x: tbdOnlyFramework x {});
+  } // lib.genAttrs [ "ContactsPersistence" "UIFoundation" "GameCenter" ] (x: tbdOnlyFramework x { });
 
   bareFrameworks = stdenv.lib.mapAttrs framework (import ./frameworks.nix {
     inherit frameworks libs;

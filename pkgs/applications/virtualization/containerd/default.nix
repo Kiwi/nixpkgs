@@ -24,7 +24,7 @@ buildGoPackage rec {
 
   buildFlags = [ "VERSION=v${version}" "REVISION=${commit}" ];
 
-  BUILDTAGS = []
+  BUILDTAGS = [ ]
     ++ optional (btrfs-progs == null) "no_btrfs";
 
   buildPhase = ''

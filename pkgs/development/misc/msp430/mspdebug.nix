@@ -26,10 +26,10 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
   nativeBuildInputs = stdenv.lib.optional stdenv.isDarwin pkg-config
-  ++ stdenv.lib.optional (enableMspds && stdenv.isLinux) autoPatchelfHook;
+    ++ stdenv.lib.optional (enableMspds && stdenv.isLinux) autoPatchelfHook;
   buildInputs = [ libusb-compat-0_1 ]
-  ++ stdenv.lib.optional stdenv.isDarwin hidapi
-  ++ stdenv.lib.optional enableReadline readline;
+    ++ stdenv.lib.optional stdenv.isDarwin hidapi
+    ++ stdenv.lib.optional enableReadline readline;
 
   postPatch = stdenv.lib.optionalString stdenv.isDarwin ''
     # TODO: remove once a new 0.26+ release is made

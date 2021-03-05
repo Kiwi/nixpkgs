@@ -1,15 +1,22 @@
-{ lib, fetchzip, buildDunePackage, camlp5
-, ppxlib, ppx_deriving, re, perl, ncurses
+{ lib
+, fetchzip
+, buildDunePackage
+, camlp5
+, ppxlib
+, ppx_deriving
+, re
+, perl
+, ncurses
 }:
 
 buildDunePackage rec {
   pname = "elpi";
   version = "1.11.4";
 
-   src = fetchzip {
-     url = "https://github.com/LPCIC/elpi/releases/download/v${version}/elpi-v${version}.tbz";
-     sha256 = "1hmjp2z52j17vwhhdkj45n9jx11jxkdg2dwa0n04yyw0qqy4m7c1";
-   };
+  src = fetchzip {
+    url = "https://github.com/LPCIC/elpi/releases/download/v${version}/elpi-v${version}.tbz";
+    sha256 = "1hmjp2z52j17vwhhdkj45n9jx11jxkdg2dwa0n04yyw0qqy4m7c1";
+  };
 
   minimumOCamlVersion = "4.04";
 

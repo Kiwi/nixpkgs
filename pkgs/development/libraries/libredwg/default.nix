@@ -1,5 +1,15 @@
-{ lib, stdenv, fetchFromGitHub, autoreconfHook, pkg-config, texinfo, pcre2
-, enablePython ? false, python, swig, libxml2, ncurses
+{ lib
+, stdenv
+, fetchFromGitHub
+, autoreconfHook
+, pkg-config
+, texinfo
+, pcre2
+, enablePython ? false
+, python
+, swig
+, libxml2
+, ncurses
 }:
 let
   isPython3 = enablePython && python.pythonAtLeast "3";
@@ -16,7 +26,7 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ autoreconfHook pkg-config texinfo ] 
+  nativeBuildInputs = [ autoreconfHook pkg-config texinfo ]
     ++ lib.optional enablePython swig;
 
   buildInputs = [ pcre2 ]

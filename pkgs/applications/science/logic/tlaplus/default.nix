@@ -1,5 +1,9 @@
-{ stdenv, fetchFromGitHub, makeWrapper
-, adoptopenjdk-bin, jre, ant
+{ stdenv
+, fetchFromGitHub
+, makeWrapper
+, adoptopenjdk-bin
+, jre
+, ant
 }:
 
 stdenv.mkDerivation rec {
@@ -7,9 +11,9 @@ stdenv.mkDerivation rec {
   version = "1.7.0";
 
   src = fetchFromGitHub {
-    owner  = "tlaplus";
-    repo   = "tlaplus";
-    rev    = "refs/tags/v${version}";
+    owner = "tlaplus";
+    repo = "tlaplus";
+    rev = "refs/tags/v${version}";
     sha256 = "1mm6r9bq79zks50yk0agcpdkw9yy994m38ibmgpb3bi3wkpq9891";
   };
 
@@ -32,9 +36,9 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "An algorithm specification language with model checking tools";
-    homepage    = "http://lamport.azurewebsites.net/tla/tla.html";
-    license     = stdenv.lib.licenses.mit;
-    platforms   = stdenv.lib.platforms.unix;
+    homepage = "http://lamport.azurewebsites.net/tla/tla.html";
+    license = stdenv.lib.licenses.mit;
+    platforms = stdenv.lib.platforms.unix;
     maintainers = [ stdenv.lib.maintainers.thoughtpolice ];
   };
 }

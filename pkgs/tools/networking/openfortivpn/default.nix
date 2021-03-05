@@ -1,6 +1,12 @@
-{ stdenv, lib, fetchFromGitHub, autoreconfHook, pkgconfig
-, openssl, ppp
-, systemd ? null }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, autoreconfHook
+, pkgconfig
+, openssl
+, ppp
+, systemd ? null
+}:
 
 let
   withSystemd = stdenv.isLinux && !(systemd == null);
@@ -26,7 +32,8 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ autoreconfHook pkgconfig ];
 
   buildInputs = [
-    openssl ppp
+    openssl
+    ppp
   ]
   ++ lib.optional withSystemd systemd;
 

@@ -1,6 +1,20 @@
-{ lib, buildPythonPackage, fetchPypi
-, billiard, click, click-didyoumean, click-repl, kombu, pytz, vine
-, boto3, case, moto, pytest, pytest-celery, pytest-subtests, pytest-timeout
+{ lib
+, buildPythonPackage
+, fetchPypi
+, billiard
+, click
+, click-didyoumean
+, click-repl
+, kombu
+, pytz
+, vine
+, boto3
+, case
+, moto
+, pytest
+, pytest-celery
+, pytest-subtests
+, pytest-timeout
 }:
 
 buildPythonPackage rec {

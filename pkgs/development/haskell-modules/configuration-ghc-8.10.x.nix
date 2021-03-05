@@ -46,16 +46,16 @@ self: super: {
   # hitherto unreleased next version from the '3.2' branch of the upstream git
   # repository for the time being.
   cabal-install = assert super.cabal-install.version == "3.2.0.0";
-                  overrideCabal super.cabal-install (drv: {
-    postUnpack = "sourceRoot+=/cabal-install; echo source root reset to $sourceRoot";
-    version = "3.2.0.0-git";
-    editedCabalFile = null;
-    src = pkgs.fetchgit {
-      url = "git://github.com/haskell/cabal.git";
-      rev = "9bd4cc0591616aeae78e17167338371a2542a475";
-      sha256 = "005q1shh7vqgykkp72hhmswmrfpz761x0q0jqfnl3wqim4xd9dg0";
-    };
-  });
+    overrideCabal super.cabal-install (drv: {
+      postUnpack = "sourceRoot+=/cabal-install; echo source root reset to $sourceRoot";
+      version = "3.2.0.0-git";
+      editedCabalFile = null;
+      src = pkgs.fetchgit {
+        url = "git://github.com/haskell/cabal.git";
+        rev = "9bd4cc0591616aeae78e17167338371a2542a475";
+        sha256 = "005q1shh7vqgykkp72hhmswmrfpz761x0q0jqfnl3wqim4xd9dg0";
+      };
+    });
 
   # Jailbreak to fix the build.
   base-noprelude = doJailbreak super.base-noprelude;
@@ -87,7 +87,7 @@ self: super: {
   hnix = generateOptparseApplicativeCompletion "hnix"
     (overrideCabal super.hnix (drv: {
       # executable is allowed for ghc >= 8.10 and needs repline
-      executableHaskellDepends = drv.executableToolDepends or [] ++ [ self.repline ];
+      executableHaskellDepends = drv.executableToolDepends or [ ] ++ [ self.repline ];
     }));
 
   # Break out of "Cabal < 3.2" constraint.

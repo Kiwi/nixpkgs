@@ -1,22 +1,51 @@
-{ stdenv, fetchPypi, python, buildPythonPackage, isPy3k, pycairo, backports_functools_lru_cache
-, which, cycler, dateutil, nose, numpy, pyparsing, sphinx, tornado, kiwisolver
-, freetype, libpng, pkgconfig, mock, pytz, pygobject3, gobject-introspection
-, certifi, pillow
-, enableGhostscript ? true, ghostscript ? null, gtk3
-, enableGtk3 ? false, cairo
-# darwin has its own "MacOSX" backend
-, enableTk ? !stdenv.isDarwin, tcl ? null, tk ? null, tkinter ? null, libX11 ? null
-, enableQt ? false, pyqt5 ? null
+{ stdenv
+, fetchPypi
+, python
+, buildPythonPackage
+, isPy3k
+, pycairo
+, backports_functools_lru_cache
+, which
+, cycler
+, dateutil
+, nose
+, numpy
+, pyparsing
+, sphinx
+, tornado
+, kiwisolver
+, freetype
+, libpng
+, pkgconfig
+, mock
+, pytz
+, pygobject3
+, gobject-introspection
+, certifi
+, pillow
+, enableGhostscript ? true
+, ghostscript ? null
+, gtk3
+, enableGtk3 ? false
+, cairo
+  # darwin has its own "MacOSX" backend
+, enableTk ? !stdenv.isDarwin
+, tcl ? null
+, tk ? null
+, tkinter ? null
+, libX11 ? null
+, enableQt ? false
+, pyqt5 ? null
 , Cocoa
 , pythonOlder
 }:
 
 assert enableGhostscript -> ghostscript != null;
 assert enableTk -> (tcl != null)
-                && (tk != null)
-                && (tkinter != null)
-                && (libX11 != null)
-                ;
+  && (tk != null)
+  && (tkinter != null)
+  && (libX11 != null)
+;
 assert enableQt -> pyqt5 != null;
 
 buildPythonPackage rec {
@@ -39,8 +68,20 @@ buildPythonPackage rec {
     ++ stdenv.lib.optional stdenv.isDarwin [ Cocoa ];
 
   propagatedBuildInputs =
-    [ cycler dateutil numpy pyparsing tornado freetype kiwisolver
-      certifi libpng mock pytz pillow ]
+    [
+      cycler
+      dateutil
+      numpy
+      pyparsing
+      tornado
+      freetype
+      kiwisolver
+      certifi
+      libpng
+      mock
+      pytz
+      pillow
+    ]
     ++ stdenv.lib.optionals enableGtk3 [ cairo pycairo gtk3 gobject-introspection pygobject3 ]
     ++ stdenv.lib.optionals enableTk [ tcl tk tkinter libX11 ]
     ++ stdenv.lib.optionals enableQt [ pyqt5 ];
@@ -70,7 +111,7 @@ buildPythonPackage rec {
 
   meta = with stdenv.lib; {
     description = "Python plotting library, making publication quality plots";
-    homepage    = "https://matplotlib.org/";
+    homepage = "https://matplotlib.org/";
     maintainers = with maintainers; [ lovek323 veprbl ];
   };
 

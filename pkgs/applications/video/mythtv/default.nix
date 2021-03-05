@@ -1,7 +1,40 @@
-{ stdenv, mkDerivation, fetchFromGitHub, which, qtbase, qtwebkit, qtscript, xlibsWrapper
-, libpulseaudio, fftwSinglePrec , lame, zlib, libGLU, libGL, alsaLib, freetype
-, perl, pkgconfig , libsamplerate, libbluray, lzo, libX11, libXv, libXrandr, libXvMC, libXinerama, libXxf86vm
-, libXmu , yasm, libuuid, taglib, libtool, autoconf, automake, file, exiv2, linuxHeaders
+{ stdenv
+, mkDerivation
+, fetchFromGitHub
+, which
+, qtbase
+, qtwebkit
+, qtscript
+, xlibsWrapper
+, libpulseaudio
+, fftwSinglePrec
+, lame
+, zlib
+, libGLU
+, libGL
+, alsaLib
+, freetype
+, perl
+, pkgconfig
+, libsamplerate
+, libbluray
+, lzo
+, libX11
+, libXv
+, libXrandr
+, libXvMC
+, libXinerama
+, libXxf86vm
+, libXmu
+, yasm
+, libuuid
+, taglib
+, libtool
+, autoconf
+, automake
+, file
+, exiv2
+, linuxHeaders
 }:
 
 mkDerivation rec {
@@ -23,13 +56,37 @@ mkDerivation rec {
   setSourceRoot = ''sourceRoot=$(echo */mythtv)'';
 
   buildInputs = [
-    freetype qtbase qtwebkit qtscript lame zlib xlibsWrapper libGLU libGL
-    perl libsamplerate libbluray lzo alsaLib libpulseaudio fftwSinglePrec libX11 libXv libXrandr libXvMC
-    libXmu libXinerama libXxf86vm libXmu libuuid taglib exiv2
+    freetype
+    qtbase
+    qtwebkit
+    qtscript
+    lame
+    zlib
+    xlibsWrapper
+    libGLU
+    libGL
+    perl
+    libsamplerate
+    libbluray
+    lzo
+    alsaLib
+    libpulseaudio
+    fftwSinglePrec
+    libX11
+    libXv
+    libXrandr
+    libXvMC
+    libXmu
+    libXinerama
+    libXxf86vm
+    libXmu
+    libuuid
+    taglib
+    exiv2
   ];
   nativeBuildInputs = [ pkgconfig which yasm libtool autoconf automake file ];
 
-  configureFlags = 
+  configureFlags =
     [ "--dvb-path=${linuxHeaders}/include" ];
 
   meta = with stdenv.lib; {

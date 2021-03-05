@@ -2,7 +2,7 @@
 
 let
 
-  generic = { version, sha256, patches ? [] }: stdenv.mkDerivation rec {
+  generic = { version, sha256, patches ? [ ] }: stdenv.mkDerivation rec {
     pname = "libressl";
     inherit version;
 
@@ -48,21 +48,22 @@ let
       moveToOutput "bin/nc" "$nc"
       moveToOutput "bin/openssl" "$bin"
       moveToOutput "bin/ocspcheck" "$bin"
-      moveToOutput "share/man/man1/nc.1${lib.optionalString (dontGzipMan==null) ".gz"}" "$nc"
+      moveToOutput "share/man/man1/nc.1${lib.optionalString (dontGzipMan == null) ".gz"}" "$nc"
     '';
 
     dontGzipMan = if stdenv.isDarwin then true else null; # not sure what's wrong
 
     meta = with lib; {
       description = "Free TLS/SSL implementation";
-      homepage    = "https://www.libressl.org";
+      homepage = "https://www.libressl.org";
       license = with licenses; [ publicDomain bsdOriginal bsd0 bsd3 gpl3 isc openssl ];
-      platforms   = platforms.all;
+      platforms = platforms.all;
       maintainers = with maintainers; [ thoughtpolice fpletz ];
     };
   };
 
-in {
+in
+{
   libressl_3_0 = generic {
     version = "3.0.2";
     sha256 = "13ir2lpxz8y1m151k7lrx306498nzfhwlvgkgv97v5cvywmifyyz";

@@ -1,7 +1,15 @@
-{ stdenv, fetchFromGitHub, pkgconfig
-, autoreconfHook, gettext, expat, pcre2
-, libconfuse, vte, gtk
-, makeWrapper }:
+{ stdenv
+, fetchFromGitHub
+, pkgconfig
+, autoreconfHook
+, gettext
+, expat
+, pcre2
+, libconfuse
+, vte
+, gtk
+, makeWrapper
+}:
 
 with stdenv.lib;
 stdenv.mkDerivation rec {

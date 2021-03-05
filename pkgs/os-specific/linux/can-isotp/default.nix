@@ -5,7 +5,7 @@ stdenv.mkDerivation {
   version = "20200910";
 
   hardeningDisable = [ "pic" ];
-  
+
   src = fetchFromGitHub {
     owner = "hartkopp";
     repo = "can-isotp";
@@ -25,7 +25,7 @@ stdenv.mkDerivation {
   '';
 
   nativeBuildInputs = kernel.moduleBuildDependencies;
-  
+
   meta = with stdenv.lib; {
     description = "Kernel module for ISO-TP (ISO 15765-2)";
     homepage = "https://github.com/hartkopp/can-isotp";

@@ -1,6 +1,11 @@
-{ stdenv, fetchurl
+{ stdenv
+, fetchurl
 , lesstif
-, libX11, libXext, libXmu, libXinerama }:
+, libX11
+, libXext
+, libXmu
+, libXinerama
+}:
 
 stdenv.mkDerivation rec {
 

@@ -1,4 +1,4 @@
-{stdenv, fetchFromGitHub, unzip, which, python3, perl}:
+{ stdenv, fetchFromGitHub, unzip, which, python3, perl }:
 
 stdenv.mkDerivation rec {
   pname = "hisat2";

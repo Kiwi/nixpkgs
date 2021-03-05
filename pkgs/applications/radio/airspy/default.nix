@@ -1,5 +1,9 @@
-{ stdenv, lib, fetchFromGitHub
-, cmake , pkgconfig, libusb1
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, libusb1
 }:
 
 stdenv.mkDerivation rec {

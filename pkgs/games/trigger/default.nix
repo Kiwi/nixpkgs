@@ -1,5 +1,17 @@
-{ fetchurl, stdenv, runtimeShell, SDL2, freealut, SDL2_image, openal, physfs
-, zlib, libGLU, libGL, glew, tinyxml-2 }:
+{ fetchurl
+, stdenv
+, runtimeShell
+, SDL2
+, freealut
+, SDL2_image
+, openal
+, physfs
+, zlib
+, libGLU
+, libGL
+, glew
+, tinyxml-2
+}:
 
 stdenv.mkDerivation rec {
   pname = "trigger-rally";
@@ -48,7 +60,7 @@ stdenv.mkDerivation rec {
     description = "A fast-paced single-player racing game";
     homepage = "http://trigger-rally.sourceforge.net/";
     license = stdenv.lib.licenses.gpl2;
-    maintainers = with stdenv.lib.maintainers; [viric];
+    maintainers = with stdenv.lib.maintainers; [ viric ];
     platforms = with stdenv.lib.platforms; linux;
   };
 }

@@ -1,4 +1,6 @@
-{ stdenv, buildPythonPackage, fetchPypi
+{ stdenv
+, buildPythonPackage
+, fetchPypi
 , enum34
 , glibcLocales
 , matplotlib

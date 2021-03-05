@@ -21,7 +21,8 @@ let
   srcs = import ./binary-hashes.nix version;
   unsupported = throw "Unsupported system";
   version = "1.7.1";
-in buildPythonPackage {
+in
+buildPythonPackage {
   inherit version;
 
   pname = "pytorch";
@@ -51,15 +52,17 @@ in buildPythonPackage {
     rm -rf $out/bin
   '';
 
-  postFixup = let
-    rpath = stdenv.lib.makeLibraryPath [ stdenv.cc.cc.lib nvidia_x11 ];
-  in ''
-    find $out/${python.sitePackages}/torch/lib -type f \( -name '*.so' -or -name '*.so.*' \) | while read lib; do
-      echo "setting rpath for $lib..."
-      patchelf --set-rpath "${rpath}:$out/${python.sitePackages}/torch/lib" "$lib"
-      addOpenGLRunpath "$lib"
-    done
-  '';
+  postFixup =
+    let
+      rpath = stdenv.lib.makeLibraryPath [ stdenv.cc.cc.lib nvidia_x11 ];
+    in
+    ''
+      find $out/${python.sitePackages}/torch/lib -type f \( -name '*.so' -or -name '*.so.*' \) | while read lib; do
+        echo "setting rpath for $lib..."
+        patchelf --set-rpath "${rpath}:$out/${python.sitePackages}/torch/lib" "$lib"
+        addOpenGLRunpath "$lib"
+      done
+    '';
 
   pythonImportsCheck = [ "torch" ];
 

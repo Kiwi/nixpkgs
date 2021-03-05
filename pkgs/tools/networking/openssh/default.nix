@@ -34,11 +34,13 @@ stdenv.mkDerivation rec {
   pname = "openssh";
   inherit version;
 
-  src = if hpnSupport then
-      fetchurl {
-        url = "https://github.com/rapier1/openssh-portable/archive/hpn-KitchenSink-${replaceStrings [ "." "p" ] [ "_" "_P" ] version}.tar.gz";
-        sha256 = "1x2afjy1isslbg7qlvhhs4zhj2c8q2h1ljz0fc5b4h9pqcm9j540";
-      }
+  src =
+    if hpnSupport then
+      fetchurl
+        {
+          url = "https://github.com/rapier1/openssh-portable/archive/hpn-KitchenSink-${replaceStrings [ "." "p" ] [ "_" "_P" ] version}.tar.gz";
+          sha256 = "1x2afjy1isslbg7qlvhhs4zhj2c8q2h1ljz0fc5b4h9pqcm9j540";
+        }
     else
       fetchurl {
         url = "mirror://openbsd/OpenSSH/portable/${pname}-${version}.tar.gz";
@@ -88,10 +90,10 @@ stdenv.mkDerivation rec {
     "--disable-strip"
     (if pam != null then "--with-pam" else "--without-pam")
   ] ++ optional (etcDir != null) "--sysconfdir=${etcDir}"
-    ++ optional withFIDO "--with-security-key-builtin=yes"
-    ++ optional withKerberos (assert kerberos != null; "--with-kerberos5=${kerberos}")
-    ++ optional stdenv.isDarwin "--disable-libutil"
-    ++ optional (!linkOpenssl) "--without-openssl";
+  ++ optional withFIDO "--with-security-key-builtin=yes"
+  ++ optional withKerberos (assert kerberos != null; "--with-kerberos5=${kerberos}")
+  ++ optional stdenv.isDarwin "--disable-libutil"
+  ++ optional (!linkOpenssl) "--without-openssl";
 
   buildFlags = [ "SSH_KEYSIGN=ssh-keysign" ];
 

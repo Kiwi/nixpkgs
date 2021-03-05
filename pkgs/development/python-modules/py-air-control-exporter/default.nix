@@ -1,5 +1,15 @@
-{ buildPythonPackage, fetchPypi, flask, isPy27, lib, prometheus_client
-, py-air-control, pytestCheckHook, pytestcov, pytestrunner, setuptools_scm }:
+{ buildPythonPackage
+, fetchPypi
+, flask
+, isPy27
+, lib
+, prometheus_client
+, py-air-control
+, pytestCheckHook
+, pytestcov
+, pytestrunner
+, setuptools_scm
+}:
 
 buildPythonPackage rec {
   pname = "py-air-control-exporter";

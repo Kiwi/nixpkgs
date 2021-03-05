@@ -1,10 +1,26 @@
-{ stdenv, fetchFromGitHub, lib
-, intltool, glib, pkgconfig, polkit, python3, sqlite
-, gobject-introspection, vala, gtk-doc, autoreconfHook, autoconf-archive
-, nix, enableNixBackend ? false, boost
+{ stdenv
+, fetchFromGitHub
+, lib
+, intltool
+, glib
+, pkgconfig
+, polkit
+, python3
+, sqlite
+, gobject-introspection
+, vala
+, gtk-doc
+, autoreconfHook
+, autoconf-archive
+, nix
+, enableNixBackend ? false
+, boost
 , enableCommandNotFound ? false
-, enableBashCompletion ? false, bash-completion ? null
-, enableSystemd ? stdenv.isLinux, systemd }:
+, enableBashCompletion ? false
+, bash-completion ? null
+, enableSystemd ? stdenv.isLinux
+, systemd
+}:
 
 stdenv.mkDerivation rec {
   pname = "packagekit";
@@ -15,13 +31,13 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "hughsie";
     repo = "PackageKit";
-    rev = "PACKAGEKIT_${lib.replaceStrings ["."] ["_"] version}";
+    rev = "PACKAGEKIT_${lib.replaceStrings [ "." ] [ "_" ] version}";
     sha256 = "0xmgac27p5z8wr56yw3cqhywnlvaf8kvyv1g0nzxnq167xj5vxam";
   };
 
   buildInputs = [ glib polkit python3 gobject-introspection ]
-                  ++ lib.optional enableSystemd systemd
-                  ++ lib.optional enableBashCompletion bash-completion;
+    ++ lib.optional enableSystemd systemd
+    ++ lib.optional enableBashCompletion bash-completion;
   propagatedBuildInputs =
     [ sqlite boost ]
     ++ lib.optional enableNixBackend nix;

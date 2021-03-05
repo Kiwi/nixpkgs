@@ -1,6 +1,19 @@
-{ stdenv, fetchFromGitHub, pkgconfig, cmake, doxygen
-, alsaLib, libX11, libXft, libXrandr, libXinerama, libXext, libXcursor
-, zlib, AGL, Cocoa, Foundation
+{ stdenv
+, fetchFromGitHub
+, pkgconfig
+, cmake
+, doxygen
+, alsaLib
+, libX11
+, libXft
+, libXrandr
+, libXinerama
+, libXext
+, libXcursor
+, zlib
+, AGL
+, Cocoa
+, Foundation
 }:
 
 with stdenv.lib;
@@ -16,14 +29,14 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs =
-  [ pkgconfig cmake doxygen ];
+    [ pkgconfig cmake doxygen ];
 
   buildInputs =
     optionals stdenv.isLinux [ alsaLib ]
     ++ (if stdenv.isDarwin then
-          [ zlib AGL Cocoa Foundation ]
-        else
-          [ libX11 libXft libXrandr libXinerama libXext libXcursor ])
+      [ zlib AGL Cocoa Foundation ]
+    else
+      [ libX11 libXft libXrandr libXinerama libXext libXcursor ])
   ;
 
   doCheck = false;

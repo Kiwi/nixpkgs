@@ -6,7 +6,8 @@
 let
   version = "20202807";
   pname = "hdl-dump";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit pname version;
 
   # Using AkuHAK's repo because playstation2's repo is outdated

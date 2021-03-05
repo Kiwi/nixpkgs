@@ -1,5 +1,15 @@
-{ mkDerivation, stdenv, fetchurl, cmake, pkgconfig, sword, boost, clucene_core
-, qtbase, qttools, qtsvg, qtwebkit
+{ mkDerivation
+, stdenv
+, fetchurl
+, cmake
+, pkgconfig
+, sword
+, boost
+, clucene_core
+, qtbase
+, qttools
+, qtsvg
+, qtwebkit
 }:
 
 mkDerivation rec {
@@ -15,11 +25,16 @@ mkDerivation rec {
 
   nativeBuildInputs = [ cmake pkgconfig ];
   buildInputs = [
-   sword boost clucene_core
-   qtbase qttools qtsvg qtwebkit
- ];
+    sword
+    boost
+    clucene_core
+    qtbase
+    qttools
+    qtsvg
+    qtwebkit
+  ];
 
-  preConfigure =  ''
+  preConfigure = ''
     export CLUCENE_HOME=${clucene_core};
     export SWORD_HOME=${sword};
   '';

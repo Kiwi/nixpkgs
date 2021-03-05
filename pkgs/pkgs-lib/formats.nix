@@ -25,23 +25,26 @@ rec {
   json = {}: {
 
     type = with lib.types; let
-      valueType = nullOr (oneOf [
-        bool
-        int
-        float
-        str
-        (attrsOf valueType)
-        (listOf valueType)
-      ]) // {
+      valueType = nullOr
+        (oneOf [
+          bool
+          int
+          float
+          str
+          (attrsOf valueType)
+          (listOf valueType)
+        ]) // {
         description = "JSON value";
       };
-    in valueType;
+    in
+    valueType;
 
-    generate = name: value: pkgs.runCommandNoCC name {
-      nativeBuildInputs = [ pkgs.jq ];
-      value = builtins.toJSON value;
-      passAsFile = [ "value" ];
-    } ''
+    generate = name: value: pkgs.runCommandNoCC name
+      {
+        nativeBuildInputs = [ pkgs.jq ];
+        value = builtins.toJSON value;
+        passAsFile = [ "value" ];
+      } ''
       jq . "$valuePath"> $out
     '';
 
@@ -49,8 +52,9 @@ rec {
 
   # YAML has been a strict superset of JSON since 1.2
   yaml = {}:
-    let jsonSet = json {};
-    in jsonSet // {
+    let jsonSet = json { };
+    in
+    jsonSet // {
       type = jsonSet.type // {
         description = "YAML value";
       };
@@ -60,12 +64,13 @@ rec {
 
     type = with lib.types; let
 
-      singleIniAtom = nullOr (oneOf [
-        bool
-        int
-        float
-        str
-      ]) // {
+      singleIniAtom = nullOr
+        (oneOf [
+          bool
+          int
+          float
+          str
+        ]) // {
         description = "INI atom (null, bool, int, float or string)";
       };
 
@@ -77,13 +82,14 @@ rec {
         else
           singleIniAtom;
 
-    in attrsOf (attrsOf iniAtom);
+    in
+    attrsOf (attrsOf iniAtom);
 
     generate = name: value: pkgs.writeText name (lib.generators.toINI args value);
 
   };
 
-  toml = {}: json {} // {
+  toml = {}: json { } // {
     type = with lib.types; let
       valueType = oneOf [
         bool
@@ -95,13 +101,15 @@ rec {
       ] // {
         description = "TOML value";
       };
-    in valueType;
+    in
+    valueType;
 
-    generate = name: value: pkgs.runCommandNoCC name {
-      nativeBuildInputs = [ pkgs.remarshal ];
-      value = builtins.toJSON value;
-      passAsFile = [ "value" ];
-    } ''
+    generate = name: value: pkgs.runCommandNoCC name
+      {
+        nativeBuildInputs = [ pkgs.remarshal ];
+        value = builtins.toJSON value;
+        passAsFile = [ "value" ];
+      } ''
       json2toml "$valuePath" "$out"
     '';
 

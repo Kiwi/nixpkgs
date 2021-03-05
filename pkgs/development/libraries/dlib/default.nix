@@ -1,5 +1,12 @@
-{ stdenv, lib, fetchFromGitHub, cmake, pkgconfig, libpng, libjpeg
-, guiSupport ? false, libX11
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, libpng
+, libjpeg
+, guiSupport ? false
+, libX11
 
   # see http://dlib.net/compile.html
 , avxSupport ? stdenv.hostPlatform.avxSupport
@@ -13,7 +20,7 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "davisking";
     repo = "dlib";
-    rev ="v${version}";
+    rev = "v${version}";
     sha256 = "00jwklnl21l3hlvb0bjc6rl3hgi88vxb41dsn4m0kh436c9v0rl3";
   };
 
@@ -23,7 +30,8 @@ stdenv.mkDerivation rec {
 
   cmakeFlags = [
     "-DUSE_DLIB_USE_CUDA=${if cudaSupport then "1" else "0"}"
-    "-DUSE_AVX_INSTRUCTIONS=${if avxSupport then "yes" else "no"}" ];
+    "-DUSE_AVX_INSTRUCTIONS=${if avxSupport then "yes" else "no"}"
+  ];
 
   enableParallelBuilding = true;
   nativeBuildInputs = [ cmake pkgconfig ];

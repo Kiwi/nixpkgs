@@ -13,7 +13,7 @@ buildPythonPackage rec {
     sha256 = "0n3ggsxmk1fhq0kz6p5rcj4gypfb05i26fcn7lsawakgl7fzxqyl";
   };
 
-  buildInputs = [ crc32c  ];
+  buildInputs = [ crc32c ];
   propagatedBuildInputs = [ cffi ];
 
   LDFLAGS = "-L${crc32c}/lib";

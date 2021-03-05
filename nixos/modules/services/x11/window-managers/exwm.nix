@@ -37,7 +37,7 @@ in
         description = "Enable an uncustomised exwm configuration.";
       };
       extraPackages = mkOption {
-        default = self: [];
+        default = self: [ ];
         example = literalExample ''
           epkgs: [
             epkgs.emms

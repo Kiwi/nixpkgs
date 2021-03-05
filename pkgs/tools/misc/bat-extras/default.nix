@@ -1,34 +1,45 @@
-{ stdenv, callPackage, fetchFromGitHub, bash, makeWrapper, bat
-# batdiff, batgrep, and batwatch
+{ stdenv
+, callPackage
+, fetchFromGitHub
+, bash
+, makeWrapper
+, bat
+  # batdiff, batgrep, and batwatch
 , coreutils
 , less
-# batgrep
+  # batgrep
 , ripgrep
-# prettybat
-, withShFmt ? shfmt != null, shfmt ? null
-, withPrettier ? nodePackages?prettier, nodePackages ? null
-, withClangTools ? clang-tools != null, clang-tools ? null
-, withRustFmt ? rustfmt != null, rustfmt ? null
-# batwatch
-, withEntr ? entr != null, entr ? null
-# batdiff
+  # prettybat
+, withShFmt ? shfmt != null
+, shfmt ? null
+, withPrettier ? nodePackages?prettier
+, nodePackages ? null
+, withClangTools ? clang-tools != null
+, clang-tools ? null
+, withRustFmt ? rustfmt != null
+, rustfmt ? null
+  # batwatch
+, withEntr ? entr != null
+, entr ? null
+  # batdiff
 , gitMinimal
-, withDelta ? gitAndTools?delta, gitAndTools ? null
+, withDelta ? gitAndTools?delta
+, gitAndTools ? null
 }:
 
 let
   # Core derivation that all the others are based on.
   # This includes the complete source so the per-script derivations can run the tests.
   core = stdenv.mkDerivation rec {
-    pname   = "bat-extras";
+    pname = "bat-extras";
     # there hasn't been a release since 2020-05-01 but there are important bugfixes
     # to the test suite so we'll pull the latest commit as of 2020-06-17.
     version = "20200515-dev"; # latest commit was dated 2020-05-15
 
     src = fetchFromGitHub {
-      owner  = "eth-p";
-      repo   = pname;
-      rev    = "3029b6749f61f7514e9eef30e035cfab0e31eb1d";
+      owner = "eth-p";
+      repo = pname;
+      rev = "3029b6749f61f7514e9eef30e035cfab0e31eb1d";
       sha256 = "08mb94k2n182ql97c5s5j1v7np25ivynn5g0418whrx11ra41wr7";
       fetchSubmodules = true;
     };
@@ -78,10 +89,10 @@ let
 
     meta = with stdenv.lib; {
       description = "Bash scripts that integrate bat with various command line tools";
-      homepage    = "https://github.com/eth-p/bat-extras";
-      license     = with licenses; [ mit ];
+      homepage = "https://github.com/eth-p/bat-extras";
+      license = with licenses; [ mit ];
       maintainers = with maintainers; [ bbigras lilyball ];
-      platforms   = platforms.all;
+      platforms = platforms.all;
     };
   };
   script =
@@ -116,7 +127,7 @@ let
         runHook preInstall
         mkdir -p $out/bin
         cp -p bin/${name} $out/bin/${name}
-      '' + stdenv.lib.optionalString (dependencies != []) ''
+      '' + stdenv.lib.optionalString (dependencies != [ ]) ''
         wrapProgram $out/bin/${name} \
           --prefix PATH : ${stdenv.lib.makeBinPath dependencies}
       '' + ''
@@ -135,9 +146,9 @@ in
 {
   batdiff = script "batdiff" ([ less coreutils gitMinimal ] ++ optionalDep withDelta gitAndTools.delta);
   batgrep = script "batgrep" [ less coreutils ripgrep ];
-  batman = script "batman" [];
+  batman = script "batman" [ ];
   batwatch = script "batwatch" ([ less coreutils ] ++ optionalDep withEntr entr);
-  prettybat = script "prettybat" ([]
+  prettybat = script "prettybat" ([ ]
     ++ optionalDep withShFmt shfmt
     ++ optionalDep withPrettier nodePackages.prettier
     ++ optionalDep withClangTools clang-tools

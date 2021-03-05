@@ -1,5 +1,19 @@
-{ stdenv, mkDerivationWith, fetchFromGitHub, qtbase, openscenegraph, mygui, bullet, ffmpeg_3
-, boost, cmake, SDL2, unshield, openal, libXt, pkgconfig }:
+{ stdenv
+, mkDerivationWith
+, fetchFromGitHub
+, qtbase
+, openscenegraph
+, mygui
+, bullet
+, ffmpeg_3
+, boost
+, cmake
+, SDL2
+, unshield
+, openal
+, libXt
+, pkgconfig
+}:
 
 let
   openscenegraph_ = openscenegraph.overrideDerivation (self: {
@@ -10,7 +24,8 @@ let
       sha256 = "0d74hijzmj82nx3jkv5qmr3pkgvplra0b8fbjx1y3vmzxamb0axd";
     };
   });
-in mkDerivationWith stdenv.mkDerivation rec {
+in
+mkDerivationWith stdenv.mkDerivation rec {
   version = "0.46.0";
   pname = "openmw";
 

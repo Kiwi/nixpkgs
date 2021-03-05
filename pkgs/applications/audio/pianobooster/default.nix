@@ -1,5 +1,15 @@
-{ stdenv, fetchFromGitHub, cmake, pkg-config, qttools
-, alsaLib, ftgl, libGLU, libjack2, qtbase, rtmidi, wrapQtAppsHook
+{ stdenv
+, fetchFromGitHub
+, cmake
+, pkg-config
+, qttools
+, alsaLib
+, ftgl
+, libGLU
+, libjack2
+, qtbase
+, rtmidi
+, wrapQtAppsHook
 }:
 
 stdenv.mkDerivation rec {

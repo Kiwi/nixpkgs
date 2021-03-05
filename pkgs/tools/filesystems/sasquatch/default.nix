@@ -12,12 +12,13 @@
 assert lz4Support -> (lz4 != null);
 
 let
-  patch = fetchFromGitHub {
-    owner = "devttys0";
-    repo = "sasquatch";
-    rev = "3e0cc40fc6dbe32bd3a5e6c553b3320d5d91ceed";
-    sha256 = "19lhndjv7v9w6nmszry63zh5rqii9v7wvsbpc2n6q606hyz955g2";
-  } + "/patches/patch0.txt";
+  patch = fetchFromGitHub
+    {
+      owner = "devttys0";
+      repo = "sasquatch";
+      rev = "3e0cc40fc6dbe32bd3a5e6c553b3320d5d91ceed";
+      sha256 = "19lhndjv7v9w6nmszry63zh5rqii9v7wvsbpc2n6q606hyz955g2";
+    } + "/patches/patch0.txt";
 in
 stdenv.mkDerivation rec {
   pname = "sasquatch";

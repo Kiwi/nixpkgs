@@ -1,5 +1,14 @@
-{ stdenv, buildPythonPackage, fetchPypi, pytestCheckHook, pythonOlder
-, google_api_core, libcst, mock, proto-plus, pytest-asyncio }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pytestCheckHook
+, pythonOlder
+, google_api_core
+, libcst
+, mock
+, proto-plus
+, pytest-asyncio
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-websecurityscanner";

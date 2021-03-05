@@ -1,5 +1,9 @@
-{ stdenv, fetchurl, makeWrapper, jre
-, version ? "1.6" }:
+{ stdenv
+, fetchurl
+, makeWrapper
+, jre
+, version ? "1.6"
+}:
 
 let
   versionMap = {

@@ -1,5 +1,14 @@
-{ stdenv, fetchurl, intltool, libtorrentRasterbar, pythonPackages
-, gtk3, glib, gobject-introspection, librsvg, wrapGAppsHook }:
+{ stdenv
+, fetchurl
+, intltool
+, libtorrentRasterbar
+, pythonPackages
+, gtk3
+, glib
+, gobject-introspection
+, librsvg
+, wrapGAppsHook
+}:
 
 pythonPackages.buildPythonPackage rec {
   pname = "deluge";
@@ -11,27 +20,45 @@ pythonPackages.buildPythonPackage rec {
   };
 
   propagatedBuildInputs = with pythonPackages; [
-    twisted Mako chardet pyxdg pyopenssl service-identity
-    libtorrentRasterbar.dev libtorrentRasterbar.python setuptools
-    setproctitle pillow rencode six zope_interface
-    dbus-python pygobject3 pycairo
-    gtk3 gobject-introspection librsvg
+    twisted
+    Mako
+    chardet
+    pyxdg
+    pyopenssl
+    service-identity
+    libtorrentRasterbar.dev
+    libtorrentRasterbar.python
+    setuptools
+    setproctitle
+    pillow
+    rencode
+    six
+    zope_interface
+    dbus-python
+    pygobject3
+    pycairo
+    gtk3
+    gobject-introspection
+    librsvg
   ];
 
   nativeBuildInputs = [ intltool wrapGAppsHook glib ];
 
   checkInputs = with pythonPackages; [
-    pytest /* pytest-twisted */ pytestcov mock
-    mccabe pylint
+    pytest /* pytest-twisted */
+    pytestcov
+    mock
+    mccabe
+    pylint
   ];
 
   doCheck = false; # until pytest-twisted is packaged
 
   postInstall = ''
-     mkdir -p $out/share/applications
-     cp -R deluge/ui/data/pixmaps $out/share/
-     cp -R deluge/ui/data/icons $out/share/
-     cp deluge/ui/data/share/applications/deluge.desktop $out/share/applications
+    mkdir -p $out/share/applications
+    cp -R deluge/ui/data/pixmaps $out/share/
+    cp -R deluge/ui/data/icons $out/share/
+    cp deluge/ui/data/share/applications/deluge.desktop $out/share/applications
   '';
 
   meta = with stdenv.lib; {

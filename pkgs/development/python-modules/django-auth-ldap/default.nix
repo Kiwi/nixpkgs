@@ -1,7 +1,9 @@
 { stdenv
 , buildPythonPackage
-, fetchPypi, isPy27
-, ldap , django
+, fetchPypi
+, isPy27
+, ldap
+, django
 , mock
 }:
 

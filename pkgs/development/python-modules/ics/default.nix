@@ -1,6 +1,11 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub, pythonOlder
-, tatsu, arrow
-, pytestCheckHook, pytest-flakes
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, pythonOlder
+, tatsu
+, arrow
+, pytestCheckHook
+, pytest-flakes
 }:
 
 buildPythonPackage rec {

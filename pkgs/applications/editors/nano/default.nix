@@ -1,6 +1,20 @@
-{ stdenv, fetchurl, fetchFromGitHub, ncurses, texinfo, writeScript
-, common-updater-scripts, git, nix, nixfmt, coreutils, gnused, nixosTests
-, gettext ? null, enableNls ? true, enableTiny ? false }:
+{ stdenv
+, fetchurl
+, fetchFromGitHub
+, ncurses
+, texinfo
+, writeScript
+, common-updater-scripts
+, git
+, nix
+, nixfmt
+, coreutils
+, gnused
+, nixosTests
+, gettext ? null
+, enableNls ? true
+, enableTiny ? false
+}:
 
 assert enableNls -> (gettext != null);
 
@@ -14,7 +28,8 @@ let
     sha256 = "0773s5iz8aw9npgyasb0r2ybp6gvy2s9sq51az8w7h52bzn5blnn";
   };
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "nano";
   version = "5.4";
 

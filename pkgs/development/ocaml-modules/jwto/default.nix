@@ -1,5 +1,14 @@
-{ lib, buildDunePackage, fetchFromGitHub, alcotest, cryptokit, fmt, yojson
-, base64, re, ppx_deriving }:
+{ lib
+, buildDunePackage
+, fetchFromGitHub
+, alcotest
+, cryptokit
+, fmt
+, yojson
+, base64
+, re
+, ppx_deriving
+}:
 
 buildDunePackage rec {
   pname = "jwto";

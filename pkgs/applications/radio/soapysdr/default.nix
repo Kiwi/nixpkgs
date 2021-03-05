@@ -1,10 +1,17 @@
-{ stdenv, lib, lndir, makeWrapper
-, fetchFromGitHub, cmake
-, libusb-compat-0_1, pkgconfig
+{ stdenv
+, lib
+, lndir
+, makeWrapper
+, fetchFromGitHub
+, cmake
+, libusb-compat-0_1
+, pkgconfig
 , usePython ? false
-, python, ncurses, swig2
-, extraPackages ? []
-} :
+, python
+, ncurses
+, swig2
+, extraPackages ? [ ]
+}:
 
 let
 
@@ -13,7 +20,8 @@ let
   modulesPath = "lib/SoapySDR/modules" + modulesVersion;
   extraPackagesSearchPath = lib.makeSearchPath modulesPath extraPackages;
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "soapysdr";
   inherit version;
 

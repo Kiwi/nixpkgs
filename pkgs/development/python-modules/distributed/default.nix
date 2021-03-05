@@ -40,8 +40,20 @@ buildPythonPackage rec {
 
   checkInputs = [ pytest pytest-repeat pytest-timeout mock joblib ];
   propagatedBuildInputs = [
-      click cloudpickle dask msgpack psutil six
-      sortedcontainers tblib toolz tornado zict pyyaml mpi4py bokeh
+    click
+    cloudpickle
+    dask
+    msgpack
+    psutil
+    six
+    sortedcontainers
+    tblib
+    toolz
+    tornado
+    zict
+    pyyaml
+    mpi4py
+    bokeh
   ];
 
   # tests take about 10-15 minutes

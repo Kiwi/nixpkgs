@@ -1,5 +1,14 @@
-{ stdenv, buildPythonPackage, isPy3k, fetchPypi, substituteAll, graphviz
-, pkgconfig, doctest-ignore-unicode, mock, nose }:
+{ stdenv
+, buildPythonPackage
+, isPy3k
+, fetchPypi
+, substituteAll
+, graphviz
+, pkgconfig
+, doctest-ignore-unicode
+, mock
+, nose
+}:
 
 buildPythonPackage rec {
   pname = "pygraphviz";

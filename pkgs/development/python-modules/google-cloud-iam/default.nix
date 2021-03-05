@@ -1,5 +1,14 @@
-{ lib, buildPythonPackage, fetchPypi, pytestCheckHook, pythonOlder
-, google_api_core, libcst, mock, proto-plus, pytest-asyncio }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pytestCheckHook
+, pythonOlder
+, google_api_core
+, libcst
+, mock
+, proto-plus
+, pytest-asyncio
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-iam";

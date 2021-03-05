@@ -14,7 +14,7 @@ rec {
 
   packageName = "uuid";
 
-  asdFilesToKeep = ["uuid.asd"];
+  asdFilesToKeep = [ "uuid.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM uuid DESCRIPTION UUID Generation SHA256

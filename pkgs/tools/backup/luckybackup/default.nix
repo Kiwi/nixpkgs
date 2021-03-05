@@ -1,6 +1,11 @@
-{ mkDerivation, stdenv, fetchurl
-, pkgconfig, libtool, qmake
-, rsync, ssh
+{ mkDerivation
+, stdenv
+, fetchurl
+, pkgconfig
+, libtool
+, qmake
+, rsync
+, ssh
 }:
 
 with stdenv.lib;
@@ -16,7 +21,7 @@ mkDerivation rec {
   buildInputs = [ rsync ssh ];
 
   nativeBuildInputs = [ pkgconfig libtool qmake ];
-  
+
   prePatch = ''
     for File in luckybackup.pro menu/luckybackup-pkexec \
         menu/luckybackup-su.desktop menu/luckybackup.desktop \

@@ -21,7 +21,13 @@ buildPythonPackage rec {
   };
 
   propagatedBuildInputs = [
-    jinja2 requests pillow rasterio shapely ndjson backoff
+    jinja2
+    requests
+    pillow
+    rasterio
+    shapely
+    ndjson
+    backoff
     google_api_core
   ];
 

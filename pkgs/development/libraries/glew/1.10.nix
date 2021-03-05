@@ -1,4 +1,9 @@
-{ stdenv, fetchurl, libGLU, xlibsWrapper, libXmu, libXi
+{ stdenv
+, fetchurl
+, libGLU
+, xlibsWrapper
+, libXmu
+, libXi
 , AGL ? null
 }:
 
@@ -13,7 +18,7 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [ xlibsWrapper libXmu libXi ]
-              ++ optionals stdenv.isDarwin [ AGL ];
+    ++ optionals stdenv.isDarwin [ AGL ];
   propagatedBuildInputs = [ libGLU ]; # GL/glew.h includes GL/glu.h
 
   patchPhase = ''
@@ -45,7 +50,7 @@ stdenv.mkDerivation rec {
     description = "An OpenGL extension loading library for C(++)";
     homepage = "http://glew.sourceforge.net/";
     license = licenses.free; # different files under different licenses
-      #["BSD" "GLX" "SGI-B" "GPL2"]
+    #["BSD" "GLX" "SGI-B" "GPL2"]
     platforms = platforms.mesaPlatforms;
   };
 }

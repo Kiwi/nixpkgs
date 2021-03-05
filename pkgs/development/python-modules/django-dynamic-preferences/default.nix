@@ -1,5 +1,9 @@
-{ stdenv, buildPythonPackage, fetchPypi
-, django, persisting-theory, six
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, django
+, persisting-theory
+, six
 }:
 
 buildPythonPackage rec {

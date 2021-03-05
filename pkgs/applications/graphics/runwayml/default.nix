@@ -24,15 +24,15 @@ let
   };
 
 in
-  symlinkJoin {
-    inherit name;
-    paths = [ binary ];
+symlinkJoin {
+  inherit name;
+  paths = [ binary ];
 
-    postBuild = ''
-      mkdir -p $out/share/pixmaps/ $out/share/applications
-      cp ${appimage-contents}/usr/share/icons/hicolor/1024x1024/apps/runway.png $out/share/pixmaps/runway.png
-      sed 's:Exec=AppRun:Exec=runwayml:' ${appimage-contents}/runway.desktop > $out/share/applications/runway.desktop
-    '';
+  postBuild = ''
+    mkdir -p $out/share/pixmaps/ $out/share/applications
+    cp ${appimage-contents}/usr/share/icons/hicolor/1024x1024/apps/runway.png $out/share/pixmaps/runway.png
+    sed 's:Exec=AppRun:Exec=runwayml:' ${appimage-contents}/runway.desktop > $out/share/applications/runway.desktop
+  '';
 
   meta = with lib; {
     description = "Machine learning for creators";

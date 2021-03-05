@@ -59,7 +59,7 @@ stdenv.mkDerivation rec {
     description = "Office program originally named Kingsoft Office";
     homepage = "http://wps-community.org/";
     platforms = [ "x86_64-linux" ];
-    hydraPlatforms = [];
+    hydraPlatforms = [ ];
     license = stdenv.lib.licenses.unfreeRedistributable;
     maintainers = with stdenv.lib.maintainers; [ mlatus th0rgal ];
   };
@@ -130,7 +130,8 @@ stdenv.mkDerivation rec {
     "png"
     # File saving breaks unless we are using vendored llvmPackages_8.libcxx
     #"c++"
-    "ssl" "crypto"
+    "ssl"
+    "crypto"
     "nspr"
     "nss"
     "odbc"

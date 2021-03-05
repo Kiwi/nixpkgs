@@ -1,12 +1,24 @@
-{ stdenv, fetchzip,
-  pkgconfig, bmake,
-  cairo, glib, libevdev, libinput, libxkbcommon, linux-pam, pango, pixman,
-  libucl, wayland, wayland-protocols, wlroots,
-  features ? {
+{ stdenv
+, fetchzip
+, pkgconfig
+, bmake
+, cairo
+, glib
+, libevdev
+, libinput
+, libxkbcommon
+, linux-pam
+, pango
+, pixman
+, libucl
+, wayland
+, wayland-protocols
+, wlroots
+, features ? {
     gammacontrol = true;
-    layershell   = true;
-    screencopy   = true;
-    xwayland     = true;
+    layershell = true;
+    screencopy = true;
+    xwayland = true;
   }
 }:
 
@@ -46,9 +58,11 @@ stdenv.mkDerivation {
   buildPhase = with stdenv.lib; concatStringsSep " " (
     [ "bmake" "-j$NIX_BUILD_CORES" "PREFIX=$out" ]
     ++ optional stdenv.isLinux "WITH_POSIX_C_SOURCE=YES"
-    ++ mapAttrsToList (feat: enabled:
-         optionalString enabled "WITH_${toUpper feat}=YES"
-       ) features
+    ++ mapAttrsToList
+      (feat: enabled:
+        optionalString enabled "WITH_${toUpper feat}=YES"
+      )
+      features
   );
 
   # Can't suid in nix store
@@ -67,9 +81,9 @@ stdenv.mkDerivation {
 
   meta = with stdenv.lib; {
     description = "Stacking Wayland compositor which is actively developed on FreeBSD but also supports Linux";
-    homepage    = "https://hikari.acmelabs.space";
-    license     = licenses.bsd2;
-    platforms   = platforms.linux ++ platforms.freebsd;
+    homepage = "https://hikari.acmelabs.space";
+    license = licenses.bsd2;
+    platforms = platforms.linux ++ platforms.freebsd;
     maintainers = with maintainers; [ jpotier ];
   };
 }

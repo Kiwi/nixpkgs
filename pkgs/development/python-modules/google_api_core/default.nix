@@ -1,5 +1,17 @@
-{ lib, buildPythonPackage, fetchPypi, pythonOlder, google_auth, protobuf
-, googleapis_common_protos, requests, grpcio, mock, pytest, pytest-asyncio, pytestCheckHook }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, google_auth
+, protobuf
+, googleapis_common_protos
+, requests
+, grpcio
+, mock
+, pytest
+, pytest-asyncio
+, pytestCheckHook
+}:
 
 buildPythonPackage rec {
   pname = "google-api-core";

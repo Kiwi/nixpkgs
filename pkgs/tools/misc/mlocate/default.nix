@@ -2,7 +2,8 @@
 
 let
   dbfile = stdenv.lib.attrByPath [ "locate" "dbfile" ] "/var/cache/locatedb" config;
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "mlocate";
   version = "0.26";
 

@@ -14,7 +14,7 @@ rec {
 
   packageName = "cl-cffi-gtk-cairo";
 
-  asdFilesToKeep = ["cl-cffi-gtk-cairo.asd"];
+  asdFilesToKeep = [ "cl-cffi-gtk-cairo.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-cffi-gtk-cairo DESCRIPTION A Lisp binding to Cairo SHA256

@@ -1,4 +1,4 @@
-{ symlinkJoin, lib, rofi-unwrapped, makeWrapper, hicolor-icon-theme, theme ? null, plugins ? [] }:
+{ symlinkJoin, lib, rofi-unwrapped, makeWrapper, hicolor-icon-theme, theme ? null, plugins ? [ ] }:
 
 symlinkJoin {
   name = "rofi-${rofi-unwrapped.version}";
@@ -18,9 +18,9 @@ symlinkJoin {
     rm $out/bin/rofi
     makeWrapper ${rofi-unwrapped}/bin/rofi $out/bin/rofi \
       --prefix XDG_DATA_DIRS : ${hicolor-icon-theme}/share \
-      ${lib.optionalString (plugins != []) ''--prefix XDG_DATA_DIRS : ${lib.concatStringsSep ":" (lib.forEach plugins (p: "${p.out}/share"))}''} \
+      ${lib.optionalString (plugins != [ ]) ''--prefix XDG_DATA_DIRS : ${lib.concatStringsSep ":" (lib.forEach plugins (p: "${p.out}/share"))}''} \
       ${lib.optionalString (theme != null) ''--add-flags "-theme ${theme}"''} \
-      ${lib.optionalString (plugins != []) ''--add-flags "-plugin-path $out/lib/rofi"''}
+      ${lib.optionalString (plugins != [ ]) ''--add-flags "-plugin-path $out/lib/rofi"''}
 
     rm $out/bin/rofi-theme-selector
     makeWrapper ${rofi-unwrapped}/bin/rofi-theme-selector $out/bin/rofi-theme-selector \

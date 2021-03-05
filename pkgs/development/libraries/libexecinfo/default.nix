@@ -30,8 +30,8 @@ stdenv.mkDerivation rec {
   makeFlags = [ "CC:=$(CC)" "AR:=$(AR)" ];
 
   buildFlags =
-      stdenv.lib.optional enableStatic "static"
-   ++ stdenv.lib.optional enableShared "dynamic";
+    stdenv.lib.optional enableStatic "static"
+    ++ stdenv.lib.optional enableShared "dynamic";
 
   patchFlags = [ "-p0" ];
 

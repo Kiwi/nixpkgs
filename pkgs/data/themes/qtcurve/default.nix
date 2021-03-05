@@ -1,9 +1,29 @@
-{ lib, fetchFromGitHub, cmake, extra-cmake-modules, pkgconfig, mkDerivation
-, gtk2Support ? true, gtk2
-, qtbase, qtsvg, qtx11extras # Toolkit dependencies
-, karchive, kconfig, kconfigwidgets, kio, frameworkintegration
-, kguiaddons, ki18n, kwindowsystem, kdelibs4support, kiconthemes
-, libpthreadstubs, pcre, libXdmcp, libX11, libXau # X11 dependencies
+{ lib
+, fetchFromGitHub
+, cmake
+, extra-cmake-modules
+, pkgconfig
+, mkDerivation
+, gtk2Support ? true
+, gtk2
+, qtbase
+, qtsvg
+, qtx11extras # Toolkit dependencies
+, karchive
+, kconfig
+, kconfigwidgets
+, kio
+, frameworkintegration
+, kguiaddons
+, ki18n
+, kwindowsystem
+, kdelibs4support
+, kiconthemes
+, libpthreadstubs
+, pcre
+, libXdmcp
+, libX11
+, libXau # X11 dependencies
 , fetchpatch
 }:
 
@@ -35,12 +55,24 @@ mkDerivation rec {
   nativeBuildInputs = [ cmake extra-cmake-modules pkgconfig ];
 
   buildInputs = [
-    qtbase qtsvg qtx11extras
-    karchive kconfig kconfigwidgets kio kiconthemes kguiaddons ki18n
-    kwindowsystem kdelibs4support frameworkintegration
+    qtbase
+    qtsvg
+    qtx11extras
+    karchive
+    kconfig
+    kconfigwidgets
+    kio
+    kiconthemes
+    kguiaddons
+    ki18n
+    kwindowsystem
+    kdelibs4support
+    frameworkintegration
     libpthreadstubs
     pcre
-    libXdmcp libX11 libXau
+    libXdmcp
+    libX11
+    libXau
   ] ++ lib.optional gtk2Support gtk2;
 
   preConfigure = ''

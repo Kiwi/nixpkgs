@@ -2,7 +2,8 @@
 , fetchFromGitHub
 , rustPlatform
 , Security
-, pkgconfig, openssl
+, pkgconfig
+, openssl
 }:
 
 rustPlatform.buildRustPackage rec {

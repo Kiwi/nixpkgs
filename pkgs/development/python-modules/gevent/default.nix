@@ -1,4 +1,10 @@
-{ stdenv, fetchPypi, buildPythonPackage, isPyPy, python, libev, greenlet
+{ stdenv
+, fetchPypi
+, buildPythonPackage
+, isPyPy
+, python
+, libev
+, greenlet
 , zope_interface
 }:
 

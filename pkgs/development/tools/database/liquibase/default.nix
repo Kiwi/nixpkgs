@@ -1,5 +1,10 @@
-{ stdenv, fetchurl, jre, makeWrapper
-, mysqlSupport ? true, mysql_jdbc ? null }:
+{ stdenv
+, fetchurl
+, jre
+, makeWrapper
+, mysqlSupport ? true
+, mysql_jdbc ? null
+}:
 
 assert mysqlSupport -> mysql_jdbc != null;
 
@@ -29,7 +34,8 @@ stdenv.mkDerivation rec {
         CP="\$CP":"\$jar"
       done
     '';
-    in ''
+    in
+    ''
       mkdir -p $out
       mv ./{lib,licenses,liquibase.jar} $out/
 
@@ -53,7 +59,7 @@ stdenv.mkDerivation rec {
         liquibase.integration.commandline.Main \''${1+"\$@"}
       EOF
       chmod +x $out/bin/liquibase
-  '';
+    '';
 
   meta = {
     description = "Version Control for your database";

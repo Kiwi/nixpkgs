@@ -1,6 +1,10 @@
-{ stdenv, fetchFromGitHub
-, localBios ? true, nasm ? null
-, sdlSupport ? true, SDL ? null }:
+{ stdenv
+, fetchFromGitHub
+, localBios ? true
+, nasm ? null
+, sdlSupport ? true
+, SDL ? null
+}:
 
 assert sdlSupport -> (SDL != null);
 
@@ -17,11 +21,11 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = with stdenv.lib;
-  optionals localBios [ nasm ]
-  ++  optionals sdlSupport [ SDL ];
-  
+    optionals localBios [ nasm ]
+    ++ optionals sdlSupport [ SDL ];
+
   bios = localBios;
-  
+
   builder = ./builder.sh;
 
   meta = with stdenv.lib; {

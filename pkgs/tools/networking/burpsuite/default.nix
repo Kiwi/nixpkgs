@@ -11,7 +11,8 @@ let
     #!${runtimeShell}
     exec ${jre}/bin/java -jar ${jar} "$@"
   '';
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "burpsuite";
   inherit version;
   buildCommand = ''
@@ -34,7 +35,7 @@ in stdenv.mkDerivation {
     downloadPage = "https://portswigger.net/burp/freedownload";
     license = [ stdenv.lib.licenses.unfree ];
     platforms = jre.meta.platforms;
-    hydraPlatforms = [];
+    hydraPlatforms = [ ];
     maintainers = with stdenv.lib.maintainers; [ bennofs ];
   };
 }

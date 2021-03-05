@@ -6,7 +6,7 @@ rustPlatform.buildRustPackage rec {
 
   src = fetchFromGitHub {
     owner = "mlvzk";
-    repo  = pname;
+    repo = pname;
     rev = "v${version}";
     sha256 = "0fv3sgzwjsgq2h1177r8r1cl5zrfja4ll801sd0bzj3nzmkyww7p";
   };
@@ -17,9 +17,9 @@ rustPlatform.buildRustPackage rec {
 
   meta = with stdenv.lib; {
     description = "A Fast Documentation Searcher for Nix";
-    homepage    = "https://github.com/mlvzk/manix";
-    license     = [ licenses.mpl20 ];
+    homepage = "https://github.com/mlvzk/manix";
+    license = [ licenses.mpl20 ];
     maintainers = [ maintainers.mlvzk ];
-    platforms   = platforms.unix;
+    platforms = platforms.unix;
   };
 }

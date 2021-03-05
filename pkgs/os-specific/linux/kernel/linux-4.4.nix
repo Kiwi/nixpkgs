@@ -8,4 +8,4 @@ buildLinux (args // rec {
     url = "mirror://kernel/linux/kernel/v4.x/linux-${version}.tar.xz";
     sha256 = "1z1xbkm0z0v6k3scszii5hi24pn391332g0li93p3n1rnv74jap5";
   };
-} // (args.argsOverride or {}))
+} // (args.argsOverride or { }))

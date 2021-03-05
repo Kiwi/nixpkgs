@@ -19,7 +19,7 @@ buildPythonPackage rec {
     sha256 = "f545b22138865bfbcc6b1ffe89ed5a2b8e2dc5d4fe876f2ca60d8e6f702a30f8";
   };
 
-  LC_ALL="en_US.utf8";
+  LC_ALL = "en_US.utf8";
 
   checkInputs = [ pytest glibcLocales ];
   propagatedBuildInputs = [ ipython_genutils traitlets testpath jsonschema jupyter_core ];

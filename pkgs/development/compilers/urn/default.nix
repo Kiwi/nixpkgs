@@ -1,6 +1,12 @@
-{ stdenv, fetchFromGitLab, buildEnv, makeWrapper, lua, luajit, readline
+{ stdenv
+, fetchFromGitLab
+, buildEnv
+, makeWrapper
+, lua
+, luajit
+, readline
 , useLuaJit ? false
-, extraLibraries ? []
+, extraLibraries ? [ ]
 }:
 
 let
@@ -11,17 +17,18 @@ let
   urn-rt = buildEnv {
     name = "urn-rt-${version}";
     ignoreCollisions = true;
-    paths = if useLuaJit then
-              [ luajit readline ]
-            else
-              [ lua ];
+    paths =
+      if useLuaJit then
+        [ luajit readline ]
+      else
+        [ lua ];
   };
 
   inherit (stdenv.lib) optionalString concatMapStringsSep;
 in
 
 stdenv.mkDerivation {
-  name = "urn-${optionalString (extraLibraries != []) "with-libraries-"}${version}";
+  name = "urn-${optionalString (extraLibraries != [ ]) "with-libraries-"}${version}";
 
   src = fetchFromGitLab {
     owner = "urn";
@@ -35,7 +42,7 @@ stdenv.mkDerivation {
   # dependency on the Urn runtime support.
   propagatedBuildInputs = [ urn-rt ];
 
-  makeFlags = ["-B"];
+  makeFlags = [ "-B" ];
 
   installPhase = ''
     mkdir -p $out/bin $out/lib

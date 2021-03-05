@@ -1,6 +1,18 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub, pythonOlder
-, aria2, poetry, pytest, pytestcov, pytest_xdist, responses
-, asciimatics, loguru, requests, setuptools, websocket_client
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, pythonOlder
+, aria2
+, poetry
+, pytest
+, pytestcov
+, pytest_xdist
+, responses
+, asciimatics
+, loguru
+, requests
+, setuptools
+, websocket_client
 }:
 
 buildPythonPackage rec {

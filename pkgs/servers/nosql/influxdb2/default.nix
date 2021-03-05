@@ -89,7 +89,8 @@ let
     goPackagePath = "github.com/kevinburke/go-bindata";
     subPackages = [ "go-bindata" ];
   };
-in buildGoModule {
+in
+buildGoModule {
   pname = "influxdb";
   version = version;
   src = src;

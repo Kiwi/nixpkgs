@@ -5,10 +5,10 @@ stdenv.mkDerivation rec {
   version = "0.8.6";
 
   src = fetchFromGitHub {
-      owner = "dellytools";
-      repo = pname;
-      rev = "v${version}";
-      sha256 = "sha256-j9klZ8qq1GQS7+zZ+vHwAwLHBYMBrWfbwqeD8QJeCuk=";
+    owner = "dellytools";
+    repo = pname;
+    rev = "v${version}";
+    sha256 = "sha256-j9klZ8qq1GQS7+zZ+vHwAwLHBYMBrWfbwqeD8QJeCuk=";
   };
 
   buildInputs = [ zlib htslib bzip2 lzma ncurses boost ];

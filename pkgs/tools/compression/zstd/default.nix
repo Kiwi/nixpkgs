@@ -1,4 +1,9 @@
-{ stdenv, fetchFromGitHub, fetchpatch, cmake, bash, gnugrep
+{ stdenv
+, fetchFromGitHub
+, fetchpatch
+, cmake
+, bash
+, gnugrep
 , fixDarwinDylibNames
 , file
 , legacySupport ? false
@@ -17,7 +22,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ cmake ]
-   ++ stdenv.lib.optional stdenv.isDarwin fixDarwinDylibNames;
+    ++ stdenv.lib.optional stdenv.isDarwin fixDarwinDylibNames;
   buildInputs = stdenv.lib.optional stdenv.hostPlatform.isUnix bash;
 
   patches = [
@@ -27,8 +32,8 @@ stdenv.mkDerivation rec {
       sha256 = "07mfjc5f9wy0w2xlj36hyf7g5ax9r2rf6ixhkffhnwc6rwy0q54p";
     })
   ] # This I didn't upstream because if you use posix threads with MinGW it will
-    # work fine, and I'm not sure how to write the condition.
-    ++ stdenv.lib.optional stdenv.hostPlatform.isWindows ./mcfgthreads-no-pthread.patch;
+  # work fine, and I'm not sure how to write the condition.
+  ++ stdenv.lib.optional stdenv.hostPlatform.isWindows ./mcfgthreads-no-pthread.patch;
 
   postPatch = stdenv.lib.optionalString (!static) ''
     substituteInPlace build/cmake/CMakeLists.txt \

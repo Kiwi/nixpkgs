@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, openmpi } :
+{ stdenv, fetchurl, openmpi }:
 
 stdenv.mkDerivation rec {
   pname = "hpcg";

@@ -1,5 +1,14 @@
-{ stdenv, fetchurl, pkgconfig, systemd, util-linux, coreutils, wall, hostname, man
-, enableCgiScripts ? true, gd
+{ stdenv
+, fetchurl
+, pkgconfig
+, systemd
+, util-linux
+, coreutils
+, wall
+, hostname
+, man
+, enableCgiScripts ? true
+, gd
 }:
 
 assert enableCgiScripts -> gd != null;

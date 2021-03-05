@@ -1,5 +1,10 @@
-{stdenv, fetchurl, boost, openssl
-, version, sha256, ...
+{ stdenv
+, fetchurl
+, boost
+, openssl
+, version
+, sha256
+, ...
 }:
 
 with stdenv.lib;

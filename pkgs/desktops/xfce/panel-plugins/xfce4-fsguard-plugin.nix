@@ -5,7 +5,7 @@ let
 in
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-fsguard-plugin";
+  pname = "xfce4-fsguard-plugin";
   version = "1.1.1";
 
   src = fetchurl {
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
     xfconf
     gtk3
   ];
-  
+
   passthru.updateScript = xfce.updateScript {
     inherit pname version;
     attrPath = "xfce.${pname}";

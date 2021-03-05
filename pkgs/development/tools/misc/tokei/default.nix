@@ -14,7 +14,8 @@ rustPlatform.buildRustPackage rec {
   cargoSha256 = "02c2pdjzd49qznm1yj3rnli48267ajjdklrb1cpj0rhpirw4rh1j";
 
   buildInputs = stdenv.lib.optionals stdenv.isDarwin [
-    libiconv darwin.apple_sdk.frameworks.Security
+    libiconv
+    darwin.apple_sdk.frameworks.Security
   ];
 
   # enable all output formats

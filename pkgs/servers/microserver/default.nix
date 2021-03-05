@@ -1,8 +1,8 @@
 { stdenv, fetchFromGitHub, rustPlatform, darwin }:
 
 rustPlatform.buildRustPackage rec {
-   pname = "microserver";
-   version = "0.2.0";
+  pname = "microserver";
+  version = "0.2.0";
 
   src = fetchFromGitHub {
     owner = "robertohuertasm";

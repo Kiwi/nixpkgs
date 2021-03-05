@@ -1,10 +1,36 @@
-{ stdenv, mkDerivation, fetchurl, cmake, libGLU, libGL, libX11, xorgproto, libXt, libtiff
+{ stdenv
+, mkDerivation
+, fetchurl
+, cmake
+, libGLU
+, libGL
+, libX11
+, xorgproto
+, libXt
+, libtiff
 , fetchpatch
-, enableQt ? false, qtbase, qtx11extras, qttools
-, enablePython ? false, python ? null
-# Darwin support
-, Cocoa, CoreServices, DiskArbitration, IOKit, CFNetwork, Security, GLUT, OpenGL
-, ApplicationServices, CoreText, IOSurface, ImageIO, xpc, libobjc }:
+, enableQt ? false
+, qtbase
+, qtx11extras
+, qttools
+, enablePython ? false
+, python ? null
+  # Darwin support
+, Cocoa
+, CoreServices
+, DiskArbitration
+, IOKit
+, CFNetwork
+, Security
+, GLUT
+, OpenGL
+, ApplicationServices
+, CoreText
+, IOSurface
+, ImageIO
+, xpc
+, libobjc
+}:
 
 with stdenv.lib;
 
@@ -27,29 +53,29 @@ mkDerivation rec {
   buildInputs = [ libtiff ]
     ++ optionals enableQt [ qtbase qtx11extras qttools ]
     ++ optionals stdenv.isLinux [
-      libGLU
-      libGL
-      libX11
-      xorgproto
-      libXt
-    ] ++ optionals stdenv.isDarwin [
-      xpc
-      Cocoa
-      CoreServices
-      DiskArbitration
-      IOKit
-      CFNetwork
-      Security
-      ApplicationServices
-      CoreText
-      IOSurface
-      ImageIO
-      OpenGL
-      GLUT
-    ]
+    libGLU
+    libGL
+    libX11
+    xorgproto
+    libXt
+  ] ++ optionals stdenv.isDarwin [
+    xpc
+    Cocoa
+    CoreServices
+    DiskArbitration
+    IOKit
+    CFNetwork
+    Security
+    ApplicationServices
+    CoreText
+    IOSurface
+    ImageIO
+    OpenGL
+    GLUT
+  ]
     ++ optional enablePython [
-      python
-    ];
+    python
+  ];
   propagatedBuildInputs = stdenv.lib.optionals stdenv.isDarwin [ libobjc ];
 
   preBuild = ''
@@ -70,12 +96,12 @@ mkDerivation rec {
     "-DCMAKE_INSTALL_INCLUDEDIR=include"
     "-DCMAKE_INSTALL_BINDIR=bin"
   ]
-    ++ optionals enableQt [ "-DVTK_Group_Qt:BOOL=ON" ]
-    ++ optionals stdenv.isDarwin [ "-DOPENGL_INCLUDE_DIR=${OpenGL}/Library/Frameworks" ]
-    ++ optionals enablePython [
-      "-DVTK_WRAP_PYTHON:BOOL=ON"
-      "-DVTK_PYTHON_VERSION:STRING=3"
-    ];
+  ++ optionals enableQt [ "-DVTK_Group_Qt:BOOL=ON" ]
+  ++ optionals stdenv.isDarwin [ "-DOPENGL_INCLUDE_DIR=${OpenGL}/Library/Frameworks" ]
+  ++ optionals enablePython [
+    "-DVTK_WRAP_PYTHON:BOOL=ON"
+    "-DVTK_PYTHON_VERSION:STRING=3"
+  ];
 
   postPatch = stdenv.lib.optionalString stdenv.isDarwin ''
     sed -i 's|COMMAND vtkHashSource|COMMAND "DYLD_LIBRARY_PATH=''${VTK_BINARY_DIR}/lib" ''${VTK_BINARY_DIR}/bin/vtkHashSource-${majorVersion}|' ./Parallel/Core/CMakeLists.txt

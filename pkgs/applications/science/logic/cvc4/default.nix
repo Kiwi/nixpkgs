@@ -1,5 +1,17 @@
-{ stdenv, fetchFromGitHub, cmake, cln, gmp, git, swig, pkgconfig
-, readline, libantlr3c, boost, jdk, python3, antlr3_4
+{ stdenv
+, fetchFromGitHub
+, cmake
+, cln
+, gmp
+, git
+, swig
+, pkgconfig
+, readline
+, libantlr3c
+, boost
+, jdk
+, python3
+, antlr3_4
 }:
 
 stdenv.mkDerivation rec {
@@ -7,9 +19,9 @@ stdenv.mkDerivation rec {
   version = "1.8";
 
   src = fetchFromGitHub {
-    owner  = "cvc4";
-    repo   = "cvc4";
-    rev    = version;
+    owner = "cvc4";
+    repo = "cvc4";
+    rev = version;
     sha256 = "1rhs4pvzaa1wk00czrczp58b2cxfghpsnq534m0l3snnya2958jp";
   };
 
@@ -40,9 +52,9 @@ stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "A high-performance theorem prover and SMT solver";
-    homepage    = "http://cvc4.cs.stanford.edu/web/";
-    license     = licenses.gpl3;
-    platforms   = platforms.unix;
+    homepage = "http://cvc4.cs.stanford.edu/web/";
+    license = licenses.gpl3;
+    platforms = platforms.unix;
     maintainers = with maintainers; [ vbgl thoughtpolice gebner ];
   };
 }

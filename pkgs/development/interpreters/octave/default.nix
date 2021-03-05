@@ -1,6 +1,6 @@
 { stdenv
-# Note: either stdenv.mkDerivation or, for octaveFull, the qt-5 mkDerivation
-# with wrapQtAppsHook (comes from libsForQt5.callPackage)
+  # Note: either stdenv.mkDerivation or, for octaveFull, the qt-5 mkDerivation
+  # with wrapQtAppsHook (comes from libsForQt5.callPackage)
 , mkDerivation
 , fetchurl
 , gfortran
@@ -18,13 +18,14 @@
 , libGL
 , libGLU
 , fltk
-# Both are needed for discrete Fourier transform
+  # Both are needed for discrete Fourier transform
 , fftw
 , fftwSinglePrec
 , zlib
 , curl
 , qrupdate
-, blas, lapack
+, blas
+, lapack
 , arpack
 , libwebp
 , gl2ps
@@ -33,23 +34,23 @@
 , glpk ? null
 , suitesparse ? null
 , gnuplot ? null
-# - Include support for GNU readline:
+  # - Include support for GNU readline:
 , enableReadline ? true
 , readline ? null
-# - Build Java interface:
+  # - Build Java interface:
 , enableJava ? true
 , jdk ? null
 , python ? null
 , overridePlatforms ? null
 , sundials_2 ? null
-# - Build Octave Qt GUI:
+  # - Build Octave Qt GUI:
 , enableQt ? false
 , qtbase ? null
 , qtsvg ? null
 , qtscript ? null
 , qscintilla ? null
 , qttools ? null
-# - JIT compiler for loops:
+  # - JIT compiler for loops:
 , enableJIT ? false
 , llvm ? null
 , libiconv
@@ -103,9 +104,11 @@ mkDerivation rec {
   ++ (stdenv.lib.optional (gnuplot != null) gnuplot)
   ++ (stdenv.lib.optional (python != null) python)
   ++ (stdenv.lib.optionals (!stdenv.isDarwin) [ libGL libGLU libX11 ])
-  ++ (stdenv.lib.optionals (stdenv.isDarwin) [ libiconv
-                                               darwin.apple_sdk.frameworks.Accelerate
-                                               darwin.apple_sdk.frameworks.Cocoa ])
+  ++ (stdenv.lib.optionals (stdenv.isDarwin) [
+    libiconv
+    darwin.apple_sdk.frameworks.Accelerate
+    darwin.apple_sdk.frameworks.Cocoa
+  ])
   ;
   nativeBuildInputs = [
     pkgconfig
@@ -135,11 +138,11 @@ mkDerivation rec {
     "--with-lapack=lapack"
     (if blas.isILP64 then "--enable-64" else "--disable-64")
   ]
-    ++ (if stdenv.isDarwin then [ "--enable-link-all-dependencies" ] else [ ])
-    ++ stdenv.lib.optionals enableReadline [ "--enable-readline" ]
-    ++ stdenv.lib.optionals stdenv.isDarwin [ "--with-x=no" ]
-    ++ stdenv.lib.optionals enableQt [ "--with-qt=5" ]
-    ++ stdenv.lib.optionals enableJIT [ "--enable-jit" ]
+  ++ (if stdenv.isDarwin then [ "--enable-link-all-dependencies" ] else [ ])
+  ++ stdenv.lib.optionals enableReadline [ "--enable-readline" ]
+  ++ stdenv.lib.optionals stdenv.isDarwin [ "--with-x=no" ]
+  ++ stdenv.lib.optionals enableQt [ "--with-qt=5" ]
+  ++ stdenv.lib.optionals enableJIT [ "--enable-jit" ]
   ;
 
   # Keep a copy of the octave tests detailed results in the output
@@ -156,12 +159,13 @@ mkDerivation rec {
   meta = {
     homepage = "https://www.gnu.org/software/octave/";
     license = stdenv.lib.licenses.gpl3Plus;
-    maintainers = with stdenv.lib.maintainers; [raskin];
+    maintainers = with stdenv.lib.maintainers; [ raskin ];
     description = "Scientific Pragramming Language";
     # https://savannah.gnu.org/bugs/?func=detailitem&item_id=56425 is the best attempt to fix JIT
     broken = enableJIT;
-    platforms = if overridePlatforms == null then
-      (with stdenv.lib; platforms.linux ++ platforms.darwin)
-    else overridePlatforms;
+    platforms =
+      if overridePlatforms == null then
+        (with stdenv.lib; platforms.linux ++ platforms.darwin)
+      else overridePlatforms;
   };
 }

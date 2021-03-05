@@ -12,7 +12,8 @@
 # get this from the download URL when changing version
 let gitRevision = "7d3deab0763c88edee4f7a08e604661e0dbdd450";
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "key";
   version = "2.6.3";
 
@@ -51,7 +52,7 @@ in stdenv.mkDerivation rec {
       --add-flags "-cp $out/share/java/KeY.jar de.uka.ilkd.key.core.Main"
   '';
 
-  passthru.tests.check-version = runCommand "key-help" {} ''
+  passthru.tests.check-version = runCommand "key-help" { } ''
     ${key}/bin/KeY --help | grep 2.5 # Wrong version in the code. On next version change to ${version}
     touch $out
   '';

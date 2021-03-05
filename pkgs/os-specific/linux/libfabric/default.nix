@@ -13,11 +13,11 @@ stdenv.mkDerivation rec {
     sha256 = "17qq96mlfhbkbmsvbazhxzkjnh6x37xlh3r0ngp0rfqbl05z2pcr";
   };
 
-  nativeBuildInputs = [ pkgconfig autoreconfHook ] ;
+  nativeBuildInputs = [ pkgconfig autoreconfHook ];
 
-  buildInputs = [ libpsm2 ] ;
+  buildInputs = [ libpsm2 ];
 
-  configureFlags = [ "--enable-psm2=${libpsm2}" ] ;
+  configureFlags = [ "--enable-psm2=${libpsm2}" ];
 
   meta = with stdenv.lib; {
     homepage = "http://libfabric.org/";

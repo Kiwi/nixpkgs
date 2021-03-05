@@ -5,7 +5,7 @@ let
 in
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-notes-plugin";
+  pname = "xfce4-notes-plugin";
   version = "1.8.1";
 
   src = fetchurl {

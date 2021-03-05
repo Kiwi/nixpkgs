@@ -1,25 +1,33 @@
-{ stdenv, fetchFromGitHub
-, cmake, which, m4, python3, bison, flex, llvmPackages
+{ stdenv
+, fetchFromGitHub
+, cmake
+, which
+, m4
+, python3
+, bison
+, flex
+, llvmPackages
 
   # the default test target is sse4, but that is not supported by all Hydra agents
 , testedTargets ? [ "sse2" ]
 }:
 
 stdenv.mkDerivation rec {
-  pname   = "ispc";
+  pname = "ispc";
   version = "1.13.0";
 
   src = fetchFromGitHub {
-    owner  = pname;
-    repo   = pname;
-    rev    = "v${version}";
+    owner = pname;
+    repo = pname;
+    rev = "v${version}";
     sha256 = "1l74xkpwwxc38k2ngg7mpvswziiy91yxslgfad6688hh1n5jvayd";
   };
 
   nativeBuildInputs = [ cmake which m4 bison flex python3 ];
   buildInputs = with llvmPackages; [
     # we need to link against libclang, so we need the unwrapped
-    llvm llvmPackages.clang-unwrapped
+    llvm
+    llvmPackages.clang-unwrapped
   ];
 
   postPatch = ''
@@ -61,10 +69,10 @@ stdenv.mkDerivation rec {
   ];
 
   meta = with stdenv.lib; {
-    homepage    = "https://ispc.github.io/";
+    homepage = "https://ispc.github.io/";
     description = "Intel 'Single Program, Multiple Data' Compiler, a vectorised language";
-    license     = licenses.bsd3;
-    platforms   = [ "x86_64-linux" "x86_64-darwin" ]; # TODO: buildable on more platforms?
+    license = licenses.bsd3;
+    platforms = [ "x86_64-linux" "x86_64-darwin" ]; # TODO: buildable on more platforms?
     maintainers = with maintainers; [ aristid thoughtpolice ];
   };
 }

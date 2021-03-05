@@ -34,11 +34,13 @@ let
 
   shlibExt = stdenvNoCC.hostPlatform.extensions.sharedLibrary;
 
-in stdenvNoCC.mkDerivation {
+in
+stdenvNoCC.mkDerivation {
   pname = "mkl";
   inherit version;
 
-  src = if stdenvNoCC.isDarwin
+  src =
+    if stdenvNoCC.isDarwin
     then
       (fetchurl {
         url = "http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/15235/m_mkl_${version}.dmg";
@@ -51,38 +53,39 @@ in stdenvNoCC.mkDerivation {
       });
 
   nativeBuildInputs = [ validatePkgConfig ] ++ (if stdenvNoCC.isDarwin
-    then
-      [ undmg darwin.cctools ]
-    else
-      [ rpmextract ]);
+  then
+    [ undmg darwin.cctools ]
+  else
+    [ rpmextract ]);
 
-  buildPhase = if stdenvNoCC.isDarwin then ''
-    for f in Contents/Resources/pkg/*.tgz; do
-      tar xzvf $f
-    done
-  '' else ''
-    # Common stuff
-    rpmextract rpm/intel-mkl-core-${rpm-ver}.x86_64.rpm
-    rpmextract rpm/intel-mkl-common-c-${rpm-ver}.noarch.rpm
-    rpmextract rpm/intel-mkl-common-f-${rpm-ver}.noarch.rpm
+  buildPhase =
+    if stdenvNoCC.isDarwin then ''
+      for f in Contents/Resources/pkg/*.tgz; do
+        tar xzvf $f
+      done
+    '' else ''
+      # Common stuff
+      rpmextract rpm/intel-mkl-core-${rpm-ver}.x86_64.rpm
+      rpmextract rpm/intel-mkl-common-c-${rpm-ver}.noarch.rpm
+      rpmextract rpm/intel-mkl-common-f-${rpm-ver}.noarch.rpm
 
-    # Dynamic libraries
-    rpmextract rpm/intel-mkl-cluster-rt-${rpm-ver}.x86_64.rpm
-    rpmextract rpm/intel-mkl-core-rt-${rpm-ver}.x86_64.rpm
-    rpmextract rpm/intel-mkl-gnu-f-rt-${rpm-ver}.x86_64.rpm
-    rpmextract rpm/intel-mkl-gnu-rt-${rpm-ver}.x86_64.rpm
+      # Dynamic libraries
+      rpmextract rpm/intel-mkl-cluster-rt-${rpm-ver}.x86_64.rpm
+      rpmextract rpm/intel-mkl-core-rt-${rpm-ver}.x86_64.rpm
+      rpmextract rpm/intel-mkl-gnu-f-rt-${rpm-ver}.x86_64.rpm
+      rpmextract rpm/intel-mkl-gnu-rt-${rpm-ver}.x86_64.rpm
 
-    # Intel OpenMP runtime
-    rpmextract rpm/intel-openmp-${openmp-ver}.x86_64.rpm
-  '' + (if enableStatic then ''
-    # Static libraries
-    rpmextract rpm/intel-mkl-cluster-${rpm-ver}.x86_64.rpm
-    rpmextract rpm/intel-mkl-gnu-${rpm-ver}.x86_64.rpm
-    rpmextract rpm/intel-mkl-gnu-f-${rpm-ver}.x86_64.rpm
-  '' else ''
-    # Take care of installing dynamic-only PkgConfig files during the installPhase
-  ''
-  );
+      # Intel OpenMP runtime
+      rpmextract rpm/intel-openmp-${openmp-ver}.x86_64.rpm
+    '' + (if enableStatic then ''
+      # Static libraries
+      rpmextract rpm/intel-mkl-cluster-${rpm-ver}.x86_64.rpm
+      rpmextract rpm/intel-mkl-gnu-${rpm-ver}.x86_64.rpm
+      rpmextract rpm/intel-mkl-gnu-f-${rpm-ver}.x86_64.rpm
+    '' else ''
+      # Take care of installing dynamic-only PkgConfig files during the installPhase
+    ''
+    );
 
   installPhase = ''
     for f in $(find . -name 'mkl*.pc') ; do
@@ -99,35 +102,35 @@ in stdenvNoCC.mkDerivation {
         --replace "../compiler/lib" "lib"
     done
   '' +
-    (if stdenvNoCC.isDarwin then ''
-      mkdir -p $out/lib
+  (if stdenvNoCC.isDarwin then ''
+    mkdir -p $out/lib
 
-      cp -r compilers_and_libraries_${version}/mac/mkl/include $out/
+    cp -r compilers_and_libraries_${version}/mac/mkl/include $out/
 
-      cp -r compilers_and_libraries_${version}/licensing/mkl/en/license.txt $out/lib/
-      cp -r compilers_and_libraries_${version}/mac/compiler/lib/* $out/lib/
-      cp -r compilers_and_libraries_${version}/mac/mkl/lib/* $out/lib/
-      cp -r compilers_and_libraries_${version}/mac/tbb/lib/* $out/lib/
+    cp -r compilers_and_libraries_${version}/licensing/mkl/en/license.txt $out/lib/
+    cp -r compilers_and_libraries_${version}/mac/compiler/lib/* $out/lib/
+    cp -r compilers_and_libraries_${version}/mac/mkl/lib/* $out/lib/
+    cp -r compilers_and_libraries_${version}/mac/tbb/lib/* $out/lib/
 
-      mkdir -p $out/lib/pkgconfig
-      cp -r compilers_and_libraries_${version}/mac/mkl/bin/pkgconfig/* $out/lib/pkgconfig
+    mkdir -p $out/lib/pkgconfig
+    cp -r compilers_and_libraries_${version}/mac/mkl/bin/pkgconfig/* $out/lib/pkgconfig
   '' else ''
-      mkdir -p $out/lib
-      cp license.txt $out/lib/
+    mkdir -p $out/lib
+    cp license.txt $out/lib/
 
-      cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/include $out/
+    cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/include $out/
 
-      mkdir -p $out/lib/pkgconfig
+    mkdir -p $out/lib/pkgconfig
   '') +
-    (if enableStatic then ''
-      cp -r opt/intel/compilers_and_libraries_${version}/linux/compiler/lib/intel64_lin/* $out/lib/
-      cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/lib/intel64_lin/* $out/lib/
-      cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/bin/pkgconfig/* $out/lib/pkgconfig
-    '' else ''
-      cp -r opt/intel/compilers_and_libraries_${version}/linux/compiler/lib/intel64_lin/*.so* $out/lib/
-      cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/lib/intel64_lin/*.so* $out/lib/
-      cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/bin/pkgconfig/*dynamic*.pc $out/lib/pkgconfig
-    '') + ''
+  (if enableStatic then ''
+    cp -r opt/intel/compilers_and_libraries_${version}/linux/compiler/lib/intel64_lin/* $out/lib/
+    cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/lib/intel64_lin/* $out/lib/
+    cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/bin/pkgconfig/* $out/lib/pkgconfig
+  '' else ''
+    cp -r opt/intel/compilers_and_libraries_${version}/linux/compiler/lib/intel64_lin/*.so* $out/lib/
+    cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/lib/intel64_lin/*.so* $out/lib/
+    cp -r opt/intel/compilers_and_libraries_${version}/linux/mkl/bin/pkgconfig/*dynamic*.pc $out/lib/pkgconfig
+  '') + ''
 
     # Setup symlinks for blas / lapack
     ln -s $out/lib/libmkl_rt${shlibExt} $out/lib/libblas${shlibExt}

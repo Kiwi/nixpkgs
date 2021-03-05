@@ -17,7 +17,7 @@ buildPythonPackage rec {
     py.test -p no:logging
   '';
 
-  pythonImportsCheck =  [ "colorlog" ];
+  pythonImportsCheck = [ "colorlog" ];
 
   meta = with stdenv.lib; {
     description = "Log formatting with colors";

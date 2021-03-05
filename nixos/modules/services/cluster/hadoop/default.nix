@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ...}:
+{ config, lib, pkgs, ... }:
 
 with lib;
 {
@@ -6,7 +6,7 @@ with lib;
 
   options.services.hadoop = {
     coreSite = mkOption {
-      default = {};
+      default = { };
       example = literalExample ''
         {
           "fs.defaultFS" = "hdfs://localhost";
@@ -16,7 +16,7 @@ with lib;
     };
 
     hdfsSite = mkOption {
-      default = {};
+      default = { };
       example = literalExample ''
         {
           "dfs.nameservices" = "namenode1";
@@ -26,7 +26,7 @@ with lib;
     };
 
     mapredSite = mkOption {
-      default = {};
+      default = { };
       example = literalExample ''
         {
           "mapreduce.map.cpu.vcores" = "1";
@@ -36,7 +36,7 @@ with lib;
     };
 
     yarnSite = mkOption {
-      default = {};
+      default = { };
       example = literalExample ''
         {
           "yarn.resourcemanager.ha.id" = "resourcemanager1";
@@ -57,12 +57,14 @@ with lib;
 
 
   config = mkMerge [
-    (mkIf (builtins.hasAttr "yarn" config.users.users ||
-           builtins.hasAttr "hdfs" config.users.users) {
-      users.groups.hadoop = {
-        gid = config.ids.gids.hadoop;
-      };
-    })
+    (mkIf
+      (builtins.hasAttr "yarn" config.users.users ||
+        builtins.hasAttr "hdfs" config.users.users)
+      {
+        users.groups.hadoop = {
+          gid = config.ids.gids.hadoop;
+        };
+      })
 
   ];
 }

@@ -1,5 +1,13 @@
-{ aiofiles, adb-shell, buildPythonPackage, fetchFromGitHub, isPy3k, lib, mock
-, pure-python-adb, python }:
+{ aiofiles
+, adb-shell
+, buildPythonPackage
+, fetchFromGitHub
+, isPy3k
+, lib
+, mock
+, pure-python-adb
+, python
+}:
 
 buildPythonPackage rec {
   pname = "androidtv";

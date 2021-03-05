@@ -1,5 +1,15 @@
-{ stdenv, fetchurl, pkgconfig, glib, zlib, gnupg, gpgme, libidn2, libunistring, gobject-introspection
-, vala }:
+{ stdenv
+, fetchurl
+, pkgconfig
+, glib
+, zlib
+, gnupg
+, gpgme
+, libidn2
+, libunistring
+, gobject-introspection
+, vala
+}:
 
 stdenv.mkDerivation rec {
   version = "3.2.7";

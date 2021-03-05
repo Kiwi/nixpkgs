@@ -1,6 +1,15 @@
-{ stdenv, fetchurl, makeWrapper
-, ncurses, python3, perl, textual-window-manager
-, gettext, vim, bc, screen }:
+{ stdenv
+, fetchurl
+, makeWrapper
+, ncurses
+, python3
+, perl
+, textual-window-manager
+, gettext
+, vim
+, bc
+, screen
+}:
 
 let
   inherit (stdenv) lib;

@@ -1,4 +1,5 @@
-{ stdenv, fetchFromGitHub
+{ stdenv
+, fetchFromGitHub
 , ffmpeg_3
 , imagemagick
 , makeWrapper

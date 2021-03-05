@@ -1,4 +1,12 @@
-{ stdenv, fetchFromGitHub, meson, ninja, pkgconfig, gtk3, epoxy, wayland, wrapGAppsHook
+{ stdenv
+, fetchFromGitHub
+, meson
+, ninja
+, pkgconfig
+, gtk3
+, epoxy
+, wayland
+, wrapGAppsHook
 , fetchpatch
 }:
 
@@ -26,11 +34,12 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  meta = let inherit (stdenv) lib; in {
-    description = "A graphical application for configuring displays in Wayland compositors";
-    homepage = "https://github.com/cyclopsian/wdisplays";
-    maintainers = with lib.maintainers; [ lheckemann ma27 ];
-    license = lib.licenses.mit;
-    platforms = lib.platforms.linux;
-  };
+  meta = let inherit (stdenv) lib; in
+    {
+      description = "A graphical application for configuring displays in Wayland compositors";
+      homepage = "https://github.com/cyclopsian/wdisplays";
+      maintainers = with lib.maintainers; [ lheckemann ma27 ];
+      license = lib.licenses.mit;
+      platforms = lib.platforms.linux;
+    };
 }

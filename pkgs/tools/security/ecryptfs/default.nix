@@ -1,5 +1,25 @@
-{ stdenv, fetchurl, pkgconfig, perl, util-linux, keyutils, nss, nspr, python2, pam, enablePython ? false
-, intltool, makeWrapper, coreutils, bash, gettext, cryptsetup, lvm2, rsync, which, lsof }:
+{ stdenv
+, fetchurl
+, pkgconfig
+, perl
+, util-linux
+, keyutils
+, nss
+, nspr
+, python2
+, pam
+, enablePython ? false
+, intltool
+, makeWrapper
+, coreutils
+, bash
+, gettext
+, cryptsetup
+, lvm2
+, rsync
+, which
+, lsof
+}:
 
 stdenv.mkDerivation rec {
   pname = "ecryptfs";
@@ -36,11 +56,11 @@ stdenv.mkDerivation rec {
   configureFlags = stdenv.lib.optionals (!enablePython) [ "--disable-pywrap" ];
 
   nativeBuildInputs = [ pkgconfig ]
-  # if python2 support is requested, it is needed at builtime as well as runtime.
-  ++ stdenv.lib.optionals (enablePython) [ python2 ]
+    # if python2 support is requested, it is needed at builtime as well as runtime.
+    ++ stdenv.lib.optionals (enablePython) [ python2 ]
   ;
   buildInputs = [ perl nss nspr pam intltool makeWrapper ]
-  ++ stdenv.lib.optionals (enablePython) [ python2 ]
+    ++ stdenv.lib.optionals (enablePython) [ python2 ]
   ;
   propagatedBuildInputs = [ coreutils gettext cryptsetup lvm2 rsync keyutils which ];
 
@@ -60,8 +80,8 @@ stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "Enterprise-class stacked cryptographic filesystem";
-    license     = licenses.gpl2Plus;
+    license = licenses.gpl2Plus;
     maintainers = with maintainers; [ obadz ];
-    platforms   = platforms.linux;
+    platforms = platforms.linux;
   };
 }

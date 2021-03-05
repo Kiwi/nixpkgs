@@ -1,5 +1,12 @@
-{ lib, buildPythonPackage, fetchPypi, makeWrapper, pythonOlder
-, crytic-compile, prettytable, setuptools, solc
+{ lib
+, buildPythonPackage
+, fetchPypi
+, makeWrapper
+, pythonOlder
+, crytic-compile
+, prettytable
+, setuptools
+, solc
 }:
 
 buildPythonPackage rec {

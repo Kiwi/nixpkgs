@@ -1,11 +1,21 @@
-{ stdenv, fetchFromGitHub
-, alsaLib, flac, libmad, libvorbis, mpg123
+{ stdenv
+, fetchFromGitHub
+, alsaLib
+, flac
+, libmad
+, libvorbis
+, mpg123
 , dsdSupport ? true
-, faad2Support ? true, faad2
-, ffmpegSupport ? true, ffmpeg_3
-, opusSupport ? true, opusfile
-, resampleSupport ? true, soxr
-, sslSupport ? true, openssl
+, faad2Support ? true
+, faad2
+, ffmpegSupport ? true
+, ffmpeg_3
+, opusSupport ? true
+, opusfile
+, resampleSupport ? true
+, soxr
+, sslSupport ? true
+, openssl
 }:
 
 let
@@ -19,7 +29,8 @@ let
     ++ optional resampleSupport "-DRESAMPLE"
     ++ optional sslSupport "-DUSE_SSL";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "squeezelite";
 
   # versions are specified in `squeezelite.h`
@@ -27,9 +38,9 @@ in stdenv.mkDerivation {
   version = "1.9.6.1196";
 
   src = fetchFromGitHub {
-    owner  = "ralph-irving";
-    repo   = "squeezelite";
-    rev    = "2b508464dce2cbdb2a3089c58df2a6fbc36328c0";
+    owner = "ralph-irving";
+    repo = "squeezelite";
+    rev = "2b508464dce2cbdb2a3089c58df2a6fbc36328c0";
     sha256 = "024ypr1da2r079k3hgiifzd3d3wcfprhbl5zdm40zm0c7frzmr8i";
   };
 

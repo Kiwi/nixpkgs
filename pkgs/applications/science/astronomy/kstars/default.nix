@@ -1,14 +1,27 @@
-{
-  stdenv, extra-cmake-modules, fetchurl,
-
-  kconfig, kdoctools, kguiaddons, ki18n, kinit, kiconthemes, kio,
-  knewstuff, kplotting, kwidgetsaddons, kxmlgui, wrapQtAppsHook,
-
-  qtx11extras, qtwebsockets,
-
-  eigen, zlib,
-
-  cfitsio, indilib, xplanet, libnova, gsl
+{ stdenv
+, extra-cmake-modules
+, fetchurl
+, kconfig
+, kdoctools
+, kguiaddons
+, ki18n
+, kinit
+, kiconthemes
+, kio
+, knewstuff
+, kplotting
+, kwidgetsaddons
+, kxmlgui
+, wrapQtAppsHook
+, qtx11extras
+, qtwebsockets
+, eigen
+, zlib
+, cfitsio
+, indilib
+, xplanet
+, libnova
+, gsl
 }:
 
 stdenv.mkDerivation rec {
@@ -26,14 +39,29 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ extra-cmake-modules kdoctools wrapQtAppsHook ];
   buildInputs = [
-    kconfig kdoctools kguiaddons ki18n kinit kiconthemes kio
-    knewstuff kplotting kwidgetsaddons kxmlgui
+    kconfig
+    kdoctools
+    kguiaddons
+    ki18n
+    kinit
+    kiconthemes
+    kio
+    knewstuff
+    kplotting
+    kwidgetsaddons
+    kxmlgui
 
-    qtx11extras qtwebsockets
+    qtx11extras
+    qtwebsockets
 
-    eigen zlib
+    eigen
+    zlib
 
-    cfitsio indilib xplanet libnova gsl
+    cfitsio
+    indilib
+    xplanet
+    libnova
+    gsl
   ];
 
   cmakeFlags = [

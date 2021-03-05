@@ -1,5 +1,13 @@
-{ stdenv, fetchFromGitHub, autoreconfHook, pkgconfig, libde265, x265, libpng,
-  libjpeg, libaom }:
+{ stdenv
+, fetchFromGitHub
+, autoreconfHook
+, pkgconfig
+, libde265
+, x265
+, libpng
+, libjpeg
+, libaom
+}:
 
 stdenv.mkDerivation rec {
   pname = "libheif";

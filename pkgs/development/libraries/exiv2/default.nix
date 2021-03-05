@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
 
   src = fetchFromGitHub {
     owner = "exiv2";
-    repo  = "exiv2";
+    repo = "exiv2";
     rev = "v${version}";
     sha256 = "0d294yhcdw8ziybyd4rp5hzwknzik2sm0cz60ff7fljacv75bjpy";
   };

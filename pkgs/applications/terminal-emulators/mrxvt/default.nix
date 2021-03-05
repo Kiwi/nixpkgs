@@ -1,5 +1,15 @@
-{ stdenv, fetchurl, libX11, libXft, libXi, xorgproto, libSM, libICE
-, freetype, pkgconfig, which }:
+{ stdenv
+, fetchurl
+, libX11
+, libXft
+, libXi
+, xorgproto
+, libSM
+, libICE
+, freetype
+, pkgconfig
+, which
+}:
 
 stdenv.mkDerivation {
   name = "mrxvt-0.5.4";
@@ -30,8 +40,8 @@ stdenv.mkDerivation {
   meta = with stdenv.lib; {
     description = "Lightweight multitabbed feature-rich X11 terminal emulator";
     longDescription = "
-    	Multitabbed lightweight terminal emulator based on rxvt.
-	Supports transparency, backgroundimages, freetype fonts, ...
+      Multitabbed lightweight terminal emulator based on rxvt.
+  Supports transparency, backgroundimages, freetype fonts, ...
     ";
     homepage = "https://sourceforge.net/projects/materm";
     license = licenses.gpl2;

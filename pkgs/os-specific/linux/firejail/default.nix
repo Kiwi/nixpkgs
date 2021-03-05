@@ -1,13 +1,13 @@
-{stdenv, fetchurl, fetchpatch, which, xdg-dbus-proxy, nixosTests}:
+{ stdenv, fetchurl, fetchpatch, which, xdg-dbus-proxy, nixosTests }:
 let
   s = # Generated upstream information
-  rec {
-    baseName="firejail";
-    version="0.9.64";
-    name="${baseName}-${version}";
-    url="mirror://sourceforge/firejail/firejail/firejail-${version}.tar.xz";
-    sha256="1zgjwy2k57nx0r63fzr15gijah098ig0bll66jd615vc9q3snfz5";
-  };
+    rec {
+      baseName = "firejail";
+      version = "0.9.64";
+      name = "${baseName}-${version}";
+      url = "mirror://sourceforge/firejail/firejail/firejail-${version}.tar.xz";
+      sha256 = "1zgjwy2k57nx0r63fzr15gijah098ig0bll66jd615vc9q3snfz5";
+    };
   buildInputs = [
     which
   ];
@@ -81,8 +81,8 @@ stdenv.mkDerivation {
   meta = {
     inherit (s) version;
     description = ''Namespace-based sandboxing tool for Linux'';
-    license = stdenv.lib.licenses.gpl2Plus ;
-    maintainers = [stdenv.lib.maintainers.raskin];
+    license = stdenv.lib.licenses.gpl2Plus;
+    maintainers = [ stdenv.lib.maintainers.raskin ];
     platforms = stdenv.lib.platforms.linux;
     homepage = "https://firejail.wordpress.com/";
     downloadPage = "https://sourceforge.net/projects/firejail/files/firejail/";

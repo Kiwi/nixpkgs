@@ -1,9 +1,15 @@
-{ stdenv, buildPackages
-, fetchurl, binutils ? null, bison, util-linux
+{ stdenv
+, buildPackages
+, fetchurl
+, binutils ? null
+, bison
+, util-linux
 
-# patch for cygwin requires readline support
-, interactive ? stdenv.isCygwin, readline80 ? null
-, withDocs ? false, texinfo ? null
+  # patch for cygwin requires readline support
+, interactive ? stdenv.isCygwin
+, readline80 ? null
+, withDocs ? false
+, texinfo ? null
 }:
 
 with stdenv.lib;
@@ -87,7 +93,8 @@ stdenv.mkDerivation rec {
     rm -f $out/lib/bash/Makefile.inc
   '';
 
-  postFixup = if interactive
+  postFixup =
+    if interactive
     then ''
       substituteInPlace "$out/bin/bashbug" \
         --replace '${stdenv.shell}' "$out/bin/bash"
@@ -101,7 +108,7 @@ stdenv.mkDerivation rec {
     homepage = "https://www.gnu.org/software/bash/";
     description =
       "GNU Bourne-Again Shell, the de facto standard shell on Linux" +
-        (if interactive then " (for interactive use)" else "");
+      (if interactive then " (for interactive use)" else "");
 
     longDescription = ''
       Bash is the shell, or command language interpreter, that will

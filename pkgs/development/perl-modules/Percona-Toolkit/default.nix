@@ -1,5 +1,11 @@
-{ stdenv, fetchFromGitHub, buildPerlPackage, shortenPerlShebang
-, DBDmysql, DBI, IOSocketSSL, TermReadKey
+{ stdenv
+, fetchFromGitHub
+, buildPerlPackage
+, shortenPerlShebang
+, DBDmysql
+, DBI
+, IOSocketSSL
+, TermReadKey
 }:
 
 buildPerlPackage rec {

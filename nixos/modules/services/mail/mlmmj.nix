@@ -72,7 +72,7 @@ in
 
       mailLists = mkOption {
         type = types.listOf types.str;
-        default = [];
+        default = [ ];
         description = "The collection of hosted maillists";
       };
 
@@ -109,7 +109,7 @@ in
 
     services.postfix = {
       enable = true;
-      recipientDelimiter= "+";
+      recipientDelimiter = "+";
       extraMasterConf = ''
         mlmmj unix - n n - - pipe flags=ORhu user=mlmmj argv=${pkgs.mlmmj}/bin/mlmmj-receive -F -L ${spoolDir}/$nexthop
       '';
@@ -126,14 +126,14 @@ in
     environment.systemPackages = [ pkgs.mlmmj ];
 
     system.activationScripts.mlmmj = ''
-          ${pkgs.coreutils}/bin/mkdir -p ${stateDir} ${spoolDir}/${cfg.listDomain}
-          ${pkgs.coreutils}/bin/chown -R ${cfg.user}:${cfg.group} ${spoolDir}
-          ${concatMapLines (createList cfg.listDomain) cfg.mailLists}
-          echo "${concatMapLines (virtual cfg.listDomain) cfg.mailLists}" > ${stateDir}/virtuals
-          echo "${concatMapLines (transport cfg.listDomain) cfg.mailLists}" > ${stateDir}/transports
-          ${pkgs.postfix}/bin/postmap ${stateDir}/virtuals
-          ${pkgs.postfix}/bin/postmap ${stateDir}/transports
-      '';
+      ${pkgs.coreutils}/bin/mkdir -p ${stateDir} ${spoolDir}/${cfg.listDomain}
+      ${pkgs.coreutils}/bin/chown -R ${cfg.user}:${cfg.group} ${spoolDir}
+      ${concatMapLines (createList cfg.listDomain) cfg.mailLists}
+      echo "${concatMapLines (virtual cfg.listDomain) cfg.mailLists}" > ${stateDir}/virtuals
+      echo "${concatMapLines (transport cfg.listDomain) cfg.mailLists}" > ${stateDir}/transports
+      ${pkgs.postfix}/bin/postmap ${stateDir}/virtuals
+      ${pkgs.postfix}/bin/postmap ${stateDir}/transports
+    '';
 
     systemd.services.mlmmj-maintd = {
       description = "mlmmj maintenance daemon";

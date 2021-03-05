@@ -1,10 +1,23 @@
-{ buildPackages, runCommand, nettools, bc, bison, flex, perl, rsync, gmp, libmpc, mpfr, openssl
-, libelf, cpio, elfutils
+{ buildPackages
+, runCommand
+, nettools
+, bc
+, bison
+, flex
+, perl
+, rsync
+, gmp
+, libmpc
+, mpfr
+, openssl
+, libelf
+, cpio
+, elfutils
 , writeTextFile
 }:
 
 let
-  readConfig = configfile: import (runCommand "config.nix" {} ''
+  readConfig = configfile: import (runCommand "config.nix" { } ''
     echo "{" > "$out"
     while IFS='=' read key val; do
       [ "x''${key#CONFIG_}" != "x$key" ] || continue
@@ -13,38 +26,38 @@ let
     done < "${configfile}"
     echo "}" >> $out
   '').outPath;
-in {
+in
+{
   # Allow overriding stdenv on each buildLinux call
-  stdenv,
-  # The kernel version
-  version,
-  # The version of the kernel module directory
-  modDirVersion ? version,
-  # The kernel source (tarball, git checkout, etc.)
-  src,
-  # a list of { name=..., patch=..., extraConfig=...} patches
-  kernelPatches ? [],
-  # The kernel .config file
-  configfile,
-  # Manually specified nixexpr representing the config
+  stdenv
+, # The kernel version
+  version
+, # The version of the kernel module directory
+  modDirVersion ? version
+, # The kernel source (tarball, git checkout, etc.)
+  src
+, # a list of { name=..., patch=..., extraConfig=...} patches
+  kernelPatches ? [ ]
+, # The kernel .config file
+  configfile
+, # Manually specified nixexpr representing the config
   # If unspecified, this will be autodetected from the .config
-  config ? stdenv.lib.optionalAttrs allowImportFromDerivation (readConfig configfile),
-  # Custom seed used for CONFIG_GCC_PLUGIN_RANDSTRUCT if enabled. This is
+  config ? stdenv.lib.optionalAttrs allowImportFromDerivation (readConfig configfile)
+, # Custom seed used for CONFIG_GCC_PLUGIN_RANDSTRUCT if enabled. This is
   # automatically extended with extra per-version and per-config values.
-  randstructSeed ? "",
-  # Use defaultMeta // extraMeta
-  extraMeta ? {},
-
-  # for module compatibility
-  isXen      ? features.xen_dom0 or false,
-  isZen      ? false,
-  isLibre    ? false,
-  isHardened ? false,
-
-  # Whether to utilize the controversial import-from-derivation feature to parse the config
-  allowImportFromDerivation ? false,
-  # ignored
-  features ? null,
+  randstructSeed ? ""
+, # Use defaultMeta // extraMeta
+  extraMeta ? { }
+, # for module compatibility
+  isXen ? features.xen_dom0 or false
+, isZen ? false
+, isLibre ? false
+, isHardened ? false
+, # Whether to utilize the controversial import-from-derivation feature to parse the config
+  allowImportFromDerivation ? false
+, # ignored
+  features ? null
+,
 }:
 
 let
@@ -54,12 +67,16 @@ let
   # Dependencies that are required to build kernel modules
   moduleBuildDependencies = optional (stdenv.lib.versionAtLeast version "4.14") libelf;
 
-  installkernel = writeTextFile { name = "installkernel"; executable=true; text = ''
-    #!${stdenv.shell} -e
-    mkdir -p $4
-    cp -av $2 $4
-    cp -av $3 $4
-  ''; };
+  installkernel = writeTextFile {
+    name = "installkernel";
+    executable = true;
+    text = ''
+      #!${stdenv.shell} -e
+      mkdir -p $4
+      cp -av $2 $4
+      cp -av $3 $4
+    '';
+  };
 
   commonMakeFlags = [
     "O=$(buildRoot)"
@@ -68,28 +85,30 @@ let
 
   drvAttrs = config_: platform: kernelPatches: configfile:
     let
-      config = let attrName = attr: "CONFIG_" + attr; in {
-        isSet = attr: hasAttr (attrName attr) config;
+      config = let attrName = attr: "CONFIG_" + attr; in
+        {
+          isSet = attr: hasAttr (attrName attr) config;
 
-        getValue = attr: if config.isSet attr then getAttr (attrName attr) config else null;
+          getValue = attr: if config.isSet attr then getAttr (attrName attr) config else null;
 
-        isYes = attr: (config.getValue attr) == "y";
+          isYes = attr: (config.getValue attr) == "y";
 
-        isNo = attr: (config.getValue attr) == "n";
+          isNo = attr: (config.getValue attr) == "n";
 
-        isModule = attr: (config.getValue attr) == "m";
+          isModule = attr: (config.getValue attr) == "m";
 
-        isEnabled = attr: (config.isModule attr) || (config.isYes attr);
+          isEnabled = attr: (config.isModule attr) || (config.isYes attr);
 
-        isDisabled = attr: (!(config.isSet attr)) || (config.isNo attr);
-      } // config_;
+          isDisabled = attr: (!(config.isSet attr)) || (config.isNo attr);
+        } // config_;
 
       isModular = config.isYes "MODULES";
 
       installsFirmware = (config.isEnabled "FW_LOADER") &&
         (isModular || (config.isDisabled "FIRMWARE_IN_KERNEL")) &&
         (stdenv.lib.versionOlder version "4.14");
-    in (optionalAttrs isModular { outputs = [ "out" "dev" ]; }) // {
+    in
+    (optionalAttrs isModular { outputs = [ "out" "dev" ]; }) // {
       passthru = {
         inherit version modDirVersion config kernelPatches configfile
           moduleBuildDependencies stdenv;
@@ -164,7 +183,7 @@ let
       buildFlags = [
         "KBUILD_BUILD_VERSION=1-NixOS"
         platform.kernelTarget
-        "vmlinux"  # for "perf" and things like that
+        "vmlinux" # for "perf" and things like that
       ] ++ optional isModular "modules";
 
       installFlags = [
@@ -178,12 +197,14 @@ let
       '';
 
       # Some image types need special install targets (e.g. uImage is installed with make uinstall)
-      installTargets = [ (
-        if platform ? kernelInstallTarget then platform.kernelInstallTarget
-        else if platform.kernelTarget == "uImage" then "uinstall"
-        else if platform.kernelTarget == "zImage" || platform.kernelTarget == "Image.gz" then "zinstall"
-        else "install"
-      ) ];
+      installTargets = [
+        (
+          if platform ? kernelInstallTarget then platform.kernelInstallTarget
+          else if platform.kernelTarget == "uImage" then "uinstall"
+          else if platform.kernelTarget == "zImage" || platform.kernelTarget == "Image.gz" then "zinstall"
+          else "install"
+        )
+      ];
 
       postInstall = (optionalString installsFirmware ''
         mkdir -p $out/lib/firmware
@@ -263,20 +284,21 @@ let
 
         # Remove reference to kmod
         sed -i Makefile -e 's|= ${buildPackages.kmod}/bin/depmod|= depmod|'
-      '' else optionalString installsFirmware ''
-        make firmware_install $makeFlags "''${makeFlagsArray[@]}" \
-          $installFlags "''${installFlagsArray[@]}"
-      '');
+      '' else
+        optionalString installsFirmware ''
+          make firmware_install $makeFlags "''${makeFlagsArray[@]}" \
+            $installFlags "''${installFlagsArray[@]}"
+        '');
 
       requiredSystemFeatures = [ "big-parallel" ];
 
       meta = {
         description =
           "The Linux kernel" +
-          (if kernelPatches == [] then "" else
-            " (with patches: "
-            + stdenv.lib.concatStringsSep ", " (map (x: x.name) kernelPatches)
-            + ")");
+          (if kernelPatches == [ ] then "" else
+          " (with patches: "
+          + stdenv.lib.concatStringsSep ", " (map (x: x.name) kernelPatches)
+          + ")");
         license = stdenv.lib.licenses.gpl2;
         homepage = "https://www.kernel.org/";
         repositories.git = "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git";
@@ -300,13 +322,13 @@ stdenv.mkDerivation ((drvAttrs config stdenv.hostPlatform.platform kernelPatches
 
   depsBuildBuild = [ buildPackages.stdenv.cc ];
   nativeBuildInputs = [ perl bc nettools openssl rsync gmp libmpc mpfr ]
-      ++ optional  (stdenv.hostPlatform.platform.kernelTarget == "uImage") buildPackages.ubootTools
-      ++ optional  (stdenv.lib.versionAtLeast version "4.14" && stdenv.lib.versionOlder version "5.8") libelf
-      # Removed util-linuxMinimal since it should not be a dependency.
-      ++ optionals (stdenv.lib.versionAtLeast version "4.16") [ bison flex ]
-      ++ optional  (stdenv.lib.versionAtLeast version "5.2")  cpio
-      ++ optional  (stdenv.lib.versionAtLeast version "5.8")  elfutils
-      ;
+    ++ optional (stdenv.hostPlatform.platform.kernelTarget == "uImage") buildPackages.ubootTools
+    ++ optional (stdenv.lib.versionAtLeast version "4.14" && stdenv.lib.versionOlder version "5.8") libelf
+    # Removed util-linuxMinimal since it should not be a dependency.
+    ++ optionals (stdenv.lib.versionAtLeast version "4.16") [ bison flex ]
+    ++ optional (stdenv.lib.versionAtLeast version "5.2") cpio
+    ++ optional (stdenv.lib.versionAtLeast version "5.8") elfutils
+  ;
 
   hardeningDisable = [ "bindnow" "format" "fortify" "stackprotector" "pic" "pie" ];
 

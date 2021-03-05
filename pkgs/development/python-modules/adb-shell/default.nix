@@ -1,5 +1,16 @@
-{ aiofiles, buildPythonPackage, cryptography, fetchFromGitHub, isPy3k, lib
-, libusb1, mock, pyasn1, python, pycryptodome, rsa }:
+{ aiofiles
+, buildPythonPackage
+, cryptography
+, fetchFromGitHub
+, isPy3k
+, lib
+, libusb1
+, mock
+, pyasn1
+, python
+, pycryptodome
+, rsa
+}:
 
 buildPythonPackage rec {
   pname = "adb-shell";

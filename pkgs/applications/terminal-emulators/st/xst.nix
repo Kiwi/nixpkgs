@@ -5,7 +5,8 @@ with stdenv.lib;
 let
   version = "0.7.2";
   name = "xst-${version}";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit name;
 
   src = fetchFromGitHub {

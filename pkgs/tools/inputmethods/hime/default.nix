@@ -1,5 +1,14 @@
-{
-stdenv, fetchFromGitHub, pkgconfig, which, gtk2, gtk3, qt4, qt5, libXtst, lib,
+{ stdenv
+, fetchFromGitHub
+, pkgconfig
+, which
+, gtk2
+, gtk3
+, qt4
+, qt5
+, libXtst
+, lib
+,
 }:
 
 # chewing and anthy do not work well

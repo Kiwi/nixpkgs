@@ -39,8 +39,8 @@ buildPythonApplication rec {
       TUIJam seeks to make a simple, attractive, terminal-based interface to
       listening to music for Google Play Music All-Access subscribers.
     '';
-    homepage    = "https://github.com/cfangmeier/tuijam";
-    license     = licenses.mit;
+    homepage = "https://github.com/cfangmeier/tuijam";
+    license = licenses.mit;
     maintainers = with maintainers; [ kalbasit ];
   };
 }

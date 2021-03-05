@@ -2,7 +2,9 @@
 , lib
 , fetchurl
 , buildPythonPackage
-, isPy3k, pythonOlder, pythonAtLeast
+, isPy3k
+, pythonOlder
+, pythonAtLeast
 , astor
 , gast
 , google-pasta
@@ -34,8 +36,8 @@
 # - the source build is currently brittle and not easy to maintain
 
 assert cudaSupport -> cudatoolkit != null
-                   && cudnn != null
-                   && nvidia_x11 != null;
+  && cudnn != null
+  && nvidia_x11 != null;
 
 # unsupported combination
 assert ! (stdenv.isDarwin && cudaSupport);
@@ -46,19 +48,22 @@ let
   variant = if cudaSupport then "-gpu" else "";
   pname = "tensorflow${variant}";
 
-in buildPythonPackage {
+in
+buildPythonPackage {
   inherit pname;
   inherit (packages) version;
   format = "wheel";
   disabled = pythonAtLeast "3.8";
 
-  src = let
-    pyVerNoDot = lib.strings.stringAsChars (x: if x == "." then "" else x) python.pythonVersion;
-    pyver = if stdenv.isDarwin then builtins.substring 0 1 pyVerNoDot else pyVerNoDot;
-    platform = if stdenv.isDarwin then "mac" else "linux";
-    unit = if cudaSupport then "gpu" else "cpu";
-    key = "${platform}_py_${pyver}_${unit}";
-  in fetchurl packages.${key};
+  src =
+    let
+      pyVerNoDot = lib.strings.stringAsChars (x: if x == "." then "" else x) python.pythonVersion;
+      pyver = if stdenv.isDarwin then builtins.substring 0 1 pyVerNoDot else pyVerNoDot;
+      platform = if stdenv.isDarwin then "mac" else "linux";
+      unit = if cudaSupport then "gpu" else "cpu";
+      key = "${platform}_py_${pyver}_${unit}";
+    in
+    fetchurl packages.${key};
 
   propagatedBuildInputs = [
     protobuf
@@ -76,7 +81,7 @@ in buildPythonPackage {
     keras-applications
     keras-preprocessing
   ] ++ lib.optional (!isPy3k) mock
-    ++ lib.optionals (pythonOlder "3.4") [ backports_weakref ];
+  ++ lib.optionals (pythonOlder "3.4") [ backports_weakref ];
 
   nativeBuildInputs = lib.optional cudaSupport addOpenGLRunpath;
 
@@ -91,20 +96,21 @@ in buildPythonPackage {
   # Note that we need to run *after* the fixup phase because the
   # libraries are loaded at runtime. If we run in preFixup then
   # patchelf --shrink-rpath will remove the cuda libraries.
-  postFixup = let
-    rpath = stdenv.lib.makeLibraryPath
-      ([ stdenv.cc.cc.lib zlib ] ++ lib.optionals cudaSupport [ cudatoolkit.out cudatoolkit.lib cudnn nvidia_x11 ]);
-  in
-  lib.optionalString stdenv.isLinux ''
-    rrPath="$out/${python.sitePackages}/tensorflow/:$out/${python.sitePackages}/tensorflow/contrib/tensor_forest/:${rpath}"
-    internalLibPath="$out/${python.sitePackages}/tensorflow/python/_pywrap_tensorflow_internal.so"
-    find $out -type f \( -name '*.so' -or -name '*.so.*' \) | while read lib; do
-      patchelf --set-rpath "$rrPath" "$lib"
-      ${lib.optionalString cudaSupport ''
-        addOpenGLRunpath "$lib"
-      ''}
-    done
-  '';
+  postFixup =
+    let
+      rpath = stdenv.lib.makeLibraryPath
+        ([ stdenv.cc.cc.lib zlib ] ++ lib.optionals cudaSupport [ cudatoolkit.out cudatoolkit.lib cudnn nvidia_x11 ]);
+    in
+    lib.optionalString stdenv.isLinux ''
+      rrPath="$out/${python.sitePackages}/tensorflow/:$out/${python.sitePackages}/tensorflow/contrib/tensor_forest/:${rpath}"
+      internalLibPath="$out/${python.sitePackages}/tensorflow/python/_pywrap_tensorflow_internal.so"
+      find $out -type f \( -name '*.so' -or -name '*.so.*' \) | while read lib; do
+        patchelf --set-rpath "$rrPath" "$lib"
+        ${lib.optionalString cudaSupport ''
+          addOpenGLRunpath "$lib"
+        ''}
+      done
+    '';
 
 
   meta = with stdenv.lib; {

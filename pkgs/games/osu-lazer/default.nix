@@ -1,17 +1,35 @@
-{ lib, stdenv, fetchFromGitHub, fetchurl, makeWrapper, makeDesktopItem, linkFarmFromDrvs
-, dotnet-sdk, dotnet-netcore, dotnetPackages
-, ffmpeg_4, alsaLib, SDL2, lttng-ust, numactl, alsaPlugins
+{ lib
+, stdenv
+, fetchFromGitHub
+, fetchurl
+, makeWrapper
+, makeDesktopItem
+, linkFarmFromDrvs
+, dotnet-sdk
+, dotnet-netcore
+, dotnetPackages
+, ffmpeg_4
+, alsaLib
+, SDL2
+, lttng-ust
+, numactl
+, alsaPlugins
 }:
 
 let
   runtimeDeps = [
-    ffmpeg_4 alsaLib SDL2 lttng-ust numactl
+    ffmpeg_4
+    alsaLib
+    SDL2
+    lttng-ust
+    numactl
   ];
 
   # https://docs.microsoft.com/en-us/dotnet/core/rid-catalog#using-rids
   runtimeId = "linux-x64";
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "osu-lazer";
   version = "2020.1204.0";
 

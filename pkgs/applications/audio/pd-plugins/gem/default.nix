@@ -11,7 +11,7 @@
 , libv4l
 , libX11
 , file
- }:
+}:
 
 stdenv.mkDerivation rec {
   pname = "gem-unstable";

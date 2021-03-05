@@ -1,8 +1,23 @@
 { buildVersion, sha256, dev ? false }:
 
-{ fetchurl, stdenv, xorg, glib, libGL, glibcLocales, gtk3, cairo, pango, libredirect, makeWrapper, wrapGAppsHook
+{ fetchurl
+, stdenv
+, xorg
+, glib
+, libGL
+, glibcLocales
+, gtk3
+, cairo
+, pango
+, libredirect
+, makeWrapper
+, wrapGAppsHook
 , pkexecPath ? "/run/wrappers/bin/pkexec"
-, writeScript, common-updater-scripts, curl, gnugrep, coreutils
+, writeScript
+, common-updater-scripts
+, curl
+, gnugrep
+, coreutils
 }:
 
 let
@@ -19,7 +34,8 @@ let
 
   libPath = stdenv.lib.makeLibraryPath [ xorg.libX11 glib gtk3 cairo pango ];
   redirects = [ "/usr/bin/pkexec=${pkexecPath}" "/bin/true=${coreutils}/bin/true" ];
-in let
+in
+let
   binaryPackage = stdenv.mkDerivation {
     pname = "${pname}-bin";
     version = buildVersion;
@@ -79,7 +95,8 @@ in let
         --argv0 "/ssh-askpass-sublime"
     '';
   };
-in stdenv.mkDerivation (rec {
+in
+stdenv.mkDerivation (rec {
   inherit pname;
   version = buildVersion;
 

@@ -1,6 +1,7 @@
 { lib, stdenv, pkgs, python, makeSetupHook, waf }:
 
-makeSetupHook {
+makeSetupHook
+{
   deps = [ python ];
   substitutions = {
     inherit waf;

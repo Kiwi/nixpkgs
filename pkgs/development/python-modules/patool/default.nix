@@ -1,6 +1,23 @@
-{ stdenv, lib, buildPythonPackage, fetchFromGitHub, pytestCheckHook, p7zip,
-  unzip, cabextract, zip, zopfli, lzip, zpaq, gnutar, gnugrep, diffutils, file,
-  gzip, bzip2, xz}:
+{ stdenv
+, lib
+, buildPythonPackage
+, fetchFromGitHub
+, pytestCheckHook
+, p7zip
+, unzip
+, cabextract
+, zip
+, zopfli
+, lzip
+, zpaq
+, gnutar
+, gnugrep
+, diffutils
+, file
+, gzip
+, bzip2
+, xz
+}:
 
 # unrar is unfree, as well as 7z with unrar support, not including it (patool doesn't support unar)
 

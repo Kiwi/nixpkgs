@@ -1,4 +1,9 @@
-{ stdenv, fetchFromGitHub, perl, perlPackages, makeWrapper, shortenPerlShebang
+{ stdenv
+, fetchFromGitHub
+, perl
+, perlPackages
+, makeWrapper
+, shortenPerlShebang
 , nixosTests
 }:
 
@@ -19,11 +24,23 @@ perlPackages.buildPerlPackage rec {
     ++ optional stdenv.isDarwin [ shortenPerlShebang ];
 
   buildInputs = with perlPackages; [
-    CryptEksblowfish FileHomeDir FileReadBackwards
-    IOSocketSSL IRCUtils JSONValidator LinkEmbedder ModuleInstall
-    Mojolicious MojoliciousPluginOpenAPI MojoliciousPluginWebpack
-    ParseIRC TextMarkdown TimePiece UnicodeUTF8
-    CpanelJSONXS EV
+    CryptEksblowfish
+    FileHomeDir
+    FileReadBackwards
+    IOSocketSSL
+    IRCUtils
+    JSONValidator
+    LinkEmbedder
+    ModuleInstall
+    Mojolicious
+    MojoliciousPluginOpenAPI
+    MojoliciousPluginWebpack
+    ParseIRC
+    TextMarkdown
+    TimePiece
+    UnicodeUTF8
+    CpanelJSONXS
+    EV
   ];
 
   checkInputs = with perlPackages; [ TestDeep TestMore ];

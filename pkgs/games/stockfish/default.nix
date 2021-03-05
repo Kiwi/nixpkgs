@@ -1,17 +1,18 @@
 { stdenv, fetchurl }:
 
-let arch = if stdenv.isx86_64 then "x86-64" else
-           if stdenv.isi686 then "x86-32" else
-           "unknown";
+let
+  arch = if stdenv.isx86_64 then "x86-64" else
+  if stdenv.isi686 then "x86-32" else
+  "unknown";
 
-    version = "12";
+  version = "12";
 
-    nnueFile = "nn-82215d0fd0df.nnue";
-    nnue = fetchurl {
-      name = nnueFile;
-        url = "https://tests.stockfishchess.org/api/nn/${nnueFile}";
-      sha256 = "1r4yqrh4di05syyhl84hqcz84djpbd605b27zhbxwg6zs07ms8c2";
-    };
+  nnueFile = "nn-82215d0fd0df.nnue";
+  nnue = fetchurl {
+    name = nnueFile;
+    url = "https://tests.stockfishchess.org/api/nn/${nnueFile}";
+    sha256 = "1r4yqrh4di05syyhl84hqcz84djpbd605b27zhbxwg6zs07ms8c2";
+  };
 in
 
 stdenv.mkDerivation {
@@ -40,9 +41,9 @@ stdenv.mkDerivation {
     longDescription = ''
       Stockfish is one of the strongest chess engines in the world. It is also
       much stronger than the best human chess grandmasters.
-      '';
+    '';
     maintainers = with maintainers; [ luispedro peti ];
-    platforms = ["x86_64-linux" "i686-linux"];
+    platforms = [ "x86_64-linux" "i686-linux" ];
     license = licenses.gpl2;
   };
 

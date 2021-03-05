@@ -3,7 +3,8 @@
 let
   cfg = config.hardware.rtl-sdr;
 
-in {
+in
+{
   options.hardware.rtl-sdr = {
     enable = lib.mkEnableOption ''
       Enables rtl-sdr udev rules and ensures 'plugdev' group exists.
@@ -15,6 +16,6 @@ in {
 
   config = lib.mkIf cfg.enable {
     services.udev.packages = [ pkgs.rtl-sdr ];
-    users.groups.plugdev = {};
+    users.groups.plugdev = { };
   };
 }

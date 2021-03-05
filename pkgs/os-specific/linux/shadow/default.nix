@@ -1,6 +1,16 @@
-{ stdenv, fetchpatch, fetchFromGitHub, autoreconfHook, libxslt, libxml2
-, docbook_xml_dtd_45, docbook_xsl, itstool, flex, bison
-, pam ? null, glibcCross ? null
+{ stdenv
+, fetchpatch
+, fetchFromGitHub
+, autoreconfHook
+, libxslt
+, libxml2
+, docbook_xml_dtd_45
+, docbook_xsl
+, itstool
+, flex
+, bison
+, pam ? null
+, glibcCross ? null
 }:
 
 let
@@ -29,12 +39,20 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = stdenv.lib.optional (pam != null && stdenv.isLinux) pam;
-  nativeBuildInputs = [autoreconfHook libxslt libxml2
-    docbook_xml_dtd_45 docbook_xsl flex bison itstool
-    ];
+  nativeBuildInputs = [
+    autoreconfHook
+    libxslt
+    libxml2
+    docbook_xml_dtd_45
+    docbook_xsl
+    flex
+    bison
+    itstool
+  ];
 
   patches =
-    [ ./keep-path.patch
+    [
+      ./keep-path.patch
       # Obtain XML resources from XML catalog (patch adapted from gtk-doc)
       ./respect-xml-catalog-files-var.patch
       dots_in_usernames

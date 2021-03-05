@@ -1,7 +1,14 @@
-{ stdenv, mkDerivationWith, fetchFromGitHub, fetchpatch
-, doxygen, python3Packages, libopenshot
-, wrapGAppsHook, gtk3
-, qtsvg }:
+{ stdenv
+, mkDerivationWith
+, fetchFromGitHub
+, fetchpatch
+, doxygen
+, python3Packages
+, libopenshot
+, wrapGAppsHook
+, gtk3
+, qtsvg
+}:
 
 mkDerivationWith python3Packages.buildPythonApplication rec {
   pname = "openshot-qt";
@@ -33,11 +40,11 @@ mkDerivationWith python3Packages.buildPythonApplication rec {
   ''
   # Fix toolbar icons on Darwin
   + stdenv.lib.optionalString stdenv.isDarwin ''
-      --suffix QT_PLUGIN_PATH : "${stdenv.lib.getBin qtsvg}/lib/qt-5.12.7/plugins" \
+    --suffix QT_PLUGIN_PATH : "${stdenv.lib.getBin qtsvg}/lib/qt-5.12.7/plugins" \
   ''
   + ''
-      "''${gappsWrapperArgs[@]}" \
-      "''${qtWrapperArgs[@]}"
+    "''${gappsWrapperArgs[@]}" \
+    "''${qtWrapperArgs[@]}"
   '';
 
   doCheck = false;

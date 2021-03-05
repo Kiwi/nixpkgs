@@ -1,5 +1,12 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub
-, setuptools, funcparserlib, pillow, webcolors, reportlab, docutils
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, setuptools
+, funcparserlib
+, pillow
+, webcolors
+, reportlab
+, docutils
 }:
 
 buildPythonPackage rec {

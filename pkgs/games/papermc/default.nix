@@ -6,7 +6,8 @@ let
     url = "https://papermc.io/api/v1/paper/${mcVersion}/${buildNum}/download";
     sha256 = "0885417w7qahk2fwlzvggbwrhvwgpd7xas8lzzb7ar469vyvd9dz";
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "papermc";
   version = "${mcVersion}r${buildNum}";
 
@@ -28,9 +29,9 @@ in stdenv.mkDerivation {
 
   meta = {
     description = "High-performance Minecraft Server";
-    homepage    = "https://papermc.io/";
-    license     = stdenv.lib.licenses.gpl3Only;
-    platforms   = stdenv.lib.platforms.unix;
+    homepage = "https://papermc.io/";
+    license = stdenv.lib.licenses.gpl3Only;
+    platforms = stdenv.lib.platforms.unix;
     maintainers = with stdenv.lib.maintainers; [ aaronjanse ];
   };
 }

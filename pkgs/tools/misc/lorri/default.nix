@@ -19,7 +19,8 @@ let
   sha256 = "0g6zq27dpr8bdan5xrqchybpbqwnhhc7x8sxbfygigbqd3xv9i6n";
   cargoSha256 = "1zmlp14v7av0znmjyy2aq83lc74503p6r0l11l9iw7s3xad8rda4";
 
-in (rustPlatform.buildRustPackage rec {
+in
+(rustPlatform.buildRustPackage rec {
   pname = "lorri";
   inherit version;
 
@@ -43,7 +44,7 @@ in (rustPlatform.buildRustPackage rec {
   doCheck = false;
 
   BUILD_REV_COUNT = src.revCount or 1;
-  RUN_TIME_CLOSURE = pkgs.callPackage ./runtime.nix {};
+  RUN_TIME_CLOSURE = pkgs.callPackage ./runtime.nix { };
 
   nativeBuildInputs = with pkgs; [ rustPackages.rustfmt ];
   buildInputs =

@@ -8,14 +8,15 @@ let
   src = fetchurl {
     url = "https://github.com/lensapp/lens/releases/download/v${version}/Lens-${version}.AppImage";
     sha256 = "0var7d31ab6lq2vq6brk2dnhlnhqjp2gdqhygif567cdmcpn4vz8";
-    name="${pname}.AppImage";
+    name = "${pname}.AppImage";
   };
 
   appimageContents = appimageTools.extractType2 {
     inherit name src;
   };
 
-in appimageTools.wrapType2 {
+in
+appimageTools.wrapType2 {
   inherit name src;
 
   extraInstallCommands =

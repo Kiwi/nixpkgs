@@ -1,5 +1,14 @@
-{ lib, buildPythonPackage, fetchFromGitHub, isPy3k, curve25519-donna, ed25519
-, cryptography, ecdsa, zeroconf, pytest }:
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, isPy3k
+, curve25519-donna
+, ed25519
+, cryptography
+, ecdsa
+, zeroconf
+, pytest
+}:
 
 buildPythonPackage rec {
   pname = "HAP-python";

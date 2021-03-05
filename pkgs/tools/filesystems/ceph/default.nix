@@ -1,35 +1,62 @@
-{ stdenv, runCommand, fetchurl
+{ stdenv
+, runCommand
+, fetchurl
 , fetchpatch
 , ensureNewerSourcesHook
-, cmake, pkgconfig
-, which, git
-, boost, python3Packages
-, libxml2, zlib, lz4
-, openldap, lttng-ust
-, babeltrace, gperf
+, cmake
+, pkgconfig
+, which
+, git
+, boost
+, python3Packages
+, libxml2
+, zlib
+, lz4
+, openldap
+, lttng-ust
+, babeltrace
+, gperf
 , gtest
-, cunit, snappy
-, rocksdb, makeWrapper
-, leveldb, oathToolkit
-, libnl, libcap_ng
+, cunit
+, snappy
+, rocksdb
+, makeWrapper
+, leveldb
+, oathToolkit
+, libnl
+, libcap_ng
 , rdkafka
 
-# Optional Dependencies
-, yasm ? null, fcgi ? null, expat ? null
-, curl ? null, fuse ? null
-, libedit ? null, libatomic_ops ? null
+  # Optional Dependencies
+, yasm ? null
+, fcgi ? null
+, expat ? null
+, curl ? null
+, fuse ? null
+, libedit ? null
+, libatomic_ops ? null
 , libs3 ? null
 
-# Mallocs
-, jemalloc ? null, gperftools ? null
+  # Mallocs
+, jemalloc ? null
+, gperftools ? null
 
-# Crypto Dependencies
+  # Crypto Dependencies
 , cryptopp ? null
-, nss ? null, nspr ? null
+, nss ? null
+, nspr ? null
 
-# Linux Only Dependencies
-, linuxHeaders, util-linux, libuuid, udev, keyutils, rdma-core, rabbitmq-c
-, libaio ? null, libxfs ? null, zfs ? null
+  # Linux Only Dependencies
+, linuxHeaders
+, util-linux
+, libuuid
+, udev
+, keyutils
+, rdma-core
+, rabbitmq-c
+, libaio ? null
+, libxfs ? null
+, zfs ? null
 , ...
 }:
 
@@ -68,7 +95,7 @@ let
 
   # We prefer nss over cryptopp
   cryptoStr = if optNss != null && optNspr != null then "nss" else
-    if optCryptopp != null then "cryptopp" else "none";
+  if optCryptopp != null then "cryptopp" else "none";
 
   cryptoLibsMap = {
     nss = [ optNss optNspr ];
@@ -77,12 +104,12 @@ let
   };
 
   getMeta = description: {
-     homepage = "https://ceph.com/";
-     inherit description;
-     license = with licenses; [ lgpl21 gpl2 bsd3 mit publicDomain ];
-     maintainers = with maintainers; [ adev ak johanot krav ];
-     platforms = [ "x86_64-linux" ];
-   };
+    homepage = "https://ceph.com/";
+    inherit description;
+    license = with licenses; [ lgpl21 gpl2 bsd3 mit publicDomain ];
+    maintainers = with maintainers; [ adev ak johanot krav ];
+    platforms = [ "x86_64-linux" ];
+  };
 
   ceph-common = python3Packages.buildPythonPackage rec{
     pname = "ceph-common";
@@ -127,7 +154,8 @@ let
     url = "http://download.ceph.com/tarballs/ceph-${version}.tar.gz";
     sha256 = "082lpx1rsifjh636zypxy6ccs6nfkcm9azxp5ghvr5mvx9chmyrj";
   };
-in rec {
+in
+rec {
   ceph = stdenv.mkDerivation {
     pname = "ceph";
     inherit src version;
@@ -139,26 +167,61 @@ in rec {
 
     nativeBuildInputs = [
       cmake
-      pkgconfig which git python3Packages.wrapPython makeWrapper
+      pkgconfig
+      which
+      git
+      python3Packages.wrapPython
+      makeWrapper
       python3Packages.python # for the toPythonPath function
       (ensureNewerSourcesHook { year = "1980"; })
     ];
 
     buildInputs = cryptoLibsMap.${cryptoStr} ++ [
-      boost ceph-python-env libxml2 optYasm optLibatomic_ops optLibs3
-      malloc zlib openldap lttng-ust babeltrace gperf gtest cunit
-      snappy rocksdb lz4 oathToolkit leveldb libnl libcap_ng rdkafka
+      boost
+      ceph-python-env
+      libxml2
+      optYasm
+      optLibatomic_ops
+      optLibs3
+      malloc
+      zlib
+      openldap
+      lttng-ust
+      babeltrace
+      gperf
+      gtest
+      cunit
+      snappy
+      rocksdb
+      lz4
+      oathToolkit
+      leveldb
+      libnl
+      libcap_ng
+      rdkafka
     ] ++ optionals stdenv.isLinux [
-      linuxHeaders util-linux libuuid udev keyutils optLibaio optLibxfs optZfs
+      linuxHeaders
+      util-linux
+      libuuid
+      udev
+      keyutils
+      optLibaio
+      optLibxfs
+      optZfs
       # ceph 14
-      rdma-core rabbitmq-c
+      rdma-core
+      rabbitmq-c
     ] ++ optionals hasRadosgw [
-      optFcgi optExpat optCurl optFuse optLibedit
+      optFcgi
+      optExpat
+      optCurl
+      optFuse
+      optLibedit
     ];
 
     pythonPath = [ ceph-python-env "${placeholder "out"}/${ceph-python-env.sitePackages}" ];
 
-    preConfigure =''
+    preConfigure = ''
       substituteInPlace src/common/module.c --replace "/sbin/modinfo"  "modinfo"
       substituteInPlace src/common/module.c --replace "/sbin/modprobe" "modprobe"
 
@@ -206,17 +269,18 @@ in rec {
     passthru.version = version;
   };
 
-  ceph-client = runCommand "ceph-client-${version}" {
+  ceph-client = runCommand "ceph-client-${version}"
+    {
       meta = getMeta "Tools needed to mount Ceph's RADOS Block Devices";
     } ''
-      mkdir -p $out/{bin,etc,${sitePackages},share/bash-completion/completions}
-      cp -r ${ceph}/bin/{ceph,.ceph-wrapped,rados,rbd,rbdmap} $out/bin
-      cp -r ${ceph}/bin/ceph-{authtool,conf,dencoder,rbdnamer,syn} $out/bin
-      cp -r ${ceph}/bin/rbd-replay* $out/bin
-      cp -r ${ceph}/${sitePackages} $out/${sitePackages}
-      cp -r ${ceph}/etc/bash_completion.d $out/share/bash-completion/completions
-      # wrapPythonPrograms modifies .ceph-wrapped, so lets just update its paths
-      substituteInPlace $out/bin/ceph          --replace ${ceph} $out
-      substituteInPlace $out/bin/.ceph-wrapped --replace ${ceph} $out
-   '';
+    mkdir -p $out/{bin,etc,${sitePackages},share/bash-completion/completions}
+    cp -r ${ceph}/bin/{ceph,.ceph-wrapped,rados,rbd,rbdmap} $out/bin
+    cp -r ${ceph}/bin/ceph-{authtool,conf,dencoder,rbdnamer,syn} $out/bin
+    cp -r ${ceph}/bin/rbd-replay* $out/bin
+    cp -r ${ceph}/${sitePackages} $out/${sitePackages}
+    cp -r ${ceph}/etc/bash_completion.d $out/share/bash-completion/completions
+    # wrapPythonPrograms modifies .ceph-wrapped, so lets just update its paths
+    substituteInPlace $out/bin/ceph          --replace ${ceph} $out
+    substituteInPlace $out/bin/.ceph-wrapped --replace ${ceph} $out
+  '';
 }

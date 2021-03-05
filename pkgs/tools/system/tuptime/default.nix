@@ -1,6 +1,10 @@
-{ stdenv, fetchFromGitHub
-, makeWrapper, installShellFiles
-, python3, sqlite }:
+{ stdenv
+, fetchFromGitHub
+, makeWrapper
+, installShellFiles
+, python3
+, sqlite
+}:
 
 stdenv.mkDerivation rec {
   pname = "tuptime";

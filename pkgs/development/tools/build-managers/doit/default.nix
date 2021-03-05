@@ -5,7 +5,8 @@ let
   name = "doit";
   version = "0.32.0";
 
-in python3Packages.buildPythonApplication {
+in
+python3Packages.buildPythonApplication {
   name = "${name}-${version}";
 
   src = fetchurl {

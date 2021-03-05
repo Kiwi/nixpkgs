@@ -3,7 +3,7 @@
 deployAndroidPackage {
   inherit package os;
   buildInputs = [ autoPatchelfHook makeWrapper ]
-  ++ lib.optional (os == "linux") [
+    ++ lib.optional (os == "linux") [
     pkgs.glibc
     pkgs.xlibs.libX11
     pkgs.xlibs.libXext

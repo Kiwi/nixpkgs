@@ -1,6 +1,13 @@
-{ lib, fetchPypi, buildPythonPackage, fetchpatch
-, configobj, six, traitsui
-, nose, tables, pandas
+{ lib
+, fetchPypi
+, buildPythonPackage
+, fetchpatch
+, configobj
+, six
+, traitsui
+, nose
+, tables
+, pandas
 }:
 
 buildPythonPackage rec {
@@ -13,7 +20,8 @@ buildPythonPackage rec {
   };
 
   # PyTables issue; should be merged in next post-4.5.0 release (#117)
-  patches = [ (fetchpatch {
+  patches = [
+    (fetchpatch {
       url = "https://github.com/enthought/apptools/commit/3734289d1a0ebd8513fa67f75288add31ed0113c.patch";
       sha256 = "001012q1ib5cbib3nq1alh9ckzj588bfrywr8brkd1f6y1pgvngk";
     })

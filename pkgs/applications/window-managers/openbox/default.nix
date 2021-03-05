@@ -1,6 +1,20 @@
-{ stdenv, fetchurl, autoreconfHook, pkgconfig, python3
-, libxml2, libXinerama, libXcursor, libXau, libXrandr, libICE, libSM
-, imlib2, pango, libstartup_notification, makeWrapper }:
+{ stdenv
+, fetchurl
+, autoreconfHook
+, pkgconfig
+, python3
+, libxml2
+, libXinerama
+, libXcursor
+, libXau
+, libXrandr
+, libICE
+, libSM
+, imlib2
+, pango
+, libstartup_notification
+, makeWrapper
+}:
 
 stdenv.mkDerivation rec {
   pname = "openbox";
@@ -15,13 +29,19 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     libxml2
-    libXinerama libXcursor libXau libXrandr libICE libSM
+    libXinerama
+    libXcursor
+    libXau
+    libXrandr
+    libICE
+    libSM
     libstartup_notification
     python3
   ];
 
   propagatedBuildInputs = [
-    pango imlib2
+    pango
+    imlib2
   ];
 
   pythonPath = with python3.pkgs; [

@@ -14,7 +14,7 @@ rec {
 
   packageName = "3bmd-ext-code-blocks";
 
-  asdFilesToKeep = ["3bmd-ext-code-blocks.asd"];
+  asdFilesToKeep = [ "3bmd-ext-code-blocks.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM 3bmd-ext-code-blocks DESCRIPTION

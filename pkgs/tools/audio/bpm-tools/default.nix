@@ -1,12 +1,11 @@
-{
-  stdenv,
-  fetchurl,
-  gnuplot,
-  sox,
-  flac,
-  id3v2,
-  vorbis-tools,
-  makeWrapper
+{ stdenv
+, fetchurl
+, gnuplot
+, sox
+, flac
+, id3v2
+, vorbis-tools
+, makeWrapper
 }:
 
 let

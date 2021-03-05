@@ -1,5 +1,18 @@
-{ stdenv, autoconf, automake, pkgconfig, gettext, libtool, bison
-, flex, which, subversion, fetchurl, makeWrapper, libftdi1, libusb-compat-0_1, readline
+{ stdenv
+, autoconf
+, automake
+, pkgconfig
+, gettext
+, libtool
+, bison
+, flex
+, which
+, subversion
+, fetchurl
+, makeWrapper
+, libftdi1
+, libusb-compat-0_1
+, readline
 , python3
 , svfSupport ? true
 , bsdlSupport ? true
@@ -17,12 +30,25 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ pkgconfig ];
-  buildInputs = [ gettext autoconf automake libtool bison flex which
-    subversion makeWrapper readline libftdi1 libusb-compat-0_1 python3 ];
+  buildInputs = [
+    gettext
+    autoconf
+    automake
+    libtool
+    bison
+    flex
+    which
+    subversion
+    makeWrapper
+    readline
+    libftdi1
+    libusb-compat-0_1
+    python3
+  ];
 
   configureFlags = [
-    (stdenv.lib.enableFeature svfSupport   "svf")
-    (stdenv.lib.enableFeature bsdlSupport  "bsdl")
+    (stdenv.lib.enableFeature svfSupport "svf")
+    (stdenv.lib.enableFeature bsdlSupport "bsdl")
     (stdenv.lib.enableFeature staplSupport "stapl")
     (stdenv.lib.enableFeature jedecSupport "jedec-exp")
   ];
@@ -31,7 +57,7 @@ stdenv.mkDerivation rec {
     description = "Enhanced, modern tool for communicating over JTAG with flash chips, CPUs,and many more";
     homepage = "http://urjtag.org/";
     license = with stdenv.lib.licenses; [ gpl2Plus lgpl21Plus ];
-    platforms = stdenv.lib.platforms.gnu ++ stdenv.lib.platforms.linux;  # arbitrary choice
+    platforms = stdenv.lib.platforms.gnu ++ stdenv.lib.platforms.linux; # arbitrary choice
     maintainers = with stdenv.lib.maintainers; [ lowfatcomputing ];
   };
 }

@@ -1,6 +1,12 @@
-{ lib, buildPythonPackage, fetchPypi
-, aiohttp, zigpy, conftest, asynctest
-, pytestCheckHook }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, aiohttp
+, zigpy
+, conftest
+, asynctest
+, pytestCheckHook
+}:
 
 buildPythonPackage rec {
   pname = "zha-quirks";

@@ -1,4 +1,4 @@
-{ stdenv, bzip2, zlib, autoconf, automake, cmake, gnumake, help2man , texinfo, libtool , cppzmq , libarchive, avro-cpp, boost, jansson, zeromq, openssl, pam, libiodbc, kerberos, gcc, libcxx, which, catch2 }:
+{ stdenv, bzip2, zlib, autoconf, automake, cmake, gnumake, help2man, texinfo, libtool, cppzmq, libarchive, avro-cpp, boost, jansson, zeromq, openssl, pam, libiodbc, kerberos, gcc, libcxx, which, catch2 }:
 
 # Common attributes of irods packages
 

@@ -48,10 +48,11 @@ stdenv.mkDerivation {
     boost
     zlib
     csxcad
-    (octave.override { inherit hdf5; }) ]
-    ++ lib.optionals withQcsxcad [ qcsxcad ]
-    ++ lib.optionals withMPI [ openmpi ]
-    ++ lib.optionals withHyp2mat [ hyp2mat ];
+    (octave.override { inherit hdf5; })
+  ]
+  ++ lib.optionals withQcsxcad [ qcsxcad ]
+  ++ lib.optionals withMPI [ openmpi ]
+  ++ lib.optionals withHyp2mat [ hyp2mat ];
 
   postFixup = ''
     substituteInPlace $out/share/openEMS/matlab/setup.m \

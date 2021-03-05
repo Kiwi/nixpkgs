@@ -1,5 +1,10 @@
-{ stdenv, fetchPypi, buildPythonPackage
-, requests, fetchpatch, pythonOlder, typing
+{ stdenv
+, fetchPypi
+, buildPythonPackage
+, requests
+, fetchpatch
+, pythonOlder
+, typing
 }:
 
 buildPythonPackage rec {

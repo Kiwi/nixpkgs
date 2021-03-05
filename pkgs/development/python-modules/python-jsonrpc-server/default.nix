@@ -1,6 +1,15 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub, pythonOlder
-, pytest, mock, pytestcov, coverage
-, future, futures, ujson, isPy38
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, pythonOlder
+, pytest
+, mock
+, pytestcov
+, coverage
+, future
+, futures
+, ujson
+, isPy38
 , fetchpatch
 }:
 
@@ -22,7 +31,10 @@ buildPythonPackage rec {
   '';
 
   checkInputs = [
-    pytest mock pytestcov coverage
+    pytest
+    mock
+    pytestcov
+    coverage
   ];
 
   checkPhase = ''

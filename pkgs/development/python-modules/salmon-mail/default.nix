@@ -1,5 +1,15 @@
-{ stdenv, buildPythonPackage, fetchPypi, dnspython, chardet, lmtpd
-, python-daemon, six, jinja2, mock, click }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, dnspython
+, chardet
+, lmtpd
+, python-daemon
+, six
+, jinja2
+, mock
+, click
+}:
 
 buildPythonPackage rec {
   pname = "salmon-mail";

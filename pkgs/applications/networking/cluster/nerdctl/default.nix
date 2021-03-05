@@ -4,7 +4,7 @@
 , makeWrapper
 , buildkit
 , cni-plugins
-, extraPackages ? []
+, extraPackages ? [ ]
 }:
 
 let

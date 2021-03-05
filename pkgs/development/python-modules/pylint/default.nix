@@ -1,5 +1,17 @@
-{ stdenv, lib, buildPythonPackage, fetchPypi, pythonOlder, astroid, installShellFiles,
-  isort, mccabe, pytestCheckHook, pytest-benchmark, pytestrunner, toml }:
+{ stdenv
+, lib
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, astroid
+, installShellFiles
+, isort
+, mccabe
+, pytestCheckHook
+, pytest-benchmark
+, pytestrunner
+, toml
+}:
 
 buildPythonPackage rec {
   pname = "pylint";
@@ -28,10 +40,10 @@ buildPythonPackage rec {
     "test_by_module_statement_value"
     # has issues with local directories
     "test_version"
-   ] ++ lib.optionals stdenv.isDarwin [
-      "test_parallel_execution"
-      "test_py3k_jobs_option"
-   ];
+  ] ++ lib.optionals stdenv.isDarwin [
+    "test_parallel_execution"
+    "test_py3k_jobs_option"
+  ];
 
   # calls executable in one of the tests
   preCheck = ''

@@ -1,6 +1,14 @@
-{ lib, buildPythonPackage, fetchPypi, pythonOlder
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
 , fonttools
-, pytest, pytestrunner, lxml, fs, unicodedata2, fontpens
+, pytest
+, pytestrunner
+, lxml
+, fs
+, unicodedata2
+, fontpens
 }:
 
 buildPythonPackage rec {

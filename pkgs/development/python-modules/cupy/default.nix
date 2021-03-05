@@ -1,7 +1,18 @@
-{ stdenv, buildPythonPackage
-, fetchPypi, isPy3k, linuxPackages
-, fastrlock, numpy, six, wheel, pytest, mock, setuptools
-, cudatoolkit, cudnn, nccl
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, isPy3k
+, linuxPackages
+, fastrlock
+, numpy
+, six
+, wheel
+, pytest
+, mock
+, setuptools
+, cudatoolkit
+, cudnn
+, nccl
 }:
 
 buildPythonPackage rec {
@@ -20,7 +31,7 @@ buildPythonPackage rec {
   ];
 
   preConfigure = ''
-      export CUDA_PATH=${cudatoolkit}
+    export CUDA_PATH=${cudatoolkit}
   '';
 
   propagatedBuildInputs = [

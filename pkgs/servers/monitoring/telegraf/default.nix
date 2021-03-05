@@ -17,9 +17,11 @@ buildGoModule rec {
 
   vendorSha256 = "12rh8pggpdjgw9x23qa99cj7i67iqchacgzd11m4ficxv8a4bkyc";
 
-  buildFlagsArray = [ ''-ldflags=
+  buildFlagsArray = [
+    ''-ldflags=
     -w -s -X main.version=${version}
-  '' ];
+  ''
+  ];
 
   passthru.tests = { inherit (nixosTests) telegraf; };
 

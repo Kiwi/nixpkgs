@@ -2,7 +2,8 @@
 , fetchFromGitHub
 , qmake
 , wrapQtAppsHook
-, boost }:
+, boost
+}:
 
 stdenv.mkDerivation rec {
   pname = "zegrapher";

@@ -1,4 +1,4 @@
-{stdenv, fetchurl, cmake}:
+{ stdenv, fetchurl, cmake }:
 
 let
   patch = fetchurl {
@@ -17,7 +17,7 @@ stdenv.mkDerivation {
     cat debian/patches/1001_shlib-cmake.patch | patch -p1
   '';
   buildInputs = [ cmake ];
-  
+
   meta = {
     description = "A real-time library for sampling rate conversion library";
     license = stdenv.lib.licenses.lgpl2Plus;

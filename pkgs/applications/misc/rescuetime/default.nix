@@ -3,16 +3,20 @@
 let
   version = "2.16.4.2";
   src =
-    if stdenv.hostPlatform.system == "i686-linux" then fetchurl {
-      name = "rescuetime-installer.deb";
-      url = "https://www.rescuetime.com/installers/rescuetime_${version}_i386.deb";
-      sha256 = "0zyal9n3rfj8i13v1q25inq6qyil7897483cdhqvwpb8wskrij4c";
-    } else fetchurl {
-      name = "rescuetime-installer.deb";
-      url = "https://www.rescuetime.com/installers/rescuetime_${version}_amd64.deb";
-      sha256 = "03bmnkxhip1wilnfqs8akmy1hppahxrmnm8gasnmw5s922vn06cv";
-    };
-in mkDerivation {
+    if stdenv.hostPlatform.system == "i686-linux" then
+      fetchurl
+        {
+          name = "rescuetime-installer.deb";
+          url = "https://www.rescuetime.com/installers/rescuetime_${version}_i386.deb";
+          sha256 = "0zyal9n3rfj8i13v1q25inq6qyil7897483cdhqvwpb8wskrij4c";
+        } else
+      fetchurl {
+        name = "rescuetime-installer.deb";
+        url = "https://www.rescuetime.com/installers/rescuetime_${version}_amd64.deb";
+        sha256 = "03bmnkxhip1wilnfqs8akmy1hppahxrmnm8gasnmw5s922vn06cv";
+      };
+in
+mkDerivation {
   # https://www.rescuetime.com/updates/linux_release_notes.html
   inherit version;
   pname = "rescuetime";
@@ -45,9 +49,9 @@ in mkDerivation {
 
   meta = with lib; {
     description = "Helps you understand your daily habits so you can focus and be more productive";
-    homepage    = "https://www.rescuetime.com";
+    homepage = "https://www.rescuetime.com";
     maintainers = with maintainers; [ cstrahan ];
-    license     = licenses.unfree;
-    platforms   = [ "i686-linux" "x86_64-linux" ];
+    license = licenses.unfree;
+    platforms = [ "i686-linux" "x86_64-linux" ];
   };
 }

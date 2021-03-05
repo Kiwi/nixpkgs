@@ -10,7 +10,8 @@
 , opencl-headers
 , libusb1
 , xorg
-, jansson }:
+, jansson
+}:
 
 stdenv.mkDerivation rec {
   pname = "cgminer";
@@ -24,20 +25,34 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ pkgconfig ];
-  buildInputs = [ autoconf automake libtool curl ncurses ocl-icd opencl-headers
-    xorg.libX11 xorg.libXext xorg.libXinerama jansson libusb1 ];
+  buildInputs = [
+    autoconf
+    automake
+    libtool
+    curl
+    ncurses
+    ocl-icd
+    opencl-headers
+    xorg.libX11
+    xorg.libXext
+    xorg.libXinerama
+    jansson
+    libusb1
+  ];
 
   configureScript = "./autogen.sh";
-  configureFlags = [ "--enable-scrypt"
-                     "--enable-opencl"
-                     "--enable-bitforce"
-                     "--enable-icarus"
-                     "--enable-modminer"
-                     "--enable-ztex"
-                     "--enable-avalon"
-                     "--enable-klondike"
-                     "--enable-keccak"
-                     "--enable-bflsc"];
+  configureFlags = [
+    "--enable-scrypt"
+    "--enable-opencl"
+    "--enable-bitforce"
+    "--enable-icarus"
+    "--enable-modminer"
+    "--enable-ztex"
+    "--enable-avalon"
+    "--enable-klondike"
+    "--enable-keccak"
+    "--enable-bflsc"
+  ];
 
   meta = with stdenv.lib; {
     description = "CPU/GPU miner in c for bitcoin";

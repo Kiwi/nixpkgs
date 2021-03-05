@@ -24,7 +24,8 @@ buildGoPackage rec {
 
   postInstall = with stdenv; let
     binPath = lib.makeBinPath [ mercurial git ];
-  in ''
+  in
+  ''
     wrapProgram $out/bin/houndd --prefix PATH : ${binPath}
   '';
 

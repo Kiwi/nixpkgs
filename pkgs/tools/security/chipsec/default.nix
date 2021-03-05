@@ -1,5 +1,12 @@
-{ stdenv, lib, fetchFromGitHub, pythonPackages, nasm, libelf
-, kernel ? null, withDriver ? false }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, pythonPackages
+, nasm
+, libelf
+, kernel ? null
+, withDriver ? false
+}:
 pythonPackages.buildPythonApplication rec {
   pname = "chipsec";
   version = "1.5.1";
@@ -14,14 +21,15 @@ pythonPackages.buildPythonApplication rec {
   disabled = !stdenv.isLinux;
 
   nativeBuildInputs = [
-    nasm libelf
+    nasm
+    libelf
   ];
 
   setupPyBuildFlags = lib.optional (!withDriver) "--skip-driver";
 
   checkPhase = "python setup.py build "
-             + lib.optionalString (!withDriver) "--skip-driver "
-             + "test";
+    + lib.optionalString (!withDriver) "--skip-driver "
+    + "test";
 
   KERNEL_SRC_DIR = lib.optionalString withDriver "${kernel.dev}/lib/modules/${kernel.modDirVersion}/build";
 

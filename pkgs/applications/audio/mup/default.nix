@@ -1,5 +1,15 @@
-{ stdenv, fetchurl, autoreconfHook, bison, flex, ghostscript, groff, netpbm
-, fltk, libXinerama, libXpm, libjpeg
+{ stdenv
+, fetchurl
+, autoreconfHook
+, bison
+, flex
+, ghostscript
+, groff
+, netpbm
+, fltk
+, libXinerama
+, libXpm
+, libjpeg
 }:
 
 stdenv.mkDerivation rec {
@@ -7,7 +17,7 @@ stdenv.mkDerivation rec {
   version = "6.8";
 
   src = fetchurl {
-    url = "http://www.arkkra.com/ftp/pub/unix/mup${builtins.replaceStrings ["."] [""] version}src.tar.gz";
+    url = "http://www.arkkra.com/ftp/pub/unix/mup${builtins.replaceStrings [ "." ] [ "" ] version}src.tar.gz";
     sha256 = "06bv5nyl8rcibyb83zzrfdq6x6f93g3rgnv47i5gsjcaw5w6l31y";
   };
 

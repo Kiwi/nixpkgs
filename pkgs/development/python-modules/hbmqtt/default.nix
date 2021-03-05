@@ -1,5 +1,15 @@
-{ stdenv, buildPythonPackage, fetchPypi, isPy3k, setuptools
-, transitions, websockets, passlib, docopt, pyyaml, nose }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, isPy3k
+, setuptools
+, transitions
+, websockets
+, passlib
+, docopt
+, pyyaml
+, nose
+}:
 
 buildPythonPackage rec {
   pname = "hbmqtt";
@@ -13,7 +23,12 @@ buildPythonPackage rec {
   };
 
   propagatedBuildInputs = [
-    transitions websockets passlib docopt pyyaml setuptools
+    transitions
+    websockets
+    passlib
+    docopt
+    pyyaml
+    setuptools
   ];
 
   postPatch = ''

@@ -5,7 +5,7 @@ let
 in
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-genmon-plugin";
+  pname = "xfce4-genmon-plugin";
   version = "4.0.2";
 
   src = fetchurl {
@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
     xfce4-panel
     gtk3
   ];
-  
+
   passthru.updateScript = xfce.updateScript {
     inherit pname version;
     attrPath = "xfce.${pname}";

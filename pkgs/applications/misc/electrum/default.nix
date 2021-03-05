@@ -6,7 +6,7 @@
 , zbar
 , secp256k1
 , enableQt ? true
-# for updater.nix
+  # for updater.nix
 , writeScript
 , common-updater-scripts
 , bash
@@ -117,7 +117,7 @@ python3.pkgs.buildPythonApplication {
   pytestFlagsArray = [ "electrum/tests" ];
 
   disabledTests = [
-    "test_loop"  # test tries to bind 127.0.0.1 causing permission error
+    "test_loop" # test tries to bind 127.0.0.1 causing permission error
   ];
 
   postCheck = ''
@@ -136,7 +136,7 @@ python3.pkgs.buildPythonApplication {
       gnugrep
       gnused
       nix
-    ;
+      ;
   };
 
   meta = with stdenv.lib; {

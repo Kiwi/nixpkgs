@@ -1,5 +1,9 @@
-{ stdenv, fetchPypi, buildPythonPackage
-, setuptools, six, traits
+{ stdenv
+, fetchPypi
+, buildPythonPackage
+, setuptools
+, six
+, traits
 }:
 
 buildPythonPackage rec {

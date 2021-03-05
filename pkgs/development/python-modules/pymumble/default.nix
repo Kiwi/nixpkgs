@@ -1,9 +1,10 @@
-{ buildPythonPackage,
-  fetchFromGitHub,
-  isPy27,
-  lib,
-  opuslib,
-  protobuf,
+{ buildPythonPackage
+, fetchFromGitHub
+, isPy27
+, lib
+, opuslib
+, protobuf
+,
 }:
 
 buildPythonPackage rec {

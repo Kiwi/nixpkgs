@@ -1,5 +1,12 @@
-{ stdenv, buildPythonPackage, fetchPypi, pytestCheckHook, pythonOlder
-, google_api_core, google_cloud_core, mock }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pytestCheckHook
+, pythonOlder
+, google_api_core
+, google_cloud_core
+, mock
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-runtimeconfig";

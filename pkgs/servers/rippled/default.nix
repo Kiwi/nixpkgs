@@ -1,5 +1,20 @@
-{ stdenv, fetchFromGitHub, fetchgit, fetchurl, runCommand, git, cmake, pkgconfig
-, openssl,  zlib, boost, grpc, c-ares, abseil-cpp, protobuf3_8, libnsl }:
+{ stdenv
+, fetchFromGitHub
+, fetchgit
+, fetchurl
+, runCommand
+, git
+, cmake
+, pkgconfig
+, openssl
+, zlib
+, boost
+, grpc
+, c-ares
+, abseil-cpp
+, protobuf3_8
+, libnsl
+}:
 
 let
   sqlite3 = fetchurl rec {
@@ -114,7 +129,8 @@ let
     leaveDotGit = true;
     fetchSubmodules = false;
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "rippled";
   version = "1.6.0";
 
@@ -126,8 +142,8 @@ in stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  hardeningDisable = ["format"];
-  cmakeFlags = ["-Dstatic=OFF" "-DBoost_NO_BOOST_CMAKE=ON"];
+  hardeningDisable = [ "format" ];
+  cmakeFlags = [ "-Dstatic=OFF" "-DBoost_NO_BOOST_CMAKE=ON" ];
 
   nativeBuildInputs = [ pkgconfig cmake git ];
   buildInputs = [ openssl openssl.dev boostSharedStatic zlib grpc c-ares c-ares.cmake-config abseil-cpp protobuf3_8 libnsl ];

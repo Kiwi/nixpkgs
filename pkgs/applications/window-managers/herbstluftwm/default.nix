@@ -1,5 +1,15 @@
-{ stdenv, fetchurl, cmake, pkgconfig, glib, libX11, libXext, libXinerama, libXrandr
-, withDoc ? stdenv.buildPlatform == stdenv.targetPlatform, asciidoc ? null }:
+{ stdenv
+, fetchurl
+, cmake
+, pkgconfig
+, glib
+, libX11
+, libXext
+, libXinerama
+, libXrandr
+, withDoc ? stdenv.buildPlatform == stdenv.targetPlatform
+, asciidoc ? null
+}:
 
 # Doc generation is disabled by default when cross compiling because asciidoc
 # does not cross compile for now

@@ -16,7 +16,7 @@ rec {
 
   packageName = "inferior-shell";
 
-  asdFilesToKeep = ["inferior-shell.asd"];
+  asdFilesToKeep = [ "inferior-shell.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM inferior-shell DESCRIPTION

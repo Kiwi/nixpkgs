@@ -21,7 +21,8 @@
 let
   pname = "NetworkManager-openconnect";
   version = "1.2.6";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "${pname}${if withGnome then "-gnome" else ""}-${version}";
 
   src = fetchurl {

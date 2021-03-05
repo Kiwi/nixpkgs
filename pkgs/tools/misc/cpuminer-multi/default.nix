@@ -1,5 +1,11 @@
-{ stdenv, fetchFromGitHub, curl, jansson, autoconf, automake
-, aesni ? stdenv.hostPlatform.aesSupport }:
+{ stdenv
+, fetchFromGitHub
+, curl
+, jansson
+, autoconf
+, automake
+, aesni ? stdenv.hostPlatform.aesSupport
+}:
 
 let
   rev = "8393e03089c0abde61bd5d72aba8f926c3d6eca4";

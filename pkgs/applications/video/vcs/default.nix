@@ -1,5 +1,14 @@
-{ stdenv, fetchurl, makeWrapper
-, coreutils, ffmpeg, gawk, gnugrep, gnused, imagemagick, mplayer, util-linux
+{ stdenv
+, fetchurl
+, makeWrapper
+, coreutils
+, ffmpeg
+, gawk
+, gnugrep
+, gnused
+, imagemagick
+, mplayer
+, util-linux
 , dejavu_fonts
 }:
 with stdenv.lib;

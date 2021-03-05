@@ -1,4 +1,4 @@
-{lib, stdenv, fetchurl, aspell, which, writeScript}:
+{ lib, stdenv, fetchurl, aspell, which, writeScript }:
 
 with lib;
 
@@ -36,12 +36,12 @@ let
   /* Function to compile an Aspell dictionary.  Fortunately, they all
      build in the exact same way. */
   buildDict =
-    {shortName, fullName, ...}@args:
+    { shortName, fullName, ... }@args:
 
     stdenv.mkDerivation ({
       name = "aspell-dict-${shortName}";
 
-      buildInputs = [aspell which];
+      buildInputs = [ aspell which ];
 
       dontAddPrefix = true;
 
@@ -50,12 +50,12 @@ let
       meta = {
         description = "Aspell dictionary for ${fullName}";
         platforms = stdenv.lib.platforms.all;
-      } // (args.meta or {});
+      } // (args.meta or { });
     } // removeAttrs args [ "meta" ]);
 
 
   buildOfficialDict =
-    {language, version, filename, fullName, sha256, ...}@args:
+    { language, version, filename, fullName, sha256, ... }@args:
     let buildArgs = {
       shortName = "${language}-${version}";
 
@@ -99,64 +99,67 @@ let
 
       meta = {
         homepage = "http://ftp.gnu.org/gnu/aspell/dict/0index.html";
-      } // (args.meta or {});
+      } // (args.meta or { });
 
     } // removeAttrs args [ "language" "filename" "sha256" "meta" ];
     in buildDict buildArgs;
 
   /* Function to compile txt dict files into Aspell dictionaries. */
   buildTxtDict =
-    {langInputs ? [], ...}@args:
+    { langInputs ? [ ], ... }@args:
     buildDict ({
       propagatedUserEnvPackages = langInputs;
 
       preBuild = ''
-        # Aspell can't handle multiple data-dirs
-        # Copy everything we might possibly need
-        ${concatMapStringsSep "\n" (p: ''
-          cp -a ${p}/lib/aspell/* .
-        '') ([ aspell ] ++ langInputs)}
-        export ASPELL_CONF="data-dir $(pwd)"
+                # Aspell can't handle multiple data-dirs
+                # Copy everything we might possibly need
+                ${concatMapStringsSep "\n"
+        (p: ''
+                  cp -a ${p}/lib/aspell/* .
+                '')
+        ([ aspell ] ++ langInputs)}
+                export ASPELL_CONF="data-dir $(pwd)"
 
-        aspell-create() {
-          target=$1
-          shift
-          echo building $target
-          aspell create "$@" master ./$target.rws
-        }
+                aspell-create() {
+                  target=$1
+                  shift
+                  echo building $target
+                  aspell create "$@" master ./$target.rws
+                }
 
-        words-only() {
-          awk -F'\t' '{print $1}' | sort | uniq
-        }
+                words-only() {
+                  awk -F'\t' '{print $1}' | sort | uniq
+                }
 
-        # drop comments
-        aspell-affix() {
-          words-only \
-            | grep -a -v '#' \
-            | aspell-create "$@"
-        }
+                # drop comments
+                aspell-affix() {
+                  words-only \
+                    | grep -a -v '#' \
+                    | aspell-create "$@"
+                }
 
-        # Hack: drop comments and words with affixes
-        aspell-plain() {
-          words-only \
-            | grep -a -v '#' \
-            | grep -a -v '/' \
-            | aspell-create "$@"
-        }
+                # Hack: drop comments and words with affixes
+                aspell-plain() {
+                  words-only \
+                    | grep -a -v '#' \
+                    | grep -a -v '/' \
+                    | aspell-create "$@"
+                }
 
-        aspell-install() {
-          install -d $out/lib/aspell
-          for a in "$@"; do
-            echo installing $a
-            install -t $out/lib/aspell $a.rws
-          done
-        }
+                aspell-install() {
+                  install -d $out/lib/aspell
+                  for a in "$@"; do
+                    echo installing $a
+                    install -t $out/lib/aspell $a.rws
+                  done
+                }
       '';
 
       phases = [ "preBuild" "buildPhase" "installPhase" ];
     } // args);
 
-in rec {
+in
+rec {
 
   ### Languages
 

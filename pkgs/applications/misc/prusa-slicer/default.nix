@@ -1,7 +1,28 @@
-{ stdenv, lib, fetchFromGitHub, cmake, pkgconfig
-, boost, cereal, curl, eigen, expat, glew, libpng, tbb, wxGTK31
-, gtest, nlopt, xorg, makeDesktopItem
-, cgal_5, gmp, ilmbase, mpfr, qhull, openvdb, systemd
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, boost
+, cereal
+, curl
+, eigen
+, expat
+, glew
+, libpng
+, tbb
+, wxGTK31
+, gtest
+, nlopt
+, xorg
+, makeDesktopItem
+, cgal_5
+, gmp
+, ilmbase
+, mpfr
+, qhull
+, openvdb
+, systemd
 }:
 stdenv.mkDerivation rec {
   pname = "prusa-slicer";

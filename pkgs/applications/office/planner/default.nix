@@ -12,7 +12,8 @@
 
 let version = "unstable-2019-02-13";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "planner";
   inherit version;
 
@@ -52,7 +53,7 @@ in stdenv.mkDerivation {
   configureFlags = [
     "--enable-python"
     "--enable-python-plugin"
-    ];
+  ];
 
   enableParallelBuilding = true;
 

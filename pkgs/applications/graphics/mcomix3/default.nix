@@ -8,7 +8,7 @@
 , gtk3
 , gdk-pixbuf
 
-# Recommended Dependencies:
+  # Recommended Dependencies:
 , unrarSupport ? false  # unfree software
 , unrar
 , p7zip
@@ -22,8 +22,8 @@ python3.pkgs.buildPythonApplication rec {
 
   # no official release on pypi/github and no build system
   src = fetchFromGitHub {
-    repo   = "${pname}";
-    owner  = "multiSnow";
+    repo = "${pname}";
+    owner = "multiSnow";
     rev = "cdcb27533dc7ee2ebf7b0a8ab5ba10e61c0b8ff8";
     sha256 = "0q9xgl60ryf7qmy5vgzgfry4rvw5j9rb4d1ilxmpjmvm7dd3fm2k";
   };

@@ -1,6 +1,20 @@
-{ stdenv, makeDesktopItem, freetype, fontconfig, libX11, libXrender
-, zlib, jdk, glib, gtk, libXtst, gsettings-desktop-schemas, webkitgtk
-, makeWrapper, perl, ... }:
+{ stdenv
+, makeDesktopItem
+, freetype
+, fontconfig
+, libX11
+, libXrender
+, zlib
+, jdk
+, glib
+, gtk
+, libXtst
+, gsettings-desktop-schemas
+, webkitgtk
+, makeWrapper
+, perl
+, ...
+}:
 
 { name, src ? builtins.getAttr stdenv.hostPlatform.system sources, sources ? null, description }:
 
@@ -18,8 +32,17 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
-    fontconfig freetype glib gsettings-desktop-schemas gtk jdk libX11
-    libXrender libXtst makeWrapper zlib
+    fontconfig
+    freetype
+    glib
+    gsettings-desktop-schemas
+    gtk
+    jdk
+    libX11
+    libXrender
+    libXtst
+    makeWrapper
+    zlib
   ] ++ stdenv.lib.optional (webkitgtk != null) webkitgtk;
 
   buildCommand = ''

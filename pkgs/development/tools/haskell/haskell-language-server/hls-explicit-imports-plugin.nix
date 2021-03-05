@@ -1,5 +1,16 @@
-{ mkDerivation, aeson, base, containers, deepseq, fetchgit, ghc
-, ghcide, haskell-lsp-types, hls-plugin-api, shake, stdenv, text
+{ mkDerivation
+, aeson
+, base
+, containers
+, deepseq
+, fetchgit
+, ghc
+, ghcide
+, haskell-lsp-types
+, hls-plugin-api
+, shake
+, stdenv
+, text
 , unordered-containers
 }:
 mkDerivation {
@@ -13,8 +24,17 @@ mkDerivation {
   };
   postUnpack = "sourceRoot+=/plugins/hls-explicit-imports-plugin; echo source root reset to $sourceRoot";
   libraryHaskellDepends = [
-    aeson base containers deepseq ghc ghcide haskell-lsp-types
-    hls-plugin-api shake text unordered-containers
+    aeson
+    base
+    containers
+    deepseq
+    ghc
+    ghcide
+    haskell-lsp-types
+    hls-plugin-api
+    shake
+    text
+    unordered-containers
   ];
   description = "Explicit imports plugin for Haskell Language Server";
   license = stdenv.lib.licenses.asl20;

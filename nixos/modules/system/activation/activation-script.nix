@@ -18,7 +18,8 @@ let
   });
 
   path = with pkgs; map getBin
-    [ coreutils
+    [
+      coreutils
       gnugrep
       findutils
       getent
@@ -30,13 +31,16 @@ let
 
   scriptType = with types;
     let scriptOptions =
-      { deps = mkOption
-          { type = types.listOf types.str;
+      {
+        deps = mkOption
+          {
+            type = types.listOf types.str;
             default = [ ];
             description = "List of dependencies. The script will run after these.";
           };
         text = mkOption
-          { type = types.lines;
+          {
+            type = types.lines;
             description = "The content of the script.";
           };
       };
@@ -51,7 +55,7 @@ in
   options = {
 
     system.activationScripts = mkOption {
-      default = {};
+      default = { };
 
       example = literalExample ''
         { stdio.text =
@@ -79,44 +83,45 @@ in
       apply = set: {
         script =
           ''
-            #! ${pkgs.runtimeShell}
+                        #! ${pkgs.runtimeShell}
 
-            systemConfig=@out@
+                        systemConfig=@out@
 
-            export PATH=/empty
-            for i in ${toString path}; do
-                PATH=$PATH:$i/bin:$i/sbin
-            done
+                        export PATH=/empty
+                        for i in ${toString path}; do
+                            PATH=$PATH:$i/bin:$i/sbin
+                        done
 
-            _status=0
-            trap "_status=1 _localstatus=\$?" ERR
+                        _status=0
+                        trap "_status=1 _localstatus=\$?" ERR
 
-            # Ensure a consistent umask.
-            umask 0022
+                        # Ensure a consistent umask.
+                        umask 0022
 
-            ${
-              let
-                set' = mapAttrs (n: v: if isString v then noDepEntry v else v) set;
-                withHeadlines = addAttributeName set';
-              in textClosureMap id (withHeadlines) (attrNames withHeadlines)
-            }
+                        ${
+                          let
+                            set' = mapAttrs (n: v: if isString v then noDepEntry v else v) set;
+                            withHeadlines = addAttributeName set';
+                          in
+            textClosureMap id (withHeadlines) (attrNames withHeadlines)
+                        }
 
-            # Make this configuration the current configuration.
-            # The readlink is there to ensure that when $systemConfig = /system
-            # (which is a symlink to the store), /run/current-system is still
-            # used as a garbage collection root.
-            ln -sfn "$(readlink -f "$systemConfig")" /run/current-system
+                        # Make this configuration the current configuration.
+                        # The readlink is there to ensure that when $systemConfig = /system
+                        # (which is a symlink to the store), /run/current-system is still
+                        # used as a garbage collection root.
+                        ln -sfn "$(readlink -f "$systemConfig")" /run/current-system
 
-            # Prevent the current configuration from being garbage-collected.
-            ln -sfn /run/current-system /nix/var/nix/gcroots/current-system
+                        # Prevent the current configuration from being garbage-collected.
+                        ln -sfn /run/current-system /nix/var/nix/gcroots/current-system
 
-            exit $_status
+                        exit $_status
           '';
       };
     };
 
     system.userActivationScripts = mkOption {
-      default = {};
+      default = { };
 
       example = literalExample ''
         { plasmaSetup = {
@@ -141,22 +146,23 @@ in
 
       apply = set: {
         script = ''
-          unset PATH
-          for i in ${toString path}; do
-            PATH=$PATH:$i/bin:$i/sbin
-          done
+                    unset PATH
+                    for i in ${toString path}; do
+                      PATH=$PATH:$i/bin:$i/sbin
+                    done
 
-          _status=0
-          trap "_status=1 _localstatus=\$?" ERR
+                    _status=0
+                    trap "_status=1 _localstatus=\$?" ERR
 
-          ${
-            let
-              set' = mapAttrs (n: v: if isString v then noDepEntry v else v) set;
-              withHeadlines = addAttributeName set';
-            in textClosureMap id (withHeadlines) (attrNames withHeadlines)
-          }
+                    ${
+                      let
+                        set' = mapAttrs (n: v: if isString v then noDepEntry v else v) set;
+                        withHeadlines = addAttributeName set';
+                      in
+          textClosureMap id (withHeadlines) (attrNames withHeadlines)
+                    }
 
-          exit $_status
+                    exit $_status
         '';
       };
 
@@ -199,7 +205,8 @@ in
         ${pkgs.e2fsprogs}/bin/chattr -f +i /var/empty || true
       '';
 
-    system.activationScripts.usrbinenv = if config.environment.usrbinenv != null
+    system.activationScripts.usrbinenv =
+      if config.environment.usrbinenv != null
       then ''
         mkdir -m 0755 -p /usr/bin
         ln -sfn ${config.environment.usrbinenv} /usr/bin/.env.tmp

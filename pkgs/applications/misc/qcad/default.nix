@@ -35,7 +35,7 @@ mkDerivationWith stdenv.mkDerivation rec {
         src/3rdparty/qt-labs-qtscriptgenerator-5.14.0/qt-labs-qtscriptgenerator-5.14.0.pro \
         src/3rdparty/qt-labs-qtscriptgenerator-${qtbase.version}/qt-labs-qtscriptgenerator-${qtbase.version}.pro
     fi
- '';
+  '';
 
   qmakeFlags = [
     "MUPARSER_DIR=${muparser}"
@@ -72,7 +72,7 @@ mkDerivationWith stdenv.mkDerivation rec {
     install -Dm644 scripts/qcad_icon.svg $out/share/icons/hicolor/scalable/apps/qcad.svg
 
     runHook postInstall
-    '';
+  '';
 
   buildInputs = [
     boost

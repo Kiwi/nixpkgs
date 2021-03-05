@@ -1,5 +1,16 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, avahi, libsoup, libjpeg, libpng, gnutls
-, sane-backends, meson, ninja }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, pkg-config
+, avahi
+, libsoup
+, libjpeg
+, libpng
+, gnutls
+, sane-backends
+, meson
+, ninja
+}:
 stdenv.mkDerivation rec {
   pname = "sane-airscan";
   version = "0.99.16";

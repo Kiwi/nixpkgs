@@ -1,8 +1,15 @@
-{ lib, buildPythonPackage, fetchFromGitHub, pythonOlder
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, pythonOlder
 , fonttools
-, lxml, fs # for fonttools extras
+, lxml
+, fs # for fonttools extras
 , setuptools_scm
-, pytestCheckHook, pytest_5, pytestcov, pytest_xdist
+, pytestCheckHook
+, pytest_5
+, pytestcov
+, pytest_xdist
 }:
 
 buildPythonPackage rec {
@@ -33,7 +40,7 @@ buildPythonPackage rec {
     # Override pytestCheckHook to use pytest v5, because some tests fail on pytest >= v6
     # https://github.com/adobe-type-tools/psautohint/issues/284#issuecomment-742800965
     # Override might be able to be removed in future, check package dependency pins (coverage.yml)
-    (pytestCheckHook.override{ pytest = pytest_5; })
+    (pytestCheckHook.override { pytest = pytest_5; })
     pytestcov
     pytest_xdist
   ];

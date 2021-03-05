@@ -14,7 +14,7 @@ rec {
 
   packageName = "fare-mop";
 
-  asdFilesToKeep = ["fare-mop.asd"];
+  asdFilesToKeep = [ "fare-mop.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM fare-mop DESCRIPTION

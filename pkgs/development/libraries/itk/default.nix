@@ -1,5 +1,14 @@
-{ stdenv, fetchFromGitHub, cmake, makeWrapper
-, pkgconfig, libX11, libuuid, xz, vtk_7, Cocoa }:
+{ stdenv
+, fetchFromGitHub
+, cmake
+, makeWrapper
+, pkgconfig
+, libX11
+, libuuid
+, xz
+, vtk_7
+, Cocoa
+}:
 
 stdenv.mkDerivation rec {
   pname = "itk";
@@ -41,6 +50,6 @@ stdenv.mkDerivation rec {
     description = "Insight Segmentation and Registration Toolkit";
     homepage = "https://www.itk.org/";
     license = stdenv.lib.licenses.asl20;
-    maintainers = with stdenv.lib.maintainers; [viric];
+    maintainers = with stdenv.lib.maintainers; [ viric ];
   };
 }

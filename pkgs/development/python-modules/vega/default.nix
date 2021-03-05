@@ -1,5 +1,14 @@
-{ stdenv, buildPythonPackage , fetchPypi, pythonOlder
-, pytest, jupyter_core, pandas, ipywidgets, jupyter, altair }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, pytest
+, jupyter_core
+, pandas
+, ipywidgets
+, jupyter
+, altair
+}:
 
 buildPythonPackage rec {
   pname = "vega";

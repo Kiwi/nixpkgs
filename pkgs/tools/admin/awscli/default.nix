@@ -26,7 +26,8 @@ let
     };
   };
 
-in with py.pkgs; buildPythonApplication rec {
+in
+with py.pkgs; buildPythonApplication rec {
   pname = "awscli";
   version = "1.18.199"; # N.B: if you change this, change botocore to a matching version too
 

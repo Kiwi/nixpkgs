@@ -48,14 +48,16 @@ in
   config = mkIf config.services.searx.enable {
 
     users.users.searx =
-      { uid = config.ids.uids.searx;
+      {
+        uid = config.ids.uids.searx;
         description = "Searx user";
         createHome = true;
         home = "/var/lib/searx";
       };
 
     users.groups.searx =
-      { gid = config.ids.gids.searx;
+      {
+        gid = config.ids.gids.searx;
       };
 
     systemd.services.searx =

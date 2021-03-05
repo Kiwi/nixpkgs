@@ -1,6 +1,20 @@
-{ lib, buildPythonPackage, fetchPypi
-, pytest, pytestrunner, pytestcov, mock, glibcLocales, lxml, botocore
-, requests, requests-kerberos, click, configparser, fido2, isPy27 }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pytest
+, pytestrunner
+, pytestcov
+, mock
+, glibcLocales
+, lxml
+, botocore
+, requests
+, requests-kerberos
+, click
+, configparser
+, fido2
+, isPy27
+}:
 
 buildPythonPackage rec {
   pname = "aws-adfs";

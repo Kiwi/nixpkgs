@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   version = "11.2.156";
   ifs_version = "10_10_2_0_44";
 
-  preConfigure= ''
+  preConfigure = ''
     export UDEVDIR=$out/etc/udev
     substituteInPlace ./Makefile --replace "udevrulesdir}" "prefix}/etc/udev";
   '';
@@ -14,7 +14,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [ numactl pkgconfig ];
 
-  installFlags = [ 
+  installFlags = [
     "DESTDIR=$(out)"
     "UDEVDIR=/etc/udev"
     "LIBPSM2_COMPAT_CONF_DIR=/etc"
@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/intel/opa-psm2";
     description = "The PSM2 library supports a number of fabric media and stacks";
     license = with licenses; [ gpl2 bsd3 ];
-   platforms = [ "x86_64-linux" ];
+    platforms = [ "x86_64-linux" ];
     maintainers = [ maintainers.bzizou ];
   };
 }

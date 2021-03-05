@@ -1,5 +1,15 @@
-{ stdenv, buildPythonPackage, fetchFromGitHub, pyserial, pyftdi, pyusb
-, pyopenssl, nose, isPy3k, pythonOlder, mock }:
+{ stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, pyserial
+, pyftdi
+, pyusb
+, pyopenssl
+, nose
+, isPy3k
+, pythonOlder
+, mock
+}:
 
 buildPythonPackage rec {
   pname = "alarmdecoder";

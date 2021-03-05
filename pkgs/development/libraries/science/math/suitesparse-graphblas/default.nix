@@ -26,7 +26,7 @@ stdenv.mkDerivation rec {
     description = "Graph algorithms in the language of linear algebra";
     homepage = "http://faculty.cse.tamu.edu/davis/GraphBLAS.html";
     license = licenses.asl20;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     platforms = with platforms; unix;
   };
 }

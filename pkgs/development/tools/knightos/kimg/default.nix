@@ -18,10 +18,10 @@ stdenv.mkDerivation rec {
   hardeningDisable = [ "format" ];
 
   meta = with stdenv.lib; {
-    homepage    = "https://knightos.org/";
+    homepage = "https://knightos.org/";
     description = "Converts image formats supported by ImageMagick to the KnightOS image format";
-    license     = licenses.mit;
+    license = licenses.mit;
     maintainers = with maintainers; [ siraben ];
-    platforms   = platforms.unix;
+    platforms = platforms.unix;
   };
 }

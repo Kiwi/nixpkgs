@@ -1,5 +1,14 @@
-{ stdenv, fetchurl, cmake, pkgconfig, gettext
-, gtk2, libcanberra, libnotify, pcre, sqlite, xorg
+{ stdenv
+, fetchurl
+, cmake
+, pkgconfig
+, gettext
+, gtk2
+, libcanberra
+, libnotify
+, pcre
+, sqlite
+, xorg
 , harfbuzz
 }:
 
@@ -17,7 +26,13 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake pkgconfig gettext ];
 
   propagatedBuildInputs = [
-    gtk2 libcanberra libnotify pcre sqlite xorg.libXdmcp xorg.libpthreadstubs
+    gtk2
+    libcanberra
+    libnotify
+    pcre
+    sqlite
+    xorg.libXdmcp
+    xorg.libpthreadstubs
   ];
 
   enableParallelBuilding = true;

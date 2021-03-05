@@ -5,7 +5,8 @@ let
   version = "0.9.0";
   sha256 = "1vdbh5pg3j7kqqqhhf4d9xfzbpqmjc4x373sk43pb05prg4w71s7";
   vendorSha256 = "19qcpd5i60xmsr8m8mx16imm5falkqcgqpwpx3clfvqxjyflglpp";
-in buildGoModule {
+in
+buildGoModule {
   inherit pname version vendorSha256;
 
   src = fetchFromGitHub {

@@ -1,5 +1,21 @@
-{ stdenv, fetchurl, pkgconfig, atk, cairo, glib, gtk3, pango, vala
-, libxml2, perl, intltool, gettext, gobject-introspection, dbus, xvfb_run, shared-mime-info }:
+{ stdenv
+, fetchurl
+, pkgconfig
+, atk
+, cairo
+, glib
+, gtk3
+, pango
+, vala
+, libxml2
+, perl
+, intltool
+, gettext
+, gobject-introspection
+, dbus
+, xvfb_run
+, shared-mime-info
+}:
 
 stdenv.mkDerivation rec {
   pname = "gtksourceview";

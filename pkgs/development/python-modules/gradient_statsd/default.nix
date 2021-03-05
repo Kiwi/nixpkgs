@@ -1,5 +1,12 @@
-{ lib, stdenv, fetchPypi, buildPythonPackage
-, boto3, requests, datadog, configparser, python
+{ lib
+, stdenv
+, fetchPypi
+, buildPythonPackage
+, boto3
+, requests
+, datadog
+, configparser
+, python
 }:
 
 buildPythonPackage rec {
@@ -21,9 +28,9 @@ buildPythonPackage rec {
 
   meta = with stdenv.lib; {
     description = "Wrapper around the DogStatsd client";
-    homepage    = "https://paperspace.com";
-    license     = licenses.mit;
-    platforms   = platforms.unix;
+    homepage = "https://paperspace.com";
+    license = licenses.mit;
+    platforms = platforms.unix;
     maintainers = with maintainers; [ freezeboy ];
   };
 }

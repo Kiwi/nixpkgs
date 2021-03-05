@@ -1,14 +1,18 @@
-{ stdenv, fetchFromGitHub, cmake, pkgconfig
-, libebml }:
+{ stdenv
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, libebml
+}:
 
 stdenv.mkDerivation rec {
   pname = "libmatroska";
   version = "1.6.2";
 
   src = fetchFromGitHub {
-    owner  = "Matroska-Org";
-    repo   = "libmatroska";
-    rev    = "release-${version}";
+    owner = "Matroska-Org";
+    repo = "libmatroska";
+    rev = "release-${version}";
     sha256 = "0yhr9hhgljva1fx3b0r4s3wkkypdfgsysbl35a4g3krkbhaa9rsd";
   };
 

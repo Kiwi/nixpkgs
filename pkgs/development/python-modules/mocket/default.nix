@@ -1,11 +1,16 @@
-{ lib, buildPythonPackage, fetchPypi, pythonOlder, isPy27
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, isPy27
 , decorator
 , http-parser
 , importlib-metadata
 , python
 , python_magic
 , six
-, urllib3 }:
+, urllib3
+}:
 
 buildPythonPackage rec {
   pname = "mocket";

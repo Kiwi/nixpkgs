@@ -1,12 +1,24 @@
-{ stdenv, fetchurl, pkgconfig, intltool, gtk3, libxml2, libsoup, upower,
-  libxfce4ui, libxfce4util, xfce4-panel, hicolor-icon-theme, xfce }:
+{ stdenv
+, fetchurl
+, pkgconfig
+, intltool
+, gtk3
+, libxml2
+, libsoup
+, upower
+, libxfce4ui
+, libxfce4util
+, xfce4-panel
+, hicolor-icon-theme
+, xfce
+}:
 
 let
   category = "panel-plugins";
 in
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-weather-plugin";
+  pname = "xfce4-weather-plugin";
   version = "0.10.1";
 
   src = fetchurl {
@@ -31,7 +43,7 @@ stdenv.mkDerivation rec {
   ];
 
   enableParallelBuilding = true;
-  
+
   passthru.updateScript = xfce.updateScript {
     inherit pname version;
     attrPath = "xfce.${pname}";

@@ -1,4 +1,4 @@
-{ stdenv, lib, brscan4, netDevices ? [] }:
+{ stdenv, lib, brscan4, netDevices ? [ ] }:
 
 /*
 

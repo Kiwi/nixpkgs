@@ -1,5 +1,15 @@
-{ stdenv, fetchPypi, buildPythonPackage, execnet, pytest_6
-, setuptools_scm, pytest-forked, filelock, psutil, six, isPy3k }:
+{ stdenv
+, fetchPypi
+, buildPythonPackage
+, execnet
+, pytest_6
+, setuptools_scm
+, pytest-forked
+, filelock
+, psutil
+, six
+, isPy3k
+}:
 
 buildPythonPackage rec {
   pname = "pytest-xdist";

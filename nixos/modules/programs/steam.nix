@@ -4,11 +4,13 @@ with lib;
 
 let
   cfg = config.programs.steam;
-in {
+in
+{
   options.programs.steam.enable = mkEnableOption "steam";
 
   config = mkIf cfg.enable {
-    hardware.opengl = { # this fixes the "glXChooseVisual failed" bug, context: https://github.com/NixOS/nixpkgs/issues/47932
+    hardware.opengl = {
+      # this fixes the "glXChooseVisual failed" bug, context: https://github.com/NixOS/nixpkgs/issues/47932
       enable = true;
       driSupport32Bit = true;
     };

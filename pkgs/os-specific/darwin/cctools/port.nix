@@ -1,8 +1,16 @@
-{ stdenv, fetchFromGitHub, autoconf, automake, libtool, autoreconfHook
+{ stdenv
+, fetchFromGitHub
+, autoconf
+, automake
+, libtool
+, autoreconfHook
 , installShellFiles
-, libcxxabi, libuuid
-, libobjc ? null, maloader ? null
-, enableTapiSupport ? true, libtapi
+, libcxxabi
+, libuuid
+, libobjc ? null
+, maloader ? null
+, enableTapiSupport ? true
+, libtapi
 }:
 
 let
@@ -22,9 +30,9 @@ stdenv.mkDerivation {
   version = "949.0.1";
 
   src = fetchFromGitHub {
-    owner  = "tpoechtrager";
-    repo   = "cctools-port";
-    rev    = "43f32a4c61b5ba7fde011e816136c550b1b3146f";
+    owner = "tpoechtrager";
+    repo = "cctools-port";
+    rev = "43f32a4c61b5ba7fde011e816136c550b1b3146f";
     sha256 = "10yc5smiczzm62q6ijqccc58bwmfhc897f3bwa5i9j98csqsjj0k";
   };
 
@@ -50,9 +58,9 @@ stdenv.mkDerivation {
     ++ stdenv.lib.optional (stdenv.targetPlatform != stdenv.hostPlatform) "target";
   configureFlags = [ "--disable-clang-as" ]
     ++ stdenv.lib.optionals enableTapiSupport [
-      "--enable-tapi-support"
-      "--with-libtapi=${libtapi}"
-    ];
+    "--enable-tapi-support"
+    "--with-libtapi=${libtapi}"
+  ];
 
   postPatch = stdenv.lib.optionalString stdenv.hostPlatform.isDarwin ''
     substituteInPlace cctools/Makefile.am --replace libobjc2 ""

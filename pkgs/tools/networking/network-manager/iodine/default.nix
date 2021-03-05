@@ -1,10 +1,25 @@
-{ stdenv, fetchFromGitLab, substituteAll, autoreconfHook, iodine, intltool, pkgconfig, networkmanager, libsecret, gtk3
-, withGnome ? true, gnome3, fetchpatch, libnma, glib }:
+{ stdenv
+, fetchFromGitLab
+, substituteAll
+, autoreconfHook
+, iodine
+, intltool
+, pkgconfig
+, networkmanager
+, libsecret
+, gtk3
+, withGnome ? true
+, gnome3
+, fetchpatch
+, libnma
+, glib
+}:
 
 let
   pname = "NetworkManager-iodine";
   version = "unstable-2019-11-05";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "${pname}${if withGnome then "-gnome" else ""}-${version}";
 
   src = fetchFromGitLab {

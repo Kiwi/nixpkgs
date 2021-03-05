@@ -1,5 +1,9 @@
-{ lib, appimageTools, fetchurl, makeDesktopItem
-, gsettings-desktop-schemas, gtk2
+{ lib
+, appimageTools
+, fetchurl
+, makeDesktopItem
+, gsettings-desktop-schemas
+, gtk2
 }:
 
 let
@@ -26,7 +30,8 @@ let
     categories = "Finance;";
   };
 
-in appimageTools.wrapType2 rec {
+in
+appimageTools.wrapType2 rec {
   inherit name src;
 
   profile = ''

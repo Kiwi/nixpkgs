@@ -1,6 +1,15 @@
-{ lib, buildPythonPackage, fetchPypi, python
-, fonttools, lxml, fs, unicodedata2
-, defcon, fontpens, fontmath, booleanoperations
+{ lib
+, buildPythonPackage
+, fetchPypi
+, python
+, fonttools
+, lxml
+, fs
+, unicodedata2
+, defcon
+, fontpens
+, fontmath
+, booleanoperations
 , pytest
 }:
 
@@ -17,11 +26,11 @@ buildPythonPackage rec {
   propagatedBuildInputs = [
     booleanoperations
     fonttools
-    unicodedata2  # fonttools[unicode] extra
-    lxml          # fonttools[lxml] extra
-    fs            # fonttools[ufo] extra
+    unicodedata2 # fonttools[unicode] extra
+    lxml # fonttools[lxml] extra
+    fs # fonttools[ufo] extra
     defcon
-    fontpens      # defcon[pens] extra
+    fontpens # defcon[pens] extra
     fontmath
   ];
 

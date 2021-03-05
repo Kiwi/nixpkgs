@@ -1,5 +1,15 @@
-{ stdenv, buildPythonPackage, fetchPypi, pythonOlder, google_api_core
-, grpc_google_iam_v1, libcst, mock, proto-plus, pytest, pytest-asyncio }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, google_api_core
+, grpc_google_iam_v1
+, libcst
+, mock
+, proto-plus
+, pytest
+, pytest-asyncio
+}:
 
 buildPythonPackage rec {
   pname = "google-cloud-container";

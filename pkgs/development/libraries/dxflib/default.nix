@@ -37,7 +37,7 @@ stdenv.mkDerivation rec {
   doCheck = true;
 
   meta = {
-    maintainers = with stdenv.lib.maintainers; [raskin];
+    maintainers = with stdenv.lib.maintainers; [ raskin ];
     platforms = stdenv.lib.platforms.linux;
     description = ''DXF file format library'';
   };

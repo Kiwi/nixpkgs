@@ -29,9 +29,12 @@
 , lame
 , mpg123
 , twolame
-, gtkSupport ? false, gtk3 ? null
-, raspiCameraSupport ? false, libraspberrypi ? null
-, enableJack ? true, libjack2
+, gtkSupport ? false
+, gtk3 ? null
+, raspiCameraSupport ? false
+, libraspberrypi ? null
+, enableJack ? true
+, libjack2
 , libXdamage
 , libXext
 , libXfixes

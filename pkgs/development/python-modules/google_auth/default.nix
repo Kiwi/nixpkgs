@@ -1,7 +1,24 @@
-{ stdenv, buildPythonPackage, fetchpatch, fetchPypi, pythonOlder
-, pytestCheckHook, cachetools, flask, freezegun, mock, oauth2client
-, pyasn1-modules, pytest, pytest-localserver, requests, responses, rsa
-, setuptools, six, urllib3 }:
+{ stdenv
+, buildPythonPackage
+, fetchpatch
+, fetchPypi
+, pythonOlder
+, pytestCheckHook
+, cachetools
+, flask
+, freezegun
+, mock
+, oauth2client
+, pyasn1-modules
+, pytest
+, pytest-localserver
+, requests
+, responses
+, rsa
+, setuptools
+, six
+, urllib3
+}:
 
 buildPythonPackage rec {
   pname = "google-auth";

@@ -1,37 +1,91 @@
-{ stdenv, pkgs, bazel_3, buildBazelPackage, lib, fetchFromGitHub, fetchpatch, symlinkJoin
+{ stdenv
+, pkgs
+, bazel_3
+, buildBazelPackage
+, lib
+, fetchFromGitHub
+, fetchpatch
+, symlinkJoin
 , addOpenGLRunpath
-# Python deps
-, buildPythonPackage, isPy3k, isPy27, pythonOlder, pythonAtLeast, python
-# Python libraries
-, numpy, tensorflow-tensorboard_2, backports_weakref, mock, enum34, absl-py
-, future, setuptools, wheel, keras-preprocessing, keras-applications, google-pasta
+  # Python deps
+, buildPythonPackage
+, isPy3k
+, isPy27
+, pythonOlder
+, pythonAtLeast
+, python
+  # Python libraries
+, numpy
+, tensorflow-tensorboard_2
+, backports_weakref
+, mock
+, enum34
+, absl-py
+, future
+, setuptools
+, wheel
+, keras-preprocessing
+, keras-applications
+, google-pasta
 , functools32
-, opt-einsum, astunparse, h5py
-, termcolor, grpcio, six, wrapt, protobuf, tensorflow-estimator_2
-# Common deps
-, git, swig, which, binutils, glibcLocales, cython
-# Common libraries
-, jemalloc, openmpi, astor, gast, grpc, sqlite, openssl, jsoncpp, re2
-, curl, snappy, flatbuffers, icu, double-conversion, libpng, libjpeg, giflib
-# Upsteam by default includes cuda support since tensorflow 1.15. We could do
-# that in nix as well. It would make some things easier and less confusing, but
-# it would also make the default tensorflow package unfree. See
-# https://groups.google.com/a/tensorflow.org/forum/#!topic/developers/iRCt5m4qUz0
-, cudaSupport ? false, cudatoolkit ? null, cudnn ? null, nccl ? null
-, mklSupport ? false, mkl ? null
-# XLA without CUDA is broken
+, opt-einsum
+, astunparse
+, h5py
+, termcolor
+, grpcio
+, six
+, wrapt
+, protobuf
+, tensorflow-estimator_2
+  # Common deps
+, git
+, swig
+, which
+, binutils
+, glibcLocales
+, cython
+  # Common libraries
+, jemalloc
+, openmpi
+, astor
+, gast
+, grpc
+, sqlite
+, openssl
+, jsoncpp
+, re2
+, curl
+, snappy
+, flatbuffers
+, icu
+, double-conversion
+, libpng
+, libjpeg
+, giflib
+  # Upsteam by default includes cuda support since tensorflow 1.15. We could do
+  # that in nix as well. It would make some things easier and less confusing, but
+  # it would also make the default tensorflow package unfree. See
+  # https://groups.google.com/a/tensorflow.org/forum/#!topic/developers/iRCt5m4qUz0
+, cudaSupport ? false
+, cudatoolkit ? null
+, cudnn ? null
+, nccl ? null
+, mklSupport ? false
+, mkl ? null
+  # XLA without CUDA is broken
 , xlaSupport ? cudaSupport
-# Default from ./configure script
+  # Default from ./configure script
 , cudaCapabilities ? [ "sm_35" "sm_50" "sm_60" "sm_70" "sm_75" "compute_80" ]
 , sse42Support ? stdenv.hostPlatform.sse4_2Support
-, avx2Support  ? stdenv.hostPlatform.avx2Support
-, fmaSupport   ? stdenv.hostPlatform.fmaSupport
-# Darwin deps
-, Foundation, Security
+, avx2Support ? stdenv.hostPlatform.avx2Support
+, fmaSupport ? stdenv.hostPlatform.fmaSupport
+  # Darwin deps
+, Foundation
+, Security
 }:
 
 assert cudaSupport -> cudatoolkit != null
-                   && cudnn != null;
+  && cudnn != null;
 
 # unsupported combination
 assert ! (stdenv.isDarwin && cudaSupport);
@@ -77,7 +131,8 @@ let
   pname = "tensorflow${variant}";
 
   pythonEnv = python.withPackages (_:
-    [ # python deps needed during wheel build time (not runtime, see the buildPythonPackage part for that)
+    [
+      # python deps needed during wheel build time (not runtime, see the buildPythonPackage part for that)
       numpy
       keras-preprocessing
       protobuf
@@ -89,11 +144,12 @@ let
       keras-applications
       setuptools
       wheel
-  ] ++ lib.optionals (!isPy3k)
-  [ future
-    functools32
-    mock
-  ]);
+    ] ++ lib.optionals (!isPy3k)
+      [
+        future
+        functools32
+        mock
+      ]);
 
   bazel-build = buildBazelPackage {
     name = "${pname}-${version}";
@@ -123,7 +179,9 @@ let
     # https://gitweb.gentoo.org/repo/gentoo.git/tree/sci-libs/tensorflow
 
     nativeBuildInputs = [
-      swig which pythonEnv
+      swig
+      which
+      pythonEnv
     ] ++ lib.optional cudaSupport addOpenGLRunpath;
 
     buildInputs = [
@@ -236,27 +294,29 @@ let
       rm -f .bazelversion
     '';
 
-    preConfigure = let
-      opt_flags = []
-        ++ lib.optionals sse42Support ["-msse4.2"]
-        ++ lib.optionals avx2Support ["-mavx2"]
-        ++ lib.optionals fmaSupport ["-mfma"];
-    in ''
-      patchShebangs configure
+    preConfigure =
+      let
+        opt_flags = [ ]
+          ++ lib.optionals sse42Support [ "-msse4.2" ]
+          ++ lib.optionals avx2Support [ "-mavx2" ]
+          ++ lib.optionals fmaSupport [ "-mfma" ];
+      in
+      ''
+        patchShebangs configure
 
-      # dummy ldconfig
-      mkdir dummy-ldconfig
-      echo "#!${stdenv.shell}" > dummy-ldconfig/ldconfig
-      chmod +x dummy-ldconfig/ldconfig
-      export PATH="$PWD/dummy-ldconfig:$PATH"
+        # dummy ldconfig
+        mkdir dummy-ldconfig
+        echo "#!${stdenv.shell}" > dummy-ldconfig/ldconfig
+        chmod +x dummy-ldconfig/ldconfig
+        export PATH="$PWD/dummy-ldconfig:$PATH"
 
-      export PYTHON_LIB_PATH="$NIX_BUILD_TOP/site-packages"
-      export CC_OPT_FLAGS="${lib.concatStringsSep " " opt_flags}"
-      mkdir -p "$PYTHON_LIB_PATH"
+        export PYTHON_LIB_PATH="$NIX_BUILD_TOP/site-packages"
+        export CC_OPT_FLAGS="${lib.concatStringsSep " " opt_flags}"
+        mkdir -p "$PYTHON_LIB_PATH"
 
-      # To avoid mixing Python 2 and Python 3
-      unset PYTHONPATH
-    '';
+        # To avoid mixing Python 2 and Python 3
+        unset PYTHONPATH
+      '';
 
     configurePhase = ''
       runHook preConfigure
@@ -280,10 +340,11 @@ let
       TF_SYSTEM_LIBS = null;
 
       # cudaSupport causes fetch of ncclArchive, resulting in different hashes
-      sha256 = if cudaSupport then
-        "11blnw3ghp1kdi9hh9pdqa4qni9ysc3nk9iqqk9bg4dlr9zl1yld"
-      else
-        "1kkghhwhl8frs68kv28r408lps7mpgq1xvq6hc3k0j35asv1g2kc";
+      sha256 =
+        if cudaSupport then
+          "11blnw3ghp1kdi9hh9pdqa4qni9ysc3nk9iqqk9bg4dlr9zl1yld"
+        else
+          "1kkghhwhl8frs68kv28r408lps7mpgq1xvq6hc3k0j35asv1g2kc";
     };
 
     buildAttrs = {
@@ -332,7 +393,8 @@ let
     };
   };
 
-in buildPythonPackage {
+in
+buildPythonPackage {
   inherit version pname;
   disabled = isPy27;
 
@@ -371,7 +433,8 @@ in buildPythonPackage {
     future
     functools32
   ] ++ lib.optionals (pythonOlder "3.4") [
-    backports_weakref enum34
+    backports_weakref
+    enum34
   ] ++ lib.optionals withTensorboard [
     tensorflow-tensorboard_2
   ];

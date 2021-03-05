@@ -1,6 +1,6 @@
 { lib
 , newScope
-, overrides ? (self: super: {})
+, overrides ? (self: super: { })
 }:
 
 let
@@ -18,23 +18,24 @@ let
         callPackage ../development/interpreters/dhall/build-dhall-directory-package.nix { };
 
     in
-      { inherit
-          buildDhallPackage
-          buildDhallGitHubPackage
-          buildDhallDirectoryPackage
+    {
+      inherit
+        buildDhallPackage
+        buildDhallGitHubPackage
+        buildDhallDirectoryPackage
         ;
 
-        lib = import ../development/dhall-modules/lib.nix { inherit lib; };
+      lib = import ../development/dhall-modules/lib.nix { inherit lib; };
 
-        dhall-kubernetes =
-          callPackage ../development/dhall-modules/dhall-kubernetes.nix { };
+      dhall-kubernetes =
+        callPackage ../development/dhall-modules/dhall-kubernetes.nix { };
 
-        dhall-packages =
-          callPackage ../development/dhall-modules/dhall-packages.nix { };
+      dhall-packages =
+        callPackage ../development/dhall-modules/dhall-packages.nix { };
 
-        Prelude =
-          callPackage ../development/dhall-modules/Prelude.nix { };
-      };
+      Prelude =
+        callPackage ../development/dhall-modules/Prelude.nix { };
+    };
 
 in
-  lib.fix' (lib.extends overrides packages)
+lib.fix' (lib.extends overrides packages)

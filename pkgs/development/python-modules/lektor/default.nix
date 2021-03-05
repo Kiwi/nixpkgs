@@ -34,12 +34,26 @@ buildPythonPackage rec {
   };
 
   propagatedBuildInputs = [
-    click watchdog exifread requests mistune inifile Babel jinja2
-    flask pyopenssl ndg-httpsclient setuptools
+    click
+    watchdog
+    exifread
+    requests
+    mistune
+    inifile
+    Babel
+    jinja2
+    flask
+    pyopenssl
+    ndg-httpsclient
+    setuptools
   ] ++ lib.optionals isPy27 [ functools32 ];
 
   checkInputs = [
-    pytest pytestcov pytest-mock pytest-pylint pytest-click
+    pytest
+    pytestcov
+    pytest-mock
+    pytest-pylint
+    pytest-click
   ];
 
   checkPhase = ''
@@ -51,8 +65,8 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "A static content management system";
-    homepage    = "https://www.getlektor.com/";
-    license     = licenses.bsd0;
+    homepage = "https://www.getlektor.com/";
+    license = licenses.bsd0;
     maintainers = with maintainers; [ vozz costrouc ];
   };
 

@@ -1,7 +1,8 @@
 { stdenv, callPackage, fetchFromGitHub, enableStatic ? false, enableShared ? true }:
 let
   yesno = b: if b then "yes" else "no";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "libbacktrace";
   version = "2020-05-13";
   src = fetchFromGitHub {

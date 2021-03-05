@@ -14,7 +14,7 @@ rec {
 
   packageName = "trivial-package-local-nicknames";
 
-  asdFilesToKeep = ["trivial-package-local-nicknames.asd"];
+  asdFilesToKeep = [ "trivial-package-local-nicknames.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM trivial-package-local-nicknames DESCRIPTION

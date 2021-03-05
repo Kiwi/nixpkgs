@@ -1,6 +1,13 @@
-{ stdenv, substituteAll
-, fetchurl, perl, gcc, llvm
-, ncurses5, gmp, glibc, libiconv
+{ stdenv
+, substituteAll
+, fetchurl
+, perl
+, gcc
+, llvm
+, ncurses5
+, gmp
+, glibc
+, libiconv
 , llvmPackages
 }:
 
@@ -11,7 +18,8 @@ let
   useLLVM = !stdenv.targetPlatform.isx86;
 
   libPath = stdenv.lib.makeLibraryPath ([
-    ncurses5 gmp
+    ncurses5
+    gmp
   ] ++ stdenv.lib.optional (stdenv.hostPlatform.isDarwin) libiconv);
 
   libEnvVar = stdenv.lib.optionalString stdenv.hostPlatform.isDarwin "DY"
@@ -19,8 +27,8 @@ let
 
   glibcDynLinker = assert stdenv.isLinux;
     if stdenv.hostPlatform.libc == "glibc" then
-       # Could be stdenv.cc.bintools.dynamicLinker, keeping as-is to avoid rebuild.
-       ''"$(cat $NIX_CC/nix-support/dynamic-linker)"''
+    # Could be stdenv.cc.bintools.dynamicLinker, keeping as-is to avoid rebuild.
+      ''"$(cat $NIX_CC/nix-support/dynamic-linker)"''
     else
       "${stdenv.lib.getLib glibc}/lib/ld-linux*";
 
@@ -31,29 +39,31 @@ stdenv.mkDerivation rec {
 
   name = "ghc-${version}-binary";
 
-  src = fetchurl ({
-    i686-linux = {
-      url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-i386-deb8-linux.tar.xz";
-      sha256 = "08w2ik55dp3n95qikmrflc91lsiq01xp53ki3jlhnbj8fqnxfrwy";
-    };
-    x86_64-linux = {
-      url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-x86_64-deb8-linux.tar.xz";
-      sha256 = "0ahv26304pqi3dm7i78si4pxwvg5f5dc2jwsfgvcrhcx5g30bqj8";
-    };
-    armv7l-linux = {
-      url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-armv7-deb8-linux.tar.xz";
-      sha256 = "1jmv8qmnh5bn324fivbwdcaj55kvw7cb2zq9pafmlmv3qwwx7s46";
-    };
-    aarch64-linux = {
-      url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-aarch64-deb8-linux.tar.xz";
-      sha256 = "1k2amylcp1ad67c75h1pqf7czf9m0zj1i7hdc45ghjklnfq9hrk7";
-    };
-    x86_64-darwin = {
-      url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-x86_64-apple-darwin.tar.xz";
-      sha256 = "09swx71gh5habzbx55shz2xykgr96xkcy09nzinnm4z0yxicy3zr";
-    };
-  }.${stdenv.hostPlatform.system}
-    or (throw "cannot bootstrap GHC on this platform"));
+  src = fetchurl (
+    {
+      i686-linux = {
+        url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-i386-deb8-linux.tar.xz";
+        sha256 = "08w2ik55dp3n95qikmrflc91lsiq01xp53ki3jlhnbj8fqnxfrwy";
+      };
+      x86_64-linux = {
+        url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-x86_64-deb8-linux.tar.xz";
+        sha256 = "0ahv26304pqi3dm7i78si4pxwvg5f5dc2jwsfgvcrhcx5g30bqj8";
+      };
+      armv7l-linux = {
+        url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-armv7-deb8-linux.tar.xz";
+        sha256 = "1jmv8qmnh5bn324fivbwdcaj55kvw7cb2zq9pafmlmv3qwwx7s46";
+      };
+      aarch64-linux = {
+        url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-aarch64-deb8-linux.tar.xz";
+        sha256 = "1k2amylcp1ad67c75h1pqf7czf9m0zj1i7hdc45ghjklnfq9hrk7";
+      };
+      x86_64-darwin = {
+        url = "http://haskell.org/ghc/dist/${version}/ghc-${version}-x86_64-apple-darwin.tar.xz";
+        sha256 = "09swx71gh5habzbx55shz2xykgr96xkcy09nzinnm4z0yxicy3zr";
+      };
+    }.${stdenv.hostPlatform.system}
+      or (throw "cannot bootstrap GHC on this platform")
+  );
 
   nativeBuildInputs = [ perl ];
   propagatedBuildInputs = stdenv.lib.optionals useLLVM [ llvmPackages.llvm ];
@@ -123,16 +133,17 @@ stdenv.mkDerivation rec {
 
   configurePlatforms = [ ];
   configureFlags =
-  let
-    gcc-clang-wrapper = substituteAll {
-      inherit (stdenv) shell;
-      isExecutable = true;
-      src = ./gcc-clang-wrapper.sh;
-    };
-  in
-  [ "--with-gmp-libraries=${stdenv.lib.getLib gmp}/lib"
-    "--with-gmp-includes=${stdenv.lib.getDev gmp}/include"
-  ] ++ stdenv.lib.optional stdenv.isDarwin            "--with-gcc=${gcc-clang-wrapper}"
+    let
+      gcc-clang-wrapper = substituteAll {
+        inherit (stdenv) shell;
+        isExecutable = true;
+        src = ./gcc-clang-wrapper.sh;
+      };
+    in
+    [
+      "--with-gmp-libraries=${stdenv.lib.getLib gmp}/lib"
+      "--with-gmp-includes=${stdenv.lib.getDev gmp}/include"
+    ] ++ stdenv.lib.optional stdenv.isDarwin "--with-gcc=${gcc-clang-wrapper}"
     ++ stdenv.lib.optional stdenv.hostPlatform.isMusl "--disable-ld-override";
 
   # Stripping combined with patchelf breaks the executables (they die
@@ -187,5 +198,5 @@ stdenv.mkDerivation rec {
   };
 
   meta.license = stdenv.lib.licenses.bsd3;
-  meta.platforms = ["x86_64-linux" "i686-linux" "x86_64-darwin" "armv7l-linux" "aarch64-linux"];
+  meta.platforms = [ "x86_64-linux" "i686-linux" "x86_64-darwin" "armv7l-linux" "aarch64-linux" ];
 }

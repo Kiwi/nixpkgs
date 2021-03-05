@@ -17,10 +17,10 @@ stdenv.mkDerivation rec {
   buildInputs = [ boost ];
 
   meta = with stdenv.lib; {
-    homepage    = "https://knightos.org/";
+    homepage = "https://knightos.org/";
     description = "KnightOS C compiler";
-    license     = licenses.gpl2Plus;
+    license = licenses.gpl2Plus;
     maintainers = with maintainers; [ siraben ];
-    platforms   = platforms.unix;
+    platforms = platforms.unix;
   };
 }

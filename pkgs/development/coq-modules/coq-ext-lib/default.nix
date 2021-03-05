@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, coq, ...}@args:
+{ stdenv, fetchFromGitHub, coq, ... }@args:
 
 let
   hashes = {

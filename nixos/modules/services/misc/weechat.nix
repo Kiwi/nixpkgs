@@ -30,7 +30,7 @@ in
 
   config = mkIf cfg.enable {
     users = {
-      groups.weechat = {};
+      groups.weechat = { };
       users.weechat = {
         createHome = true;
         group = "weechat";

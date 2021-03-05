@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, cmake, curl }: 
+{ stdenv, fetchFromGitHub, cmake, curl }:
 
 stdenv.mkDerivation rec {
   pname = "curlcpp";

@@ -1,5 +1,16 @@
-{ stdenv, fetchurl, libX11, cups, zlib, libxml2, pango, atk, gtk2, glib
-, gdk-pixbuf, gdk-pixbuf-xlib }:
+{ stdenv
+, fetchurl
+, libX11
+, cups
+, zlib
+, libxml2
+, pango
+, atk
+, gtk2
+, glib
+, gdk-pixbuf
+, gdk-pixbuf-xlib
+}:
 
 assert stdenv.hostPlatform.system == "i686-linux";
 

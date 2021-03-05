@@ -82,7 +82,7 @@ in
             Handler can be a single command.
           </para></note>
         '';
-        default = {};
+        default = { };
         example = {
           ac-power = {
             event = "ac_adapter/*";

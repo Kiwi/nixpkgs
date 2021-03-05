@@ -31,7 +31,7 @@ let
   # TODO: make upstream patch allowing to use the uncompressed file,
   # preferably from XDG_DATA_DIRS.
   # https://gitlab.gnome.org/GNOME/gucharmap/issues/13
-  unihanZip = runCommand "unihan" {} ''
+  unihanZip = runCommand "unihan" { } ''
     mkdir -p $out/share/unicode
     ln -s ${unihan-database.src} $out/share/unicode/Unihan.zip
   '';
@@ -42,7 +42,8 @@ let
       unicode-character-database
     ];
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "gucharmap";
   version = "13.0.2";
 

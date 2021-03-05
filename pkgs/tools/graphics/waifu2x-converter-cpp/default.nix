@@ -1,5 +1,12 @@
-{ cmake, fetchFromGitHub, makeWrapper, opencv3, stdenv, ocl-icd, opencl-headers
-, cudaSupport ? false, cudatoolkit ? null
+{ cmake
+, fetchFromGitHub
+, makeWrapper
+, opencv3
+, stdenv
+, ocl-icd
+, opencl-headers
+, cudaSupport ? false
+, cudatoolkit ? null
 }:
 
 stdenv.mkDerivation rec {
@@ -19,7 +26,9 @@ stdenv.mkDerivation rec {
   '';
 
   buildInputs = [
-    ocl-icd opencv3 opencl-headers
+    ocl-icd
+    opencv3
+    opencl-headers
   ] ++ stdenv.lib.optional cudaSupport cudatoolkit;
 
   nativeBuildInputs = [ cmake makeWrapper ];

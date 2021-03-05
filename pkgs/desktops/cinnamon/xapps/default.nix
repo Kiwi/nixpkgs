@@ -56,7 +56,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     gobject-introspection
-    (python3.withPackages(ps: with ps; [
+    (python3.withPackages (ps: with ps; [
       pygobject3
       setproctitle # mate applet
     ]))

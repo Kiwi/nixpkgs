@@ -1,5 +1,15 @@
-{ stdenv, fetchFromGitHub, makeWrapper, which, coreutils, rrdtool, perlPackages
-, python, ruby, jre, nettools, bc
+{ stdenv
+, fetchFromGitHub
+, makeWrapper
+, which
+, coreutils
+, rrdtool
+, perlPackages
+, python
+, ruby
+, jre
+, nettools
+, bc
 }:
 
 stdenv.mkDerivation rec {
@@ -59,8 +69,8 @@ stdenv.mkDerivation rec {
   doCheck = false;
 
   checkPhase = ''
-   export PERL5LIB="$PERL5LIB:${rrdtool}/${perlPackages.perl.libPrefix}"
-   LC_ALL=C make -j1 test
+    export PERL5LIB="$PERL5LIB:${rrdtool}/${perlPackages.perl.libPrefix}"
+    LC_ALL=C make -j1 test
   '';
 
   patches = [
@@ -104,26 +114,39 @@ stdenv.mkDerivation rec {
   ];
 
   postFixup = ''
-    echo "Removing references to /usr/{bin,sbin}/ from munin plugins..."
-    find "$out/lib/plugins" -type f -print0 | xargs -0 -L1 \
-        sed -i -e "s|/usr/bin/||g" -e "s|/usr/sbin/||g" -e "s|\<bc\>|${bc}/bin/bc|g"
+        echo "Removing references to /usr/{bin,sbin}/ from munin plugins..."
+        find "$out/lib/plugins" -type f -print0 | xargs -0 -L1 \
+            sed -i -e "s|/usr/bin/||g" -e "s|/usr/sbin/||g" -e "s|\<bc\>|${bc}/bin/bc|g"
 
-    if test -e $out/nix-support/propagated-build-inputs; then
-        ln -s $out/nix-support/propagated-build-inputs $out/nix-support/propagated-user-env-packages
-    fi
+        if test -e $out/nix-support/propagated-build-inputs; then
+            ln -s $out/nix-support/propagated-build-inputs $out/nix-support/propagated-user-env-packages
+        fi
 
-    for file in "$out"/bin/munindoc "$out"/sbin/munin-* "$out"/lib/munin-* "$out"/www/cgi/*; do
-        # don't wrap .jar files
-        case "$file" in
-            *.jar) continue;;
-        esac
-        wrapProgram "$file" \
-          --set PERL5LIB "$out/${perlPackages.perl.libPrefix}:${with perlPackages; makePerlPath [
-                LogLog4perl IOSocketInet6 Socket6 URI DBFile DateManip
-                HTMLTemplate FileCopyRecursive FCGI NetCIDR NetSNMP NetServer
-                ListMoreUtils DBDPg LWP rrdtool
-                ]}"
-    done
+        for file in "$out"/bin/munindoc "$out"/sbin/munin-* "$out"/lib/munin-* "$out"/www/cgi/*; do
+            # don't wrap .jar files
+            case "$file" in
+                *.jar) continue;;
+            esac
+            wrapProgram "$file" \
+              --set PERL5LIB "$out/${perlPackages.perl.libPrefix}:${with perlPackages; makePerlPath [
+                    LogLog4perl
+    IOSocketInet6
+    Socket6
+    URI
+    DBFile
+    DateManip
+                    HTMLTemplate
+    FileCopyRecursive
+    FCGI
+    NetCIDR
+    NetSNMP
+    NetServer
+                    ListMoreUtils
+    DBDPg
+    LWP
+    rrdtool
+                    ]}"
+        done
   '';
 
   meta = with stdenv.lib; {

@@ -1,5 +1,14 @@
-{ stdenv, fetchurl, jre8, makeWrapper, bash, coreutils, gnugrep, gnused, ps,
-  majorVersion ? "1.0" }:
+{ stdenv
+, fetchurl
+, jre8
+, makeWrapper
+, bash
+, coreutils
+, gnugrep
+, gnused
+, ps
+, majorVersion ? "1.0"
+}:
 
 let
   versionMap = {

@@ -5,17 +5,17 @@ stdenv.mkDerivation rec {
   pname = "visualvm";
 
   src = fetchzip {
-    url = "https://github.com/visualvm/visualvm.src/releases/download/${version}/visualvm_${builtins.replaceStrings ["."] [""]  version}.zip";
+    url = "https://github.com/visualvm/visualvm.src/releases/download/${version}/visualvm_${builtins.replaceStrings [ "." ] [ "" ] version}.zip";
     sha256 = "19xf79rbilslpibi1mi31jplrgf8anpm06s6sxqh8v1qs84vkxdm";
   };
 
   desktopItem = makeDesktopItem {
-      name = "visualvm";
-      exec = "visualvm";
-      comment = "Java Troubleshooting Tool";
-      desktopName = "VisualVM";
-      genericName = "Java Troubleshooting Tool";
-      categories = "Development;";
+    name = "visualvm";
+    exec = "visualvm";
+    comment = "Java Troubleshooting Tool";
+    desktopName = "VisualVM";
+    genericName = "Java Troubleshooting Tool";
+    categories = "Development;";
   };
 
   nativeBuildInputs = [ makeWrapper ];

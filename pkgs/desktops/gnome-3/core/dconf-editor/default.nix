@@ -1,10 +1,27 @@
-{ stdenv, fetchurl, meson, ninja, vala, libxslt, pkgconfig, glib, gtk3, gnome3, python3, dconf
-, libxml2, gettext, docbook_xsl, wrapGAppsHook, gobject-introspection }:
+{ stdenv
+, fetchurl
+, meson
+, ninja
+, vala
+, libxslt
+, pkgconfig
+, glib
+, gtk3
+, gnome3
+, python3
+, dconf
+, libxml2
+, gettext
+, docbook_xsl
+, wrapGAppsHook
+, gobject-introspection
+}:
 
 let
   pname = "dconf-editor";
   version = "3.38.0";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "${pname}-${version}";
 
   src = fetchurl {
@@ -13,8 +30,17 @@ in stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    meson ninja vala libxslt pkgconfig wrapGAppsHook
-    gettext docbook_xsl libxml2 gobject-introspection python3
+    meson
+    ninja
+    vala
+    libxslt
+    pkgconfig
+    wrapGAppsHook
+    gettext
+    docbook_xsl
+    libxml2
+    gobject-introspection
+    python3
   ];
 
   buildInputs = [ glib gtk3 dconf ];

@@ -7,7 +7,8 @@ let
       tornado = super.tornado_5;
     };
   };
-in with python.pkgs; buildPythonApplication rec {
+in
+with python.pkgs; buildPythonApplication rec {
   pname = "luigi";
   version = "3.0.2";
 
@@ -22,7 +23,7 @@ in with python.pkgs; buildPythonApplication rec {
   doCheck = false;
 
   # This enables accessing modules stored in cwd
-  makeWrapperArgs = ["--prefix PYTHONPATH . :"];
+  makeWrapperArgs = [ "--prefix PYTHONPATH . :" ];
 
   meta = with lib; {
     description = "Python package that helps you build complex pipelines of batch jobs";
@@ -32,7 +33,7 @@ in with python.pkgs; buildPythonApplication rec {
     '';
     homepage = "https://github.com/spotify/luigi";
     changelog = "https://github.com/spotify/luigi/releases/tag/${version}";
-    license =  [ licenses.asl20 ];
+    license = [ licenses.asl20 ];
     maintainers = [ maintainers.bhipple ];
   };
 }

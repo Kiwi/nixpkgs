@@ -30,14 +30,18 @@ let
       '';
     };
 
-    config.path = let
-      generated = pkgs.runCommand "dhparams-${name}.pem" {
-        nativeBuildInputs = [ pkgs.openssl ];
-      } "openssl dhparam -out \"$out\" ${toString config.bits}";
-    in if cfg.stateful then "${cfg.path}/${name}.pem" else generated;
+    config.path =
+      let
+        generated = pkgs.runCommand "dhparams-${name}.pem"
+          {
+            nativeBuildInputs = [ pkgs.openssl ];
+          } "openssl dhparam -out \"$out\" ${toString config.bits}";
+      in
+      if cfg.stateful then "${cfg.path}/${name}.pem" else generated;
   };
 
-in {
+in
+{
   options = {
     security.dhparams = {
       enable = mkOption {
@@ -51,8 +55,9 @@ in {
       params = mkOption {
         type = with types; let
           coerce = bits: { inherit bits; };
-        in attrsOf (coercedTo int coerce (submodule paramsSubmodule));
-        default = {};
+        in
+        attrsOf (coercedTo int coerce (submodule paramsSubmodule));
+        default = { };
         example = lib.literalExample "{ nginx.bits = 3072; }";
         description = ''
           Diffie-Hellman parameters to generate.
@@ -131,44 +136,48 @@ in {
         serviceConfig.Type = "oneshot";
 
         script = ''
-          if [ ! -d ${cfg.path} ]; then
-            mkdir -p ${cfg.path}
-          fi
+                    if [ ! -d ${cfg.path} ]; then
+                      mkdir -p ${cfg.path}
+                    fi
 
-          # Remove old dhparams
-          for file in ${cfg.path}/*; do
-            if [ ! -f "$file" ]; then
-              continue
-            fi
-            ${lib.concatStrings (lib.mapAttrsToList (name: { bits, path, ... }: ''
-              if [ "$file" = ${lib.escapeShellArg path} ] && \
-                 ${pkgs.openssl}/bin/openssl dhparam -in "$file" -text \
-                 | head -n 1 | grep "(${toString bits} bit)" > /dev/null; then
-                continue
-              fi
-            '') cfg.params)}
-            rm $file
-          done
+                    # Remove old dhparams
+                    for file in ${cfg.path}/*; do
+                      if [ ! -f "$file" ]; then
+                        continue
+                      fi
+                      ${lib.concatStrings (lib.mapAttrsToList
+          (name: { bits, path, ... }: ''
+                        if [ "$file" = ${lib.escapeShellArg path} ] && \
+                           ${pkgs.openssl}/bin/openssl dhparam -in "$file" -text \
+                           | head -n 1 | grep "(${toString bits} bit)" > /dev/null; then
+                          continue
+                        fi
+                      '')
+          cfg.params)}
+                      rm $file
+                    done
 
-          # TODO: Ideally this would be removing the *former* cfg.path, though
-          # this does not seem really important as changes to it are quite
-          # unlikely
-          rmdir --ignore-fail-on-non-empty ${cfg.path}
+                    # TODO: Ideally this would be removing the *former* cfg.path, though
+                    # this does not seem really important as changes to it are quite
+                    # unlikely
+                    rmdir --ignore-fail-on-non-empty ${cfg.path}
         '';
       };
-    } // lib.mapAttrs' (name: { bits, path, ... }: lib.nameValuePair "dhparams-gen-${name}" {
-      description = "Generate Diffie-Hellman Parameters for ${name}";
-      after = [ "dhparams-init.service" ];
-      before = [ "${name}.service" ];
-      wantedBy = [ "multi-user.target" ];
-      unitConfig.ConditionPathExists = "!${path}";
-      serviceConfig.Type = "oneshot";
-      script = ''
-        mkdir -p ${lib.escapeShellArg cfg.path}
-        ${pkgs.openssl}/bin/openssl dhparam -out ${lib.escapeShellArg path} \
-          ${toString bits}
-      '';
-    }) cfg.params;
+    } // lib.mapAttrs'
+      (name: { bits, path, ... }: lib.nameValuePair "dhparams-gen-${name}" {
+        description = "Generate Diffie-Hellman Parameters for ${name}";
+        after = [ "dhparams-init.service" ];
+        before = [ "${name}.service" ];
+        wantedBy = [ "multi-user.target" ];
+        unitConfig.ConditionPathExists = "!${path}";
+        serviceConfig.Type = "oneshot";
+        script = ''
+          mkdir -p ${lib.escapeShellArg cfg.path}
+          ${pkgs.openssl}/bin/openssl dhparam -out ${lib.escapeShellArg path} \
+            ${toString bits}
+        '';
+      })
+      cfg.params;
   };
 
   meta.maintainers = with lib.maintainers; [ ekleog ];

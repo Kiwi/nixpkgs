@@ -1,6 +1,10 @@
-{ stdenv, fetchFromGitHub
-, makeWrapper, makeDesktopItem, mkYarnPackage
-, electron_9, element-web
+{ stdenv
+, fetchFromGitHub
+, makeWrapper
+, makeDesktopItem
+, mkYarnPackage
+, electron_9
+, element-web
 }:
 # Notes for maintainers:
 # * versions of `element-web` and `element-desktop` should be kept in sync.
@@ -17,7 +21,8 @@ let
   };
   electron = electron_9;
 
-in mkYarnPackage rec {
+in
+mkYarnPackage rec {
   name = "element-desktop-${version}";
   inherit version src;
 

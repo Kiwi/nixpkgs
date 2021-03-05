@@ -4,7 +4,8 @@
 , pkgconfig
 , util-linux
 , libuuid
-, thin-provisioning-tools, libaio
+, thin-provisioning-tools
+, libaio
 , enableCmdlib ? false
 , enableDmeventd ? false
 , udev ? null

@@ -17,21 +17,21 @@ stdenv.mkDerivation rec {
   preBuild =
     # Check that blas and lapack are compatible
     assert (blas.isILP64 == lapack.isILP64);
-  # We don't have structuredAttrs yet implemented, and we need to use space
-  # seprated values in makeFlags, so only this works.
-  ''
-    makeFlagsArray+=(
-      "LAPACK=-L${lapack}/lib -llapack"
-      "BLAS=-L${blas}/lib -lblas"
-      "PREFIX=${placeholder "out"}"
-      ${stdenv.lib.optionalString blas.isILP64
-      # Use their FFLAGS along with `-fdefault-integer-8`. If another
-      # application intends to use arpack, it should add this to it's FFLAGS as
-      # well. Otherwise (e.g): https://savannah.gnu.org/bugs/?50339
-      "FFLAGS=-fimplicit-none -O3 -funroll-loops -fdefault-integer-8"
-      }
-    )
-  '';
+    # We don't have structuredAttrs yet implemented, and we need to use space
+    # seprated values in makeFlags, so only this works.
+    ''
+      makeFlagsArray+=(
+        "LAPACK=-L${lapack}/lib -llapack"
+        "BLAS=-L${blas}/lib -lblas"
+        "PREFIX=${placeholder "out"}"
+        ${stdenv.lib.optionalString blas.isILP64
+        # Use their FFLAGS along with `-fdefault-integer-8`. If another
+        # application intends to use arpack, it should add this to it's FFLAGS as
+        # well. Otherwise (e.g): https://savannah.gnu.org/bugs/?50339
+        "FFLAGS=-fimplicit-none -O3 -funroll-loops -fdefault-integer-8"
+        }
+      )
+    '';
 
   doCheck = true;
 

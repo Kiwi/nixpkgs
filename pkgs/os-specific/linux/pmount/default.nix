@@ -1,4 +1,8 @@
-{ stdenv, fetchurl, intltool, ntfs3g, util-linux
+{ stdenv
+, fetchurl
+, intltool
+, ntfs3g
+, util-linux
 , mediaDir ? "/media/"
 , lockDir ? "/var/lock/pmount"
 , whiteList ? "/etc/pmount.allow"

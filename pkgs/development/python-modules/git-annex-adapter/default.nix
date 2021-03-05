@@ -1,5 +1,14 @@
-{ stdenv, buildPythonPackage, isPy3k, fetchFromGitHub, substituteAll
-, python, util-linux, pygit2, gitMinimal, git-annex, cacert
+{ stdenv
+, buildPythonPackage
+, isPy3k
+, fetchFromGitHub
+, substituteAll
+, python
+, util-linux
+, pygit2
+, gitMinimal
+, git-annex
+, cacert
 }:
 
 buildPythonPackage rec {

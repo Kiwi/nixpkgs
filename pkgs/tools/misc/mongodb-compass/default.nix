@@ -1,6 +1,32 @@
-{ stdenv, fetchurl, dpkg
-, alsaLib, at-spi2-atk, at-spi2-core, atk, cairo, cups, curl, dbus, expat, fontconfig, freetype, glib
-, gnome2, gdk-pixbuf, gtk3, pango, libnotify, libsecret, libuuid, libxcb, nspr, nss, systemd, xorg, wrapGAppsHook }:
+{ stdenv
+, fetchurl
+, dpkg
+, alsaLib
+, at-spi2-atk
+, at-spi2-core
+, atk
+, cairo
+, cups
+, curl
+, dbus
+, expat
+, fontconfig
+, freetype
+, glib
+, gnome2
+, gdk-pixbuf
+, gtk3
+, pango
+, libnotify
+, libsecret
+, libuuid
+, libxcb
+, nspr
+, nss
+, systemd
+, xorg
+, wrapGAppsHook
+}:
 
 let
   version = "1.23.0";
@@ -47,14 +73,16 @@ let
 
   src =
     if stdenv.hostPlatform.system == "x86_64-linux" then
-      fetchurl {
-        url = "https://downloads.mongodb.com/compass/mongodb-compass_${version}_amd64.deb";
-        sha256 = "1kmhki4kq28z8h249p4imcpb0nz2dx5bmpv8ldhhqh3rcq5vzxsv";
-      }
+      fetchurl
+        {
+          url = "https://downloads.mongodb.com/compass/mongodb-compass_${version}_amd64.deb";
+          sha256 = "1kmhki4kq28z8h249p4imcpb0nz2dx5bmpv8ldhhqh3rcq5vzxsv";
+        }
     else
       throw "MongoDB compass is not supported on ${stdenv.hostPlatform.system}";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "mongodb-compass";
   inherit version;
 

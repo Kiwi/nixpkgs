@@ -11,7 +11,8 @@
 , glib
 , gtk3
 , libgee
-, wrapGAppsHook }:
+, wrapGAppsHook
+}:
 
 stdenv.mkDerivation rec {
   pname = "cipher";

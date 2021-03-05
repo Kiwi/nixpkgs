@@ -1,4 +1,4 @@
-{pkgs, lib, config, ...}:
+{ pkgs, lib, config, ... }:
 
 with lib;
 let
@@ -8,21 +8,24 @@ let
   xmonad-vanilla = pkgs.xmonad-with-packages.override {
     ghcWithPackages = cfg.haskellPackages.ghcWithPackages;
     packages = self: cfg.extraPackages self ++
-                     optionals cfg.enableContribAndExtras
-                     [ self.xmonad-contrib self.xmonad-extras ];
+      optionals cfg.enableContribAndExtras
+        [ self.xmonad-contrib self.xmonad-extras ];
   };
 
-  xmonad-config = pkgs.writers.writeHaskellBin "xmonad" {
-    ghc = cfg.haskellPackages.ghc;
-    libraries = [ cfg.haskellPackages.xmonad ] ++
-                cfg.extraPackages cfg.haskellPackages ++
-                optionals cfg.enableContribAndExtras
-                (with cfg.haskellPackages; [ xmonad-contrib xmonad-extras ]);
-    inherit (cfg) ghcArgs;
-  } cfg.config;
+  xmonad-config = pkgs.writers.writeHaskellBin "xmonad"
+    {
+      ghc = cfg.haskellPackages.ghc;
+      libraries = [ cfg.haskellPackages.xmonad ] ++
+        cfg.extraPackages cfg.haskellPackages ++
+        optionals cfg.enableContribAndExtras
+          (with cfg.haskellPackages; [ xmonad-contrib xmonad-extras ]);
+      inherit (cfg) ghcArgs;
+    }
+    cfg.config;
 
   xmonad = if (cfg.config != null) then xmonad-config else xmonad-vanilla;
-in {
+in
+{
   meta.maintainers = with maintainers; [ lassulus xaverdh ];
 
   options = {
@@ -41,7 +44,7 @@ in {
       };
 
       extraPackages = mkOption {
-        default = self: [];
+        default = self: [ ];
         defaultText = "self: []";
         example = literalExample ''
           haskellPackages: [
@@ -114,7 +117,7 @@ in {
       };
 
       xmonadCliArgs = mkOption {
-        default = [];
+        default = [ ];
         type = with lib.types; listOf str;
         description = ''
           Command line arguments passed to the xmonad binary.
@@ -122,7 +125,7 @@ in {
       };
 
       ghcArgs = mkOption {
-        default = [];
+        default = [ ];
         type = with lib.types; listOf str;
         description = ''
           Command line arguments passed to the compiler (ghc)
@@ -137,8 +140,8 @@ in {
       session = [{
         name = "xmonad";
         start = ''
-           systemd-cat -t xmonad -- ${xmonad}/bin/xmonad ${lib.escapeShellArgs cfg.xmonadCliArgs} &
-           waitPID=$!
+          systemd-cat -t xmonad -- ${xmonad}/bin/xmonad ${lib.escapeShellArgs cfg.xmonadCliArgs} &
+          waitPID=$!
         '';
       }];
     };

@@ -1,4 +1,7 @@
-{ stdenv, fetchurl, writeText, sbclBootstrap
+{ stdenv
+, fetchurl
+, writeText
+, sbclBootstrap
 , sbclBootstrapHost ? "${sbclBootstrap}/bin/sbcl --disable-debugger --no-userinit --no-sysinit"
 , threadSupport ? (stdenv.isi686 || stdenv.isx86_64 || "aarch64-linux" == stdenv.hostPlatform.system)
 , disableImmobileSpace ? false
@@ -14,11 +17,11 @@ stdenv.mkDerivation rec {
   version = "2.0.8";
 
   src = fetchurl {
-    url    = "mirror://sourceforge/project/sbcl/sbcl/${version}/${pname}-${version}-source.tar.bz2";
+    url = "mirror://sourceforge/project/sbcl/sbcl/${version}/${pname}-${version}-source.tar.bz2";
     sha256 = "sha256:1xwrwvps7drrpyw3wg5h3g2qajmkwqs9gz0fdw1ns9adp7vld390";
   };
 
-  buildInputs = [texinfo];
+  buildInputs = [ texinfo ];
 
   patchPhase = ''
     echo '"${version}.nixos"' > version.lisp-expr
@@ -49,19 +52,19 @@ stdenv.mkDerivation rec {
       --replace mmacosx-version-min=10.4 mmacosx-version-min=10.5
   ''
   + (if purgeNixReferences
-    then
-      # This is the default location to look for the core; by default in $out/lib/sbcl
-      ''
-        sed 's@^\(#define SBCL_HOME\) .*$@\1 "/no-such-path"@' \
-          -i src/runtime/runtime.c
-      ''
-    else
-      # Fix software version retrieval
-      ''
-        sed -e "s@/bin/uname@$(command -v uname)@g" -i src/code/*-os.lisp \
-          src/code/run-program.lisp
-      ''
-    );
+  then
+  # This is the default location to look for the core; by default in $out/lib/sbcl
+    ''
+      sed 's@^\(#define SBCL_HOME\) .*$@\1 "/no-such-path"@' \
+        -i src/runtime/runtime.c
+    ''
+  else
+  # Fix software version retrieval
+    ''
+      sed -e "s@/bin/uname@$(command -v uname)@g" -i src/code/*-os.lisp \
+        src/code/run-program.lisp
+    ''
+  );
 
 
   preBuild = ''

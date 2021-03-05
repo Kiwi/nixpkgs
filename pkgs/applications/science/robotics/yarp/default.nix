@@ -1,4 +1,7 @@
-{ stdenv, fetchFromGitHub, cmake, ace
+{ stdenv
+, fetchFromGitHub
+, cmake
+, ace
 }:
 
 stdenv.mkDerivation rec {

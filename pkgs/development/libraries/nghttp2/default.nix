@@ -1,15 +1,28 @@
-{ stdenv, fetchurl, pkgconfig
+{ stdenv
+, fetchurl
+, pkgconfig
 
-# Optional Dependencies
-, openssl ? null, zlib ? null
-, enableLibEv ? !stdenv.hostPlatform.isWindows, libev ? null
-, enableCAres ? !stdenv.hostPlatform.isWindows, c-ares ? null
-, enableHpack ? false, jansson ? null
-, enableAsioLib ? false, boost ? null
-, enableGetAssets ? false, libxml2 ? null
-, enableJemalloc ? false, jemalloc ? null
+  # Optional Dependencies
+, openssl ? null
+, zlib ? null
+, enableLibEv ? !stdenv.hostPlatform.isWindows
+, libev ? null
+, enableCAres ? !stdenv.hostPlatform.isWindows
+, c-ares ? null
+, enableHpack ? false
+, jansson ? null
+, enableAsioLib ? false
+, boost ? null
+, enableGetAssets ? false
+, libxml2 ? null
+, enableJemalloc ? false
+, jemalloc ? null
 , enableApp ? !stdenv.hostPlatform.isWindows
-, enablePython ? false, python ? null, cython ? null, ncurses ? null, setuptools ? null
+, enablePython ? false
+, python ? null
+, cython ? null
+, ncurses ? null
+, setuptools ? null
 }:
 
 # Note: this package is used for bootstrapping fetchurl, and thus
@@ -55,7 +68,7 @@ stdenv.mkDerivation rec {
     "--disable-examples"
     (stdenv.lib.enableFeature enableApp "app")
   ] ++ optional enableAsioLib "--enable-asio-lib --with-boost-libdir=${boost}/lib"
-    ++ (if enablePython then [
+  ++ (if enablePython then [
     "--with-cython=${cython}/bin/cython"
   ] else [
     "--disable-python-bindings"

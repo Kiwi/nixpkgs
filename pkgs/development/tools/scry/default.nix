@@ -2,7 +2,8 @@
 
 let crystal = crystal_0_31;
 
-in crystal.buildCrystalPackage rec {
+in
+crystal.buildCrystalPackage rec {
   pname = "scry";
   version = "0.8.1";
 

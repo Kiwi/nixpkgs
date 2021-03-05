@@ -1,5 +1,13 @@
-{ stdenv, buildDunePackage, fetchurl, ocaml
-, result, alcotest, cohttp-lwt-unix, odoc, curl }:
+{ stdenv
+, buildDunePackage
+, fetchurl
+, ocaml
+, result
+, alcotest
+, cohttp-lwt-unix
+, odoc
+, curl
+}:
 
 buildDunePackage rec {
   pname = "curly";
@@ -25,6 +33,6 @@ buildDunePackage rec {
   postPatch = ''
     substituteInPlace src/curly.ml \
       --replace "exe=\"curl\"" "exe=\"${curl}/bin/curl\""
-    '';
+  '';
 }
 

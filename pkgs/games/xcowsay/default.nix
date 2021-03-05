@@ -1,5 +1,12 @@
-{ stdenv, fetchurl, makeWrapper, pkg-config
-, dbus, dbus-glib, gtk3, gdk-pixbuf, librsvg
+{ stdenv
+, fetchurl
+, makeWrapper
+, pkg-config
+, dbus
+, dbus-glib
+, gtk3
+, gdk-pixbuf
+, librsvg
 , fortune
 }:
 

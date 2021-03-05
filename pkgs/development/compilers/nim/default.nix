@@ -1,7 +1,20 @@
 # https://nim-lang.github.io/Nim/packaging.html
 
-{ stdenv, lib, fetchurl, fetchgit, fetchFromGitHub, makeWrapper, gdb, openssl
-, pcre, readline, boehmgc, sqlite, nim-unwrapped, nimble-unwrapped }:
+{ stdenv
+, lib
+, fetchurl
+, fetchgit
+, fetchFromGitHub
+, makeWrapper
+, gdb
+, openssl
+, pcre
+, readline
+, boehmgc
+, sqlite
+, nim-unwrapped
+, nimble-unwrapped
+}:
 
 let
   version = "1.4.2";
@@ -185,95 +198,100 @@ let
 
   };
 
-  wrapped = let
-    nim' = nim-unwrapped;
-    nimble' = nimble-unwrapped;
-    inherit (stdenv) targetPlatform;
-  in stdenv.mkDerivation {
-    name = "${targetPlatform.config}-nim-wrapper-${nim'.version}";
-    inherit (nim') version;
-    preferLocalBuild = true;
+  wrapped =
+    let
+      nim' = nim-unwrapped;
+      nimble' = nimble-unwrapped;
+      inherit (stdenv) targetPlatform;
+    in
+    stdenv.mkDerivation {
+      name = "${targetPlatform.config}-nim-wrapper-${nim'.version}";
+      inherit (nim') version;
+      preferLocalBuild = true;
 
-    nativeBuildInputs = [ makeWrapper ];
+      nativeBuildInputs = [ makeWrapper ];
 
-    unpackPhase = ''
-      runHook preUnpack
-      tar xf ${nim'.src} nim-$version/config/nim.cfg
-      cd nim-$version
-      runHook postUnpack
-    '';
-
-    dontConfigure = true;
-
-    wrapperArgs = [
-      "--prefix PATH : ${lib.makeBinPath [ stdenv.cc gdb ]}:${
-        placeholder "out"
-      }/bin"
-      "--prefix LD_LIBRARY_PATH : ${
-        lib.makeLibraryPath [ stdenv.cc.libc openssl ]
-      }"
-      "--set NIM_CONFIG_PATH ${placeholder "out"}/etc/nim"
-      ''--set NIX_HARDENING_ENABLE "''${NIX_HARDENING_ENABLE/fortify}"''
-      # Fortify hardening appends -O2 to gcc flags which is unwanted for unoptimized nim builds.
-    ];
-
-    buildPhase = with stdenv;
-      let
-        ccType = if cc.isGNU then
-          "gcc"
-        else if cc.isClang then
-          "clang"
-        else
-          abort "no Nim configuration available for ${cc.name}";
-      in ''
-        runHook preBuild
-        cat >> config/nim.cfg << EOF
-
-        define:nixbuild
-        os = ${nimTarget.os}
-        cpu = ${nimTarget.cpu}
-        cc = ${ccType}
-        EOF
-
-        mkdir -p $out/bin $out/etc/nim
-        export cc=$CC
-        export cxx=$CXX
-        substituteAll config/nim.cfg $out/etc/nim/nim.cfg \
-          --replace "cc = gcc" ""
-
-        for binpath in ${nim'}/bin/nim?*; do
-          local binname=`basename $binpath`
-          makeWrapper \
-            $binpath $out/bin/${targetPlatform.config}-$binname \
-            $wrapperArgs
-          ln -s $out/bin/${targetPlatform.config}-$binname $out/bin/$binname
-        done
-
-        makeWrapper \
-          ${nim'}/nim/bin/nim $out/bin/${targetPlatform.config}-nim \
-          $wrapperArgs
-        ln -s $out/bin/${targetPlatform.config}-nim $out/bin/nim
-
-        makeWrapper \
-          ${nim'}/bin/testament $out/bin/${targetPlatform.config}-testament \
-          $wrapperArgs
-        ln -s $out/bin/${targetPlatform.config}-testament $out/bin/testament
-
-        makeWrapper \
-          ${nimble'}/bin/nimble $out/bin/${targetPlatform.config}-nimble \
-          --suffix PATH : $out/bin
-        ln -s $out/bin/${targetPlatform.config}-nimble $out/bin/nimble
-
-        runHook postBuild
+      unpackPhase = ''
+        runHook preUnpack
+        tar xf ${nim'.src} nim-$version/config/nim.cfg
+        cd nim-$version
+        runHook postUnpack
       '';
 
-    dontInstall = true;
+      dontConfigure = true;
 
-    meta = meta // {
-      description = nim'.meta.description
-        + " (${targetPlatform.config} wrapper)";
-      platforms = lib.platforms.unix;
+      wrapperArgs = [
+        "--prefix PATH : ${lib.makeBinPath [ stdenv.cc gdb ]}:${
+        placeholder "out"
+      }/bin"
+        "--prefix LD_LIBRARY_PATH : ${
+        lib.makeLibraryPath [ stdenv.cc.libc openssl ]
+      }"
+        "--set NIM_CONFIG_PATH ${placeholder "out"}/etc/nim"
+        ''--set NIX_HARDENING_ENABLE "''${NIX_HARDENING_ENABLE/fortify}"''
+        # Fortify hardening appends -O2 to gcc flags which is unwanted for unoptimized nim builds.
+      ];
+
+      buildPhase = with stdenv;
+        let
+          ccType =
+            if cc.isGNU then
+              "gcc"
+            else if cc.isClang then
+              "clang"
+            else
+              abort "no Nim configuration available for ${cc.name}";
+        in
+        ''
+          runHook preBuild
+          cat >> config/nim.cfg << EOF
+
+          define:nixbuild
+          os = ${nimTarget.os}
+          cpu = ${nimTarget.cpu}
+          cc = ${ccType}
+          EOF
+
+          mkdir -p $out/bin $out/etc/nim
+          export cc=$CC
+          export cxx=$CXX
+          substituteAll config/nim.cfg $out/etc/nim/nim.cfg \
+            --replace "cc = gcc" ""
+
+          for binpath in ${nim'}/bin/nim?*; do
+            local binname=`basename $binpath`
+            makeWrapper \
+              $binpath $out/bin/${targetPlatform.config}-$binname \
+              $wrapperArgs
+            ln -s $out/bin/${targetPlatform.config}-$binname $out/bin/$binname
+          done
+
+          makeWrapper \
+            ${nim'}/nim/bin/nim $out/bin/${targetPlatform.config}-nim \
+            $wrapperArgs
+          ln -s $out/bin/${targetPlatform.config}-nim $out/bin/nim
+
+          makeWrapper \
+            ${nim'}/bin/testament $out/bin/${targetPlatform.config}-testament \
+            $wrapperArgs
+          ln -s $out/bin/${targetPlatform.config}-testament $out/bin/testament
+
+          makeWrapper \
+            ${nimble'}/bin/nimble $out/bin/${targetPlatform.config}-nimble \
+            --suffix PATH : $out/bin
+          ln -s $out/bin/${targetPlatform.config}-nimble $out/bin/nimble
+
+          runHook postBuild
+        '';
+
+      dontInstall = true;
+
+      meta = meta // {
+        description = nim'.meta.description
+          + " (${targetPlatform.config} wrapper)";
+        platforms = lib.platforms.unix;
+      };
     };
-  };
 
-in wrapped // wrapperInputs
+in
+wrapped // wrapperInputs

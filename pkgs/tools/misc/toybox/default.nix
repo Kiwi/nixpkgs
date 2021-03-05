@@ -1,8 +1,10 @@
-{
-  stdenv, lib, fetchFromGitHub, which,
-  enableStatic ? false,
-  enableMinimal ? false,
-  extraConfig ? ""
+{ stdenv
+, lib
+, fetchFromGitHub
+, which
+, enableStatic ? false
+, enableMinimal ? false
+, extraConfig ? ""
 }:
 
 stdenv.mkDerivation rec {

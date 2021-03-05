@@ -1,8 +1,38 @@
-{ stdenv, buildFHSUserEnv, fetchurl, makeWrapper, makeDesktopItem, libxslt, atk
-, fontconfig, freetype, gdk-pixbuf, glib, gtk2, libudev0-shim, libxml2
-, pango, pixman, libX11, libXext, libXinerama, libXrandr , libXrender
-, libXtst, libXcursor, libXi, libxkbfile , libXScrnSaver, zlib, liberation_ttf
-, libtiff, dbus, at-spi2-atk, harfbuzz, gtk3-x11, libuuid, pcsclite
+{ stdenv
+, buildFHSUserEnv
+, fetchurl
+, makeWrapper
+, makeDesktopItem
+, libxslt
+, atk
+, fontconfig
+, freetype
+, gdk-pixbuf
+, glib
+, gtk2
+, libudev0-shim
+, libxml2
+, pango
+, pixman
+, libX11
+, libXext
+, libXinerama
+, libXrandr
+, libXrender
+, libXtst
+, libXcursor
+, libXi
+, libxkbfile
+, libXScrnSaver
+, zlib
+, liberation_ttf
+, libtiff
+, dbus
+, at-spi2-atk
+, harfbuzz
+, gtk3-x11
+, libuuid
+, pcsclite
 }:
 
 let
@@ -11,7 +41,7 @@ let
   sysArch =
     if stdenv.hostPlatform.system == "x86_64-linux" then "x64"
     else throw "Unsupported system: ${stdenv.hostPlatform.system}";
-    # The downloaded archive also contains i386 and ARM binaries, but these have not been tested.
+  # The downloaded archive also contains i386 and ARM binaries, but these have not been tested.
 
   vmwareHorizonClientFiles = stdenv.mkDerivation {
     name = "vmwareHorizonClientFiles";
@@ -46,10 +76,36 @@ let
     runScript = "${vmwareHorizonClientFiles}/bin/vmware-view_wrapper";
 
     targetPkgs = pkgs: [
-      pcsclite dbus vmwareHorizonClientFiles atk fontconfig freetype gdk-pixbuf glib gtk2
-      libudev0-shim libxml2 pango pixman liberation_ttf libX11 libXext libXinerama
-      libXrandr libXrender libXtst libXcursor libXi libxkbfile at-spi2-atk libXScrnSaver
-      zlib libtiff harfbuzz gtk3-x11 libuuid
+      pcsclite
+      dbus
+      vmwareHorizonClientFiles
+      atk
+      fontconfig
+      freetype
+      gdk-pixbuf
+      glib
+      gtk2
+      libudev0-shim
+      libxml2
+      pango
+      pixman
+      liberation_ttf
+      libX11
+      libXext
+      libXinerama
+      libXrandr
+      libXrender
+      libXtst
+      libXcursor
+      libXi
+      libxkbfile
+      at-spi2-atk
+      libXScrnSaver
+      zlib
+      libtiff
+      harfbuzz
+      gtk3-x11
+      libuuid
     ];
   };
 
@@ -61,7 +117,8 @@ let
     mimeType = "x-scheme-handler/vmware-view";
   };
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "vmware-view";
   dontUnpack = true;
   installPhase = ''

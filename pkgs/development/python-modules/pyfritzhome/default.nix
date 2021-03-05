@@ -1,6 +1,11 @@
-{ lib, buildPythonPackage, fetchPypi, pythonOlder
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
 , requests
-, nose, mock }:
+, nose
+, mock
+}:
 
 buildPythonPackage rec {
   pname = "pyfritzhome";
@@ -8,8 +13,8 @@ buildPythonPackage rec {
   disabled = pythonOlder "3.5";
 
   src = fetchPypi {
-   inherit pname version;
-   sha256 = "0ncyv8svw0fhs01ijjkb1gcinb3jpyjvv9xw1bhnf4ri7b27g6ww";
+    inherit pname version;
+    sha256 = "0ncyv8svw0fhs01ijjkb1gcinb3jpyjvv9xw1bhnf4ri7b27g6ww";
   };
 
   propagatedBuildInputs = [

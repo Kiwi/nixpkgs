@@ -1,7 +1,15 @@
-{ stdenv, lib, buildPackages
-, fetchFromGitHub, fetchurl, zlib, autoreconfHook, gettext
-# Enabling all targets increases output size to a multiple.
-, withAllTargets ? false, libbfd, libopcodes
+{ stdenv
+, lib
+, buildPackages
+, fetchFromGitHub
+, fetchurl
+, zlib
+, autoreconfHook
+, gettext
+  # Enabling all targets increases output size to a multiple.
+, withAllTargets ? false
+, libbfd
+, libopcodes
 , enableShared ? true
 , noSysDirs
 , gold ? !stdenv.buildPlatform.isDarwin || stdenv.hostPlatform == stdenv.targetPlatform
@@ -24,13 +32,13 @@ let
   # https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commitdiff;h=330b90b5ffbbc20c5de6ae6c7f60c40fab2e7a4f;hp=99181ccac0fc7d82e7dabb05dc7466e91f1645d3
   version = "${minorVersion}${patchVersion}";
   minorVersion = if stdenv.targetPlatform.isOr1k then "2.34" else "2.31";
-  patchVersion = if stdenv.targetPlatform.isOr1k then     "" else   ".1";
+  patchVersion = if stdenv.targetPlatform.isOr1k then "" else ".1";
 
   basename = "binutils";
   # The targetPrefix prepended to binary names to allow multiple binuntils on the
   # PATH to both be usable.
   targetPrefix = lib.optionalString (stdenv.targetPlatform != stdenv.hostPlatform)
-                  "${stdenv.targetPlatform.config}-";
+    "${stdenv.targetPlatform.config}-";
   vc4-binutils-src = fetchFromGitHub {
     owner = "itszor";
     repo = "binutils-vc4";
@@ -43,7 +51,7 @@ let
     url = "mirror://gnu/binutils/${basename}-${version}.tar.bz2";
     sha256 = {
       "2.31.1" = "1l34hn1zkmhr1wcrgf0d4z7r3najxnw3cx2y2fk7v55zjlk3ik7z";
-      "2.34"   = "1rin1f5c7wm4n3piky6xilcrpf2s0n3dd5vqq8irrxkcic3i1w49";
+      "2.34" = "1rin1f5c7wm4n3piky6xilcrpf2s0n3dd5vqq8irrxkcic3i1w49";
     }.${version};
   });
 
@@ -55,7 +63,8 @@ let
   skipBootSrc = stdenv.targetPlatform.isOr1k;
 
   # Select the specific source according to the platform in use.
-  src = if stdenv.targetPlatform.isVc4 then vc4-binutils-src
+  src =
+    if stdenv.targetPlatform.isVc4 then vc4-binutils-src
     else if skipBootSrc then non-boot-src
     else normal-src;
 
@@ -102,13 +111,13 @@ stdenv.mkDerivation {
   ]
   ++ lib.optional stdenv.targetPlatform.isiOS ./support-ios.patch
   ++ # This patch was suggested by Nick Clifton to fix
-     # https://sourceware.org/bugzilla/show_bug.cgi?id=16177
-     # It can be removed when that 7-year-old bug is closed.
-     # This binutils bug causes GHC to emit broken binaries on armv7, and
-     # indeed GHC will refuse to compile with a binutils suffering from it. See
-     # this comment for more information:
-     # https://gitlab.haskell.org/ghc/ghc/issues/4210#note_78333
-     lib.optional stdenv.targetPlatform.isAarch32 ./R_ARM_COPY.patch
+  # https://sourceware.org/bugzilla/show_bug.cgi?id=16177
+  # It can be removed when that 7-year-old bug is closed.
+  # This binutils bug causes GHC to emit broken binaries on armv7, and
+  # indeed GHC will refuse to compile with a binutils suffering from it. See
+  # this comment for more information:
+  # https://gitlab.haskell.org/ghc/ghc/issues/4210#note_78333
+  lib.optional stdenv.targetPlatform.isAarch32 ./R_ARM_COPY.patch
   ;
 
   outputs = [ "out" "info" "man" ];
@@ -141,7 +150,8 @@ stdenv.mkDerivation {
 
   # As binutils takes part in the stdenv building, we don't want references
   # to the bootstrap-tools libgcc (as uses to happen on arm/mips)
-  NIX_CFLAGS_COMPILE = if stdenv.hostPlatform.isDarwin
+  NIX_CFLAGS_COMPILE =
+    if stdenv.hostPlatform.isDarwin
     then "-Wno-string-plus-int -Wno-deprecated-declarations"
     else "-static-libgcc";
 
@@ -152,21 +162,21 @@ stdenv.mkDerivation {
 
   configureFlags =
     (if enableShared then [ "--enable-shared" "--disable-static" ]
-                     else [ "--disable-shared" "--enable-static" ])
-  ++ lib.optional withAllTargets "--enable-targets=all"
-  ++ [
-    "--enable-64-bit-bfd"
-    "--with-system-zlib"
+    else [ "--disable-shared" "--enable-static" ])
+    ++ lib.optional withAllTargets "--enable-targets=all"
+    ++ [
+      "--enable-64-bit-bfd"
+      "--with-system-zlib"
 
-    "--enable-deterministic-archives"
-    "--disable-werror"
-    "--enable-fix-loongson2f-nop"
+      "--enable-deterministic-archives"
+      "--disable-werror"
+      "--enable-fix-loongson2f-nop"
 
-    # Turn on --enable-new-dtags by default to make the linker set
-    # RUNPATH instead of RPATH on binaries.  This is important because
-    # RUNPATH can be overriden using LD_LIBRARY_PATH at runtime.
-    "--enable-new-dtags"
-  ] ++ lib.optionals gold [ "--enable-gold" "--enable-plugins" ];
+      # Turn on --enable-new-dtags by default to make the linker set
+      # RUNPATH instead of RPATH on binaries.  This is important because
+      # RUNPATH can be overriden using LD_LIBRARY_PATH at runtime.
+      "--enable-new-dtags"
+    ] ++ lib.optionals gold [ "--enable-gold" "--enable-plugins" ];
 
   doCheck = false; # fails
 

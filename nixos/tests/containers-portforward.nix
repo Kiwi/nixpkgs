@@ -7,7 +7,7 @@ let
   containerPort = 80;
 in
 
-import ./make-test-python.nix ({ pkgs, ...} : {
+import ./make-test-python.nix ({ pkgs, ... }: {
   name = "containers-portforward";
   meta = with pkgs.stdenv.lib.maintainers; {
     maintainers = [ aristid aszlig eelco kampfschlaefer ianwookim ];
@@ -15,17 +15,20 @@ import ./make-test-python.nix ({ pkgs, ...} : {
 
   machine =
     { pkgs, ... }:
-    { imports = [ ../modules/installer/cd-dvd/channel.nix ];
+    {
+      imports = [ ../modules/installer/cd-dvd/channel.nix ];
       virtualisation.writableStore = true;
       virtualisation.memorySize = 768;
 
       containers.webserver =
-        { privateNetwork = true;
+        {
+          privateNetwork = true;
           hostAddress = hostIp;
           localAddress = containerIp;
-          forwardPorts = [ { protocol = "tcp"; hostPort = hostPort; containerPort = containerPort; } ];
+          forwardPorts = [{ protocol = "tcp"; hostPort = hostPort; containerPort = containerPort; }];
           config =
-            { services.httpd.enable = true;
+            {
+              services.httpd.enable = true;
               services.httpd.adminAddr = "foo@example.org";
               networking.firewall.allowedTCPPorts = [ 80 ];
             };

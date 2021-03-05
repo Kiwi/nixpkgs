@@ -21,13 +21,16 @@ let
     let
       realGemset = if builtins.isAttrs gemset then gemset else import gemset;
       builtGems =
-        lib.mapAttrs (name: initialAttrs:
-          let
-            attrs = functions.applyGemConfigs ({ inherit ruby; gemName = name; } // initialAttrs);
-          in
+        lib.mapAttrs
+          (name: initialAttrs:
+            let
+              attrs = functions.applyGemConfigs ({ inherit ruby; gemName = name; } // initialAttrs);
+            in
             buildRubyGem (functions.composeGemAttrs ruby builtGems name attrs)
-        ) realGemset;
-    in builtGems;
+          )
+          realGemset;
+    in
+    builtGems;
 
   gems = buildGems (import ../../../top-level/ruby-packages.nix);
 
@@ -52,7 +55,8 @@ let
         '';
       };
 
-    in stdenv.mkDerivation {
+    in
+    stdenv.mkDerivation {
       name = "${ruby.name}-with-packages";
       nativeBuildInputs = [ makeWrapper ];
       buildInputs = [ selected ruby ];
@@ -74,4 +78,5 @@ let
       };
     };
 
-in { inherit withPackages gems buildGems; }
+in
+{ inherit withPackages gems buildGems; }

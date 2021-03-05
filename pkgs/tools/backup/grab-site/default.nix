@@ -8,7 +8,8 @@ let
     };
   };
 
-in with python.pkgs; buildPythonApplication rec {
+in
+with python.pkgs; buildPythonApplication rec {
   version = "2.1.19";
   name = "grab-site-${version}";
 
@@ -20,7 +21,14 @@ in with python.pkgs; buildPythonApplication rec {
   };
 
   propagatedBuildInputs = [
-    click ludios_wpull manhole lmdb autobahn fb-re2 websockets cchardet
+    click
+    ludios_wpull
+    manhole
+    lmdb
+    autobahn
+    fb-re2
+    websockets
+    cchardet
   ];
 
   checkPhase = ''

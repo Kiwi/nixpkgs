@@ -1,7 +1,13 @@
-{ stdenv, lib, fetchurl, extra-cmake-modules
-, qtbase, kio
-, libatasmart, parted
-, util-linux }:
+{ stdenv
+, lib
+, fetchurl
+, extra-cmake-modules
+, qtbase
+, kio
+, libatasmart
+, parted
+, util-linux
+}:
 
 stdenv.mkDerivation rec {
   pname = "kpmcore";

@@ -1,7 +1,16 @@
-{ stdenv, fetchFromGitHub, makeWrapper
-, glibcLocales, gobject-introspection, gtk3, libsoup, libsecret
-, buildPythonPackage, python
-, pygobject3, freezegun, mock
+{ stdenv
+, fetchFromGitHub
+, makeWrapper
+, glibcLocales
+, gobject-introspection
+, gtk3
+, libsoup
+, libsecret
+, buildPythonPackage
+, python
+, pygobject3
+, freezegun
+, mock
 }:
 
 buildPythonPackage rec {
@@ -17,11 +26,17 @@ buildPythonPackage rec {
 
   buildInputs = [
     makeWrapper
-    glibcLocales gobject-introspection gtk3 libsoup libsecret
+    glibcLocales
+    gobject-introspection
+    gtk3
+    libsoup
+    libsecret
   ];
 
   propagatedBuildInputs = [
-    pygobject3 freezegun mock
+    pygobject3
+    freezegun
+    mock
   ];
 
   checkPhase = ''

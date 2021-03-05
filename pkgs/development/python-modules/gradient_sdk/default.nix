@@ -1,4 +1,6 @@
-{ stdenv, fetchPypi, buildPythonPackage
+{ stdenv
+, fetchPypi
+, buildPythonPackage
 , hyperopt
 }:
 
@@ -17,9 +19,9 @@ buildPythonPackage rec {
 
   meta = with stdenv.lib; {
     description = "Gradient ML SDK";
-    homepage    = "https://github.com/Paperspace/gradient-sdk";
-    license     = licenses.mit;
-    platforms   = platforms.unix;
+    homepage = "https://github.com/Paperspace/gradient-sdk";
+    license = licenses.mit;
+    platforms = platforms.unix;
     maintainers = with maintainers; [ freezeboy ];
   };
 }

@@ -1,7 +1,8 @@
 { stdenv, fetchurl }:
 let
   version = "2.12.0";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "todo.txt-cli";
   inherit version;
 

@@ -1,5 +1,12 @@
-{ stdenv, fetchurl, cmake, vtk_7, darwin
-, enablePython ? false, python ? null,  swig ? null}:
+{ stdenv
+, fetchurl
+, cmake
+, vtk_7
+, darwin
+, enablePython ? false
+, python ? null
+, swig ? null
+}:
 
 stdenv.mkDerivation rec {
   version = "3.0.8";
@@ -31,9 +38,9 @@ stdenv.mkDerivation rec {
   enableParallelBuilding = true;
   buildInputs = [ cmake vtk_7 ]
     ++ stdenv.lib.optional stdenv.isDarwin [
-      darwin.apple_sdk.frameworks.ApplicationServices
-      darwin.apple_sdk.frameworks.Cocoa
-    ] ++ stdenv.lib.optional enablePython [ swig python ];
+    darwin.apple_sdk.frameworks.ApplicationServices
+    darwin.apple_sdk.frameworks.Cocoa
+  ] ++ stdenv.lib.optional enablePython [ swig python ];
   propagatedBuildInputs = [ ];
 
   meta = with stdenv.lib; {

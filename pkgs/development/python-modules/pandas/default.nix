@@ -17,12 +17,12 @@
 , tables
 , xlrd
 , xlwt
-# Test Inputs
+  # Test Inputs
 , glibcLocales
 , hypothesis
 , moto
 , pytestCheckHook
-# Darwin inputs
+  # Darwin inputs
 , runtimeShell
 , libcxx ? null
 }:
@@ -31,7 +31,8 @@ let
   inherit (stdenv.lib) optional optionals optionalString;
   inherit (stdenv) isDarwin;
 
-in buildPythonPackage rec {
+in
+buildPythonPackage rec {
   pname = "pandas";
   version = "1.1.5";
 

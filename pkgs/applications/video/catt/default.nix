@@ -13,7 +13,8 @@ let
     };
   };
 
-in with py.pkgs; buildPythonApplication rec {
+in
+with py.pkgs; buildPythonApplication rec {
   pname = "catt";
   version = "0.11.0";
 
@@ -23,7 +24,11 @@ in with py.pkgs; buildPythonApplication rec {
   };
 
   propagatedBuildInputs = [
-    youtube-dl PyChromecast click ifaddr requests
+    youtube-dl
+    PyChromecast
+    click
+    ifaddr
+    requests
   ];
 
   doCheck = false; # attempts to access various URLs

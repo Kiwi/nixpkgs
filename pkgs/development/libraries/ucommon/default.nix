@@ -1,5 +1,9 @@
-{ stdenv, fetchurl, pkgconfig
-, openssl ? null, zlib ? null, gnutls ? null
+{ stdenv
+, fetchurl
+, pkgconfig
+, openssl ? null
+, zlib ? null
+, gnutls ? null
 }:
 
 let

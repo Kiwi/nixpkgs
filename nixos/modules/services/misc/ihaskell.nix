@@ -21,7 +21,7 @@ in
       };
 
       extraPackages = mkOption {
-        default = self: [];
+        default = self: [ ];
         example = literalExample ''
           haskellPackages: [
             haskellPackages.wreq

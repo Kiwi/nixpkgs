@@ -16,7 +16,7 @@ buildGoModule rec {
   # we have no bash at the moment for windows
   BASH_PATH =
     stdenv.lib.optionalString (!stdenv.hostPlatform.isWindows)
-    "${bash}/bin/bash";
+      "${bash}/bin/bash";
 
   # fix hardcoded GOFLAGS in makefile. remove once https://github.com/direnv/direnv/issues/718 is closed.
   postPatch = ''

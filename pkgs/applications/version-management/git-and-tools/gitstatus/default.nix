@@ -1,4 +1,4 @@
-{ callPackage, stdenv, fetchFromGitHub, git, zsh, ...}:
+{ callPackage, stdenv, fetchFromGitHub, git, zsh, ... }:
 
 stdenv.mkDerivation rec {
   pname = "gitstatus";
@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
     sha256 = "0skpi22plzb9r9cgqfnjzpaz856q9f4n0gd5i97nv8bfny8hl30z";
   };
 
-  buildInputs = [ (callPackage ./romkatv_libgit2.nix {}) ];
+  buildInputs = [ (callPackage ./romkatv_libgit2.nix { }) ];
   patchPhase = ''
     sed -i '1i GITSTATUS_AUTO_INSTALL=''${GITSTATUS_AUTO_INSTALL-0}' gitstatus.plugin.sh
     sed -i '1i GITSTATUS_AUTO_INSTALL=''${GITSTATUS_AUTO_INSTALL-0}' gitstatus.plugin.zsh

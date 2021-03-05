@@ -23,7 +23,7 @@ buildGoPackage rec {
   meta = {
     description = "A tool to manage network booting of machines";
     homepage = "https://github.com/ns1/waitron";
-    license =  stdenv.lib.licenses.asl20;
+    license = stdenv.lib.licenses.asl20;
     maintainers = with stdenv.lib.maintainers; [ guibert ];
     platforms = stdenv.lib.platforms.linux;
   };

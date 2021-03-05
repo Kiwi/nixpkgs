@@ -1,6 +1,9 @@
-{ stdenv, fetchPypi, buildPythonPackage
+{ stdenv
+, fetchPypi
+, buildPythonPackage
 , dnspython
-, mock, nose
+, mock
+, nose
 }:
 
 buildPythonPackage rec {

@@ -9,7 +9,8 @@ stdenv.mkDerivation rec {
   src = fetchurl {
     urls = [
       "https://www.mirbsd.org/MirOS/dist/jupp/${srcName}.tgz"
-      "https://pub.allbsd.org/MirOS/dist/jupp/${srcName}.tgz" ];
+      "https://pub.allbsd.org/MirOS/dist/jupp/${srcName}.tgz"
+    ];
     sha256 = "14gys92dy3kq9ikigry7q2x4w5v2z76d97vp212bddrxiqy5np8d";
   };
 

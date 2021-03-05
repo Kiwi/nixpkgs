@@ -28,7 +28,7 @@ buildPythonPackage rec {
   # Too sensitive for on Hydra.
   PYTEST_ADDOPTS = "-k \"not perf\"";
 
-  LC_ALL="en_US.UTF-8";
+  LC_ALL = "en_US.UTF-8";
 
   meta = {
     description = "A Fast, Extensible Progress Meter";

@@ -7,21 +7,24 @@ let
       ${file}
   '';
 
-  udevRules = callPackage ./udev_rules_type1.nix {};
+  udevRules = callPackage ./udev_rules_type1.nix { };
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "brscan4-0.4.8-1";
-  src = 
+  src =
     if stdenv.hostPlatform.system == "i686-linux" then
-      fetchurl {
-        url = "http://download.brother.com/welcome/dlf006646/${name}.i386.deb";
-        sha256 = "15hrf1gpm36lniqi6yf47dvdqjinm644xb752c6rcv8n06wb79ag";
-      }
+      fetchurl
+        {
+          url = "http://download.brother.com/welcome/dlf006646/${name}.i386.deb";
+          sha256 = "15hrf1gpm36lniqi6yf47dvdqjinm644xb752c6rcv8n06wb79ag";
+        }
     else if stdenv.hostPlatform.system == "x86_64-linux" then
-      fetchurl {
-        url = "https://download.brother.com/welcome/dlf006645/${name}.amd64.deb";
-        sha256 = "0pyprjl0capg403yp6pp07gd6msx9kn7bzjcdswdbn28fyxrk5l4";
-      }
+      fetchurl
+        {
+          url = "https://download.brother.com/welcome/dlf006645/${name}.amd64.deb";
+          sha256 = "0pyprjl0capg403yp6pp07gd6msx9kn7bzjcdswdbn28fyxrk5l4";
+        }
     else throw "${name} is not supported on ${stdenv.hostPlatform.system} (only i686-linux and x86_64 linux are supported)";
 
   unpackPhase = ''

@@ -1,6 +1,19 @@
-{ fetchurl, stdenv, zlib, bzip2, libgcrypt
-, gdbm, gperf, tdb, gnutls, db, libuuid
-, lzo, pkgconfig, guile, rpcsvc-proto, libtirpc
+{ fetchurl
+, stdenv
+, zlib
+, bzip2
+, libgcrypt
+, gdbm
+, gperf
+, tdb
+, gnutls
+, db
+, libuuid
+, lzo
+, pkgconfig
+, guile
+, rpcsvc-proto
+, libtirpc
 }:
 
 stdenv.mkDerivation rec {
@@ -19,11 +32,18 @@ stdenv.mkDerivation rec {
   NIX_LDFLAGS = [ "-ltirpc" ];
 
   buildInputs =
-    [ zlib bzip2 lzo
+    [
+      zlib
+      bzip2
+      lzo
       libgcrypt
-      gdbm db tdb
-      gnutls libuuid
-      guile libtirpc
+      gdbm
+      db
+      tdb
+      gnutls
+      libuuid
+      guile
+      libtirpc
     ];
 
   doCheck = false;

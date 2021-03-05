@@ -1,6 +1,9 @@
-{ stdenv, fetchurl,
-  bison, re2c, sconsPackages,
-  libcxx
+{ stdenv
+, fetchurl
+, bison
+, re2c
+, sconsPackages
+, libcxx
 }:
 
 let

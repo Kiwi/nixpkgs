@@ -1,6 +1,16 @@
-{ stdenv, fetchurl, makeDesktopItem, ffmpeg_3
-, qmake, qttools, mkDerivation
-, qtbase, qtdeclarative, qtlocation, qtquickcontrols2, qtwebchannel, qtwebengine
+{ stdenv
+, fetchurl
+, makeDesktopItem
+, ffmpeg_3
+, qmake
+, qttools
+, mkDerivation
+, qtbase
+, qtdeclarative
+, qtlocation
+, qtquickcontrols2
+, qtwebchannel
+, qtwebengine
 }:
 
 mkDerivation rec {
@@ -17,9 +27,9 @@ mkDerivation rec {
   nativeBuildInputs = [ qmake qttools ];
 
   postPatch = stdenv.lib.optionalString (ffmpeg_3 != null) ''
-  substituteInPlace converter_ffmpeg.cpp \
-    --replace '"ffmpeg"' '"${ffmpeg_3.bin}/bin/ffmpeg"' \
-    --replace '"ffmpeg ' '"${ffmpeg_3.bin}/bin/ffmpeg '
+    substituteInPlace converter_ffmpeg.cpp \
+      --replace '"ffmpeg"' '"${ffmpeg_3.bin}/bin/ffmpeg"' \
+      --replace '"ffmpeg ' '"${ffmpeg_3.bin}/bin/ffmpeg '
   '';
 
   qmakeFlags = [ "clipgrab.pro" ];

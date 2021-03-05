@@ -1,5 +1,11 @@
-{ lib, buildPythonPackage, fetchFromGitHub, pythonOlder
-, importlib-resources, pytest, xvfb_run }:
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, pythonOlder
+, importlib-resources
+, pytest
+, xvfb_run
+}:
 
 buildPythonPackage rec {
   pname = "pywebview";

@@ -1,5 +1,12 @@
-{ stdenv, lib, buildPythonPackage, fetchPypi, substituteAll
-, portmidi, pygame, python-rtmidi, rtmidi-python
+{ stdenv
+, lib
+, buildPythonPackage
+, fetchPypi
+, substituteAll
+, portmidi
+, pygame
+, python-rtmidi
+, rtmidi-python
 , pytest
 }:
 

@@ -12,11 +12,15 @@ mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    cmake pkgconfig
+    cmake
+    pkgconfig
   ];
 
   buildInputs = [
-    qtbase qttools qtx11extras poppler
+    qtbase
+    qttools
+    qtx11extras
+    poppler
   ];
 
   postInstall = ''

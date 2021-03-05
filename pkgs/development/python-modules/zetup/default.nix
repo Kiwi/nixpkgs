@@ -1,6 +1,11 @@
-{ lib, buildPythonPackage, fetchPypi
-, setuptools_scm, pathpy, nbconvert
-, pytest }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, setuptools_scm
+, pathpy
+, nbconvert
+, pytest
+}:
 
 buildPythonPackage rec {
   pname = "zetup";

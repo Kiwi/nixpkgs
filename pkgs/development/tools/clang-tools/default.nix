@@ -3,7 +3,8 @@
 let
   clang = llvmPackages.clang-unwrapped;
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "clang-tools";
   version = stdenv.lib.getVersion clang;
 

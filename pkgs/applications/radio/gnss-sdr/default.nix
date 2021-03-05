@@ -1,4 +1,5 @@
-{ stdenv, fetchFromGitHub
+{ stdenv
+, fetchFromGitHub
 , armadillo
 , boost
 , cmake
@@ -12,7 +13,8 @@
 , pythonPackages
 , uhd
 , log4cpp
-, blas, lapack
+, blas
+, lapack
 , matio
 , pugixml
 , protobuf
@@ -47,7 +49,8 @@ stdenv.mkDerivation rec {
     # nothing to be gained by leaving it out.
     uhd
     log4cpp
-    blas lapack
+    blas
+    lapack
     matio
     pugixml
     protobuf

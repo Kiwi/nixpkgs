@@ -7,12 +7,14 @@
 
 { fetchurl, unzip }:
 
-{ # Optionally move the contents of the unpacked tree up one level.
+{
+  # Optionally move the contents of the unpacked tree up one level.
   stripRoot ? true
 , url
 , extraPostFetch ? ""
 , name ? "source"
-, ... } @ args:
+, ...
+} @ args:
 
 (fetchurl ({
   inherit name;

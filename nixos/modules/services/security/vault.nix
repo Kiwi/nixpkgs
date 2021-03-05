@@ -17,7 +17,7 @@ let
       ${cfg.listenerExtraConfig}
     }
     storage "${cfg.storageBackend}" {
-      ${optionalString (cfg.storagePath   != null) ''path = "${cfg.storagePath}"''}
+      ${optionalString (cfg.storagePath != null) ''path = "${cfg.storagePath}"''}
       ${optionalString (cfg.storageConfig != null) cfg.storageConfig}
     }
     ${optionalString (cfg.telemetryConfig != "") ''
@@ -103,10 +103,12 @@ in
 
   config = mkIf cfg.enable {
     assertions = [
-      { assertion = cfg.storageBackend == "inmem" -> (cfg.storagePath == null && cfg.storageConfig == null);
+      {
+        assertion = cfg.storageBackend == "inmem" -> (cfg.storagePath == null && cfg.storageConfig == null);
         message = ''The "inmem" storage expects no services.vault.storagePath nor services.vault.storageConfig'';
       }
-      { assertion = (cfg.storageBackend == "file" -> (cfg.storagePath != null && cfg.storageConfig == null)) && (cfg.storagePath != null -> cfg.storageBackend == "file");
+      {
+        assertion = (cfg.storageBackend == "file" -> (cfg.storagePath != null && cfg.storageConfig == null)) && (cfg.storagePath != null -> cfg.storageBackend == "file");
         message = ''You must set services.vault.storagePath only when using the "file" backend'';
       }
     ];
@@ -125,9 +127,9 @@ in
     systemd.services.vault = {
       description = "Vault server daemon";
 
-      wantedBy = ["multi-user.target"];
+      wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ]
-           ++ optional (config.services.consul.enable && cfg.storageBackend == "consul") "consul.service";
+        ++ optional (config.services.consul.enable && cfg.storageBackend == "consul") "consul.service";
 
       restartIfChanged = false; # do not restart on "nixos-rebuild switch". It would seal the storage and disrupt the clients.
 

@@ -13,10 +13,10 @@ crystal.buildCrystalPackage rec {
 
   patches = [
     (fetchpatch {
-        # remove once we have upgraded to oq 1.1.2+
-        name = "yaml-test-leniency.patch";
-        url = "https://github.com/Blacksmoke16/oq/commit/93ed2fe50c9ce3fd8d35427e007790ddaaafce60.patch";
-        sha256 = "1iyz0c0w0ykz268bkrlqwvh1jnnrja0mqip6y89sbpa14lp0l37n";
+      # remove once we have upgraded to oq 1.1.2+
+      name = "yaml-test-leniency.patch";
+      url = "https://github.com/Blacksmoke16/oq/commit/93ed2fe50c9ce3fd8d35427e007790ddaaafce60.patch";
+      sha256 = "1iyz0c0w0ykz268bkrlqwvh1jnnrja0mqip6y89sbpa14lp0l37n";
     })
   ];
 

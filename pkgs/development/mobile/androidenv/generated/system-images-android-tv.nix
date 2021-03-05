@@ -1,4 +1,4 @@
-{fetchurl}:
+{ fetchurl }:
 
 {
   "21".android-tv."x86" = {

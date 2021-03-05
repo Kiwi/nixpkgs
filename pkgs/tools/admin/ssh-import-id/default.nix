@@ -3,7 +3,7 @@
 , fetchgit
 , requests
 , makeWrapper
-, extraHandlers ? []
+, extraHandlers ? [ ]
 }:
 
 buildPythonPackage rec {

@@ -1,16 +1,37 @@
-{ stdenv, fetchFromGitHub, fetchFromGitLab
-, autoconf, automake, gettext, intltool
-, libtool, pkgconfig, wrapGAppsHook, wrapPython, gobject-introspection
-, gtk3, python, pygobject3, pyxdg
+{ stdenv
+, fetchFromGitHub
+, fetchFromGitLab
+, autoconf
+, automake
+, gettext
+, intltool
+, libtool
+, pkgconfig
+, wrapGAppsHook
+, wrapPython
+, gobject-introspection
+, gtk3
+, python
+, pygobject3
+, pyxdg
 
-, withQuartz ? stdenv.isDarwin, ApplicationServices
-, withRandr ? stdenv.isLinux, libxcb
-, withDrm ? stdenv.isLinux, libdrm
+, withQuartz ? stdenv.isDarwin
+, ApplicationServices
+, withRandr ? stdenv.isLinux
+, libxcb
+, withDrm ? stdenv.isLinux
+, libdrm
 
 , withGeolocation ? true
-, withCoreLocation ? withGeolocation && stdenv.isDarwin, CoreLocation, Foundation, Cocoa
-, withGeoclue ? withGeolocation && stdenv.isLinux, geoclue
-, withAppIndicator ? true, libappindicator, libayatana-appindicator
+, withCoreLocation ? withGeolocation && stdenv.isDarwin
+, CoreLocation
+, Foundation
+, Cocoa
+, withGeoclue ? withGeolocation && stdenv.isLinux
+, geoclue
+, withAppIndicator ? true
+, libappindicator
+, libayatana-appindicator
 }:
 
 let
@@ -50,15 +71,15 @@ let
         gobject-introspection
         gtk3
         python
-      ] ++ stdenv.lib.optional  withRandr        libxcb
-        ++ stdenv.lib.optional  withGeoclue      geoclue
-        ++ stdenv.lib.optional  withDrm          libdrm
-        ++ stdenv.lib.optional  withQuartz       ApplicationServices
-        ++ stdenv.lib.optionals withCoreLocation [ CoreLocation Foundation Cocoa ]
-        ++ stdenv.lib.optional  withAppIndicator (if (pname != "gammastep")
-             then libappindicator
-             else libayatana-appindicator)
-        ;
+      ] ++ stdenv.lib.optional withRandr libxcb
+      ++ stdenv.lib.optional withGeoclue geoclue
+      ++ stdenv.lib.optional withDrm libdrm
+      ++ stdenv.lib.optional withQuartz ApplicationServices
+      ++ stdenv.lib.optionals withCoreLocation [ CoreLocation Foundation Cocoa ]
+      ++ stdenv.lib.optional withAppIndicator (if (pname != "gammastep")
+      then libappindicator
+      else libayatana-appindicator)
+      ;
 
       pythonPath = [ pygobject3 pyxdg ];
 
@@ -68,17 +89,18 @@ let
 
       # the geoclue agent may inspect these paths and expect them to be
       # valid without having the correct $PATH set
-      postInstall = if (pname == "gammastep") then ''
-        substituteInPlace $out/share/applications/gammastep.desktop \
-          --replace 'Exec=gammastep' "Exec=$out/bin/gammastep"
-        substituteInPlace $out/share/applications/gammastep-indicator.desktop \
-          --replace 'Exec=gammastep-indicator' "Exec=$out/bin/gammastep-indicator"
-      '' else ''
-        substituteInPlace $out/share/applications/redshift.desktop \
-          --replace 'Exec=redshift' "Exec=$out/bin/redshift"
-        substituteInPlace $out/share/applications/redshift-gtk.desktop \
-          --replace 'Exec=redshift-gtk' "Exec=$out/bin/redshift-gtk"
-      '';
+      postInstall =
+        if (pname == "gammastep") then ''
+          substituteInPlace $out/share/applications/gammastep.desktop \
+            --replace 'Exec=gammastep' "Exec=$out/bin/gammastep"
+          substituteInPlace $out/share/applications/gammastep-indicator.desktop \
+            --replace 'Exec=gammastep-indicator' "Exec=$out/bin/gammastep-indicator"
+        '' else ''
+          substituteInPlace $out/share/applications/redshift.desktop \
+            --replace 'Exec=redshift' "Exec=$out/bin/redshift"
+          substituteInPlace $out/share/applications/redshift-gtk.desktop \
+            --replace 'Exec=redshift-gtk' "Exec=$out/bin/redshift-gtk"
+        '';
 
       enableParallelBuilding = true;
     };

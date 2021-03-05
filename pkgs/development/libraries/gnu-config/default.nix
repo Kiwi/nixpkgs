@@ -12,7 +12,8 @@ let
     url = "https://git.savannah.gnu.org/cgit/config.git/plain/config.sub?id=${rev}";
     sha256 = "sha256-DkCGDN/DE3phQ1GO/Ua5ZPPtp0Ya93PnW3yfSK8EV9s=";
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "gnu-config";
   version = "2020-05-04";
 

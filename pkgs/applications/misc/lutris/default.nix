@@ -1,6 +1,9 @@
-{ buildPythonApplication, lib, fetchFromGitHub, fetchpatch
+{ buildPythonApplication
+, lib
+, fetchFromGitHub
+, fetchpatch
 
-# build inputs
+  # build inputs
 , atk
 , gdk-pixbuf
 , glib-networking
@@ -13,7 +16,7 @@
 , webkitgtk
 , wrapGAppsHook
 
-# python dependencies
+  # python dependencies
 , dbus-python
 , distro
 , evdev
@@ -23,7 +26,7 @@
 , requests
 , keyring
 
-# commands that lutris needs
+  # commands that lutris needs
 , xrandr
 , pciutils
 , psmisc
@@ -69,7 +72,8 @@ let
     gstreamer
   ];
 
-in buildPythonApplication rec {
+in
+buildPythonApplication rec {
   pname = "lutris-original";
   version = "0.5.7.1";
 
@@ -94,7 +98,14 @@ in buildPythonApplication rec {
   ] ++ gstDeps;
 
   propagatedBuildInputs = [
-    evdev distro pyyaml pygobject3 requests pillow dbus-python keyring
+    evdev
+    distro
+    pyyaml
+    pygobject3
+    requests
+    pillow
+    dbus-python
+    keyring
   ];
 
   # avoid double wrapping

@@ -21,4 +21,4 @@ buildLinux (args // {
     maintainers = with stdenv.lib.maintainers; [ atemu andresilva ];
   };
 
-} // (args.argsOverride or {}))
+} // (args.argsOverride or { }))

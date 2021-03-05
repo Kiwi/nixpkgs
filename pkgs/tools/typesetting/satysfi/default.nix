@@ -1,5 +1,13 @@
-{ stdenv, fetchzip, fetchFromGitHub, ruby, dune_2, ocamlPackages
-, ipaexfont, junicode, lmodern, lmmath
+{ stdenv
+, fetchzip
+, fetchFromGitHub
+, ruby
+, dune_2
+, ocamlPackages
+, ipaexfont
+, junicode
+, lmodern
+, lmmath
 }:
 let
   camlpdf = ocamlPackages.camlpdf.overrideAttrs (o: {
@@ -33,45 +41,54 @@ let
     inherit (ocamlPackages.yojson) meta;
   };
 in
-  stdenv.mkDerivation rec {
-    pname = "satysfi";
-    version = "0.0.5";
-    src = fetchFromGitHub {
-      owner = "gfngfn";
-      repo = "SATySFi";
-      rev = "v${version}";
-      sha256 = "1y72by6d15bc6qb1lv1ch6cm1i74gyr0w127nnvs2s657snm0y1n";
-      fetchSubmodules = true;
-    };
+stdenv.mkDerivation rec {
+  pname = "satysfi";
+  version = "0.0.5";
+  src = fetchFromGitHub {
+    owner = "gfngfn";
+    repo = "SATySFi";
+    rev = "v${version}";
+    sha256 = "1y72by6d15bc6qb1lv1ch6cm1i74gyr0w127nnvs2s657snm0y1n";
+    fetchSubmodules = true;
+  };
 
-    preConfigure = ''
-      substituteInPlace src/frontend/main.ml --replace \
-      '/usr/local/share/satysfi"; "/usr/share/satysfi' \
-      $out/share/satysfi
-    '';
+  preConfigure = ''
+    substituteInPlace src/frontend/main.ml --replace \
+    '/usr/local/share/satysfi"; "/usr/share/satysfi' \
+    $out/share/satysfi
+  '';
 
-    nativeBuildInputs = [ ruby dune_2 ];
+  nativeBuildInputs = [ ruby dune_2 ];
 
-    buildInputs = [ camlpdf otfm yojson-with-position ] ++ (with ocamlPackages; [
-      ocaml findlib menhir
-      batteries camlimages core_kernel ppx_deriving uutf omd cppo re
-    ]);
+  buildInputs = [ camlpdf otfm yojson-with-position ] ++ (with ocamlPackages; [
+    ocaml
+    findlib
+    menhir
+    batteries
+    camlimages
+    core_kernel
+    ppx_deriving
+    uutf
+    omd
+    cppo
+    re
+  ]);
 
-    installPhase = ''
-      cp -r ${ipaexfont}/share/fonts/opentype/* lib-satysfi/dist/fonts/
-      cp -r ${junicode}/share/fonts/junicode-ttf/* lib-satysfi/dist/fonts/
-      cp -r ${lmodern}/share/fonts/opentype/public/lm/* lib-satysfi/dist/fonts/
-      cp -r ${lmmath}/share/fonts/opentype/latinmodern-math.otf lib-satysfi/dist/fonts/
-      make install PREFIX=$out LIBDIR=$out/share/satysfi
-      mkdir -p $out/share/satysfi/
-      cp -r lib-satysfi/dist/ $out/share/satysfi/
-    '';
+  installPhase = ''
+    cp -r ${ipaexfont}/share/fonts/opentype/* lib-satysfi/dist/fonts/
+    cp -r ${junicode}/share/fonts/junicode-ttf/* lib-satysfi/dist/fonts/
+    cp -r ${lmodern}/share/fonts/opentype/public/lm/* lib-satysfi/dist/fonts/
+    cp -r ${lmmath}/share/fonts/opentype/latinmodern-math.otf lib-satysfi/dist/fonts/
+    make install PREFIX=$out LIBDIR=$out/share/satysfi
+    mkdir -p $out/share/satysfi/
+    cp -r lib-satysfi/dist/ $out/share/satysfi/
+  '';
 
-    meta = with stdenv.lib; {
-      homepage = "https://github.com/gfngfn/SATySFi";
-      description = "A statically-typed, functional typesetting system";
-      license = licenses.lgpl3;
-      maintainers = [ maintainers.mt-caret maintainers.marsam ];
-      platforms = platforms.all;
-    };
-  }
+  meta = with stdenv.lib; {
+    homepage = "https://github.com/gfngfn/SATySFi";
+    description = "A statically-typed, functional typesetting system";
+    license = licenses.lgpl3;
+    maintainers = [ maintainers.mt-caret maintainers.marsam ];
+    platforms = platforms.all;
+  };
+}

@@ -22,9 +22,15 @@
 , makeFontsConf
 , callPackage
 , nixosTests
-, gstreamerSupport ? true, gst_all_1 ? null
-, ffmpegSupport ? true, ffmpeg ? null
-, bluezSupport ? true, bluez ? null, sbc ? null, libopenaptx ? null, ldacbt ? null
+, gstreamerSupport ? true
+, gst_all_1 ? null
+, ffmpegSupport ? true
+, ffmpeg ? null
+, bluezSupport ? true
+, bluez ? null
+, sbc ? null
+, libopenaptx ? null
+, ldacbt ? null
 , nativeHspSupport ? true
 , ofonoSupport ? true
 , hsphfpdSupport ? true
@@ -32,7 +38,7 @@
 
 let
   fontsConf = makeFontsConf {
-    fontDirectories = [];
+    fontDirectories = [ ];
   };
 
   mesonBool = b: if b then "true" else "false";

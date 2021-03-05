@@ -1,6 +1,19 @@
-{ fetchurl, stdenv, autoreconfHook, pkgconfig, perl, python
-, db, libgcrypt, avahi, libiconv, pam, openssl, acl
-, ed, libtirpc, libevent
+{ fetchurl
+, stdenv
+, autoreconfHook
+, pkgconfig
+, perl
+, python
+, db
+, libgcrypt
+, avahi
+, libiconv
+, pam
+, openssl
+, acl
+, ed
+, libtirpc
+, libevent
 }:
 
 stdenv.mkDerivation rec {

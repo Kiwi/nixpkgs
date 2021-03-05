@@ -23,7 +23,8 @@ let
   configJSON = pkgs.runCommand "caddy-config.json" { } ''
     ${pkgs.jq}/bin/jq -s '.[0] * .[1]' ${adaptedConfig} ${tlsJSON} > $out
   '';
-in {
+in
+{
   imports = [
     (mkRemovedOptionModule [ "services" "caddy" "agree" ] "this option is no longer necessary for Caddy 2")
   ];

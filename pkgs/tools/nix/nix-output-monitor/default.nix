@@ -1,6 +1,21 @@
-{ mkDerivation, ansi-terminal, async, attoparsec, base, containers
-, directory, HUnit, mtl, nix-derivation, process, relude, stdenv
-, stm, text, time, unix, fetchFromGitHub
+{ mkDerivation
+, ansi-terminal
+, async
+, attoparsec
+, base
+, containers
+, directory
+, HUnit
+, mtl
+, nix-derivation
+, process
+, relude
+, stdenv
+, stm
+, text
+, time
+, unix
+, fetchFromGitHub
 }:
 mkDerivation {
   pname = "nix-output-monitor";
@@ -14,16 +29,51 @@ mkDerivation {
   isLibrary = true;
   isExecutable = true;
   libraryHaskellDepends = [
-    ansi-terminal async attoparsec base containers directory mtl
-    nix-derivation relude stm text time unix
+    ansi-terminal
+    async
+    attoparsec
+    base
+    containers
+    directory
+    mtl
+    nix-derivation
+    relude
+    stm
+    text
+    time
+    unix
   ];
   executableHaskellDepends = [
-    ansi-terminal async attoparsec base containers directory mtl
-    nix-derivation relude stm text time unix
+    ansi-terminal
+    async
+    attoparsec
+    base
+    containers
+    directory
+    mtl
+    nix-derivation
+    relude
+    stm
+    text
+    time
+    unix
   ];
   testHaskellDepends = [
-    ansi-terminal async attoparsec base containers directory HUnit mtl
-    nix-derivation process relude stm text time unix
+    ansi-terminal
+    async
+    attoparsec
+    base
+    containers
+    directory
+    HUnit
+    mtl
+    nix-derivation
+    process
+    relude
+    stm
+    text
+    time
+    unix
   ];
   homepage = "https://github.com/maralorn/nix-output-monitor";
   description = "Parses output of nix-build to show additional information";

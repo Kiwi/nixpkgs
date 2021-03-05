@@ -1,4 +1,9 @@
-{ stdenv, fetchurl, transfig, tex, ghostscript, colm
+{ stdenv
+, fetchurl
+, transfig
+, tex
+, ghostscript
+, colm
 , build-manual ? false
 }:
 

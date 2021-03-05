@@ -1,5 +1,12 @@
-{stdenv, fetchurl, util-linux, libuuid
-, crypto ? false, libgcrypt, gnutls, pkgconfig}:
+{ stdenv
+, fetchurl
+, util-linux
+, libuuid
+, crypto ? false
+, libgcrypt
+, gnutls
+, pkgconfig
+}:
 
 stdenv.mkDerivation rec {
   pname = "ntfs3g";

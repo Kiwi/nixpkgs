@@ -1,5 +1,10 @@
-{ stdenv, buildPythonPackage, fetchPypi
-, pytest, heapdict, pythonOlder }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pytest
+, heapdict
+, pythonOlder
+}:
 
 buildPythonPackage rec {
   pname = "zict";

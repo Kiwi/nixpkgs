@@ -1,5 +1,16 @@
-{ stdenv, fetchurl, pkgconfig, intltool, gtk3, libxfce4ui,
-  libxfce4util, xfce4-panel, libnotify, lm_sensors, hddtemp, netcat-gnu, xfce
+{ stdenv
+, fetchurl
+, pkgconfig
+, intltool
+, gtk3
+, libxfce4ui
+, libxfce4util
+, xfce4-panel
+, libnotify
+, lm_sensors
+, hddtemp
+, netcat-gnu
+, xfce
 }:
 
 let
@@ -7,7 +18,7 @@ let
 in
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-sensors-plugin";
+  pname = "xfce4-sensors-plugin";
   version = "1.3.92";
 
   src = fetchurl {
@@ -29,7 +40,7 @@ stdenv.mkDerivation rec {
     lm_sensors
     hddtemp
     netcat-gnu
-   ];
+  ];
 
   enableParallelBuilding = true;
 
@@ -37,7 +48,7 @@ stdenv.mkDerivation rec {
     "--with-pathhddtemp=${hddtemp}/bin/hddtemp"
     "--with-pathnetcat=${netcat-gnu}/bin/netcat"
   ];
-  
+
   passthru.updateScript = xfce.updateScript {
     inherit pname version;
     attrPath = "xfce.${pname}";

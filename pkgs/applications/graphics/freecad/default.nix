@@ -1,13 +1,42 @@
-{ stdenv, mkDerivation, fetchFromGitHub, fetchpatch, cmake, ninja, coin3d,
-xercesc, ode, eigen, qtbase, qttools, qtwebengine, qtxmlpatterns, wrapQtAppsHook,
-opencascade-occt, gts, hdf5, vtk, medfile, zlib, python3Packages, swig,
-gfortran, libXmu, soqt, libf2c, libGLU, makeWrapper, pkgconfig, mpi ? null }:
+{ stdenv
+, mkDerivation
+, fetchFromGitHub
+, fetchpatch
+, cmake
+, ninja
+, coin3d
+, xercesc
+, ode
+, eigen
+, qtbase
+, qttools
+, qtwebengine
+, qtxmlpatterns
+, wrapQtAppsHook
+, opencascade-occt
+, gts
+, hdf5
+, vtk
+, medfile
+, zlib
+, python3Packages
+, swig
+, gfortran
+, libXmu
+, soqt
+, libf2c
+, libGLU
+, makeWrapper
+, pkgconfig
+, mpi ? null
+}:
 
 assert mpi != null;
 
 let
   pythonPackages = python3Packages;
-in mkDerivation rec {
+in
+mkDerivation rec {
   pname = "freecad-unstable";
   version = "2020-12-08";
 
@@ -27,11 +56,38 @@ in mkDerivation rec {
   ];
 
   buildInputs = [
-    cmake coin3d xercesc ode eigen opencascade-occt gts
-    zlib swig gfortran soqt libf2c makeWrapper mpi vtk hdf5 medfile
-    libGLU libXmu qtbase qttools qtwebengine qtxmlpatterns
+    cmake
+    coin3d
+    xercesc
+    ode
+    eigen
+    opencascade-occt
+    gts
+    zlib
+    swig
+    gfortran
+    soqt
+    libf2c
+    makeWrapper
+    mpi
+    vtk
+    hdf5
+    medfile
+    libGLU
+    libXmu
+    qtbase
+    qttools
+    qtwebengine
+    qtxmlpatterns
   ] ++ (with pythonPackages; [
-    matplotlib pycollada shiboken2 pyside2 pyside2-tools pivy python boost
+    matplotlib
+    pycollada
+    shiboken2
+    pyside2
+    pyside2-tools
+    pivy
+    python
+    boost
     GitPython # for addon manager
   ]);
 
@@ -43,7 +99,7 @@ in mkDerivation rec {
       + ";${pythonPackages.pyside2}/include/PySide2/QtCore"
       + ";${pythonPackages.pyside2}/include/PySide2/QtWidgets"
       + ";${pythonPackages.pyside2}/include/PySide2/QtGui"
-      )
+    )
     "-DPYSIDE_LIBRARY=PySide2::pyside2"
   ];
 

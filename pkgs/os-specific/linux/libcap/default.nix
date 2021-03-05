@@ -1,5 +1,12 @@
-{ stdenv, lib, buildPackages, fetchurl, attr, perl, pam
-, static ? stdenv.targetPlatform.isStatic }:
+{ stdenv
+, lib
+, buildPackages
+, fetchurl
+, attr
+, perl
+, pam
+, static ? stdenv.targetPlatform.isStatic
+}:
 
 stdenv.mkDerivation rec {
   pname = "libcap";

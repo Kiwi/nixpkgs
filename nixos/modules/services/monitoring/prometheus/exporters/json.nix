@@ -20,7 +20,7 @@ in
         Path to configuration file.
       '';
     };
-    listenAddress = {}; # not used
+    listenAddress = { }; # not used
   };
   serviceOpts = {
     serviceConfig = {

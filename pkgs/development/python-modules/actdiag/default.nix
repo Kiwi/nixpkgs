@@ -1,5 +1,11 @@
-{ stdenv, buildPythonPackage, fetchPypi
-, nose, docutils, blockdiag, reportlab }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, nose
+, docutils
+, blockdiag
+, reportlab
+}:
 
 buildPythonPackage rec {
   pname = "actdiag";

@@ -1,6 +1,18 @@
-{ lib, fetchurl, buildDunePackage
-, astring, base64, digestif, fmt, jsonm, logs, ocaml_lwt, ocamlgraph, uri
-, alcotest, hex, ppx_irmin
+{ lib
+, fetchurl
+, buildDunePackage
+, astring
+, base64
+, digestif
+, fmt
+, jsonm
+, logs
+, ocaml_lwt
+, ocamlgraph
+, uri
+, alcotest
+, hex
+, ppx_irmin
 }:
 
 buildDunePackage {

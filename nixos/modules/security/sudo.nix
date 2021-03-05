@@ -16,12 +16,14 @@ let
 
   toCommandsString = commands:
     concatStringsSep ", " (
-      map (command:
-        if (isString command) then
-          command
-        else
-          "${toCommandOptionsString command.options}${command.command}"
-      ) commands
+      map
+        (command:
+          if (isString command) then
+            command
+          else
+            "${toCommandOptionsString command.options}${command.command}"
+        )
+        commands
     );
 
 in
@@ -59,7 +61,7 @@ in
           Whether users of the <code>wheel</code> group must
           provide a password to run commands as super user via <command>sudo</command>.
         '';
-      };
+    };
 
     security.sudo.configFile = mkOption {
       type = types.lines;
@@ -79,7 +81,7 @@ in
         yield the expected behavior. You can use mkBefore/mkAfter to ensure
         this is the case when configuration options are merged.
       '';
-      default = [];
+      default = [ ];
       example = literalExample ''
         [
           # Allow execution of any command by all users in group sudo,
@@ -106,7 +108,7 @@ in
             description = ''
               The usernames / UIDs this rule should apply for.
             '';
-            default = [];
+            default = [ ];
           };
 
           groups = mkOption {
@@ -114,7 +116,7 @@ in
             description = ''
               The groups / GIDs this rule should apply for.
             '';
-            default = [];
+            default = [ ];
           };
 
           host = mkOption {
@@ -158,7 +160,7 @@ in
                   description = ''
                     Options for running the command. Refer to the <a href="https://www.sudo.ws/man/1.7.10/sudoers.man.html">sudo manual</a>.
                   '';
-                  default = [];
+                  default = [ ];
                 };
               };
 
@@ -185,35 +187,39 @@ in
     # We `mkOrder 600` so that the default rule shows up first, but there is
     # still enough room for a user to `mkBefore` it.
     security.sudo.extraRules = mkOrder 600 [
-      { groups = [ "wheel" ];
-        commands = [ { command = "ALL"; options = (if cfg.wheelNeedsPassword then [ "SETENV" ] else [ "NOPASSWD" "SETENV" ]); } ];
+      {
+        groups = [ "wheel" ];
+        commands = [{ command = "ALL"; options = (if cfg.wheelNeedsPassword then [ "SETENV" ] else [ "NOPASSWD" "SETENV" ]); }];
       }
     ];
 
     security.sudo.configFile =
       ''
-        # Don't edit this file. Set the NixOS options ‘security.sudo.configFile’
-        # or ‘security.sudo.extraRules’ instead.
+                # Don't edit this file. Set the NixOS options ‘security.sudo.configFile’
+                # or ‘security.sudo.extraRules’ instead.
 
-        # Keep SSH_AUTH_SOCK so that pam_ssh_agent_auth.so can do its magic.
-        Defaults env_keep+=SSH_AUTH_SOCK
+                # Keep SSH_AUTH_SOCK so that pam_ssh_agent_auth.so can do its magic.
+                Defaults env_keep+=SSH_AUTH_SOCK
 
-        # "root" is allowed to do anything.
-        root        ALL=(ALL:ALL) SETENV: ALL
+                # "root" is allowed to do anything.
+                root        ALL=(ALL:ALL) SETENV: ALL
 
-        # extraRules
-        ${concatStringsSep "\n" (
-          lists.flatten (
-            map (
-              rule: if (length rule.commands != 0) then [
-                (map (user: "${toUserString user}	${rule.host}=(${rule.runAs})	${toCommandsString rule.commands}") rule.users)
-                (map (group: "${toGroupString group}	${rule.host}=(${rule.runAs})	${toCommandsString rule.commands}") rule.groups)
-              ] else []
-            ) cfg.extraRules
-          )
-        )}
+                # extraRules
+                ${concatStringsSep "\n" (
+                  lists.flatten (
+                    map
+        (
+                      rule:
+        if (length rule.commands != 0) then [
+                        (map (user: "${toUserString user}  ${rule.host}=(${rule.runAs})  ${toCommandsString rule.commands}") rule.users)
+                        (map (group: "${toGroupString group}  ${rule.host}=(${rule.runAs})  ${toCommandsString rule.commands}") rule.groups)
+                      ] else [ ]
+                    )
+        cfg.extraRules
+                  )
+                )}
 
-        ${cfg.extraConfig}
+                ${cfg.extraConfig}
       '';
 
     security.wrappers = {
@@ -226,15 +232,16 @@ in
     security.pam.services.sudo = { sshAgentAuth = true; };
 
     environment.etc.sudoers =
-      { source =
+      {
+        source =
           pkgs.runCommand "sudoers"
-          {
-            src = pkgs.writeText "sudoers-in" cfg.configFile;
-            preferLocalBuild = true;
-          }
-          # Make sure that the sudoers file is syntactically valid.
-          # (currently disabled - NIXOS-66)
-          "${pkgs.buildPackages.sudo}/sbin/visudo -f $src -c && cp $src $out";
+            {
+              src = pkgs.writeText "sudoers-in" cfg.configFile;
+              preferLocalBuild = true;
+            }
+            # Make sure that the sudoers file is syntactically valid.
+            # (currently disabled - NIXOS-66)
+            "${pkgs.buildPackages.sudo}/sbin/visudo -f $src -c && cp $src $out";
         mode = "0440";
       };
 

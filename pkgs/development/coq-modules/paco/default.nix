@@ -1,4 +1,4 @@
-{stdenv, fetchFromGitHub, coq, unzip}:
+{ stdenv, fetchFromGitHub, coq, unzip }:
 
 let
   versions = {

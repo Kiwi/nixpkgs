@@ -1,6 +1,13 @@
-{ stdenv, fetchFromGitHub, cmake, pkgconfig
-, mpg123, SDL2, gnome3, faad2, pcre
-} :
+{ stdenv
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, mpg123
+, SDL2
+, gnome3
+, faad2
+, pcre
+}:
 
 stdenv.mkDerivation rec {
   pname = "dablin";

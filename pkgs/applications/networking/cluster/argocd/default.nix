@@ -19,11 +19,11 @@ buildGoModule rec {
   nativeBuildInputs = [ packr ];
 
   buildFlagsArray = ''
-     -ldflags=
-      -X github.com/argoproj/argo-cd/common.version=${version}
-      -X github.com/argoproj/argo-cd/common.buildDate=unknown
-      -X github.com/argoproj/argo-cd/common.gitCommit=${commit}
-      -X github.com/argoproj/argo-cd/common.gitTreeState=clean
+    -ldflags=
+     -X github.com/argoproj/argo-cd/common.version=${version}
+     -X github.com/argoproj/argo-cd/common.buildDate=unknown
+     -X github.com/argoproj/argo-cd/common.gitCommit=${commit}
+     -X github.com/argoproj/argo-cd/common.gitTreeState=clean
   '';
 
   # run packr to embed assets

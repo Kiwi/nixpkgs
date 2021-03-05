@@ -1,7 +1,13 @@
-{ stdenv, fetchgit, buildPythonPackage
+{ stdenv
+, fetchgit
+, buildPythonPackage
 , python
 , buildGoModule
-, srht, minio, pygit2, scmsrht }:
+, srht
+, minio
+, pygit2
+, scmsrht
+}:
 
 let
   version = "0.61.10";
@@ -35,7 +41,8 @@ let
     pname = "gitsrht-api";
     vendorSha256 = "0d6kmsbsgj2q5nddx4w675zbsiarffj9vqplwvqk7dwz4id2wnif";
   };
-in buildPythonPackage rec {
+in
+buildPythonPackage rec {
   pname = "gitsrht";
   inherit version;
 

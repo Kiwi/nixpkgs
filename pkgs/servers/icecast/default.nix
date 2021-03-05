@@ -1,6 +1,14 @@
-{stdenv, fetchurl
-, libxml2, libxslt, curl
-, libvorbis, libtheora, speex, libkate, libopus }:
+{ stdenv
+, fetchurl
+, libxml2
+, libxslt
+, curl
+, libvorbis
+, libtheora
+, speex
+, libkate
+, libopus
+}:
 
 stdenv.mkDerivation rec {
   name = "icecast-2.4.4";

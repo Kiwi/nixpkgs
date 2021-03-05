@@ -1,8 +1,12 @@
 { stdenv
-, fetchurl, bison, flex
+, fetchurl
+, bison
+, flex
 , zlib
-, usePAM ? stdenv.hostPlatform.isLinux, pam
-, useSSL ? true, openssl
+, usePAM ? stdenv.hostPlatform.isLinux
+, pam
+, useSSL ? true
+, openssl
 }:
 
 stdenv.mkDerivation rec {
@@ -21,10 +25,10 @@ stdenv.mkDerivation rec {
   configureFlags = [
     (stdenv.lib.withFeature usePAM "pam")
   ] ++ (if useSSL then [
-      "--with-ssl-incl-dir=${openssl.dev}/include"
-      "--with-ssl-lib-dir=${openssl.out}/lib"
-    ] else [
-      "--without-ssl"
+    "--with-ssl-incl-dir=${openssl.dev}/include"
+    "--with-ssl-lib-dir=${openssl.out}/lib"
+  ] else [
+    "--without-ssl"
   ]) ++ stdenv.lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
     # will need to check both these are true for musl
     "libmonit_cv_setjmp_available=yes"

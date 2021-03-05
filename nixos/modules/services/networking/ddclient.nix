@@ -15,7 +15,7 @@ let
     protocol=${cfg.protocol}
     ${lib.optionalString (cfg.script != "") "script=${cfg.script}"}
     ${lib.optionalString (cfg.server != "") "server=${cfg.server}"}
-    ${lib.optionalString (cfg.zone != "")   "zone=${cfg.zone}"}
+    ${lib.optionalString (cfg.zone != "") "zone=${cfg.zone}"}
     ssl=${boolToStr cfg.ssl}
     wildcard=YES
     quiet=${boolToStr cfg.quiet}
@@ -34,7 +34,7 @@ with lib;
     (mkChangedOptionModule [ "services" "ddclient" "domain" ] [ "services" "ddclient" "domains" ]
       (config:
         let value = getAttrFromPath [ "services" "ddclient" "domain" ] config;
-        in if value != "" then [ value ] else []))
+        in if value != "" then [ value ] else [ ]))
     (mkRemovedOptionModule [ "services" "ddclient" "homeDir" ] "")
   ];
 

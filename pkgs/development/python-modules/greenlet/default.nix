@@ -9,7 +9,7 @@
 buildPythonPackage rec {
   pname = "greenlet";
   version = "0.4.17";
-  disabled = isPyPy;  # builtin for pypy
+  disabled = isPyPy; # builtin for pypy
 
   src = fetchPypi {
     inherit pname version;

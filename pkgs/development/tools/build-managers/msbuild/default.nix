@@ -33,12 +33,12 @@ stdenv.mkDerivation rec {
   ];
 
   # https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=msbuild
-  phases = ["unpackPhase" "buildPhase" "installPhase" "installCheckPhase"];
+  phases = [ "unpackPhase" "buildPhase" "installPhase" "installCheckPhase" ];
 
   # https://github.com/NixOS/nixpkgs/issues/38991
   # bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
   LOCALE_ARCHIVE = stdenv.lib.optionalString stdenv.isLinux
-      "${glibcLocales}/lib/locale/locale-archive";
+    "${glibcLocales}/lib/locale/locale-archive";
 
   buildPhase = ''
     # nuget would otherwise try to base itself in /homeless-shelter
@@ -91,35 +91,35 @@ stdenv.mkDerivation rec {
 
   # https://docs.microsoft.com/cs-cz/visualstudio/msbuild/walkthrough-creating-an-msbuild-project-file-from-scratch?view=vs-2019
   installCheckPhase = ''
-    cat > Helloworld.cs <<EOF
-using System;
+        cat > Helloworld.cs <<EOF
+    using System;
 
-class HelloWorld
-{
-    static void Main()
+    class HelloWorld
     {
-#if DebugConfig
-        Console.WriteLine("WE ARE IN THE DEBUG CONFIGURATION");
-#endif
+        static void Main()
+        {
+    #if DebugConfig
+            Console.WriteLine("WE ARE IN THE DEBUG CONFIGURATION");
+    #endif
 
-        Console.WriteLine("Hello, world!");
+            Console.WriteLine("Hello, world!");
+        }
     }
-}
-EOF
+    EOF
 
-    cat > Helloworld.csproj <<EOF
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <Compile Include="Helloworld.cs" />
-  </ItemGroup>
-  <Target Name="Build">
-    <Csc Sources="@(Compile)"/>
-  </Target>
-</Project>
-EOF
+        cat > Helloworld.csproj <<EOF
+    <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+      <ItemGroup>
+        <Compile Include="Helloworld.cs" />
+      </ItemGroup>
+      <Target Name="Build">
+        <Csc Sources="@(Compile)"/>
+      </Target>
+    </Project>
+    EOF
 
-    $out/bin/msbuild Helloworld.csproj -t:Build
-    ${mono}/bin/mono Helloworld.exe | grep "Hello, world!"
+        $out/bin/msbuild Helloworld.csproj -t:Build
+        ${mono}/bin/mono Helloworld.exe | grep "Hello, world!"
   '';
 
   meta = with stdenv.lib; {

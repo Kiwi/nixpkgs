@@ -1,10 +1,36 @@
-{ stdenv, fetchurl, python3, wrapGAppsHook, gettext, libsoup, gnome3, gtk3, gdk-pixbuf, librsvg,
-  tag ? "", xvfb_run, dbus, glibcLocales, glib, glib-networking, gobject-introspection, hicolor-icon-theme,
-  gst_all_1, withGstPlugins ? true,
-  xineBackend ? false, xineLib,
-  withDbusPython ? false, withPyInotify ? false, withMusicBrainzNgs ? false, withPahoMqtt ? false,
-  webkitgtk ? null,
-  keybinder3 ? null, gtksourceview ? null, libmodplug ? null, kakasi ? null, libappindicator-gtk3 ? null }:
+{ stdenv
+, fetchurl
+, python3
+, wrapGAppsHook
+, gettext
+, libsoup
+, gnome3
+, gtk3
+, gdk-pixbuf
+, librsvg
+, tag ? ""
+, xvfb_run
+, dbus
+, glibcLocales
+, glib
+, glib-networking
+, gobject-introspection
+, hicolor-icon-theme
+, gst_all_1
+, withGstPlugins ? true
+, xineBackend ? false
+, xineLib
+, withDbusPython ? false
+, withPyInotify ? false
+, withMusicBrainzNgs ? false
+, withPahoMqtt ? false
+, webkitgtk ? null
+, keybinder3 ? null
+, gtksourceview ? null
+, libmodplug ? null
+, kakasi ? null
+, libappindicator-gtk3 ? null
+}:
 
 let optionals = stdenv.lib.optionals; in
 python3.pkgs.buildPythonApplication rec {
@@ -27,11 +53,11 @@ python3.pkgs.buildPythonApplication rec {
     [ gstreamer gst-plugins-base ] ++ optionals withGstPlugins [ gst-plugins-good gst-plugins-ugly gst-plugins-bad ]);
 
   propagatedBuildInputs = with python3.pkgs; [ pygobject3 pycairo mutagen gst-python feedparser ]
-      ++ optionals withDbusPython [ dbus-python ]
-      ++ optionals withPyInotify [ pyinotify ]
-      ++ optionals withMusicBrainzNgs [ musicbrainzngs ]
-      ++ optionals stdenv.isDarwin [ pyobjc ]
-      ++ optionals withPahoMqtt [ paho-mqtt ];
+    ++ optionals withDbusPython [ dbus-python ]
+    ++ optionals withPyInotify [ pyinotify ]
+    ++ optionals withMusicBrainzNgs [ musicbrainzngs ]
+    ++ optionals stdenv.isDarwin [ pyobjc ]
+    ++ optionals withPahoMqtt [ paho-mqtt ];
 
   LC_ALL = "en_US.UTF-8";
 

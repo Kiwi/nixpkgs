@@ -1,5 +1,7 @@
-{ stdenv, fetchFromGitHub
-, buildPythonPackage, isPy27
+{ stdenv
+, fetchFromGitHub
+, buildPythonPackage
+, isPy27
 , pillow
 , twisted
 , pexpect

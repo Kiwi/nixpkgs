@@ -1,7 +1,29 @@
-{ stdenv, lib, fetchurl, fetchFromGitHub, fetchpatch, fixDarwinDylibNames
-, autoconf, boost, brotli, cmake, flatbuffers, gflags, glog, gtest, lz4
-, perl, python3, rapidjson, snappy, thrift, utf8proc, which, zlib, zstd
-, enableShared ? true }:
+{ stdenv
+, lib
+, fetchurl
+, fetchFromGitHub
+, fetchpatch
+, fixDarwinDylibNames
+, autoconf
+, boost
+, brotli
+, cmake
+, flatbuffers
+, gflags
+, glog
+, gtest
+, lz4
+, perl
+, python3
+, rapidjson
+, snappy
+, thrift
+, utf8proc
+, which
+, zlib
+, zstd
+, enableShared ? true
+}:
 
 let
   arrow-testing = fetchFromGitHub {
@@ -18,7 +40,8 @@ let
     sha256 = "0xj3ynck2wv6l70xnmvs13bz1jycqjrl5k4lwhhwgag338048als";
   };
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "arrow-cpp";
   version = "2.0.0";
 
@@ -116,17 +139,18 @@ in stdenv.mkDerivation rec {
     if doInstallCheck then "${parquet-testing}/data" else null;
   installCheckInputs = [ perl which ];
   installCheckPhase =
-  let
-    excludedTests = lib.optionals stdenv.isDarwin [
-      # Some plasma tests need to be patched to use a shorter AF_UNIX socket
-      # path on Darwin. See https://github.com/NixOS/nix/pull/1085
-      "plasma-external-store-tests"
-      "plasma-client-tests"
-    ];
-  in ''
-    ctest -L unittest -V \
-      --exclude-regex '^(${builtins.concatStringsSep "|" excludedTests})$'
-  '';
+    let
+      excludedTests = lib.optionals stdenv.isDarwin [
+        # Some plasma tests need to be patched to use a shorter AF_UNIX socket
+        # path on Darwin. See https://github.com/NixOS/nix/pull/1085
+        "plasma-external-store-tests"
+        "plasma-client-tests"
+      ];
+    in
+    ''
+      ctest -L unittest -V \
+        --exclude-regex '^(${builtins.concatStringsSep "|" excludedTests})$'
+    '';
 
   meta = {
     description = "A  cross-language development platform for in-memory data";

@@ -1,5 +1,17 @@
-{ stdenv, fetchFromGitHub, cmake, pkg-config, libX11, glfw, makeWrapper,
-  libXrandr, libXinerama, libXcursor, gtk3, ffmpeg-full, ...}:
+{ stdenv
+, fetchFromGitHub
+, cmake
+, pkg-config
+, libX11
+, glfw
+, makeWrapper
+, libXrandr
+, libXinerama
+, libXcursor
+, gtk3
+, ffmpeg-full
+, ...
+}:
 
 stdenv.mkDerivation rec {
   pname = "MIDIVisualizer";
@@ -12,7 +24,7 @@ stdenv.mkDerivation rec {
     sha256 = "052zpabkbkqzqzf8r6mdq9p6arn9mr1ywx6x3y9rqxj6sfprxd65";
   };
 
-  nativeBuildInputs = [ cmake pkg-config makeWrapper];
+  nativeBuildInputs = [ cmake pkg-config makeWrapper ];
 
   buildInputs = [
     libX11

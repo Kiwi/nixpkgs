@@ -47,8 +47,9 @@ stdenv.mkDerivation rec {
   '';
 
   buildInputs = [ coq ] ++ (with coq.ocamlPackages; [
-    ocaml findlib
-  ]) ++ (param.buildInputs or []);
+    ocaml
+    findlib
+  ]) ++ (param.buildInputs or [ ]);
 
   preInstall = ''
     mkdir -p $out/bin

@@ -33,9 +33,9 @@ buildPythonPackage rec {
       --replace  "pytz>=2019.3,<2020.0" "pytz"
     substituteInPlace setup.py \
       --replace  "cryptography>=2.9,<3.0" "cryptography"
-    '';
+  '';
 
-  checkInputs = [ pytest pytest-mock];
+  checkInputs = [ pytest pytest-mock ];
   propagatedBuildInputs = [ appdirs click construct croniter cryptography importlib-metadata zeroconf attrs pytz tqdm netifaces ];
 
   checkPhase = ''

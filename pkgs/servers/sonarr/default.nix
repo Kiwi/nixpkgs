@@ -12,13 +12,16 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''
-    mkdir -p $out/bin
-    cp -r * $out/bin/
+        mkdir -p $out/bin
+        cp -r * $out/bin/
 
-    makeWrapper "${mono}/bin/mono" $out/bin/NzbDrone \
-      --add-flags "$out/bin/NzbDrone.exe" \
-      --prefix LD_LIBRARY_PATH : ${stdenv.lib.makeLibraryPath [
-          curl sqlite libmediainfo ]}
+        makeWrapper "${mono}/bin/mono" $out/bin/NzbDrone \
+          --add-flags "$out/bin/NzbDrone.exe" \
+          --prefix LD_LIBRARY_PATH : ${stdenv.lib.makeLibraryPath [
+              curl
+    sqlite
+    libmediainfo
+    ]}
   '';
 
   meta = {

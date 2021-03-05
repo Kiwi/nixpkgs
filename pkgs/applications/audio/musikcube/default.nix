@@ -12,7 +12,8 @@
 , pulseaudio
 , stdenv
 , taglib
-, systemdSupport ? stdenv.isLinux, systemd
+, systemdSupport ? stdenv.isLinux
+, systemd
 }:
 
 stdenv.mkDerivation rec {

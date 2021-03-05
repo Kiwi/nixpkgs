@@ -1,5 +1,13 @@
-{ stdenv, fetchFromGitHub, autoreconfHook, pkgconfig, file, libco-canonical
-, libuv, raft-canonical, sqlite-replication }:
+{ stdenv
+, fetchFromGitHub
+, autoreconfHook
+, pkgconfig
+, file
+, libco-canonical
+, libuv
+, raft-canonical
+, sqlite-replication
+}:
 
 stdenv.mkDerivation rec {
   pname = "dqlite";

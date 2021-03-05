@@ -1,6 +1,12 @@
-{ lib, buildPythonPackage, fetchPypi, isPy27
-, factory_boy, faker, numpy
-, pytest, pytest_xdist
+{ lib
+, buildPythonPackage
+, fetchPypi
+, isPy27
+, factory_boy
+, faker
+, numpy
+, pytest
+, pytest_xdist
 }:
 
 buildPythonPackage rec {

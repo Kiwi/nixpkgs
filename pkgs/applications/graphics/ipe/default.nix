@@ -1,5 +1,17 @@
-{ stdenv, fetchurl, makeWrapper, pkgconfig, zlib, freetype, cairo, lua5, texlive, ghostscript
-, libjpeg, libpng, qtbase, mkDerivation
+{ stdenv
+, fetchurl
+, makeWrapper
+, pkgconfig
+, zlib
+, freetype
+, cairo
+, lua5
+, texlive
+, ghostscript
+, libjpeg
+, libpng
+, qtbase
+, mkDerivation
 }:
 
 mkDerivation rec {
@@ -12,17 +24,25 @@ mkDerivation rec {
 
   sourceRoot = "${name}/src";
 
-  IPEPREFIX=placeholder "out";
-  URWFONTDIR="${texlive}/texmf-dist/fonts/type1/urw/";
+  IPEPREFIX = placeholder "out";
+  URWFONTDIR = "${texlive}/texmf-dist/fonts/type1/urw/";
   LUA_PACKAGE = "lua";
 
   buildInputs = [
-    libjpeg libpng zlib qtbase freetype cairo lua5 texlive ghostscript
+    libjpeg
+    libpng
+    zlib
+    qtbase
+    freetype
+    cairo
+    lua5
+    texlive
+    ghostscript
   ];
 
   nativeBuildInputs = [ pkgconfig ];
 
-  qtWrapperArgs = [ ''--prefix PATH : ${texlive}/bin''  ];
+  qtWrapperArgs = [ ''--prefix PATH : ${texlive}/bin'' ];
 
   enableParallelBuilding = true;
 

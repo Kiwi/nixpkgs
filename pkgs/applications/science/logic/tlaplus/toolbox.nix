@@ -1,5 +1,12 @@
-{ lib, fetchzip, makeWrapper, makeDesktopItem, stdenv
-, gtk, libXtst, glib, zlib
+{ lib
+, fetchzip
+, makeWrapper
+, makeDesktopItem
+, stdenv
+, gtk
+, libXtst
+, glib
+, zlib
 }:
 
 let
@@ -20,7 +27,8 @@ let
   };
 
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "tla-toolbox";
   inherit version;
   src = fetchzip {
@@ -28,7 +36,7 @@ in stdenv.mkDerivation {
     sha256 = "0v15wscawair5bghr5ixb4i062kmh9by1m0hnz2r1sawlqyafz02";
   };
 
-  buildInputs = [ makeWrapper  ];
+  buildInputs = [ makeWrapper ];
 
   phases = [ "installPhase" ];
 

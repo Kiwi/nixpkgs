@@ -1,6 +1,22 @@
-{ stdenv, lib, fetchFromGitHub, cmake, libuchardet, pkgconfig, shntool, flac
-, opusTools, vorbis-tools, mp3gain, lame, wavpack, vorbisgain, gtk3, qtbase
-, qttools, wrapQtAppsHook }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, libuchardet
+, pkgconfig
+, shntool
+, flac
+, opusTools
+, vorbis-tools
+, mp3gain
+, lame
+, wavpack
+, vorbisgain
+, gtk3
+, qtbase
+, qttools
+, wrapQtAppsHook
+}:
 
 stdenv.mkDerivation rec {
   pname = "flacon";

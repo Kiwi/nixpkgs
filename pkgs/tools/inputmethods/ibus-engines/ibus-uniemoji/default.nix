@@ -13,7 +13,8 @@ let
     pyxdg
     python-Levenshtein
   ]);
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "ibus-uniemoji";
   version = "0.6.0";
 

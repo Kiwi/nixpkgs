@@ -14,7 +14,7 @@ rec {
 
   packageName = "djula";
 
-  asdFilesToKeep = ["djula.asd"];
+  asdFilesToKeep = [ "djula.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM djula DESCRIPTION

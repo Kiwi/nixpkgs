@@ -1,5 +1,11 @@
-{ stdenv, fetchurl, cmake, python3
-, bison, openssl, readline, bzip2
+{ stdenv
+, fetchurl
+, cmake
+, python3
+, bison
+, openssl
+, readline
+, bzip2
 }:
 
 stdenv.mkDerivation rec {

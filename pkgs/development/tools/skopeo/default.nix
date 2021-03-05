@@ -31,7 +31,7 @@ buildGoModule rec {
   nativeBuildInputs = [ pkg-config go-md2man installShellFiles makeWrapper ];
 
   buildInputs = [ gpgme ]
-  ++ stdenv.lib.optionals stdenv.isLinux [ lvm2 btrfs-progs ];
+    ++ stdenv.lib.optionals stdenv.isLinux [ lvm2 btrfs-progs ];
 
   buildPhase = ''
     patchShebangs .

@@ -1,4 +1,5 @@
-{ pkgs, system ? builtins.currentSystem, ... }: let
+{ pkgs, system ? builtins.currentSystem, ... }:
+let
   dbContents = ''
     dn: dc=example
     objectClass: domain
@@ -14,7 +15,8 @@
         'ldapsearch -LLL -D "cn=root,dc=example" -w notapassword -b "dc=example"',
     )
   '';
-in {
+in
+{
   # New-style configuration
   current = import ./make-test-python.nix {
     inherit testScript;
@@ -85,41 +87,43 @@ in {
       };
     };
 
-    testScript = let
-      contents = pkgs.writeText "data.ldif" dbContents;
-      config = pkgs.writeText "config.ldif" ''
-        dn: cn=config
-        cn: config
-        objectClass: olcGlobal
-        olcLogLevel: stats
-        olcPidFile: /run/slapd/slapd.pid
+    testScript =
+      let
+        contents = pkgs.writeText "data.ldif" dbContents;
+        config = pkgs.writeText "config.ldif" ''
+          dn: cn=config
+          cn: config
+          objectClass: olcGlobal
+          olcLogLevel: stats
+          olcPidFile: /run/slapd/slapd.pid
 
-        dn: cn=schema,cn=config
-        cn: schema
-        objectClass: olcSchemaConfig
+          dn: cn=schema,cn=config
+          cn: schema
+          objectClass: olcSchemaConfig
 
-        include: file://${pkgs.openldap}/etc/schema/core.ldif
-        include: file://${pkgs.openldap}/etc/schema/cosine.ldif
-        include: file://${pkgs.openldap}/etc/schema/inetorgperson.ldif
+          include: file://${pkgs.openldap}/etc/schema/core.ldif
+          include: file://${pkgs.openldap}/etc/schema/cosine.ldif
+          include: file://${pkgs.openldap}/etc/schema/inetorgperson.ldif
 
-        dn: olcDatabase={1}mdb,cn=config
-        objectClass: olcDatabaseConfig
-        objectClass: olcMdbConfig
-        olcDatabase: {1}mdb
-        olcDbDirectory: /var/db/openldap
-        olcDbIndex: objectClass eq
-        olcSuffix: dc=example
-        olcRootDN: cn=root,dc=example
-        olcRootPW: notapassword
-      '';
-    in ''
-      machine.succeed(
-          "mkdir -p /var/db/slapd.d /var/db/openldap",
-          "slapadd -F /var/db/slapd.d -n0 -l ${config}",
-          "slapadd -F /var/db/slapd.d -n1 -l ${contents}",
-          "chown -R openldap:openldap /var/db/slapd.d /var/db/openldap",
-          "systemctl restart openldap",
-      )
-    '' + testScript;
+          dn: olcDatabase={1}mdb,cn=config
+          objectClass: olcDatabaseConfig
+          objectClass: olcMdbConfig
+          olcDatabase: {1}mdb
+          olcDbDirectory: /var/db/openldap
+          olcDbIndex: objectClass eq
+          olcSuffix: dc=example
+          olcRootDN: cn=root,dc=example
+          olcRootPW: notapassword
+        '';
+      in
+      ''
+        machine.succeed(
+            "mkdir -p /var/db/slapd.d /var/db/openldap",
+            "slapadd -F /var/db/slapd.d -n0 -l ${config}",
+            "slapadd -F /var/db/slapd.d -n1 -l ${contents}",
+            "chown -R openldap:openldap /var/db/slapd.d /var/db/openldap",
+            "systemctl restart openldap",
+        )
+      '' + testScript;
   };
 }

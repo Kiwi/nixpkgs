@@ -7,7 +7,7 @@
 }:
 
 stdenv.mkDerivation rec {
-  pname   = "hashcat";
+  pname = "hashcat";
   version = "6.1.1";
 
   src = fetchurl {
@@ -32,9 +32,9 @@ stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "Fast password cracker";
-    homepage    = "https://hashcat.net/hashcat/";
-    license     = licenses.mit;
-    platforms   = platforms.linux;
+    homepage = "https://hashcat.net/hashcat/";
+    license = licenses.mit;
+    platforms = platforms.linux;
     maintainers = with maintainers; [ kierdavis zimbatm ];
   };
 }

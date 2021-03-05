@@ -4,13 +4,17 @@ with stdenv.lib;
 
 let
   perlDeps = with perlPackages; [
-    ConfigOnion DateCalc
-    FileBaseDir YAMLLibYAML
-    GetoptLongDescriptive DateTimeFormatStrptime
+    ConfigOnion
+    DateCalc
+    FileBaseDir
+    YAMLLibYAML
+    GetoptLongDescriptive
+    DateTimeFormatStrptime
     StringInterpolate
   ];
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "ledger2beancount";
   version = "2.1";
 

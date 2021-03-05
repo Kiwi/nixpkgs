@@ -1,6 +1,24 @@
-{ stdenv, cmake, pkgconfig, fetchFromGitHub, makeDesktopItem, alsaLib, speex
-, libopus, curl, gsm, libgcrypt, libsigcxx, popt, qtbase, qttools
-, wrapQtAppsHook, rtl-sdr, tcl, doxygen, groff }:
+{ stdenv
+, cmake
+, pkgconfig
+, fetchFromGitHub
+, makeDesktopItem
+, alsaLib
+, speex
+, libopus
+, curl
+, gsm
+, libgcrypt
+, libsigcxx
+, popt
+, qtbase
+, qttools
+, wrapQtAppsHook
+, rtl-sdr
+, tcl
+, doxygen
+, groff
+}:
 
 let
   desktopItem = makeDesktopItem rec {
@@ -12,7 +30,8 @@ let
     categories = "HamRadio;Qt;Network;";
   };
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "svxlink";
   version = "19.09.1";
 

@@ -1,5 +1,8 @@
-{
-  stdenv, lib, fetchFromGitHub, makeDesktopItem, prusa-slicer
+{ stdenv
+, lib
+, fetchFromGitHub
+, makeDesktopItem
+, prusa-slicer
 }:
 let
   appname = "SuperSlicer";
@@ -46,4 +49,5 @@ let
     };
 
   };
-in prusa-slicer.overrideAttrs override
+in
+prusa-slicer.overrideAttrs override

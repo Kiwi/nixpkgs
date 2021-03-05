@@ -1,6 +1,16 @@
-{ stdenv, buildPythonPackage, fetchPypi, pythonOlder,
-  async_generator, traitlets, nbformat, nest-asyncio, jupyter_client,
-  pytest, xmltodict, nbconvert, ipywidgets
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, async_generator
+, traitlets
+, nbformat
+, nest-asyncio
+, jupyter_client
+, pytest
+, xmltodict
+, nbconvert
+, ipywidgets
 , doCheck ? true
 }:
 

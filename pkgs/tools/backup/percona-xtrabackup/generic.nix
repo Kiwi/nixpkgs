@@ -1,8 +1,32 @@
-{ stdenv, fetchFromGitHub, bison, boost, cmake, makeWrapper, pkgconfig
-, curl, cyrus_sasl, libaio, libedit, libev, libevent, libgcrypt, libgpgerror, lz4
-, ncurses, numactl, openssl, protobuf, valgrind, xxd, zlib
+{ stdenv
+, fetchFromGitHub
+, bison
+, boost
+, cmake
+, makeWrapper
+, pkgconfig
+, curl
+, cyrus_sasl
+, libaio
+, libedit
+, libev
+, libevent
+, libgcrypt
+, libgpgerror
+, lz4
+, ncurses
+, numactl
+, openssl
+, protobuf
+, valgrind
+, xxd
+, zlib
 , perlPackages
-, version, sha256, extraPatches ? [], extraPostInstall ? "", ...
+, version
+, sha256
+, extraPatches ? [ ]
+, extraPostInstall ? ""
+, ...
 }:
 
 stdenv.mkDerivation rec {
@@ -19,8 +43,22 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ bison boost cmake makeWrapper pkgconfig ];
 
   buildInputs = [
-    curl cyrus_sasl libaio libedit libev libevent libgcrypt libgpgerror lz4
-    ncurses numactl openssl protobuf valgrind xxd zlib
+    curl
+    cyrus_sasl
+    libaio
+    libedit
+    libev
+    libevent
+    libgcrypt
+    libgpgerror
+    lz4
+    ncurses
+    numactl
+    openssl
+    protobuf
+    valgrind
+    xxd
+    zlib
   ] ++ (with perlPackages; [ perl DBI DBDmysql ]);
 
   patches = extraPatches;

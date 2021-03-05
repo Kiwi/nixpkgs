@@ -11,14 +11,15 @@ let
   src = fetchurl {
     url = "https://github.com/zulip/zulip-desktop/releases/download/v${version}/Zulip-${version}-x86_64.AppImage";
     sha256 = "059zfcvaq8wnsz2lfd4gdb17b6nngqk3vgisy2kb29ifqf3lpzqi";
-    name="${pname}-${version}.AppImage";
+    name = "${pname}-${version}.AppImage";
   };
 
   appimageContents = appimageTools.extractType2 {
     inherit name src;
   };
 
-in appimageTools.wrapType2 {
+in
+appimageTools.wrapType2 {
   inherit name src;
 
   extraInstallCommands = ''

@@ -1,5 +1,13 @@
-{ stdenv, fetchFromGitHub, callPackage, makeWrapper
-, clang, llvm, libbfd, libopcodes, libunwind, libblocksruntime
+{ stdenv
+, fetchFromGitHub
+, callPackage
+, makeWrapper
+, clang
+, llvm
+, libbfd
+, libopcodes
+, libunwind
+, libblocksruntime
 }:
 
 let
@@ -42,10 +50,11 @@ let
         fuzzing), and it will work its way up, expanding it by utilizing
         feedback-based coverage metrics.
       '';
-      homepage    = "https://honggfuzz.dev/";
-      license     = stdenv.lib.licenses.asl20;
-      platforms   = ["x86_64-linux"];
+      homepage = "https://honggfuzz.dev/";
+      license = stdenv.lib.licenses.asl20;
+      platforms = [ "x86_64-linux" ];
       maintainers = with stdenv.lib.maintainers; [ cpu ];
     };
   };
-in honggfuzz
+in
+honggfuzz

@@ -1,6 +1,10 @@
-{ stdenv, fetchurl
-, pkg-config, scdoc, wayland
-, wayland-protocols, libxkbcommon
+{ stdenv
+, fetchurl
+, pkg-config
+, scdoc
+, wayland
+, wayland-protocols
+, libxkbcommon
 }:
 
 stdenv.mkDerivation rec {

@@ -1,7 +1,8 @@
 { stdenv, fetchFromGitHub, autoreconfHook }:
 
 let version = "4.4";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "hashdeep-${version}";
 
   src = fetchFromGitHub {

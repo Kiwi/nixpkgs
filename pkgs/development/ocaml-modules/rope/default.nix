@@ -31,7 +31,7 @@ stdenv.mkDerivation ({
 
   meta = {
     homepage = "http://rope.forge.ocamlcore.org/";
-    platforms = ocaml.meta.platforms or [];
+    platforms = ocaml.meta.platforms or [ ];
     description = ''Ropes ("heavyweight strings") in OCaml'';
     license = stdenv.lib.licenses.lgpl21;
     maintainers = with stdenv.lib.maintainers; [ volth ];

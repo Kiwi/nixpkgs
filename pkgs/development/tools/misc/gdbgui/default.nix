@@ -10,7 +10,8 @@
 , gevent
 , gevent-websocket
 , eventlet
-, }:
+,
+}:
 
 buildPythonApplication rec {
   pname = "gdbgui";

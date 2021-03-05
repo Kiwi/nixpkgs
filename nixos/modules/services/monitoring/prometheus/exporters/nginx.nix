@@ -32,7 +32,7 @@ in
     };
     constLabels = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       example = [
         "label1=value1"
         "label2=value2"

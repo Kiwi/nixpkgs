@@ -7,8 +7,8 @@
 , features
 , versionAttr
 , sourceSha256
-# If overriden. No need to set default values, as they are given defaults in
-# the main expressions
+  # If overriden. No need to set default values, as they are given defaults in
+  # the main expressions
 , overrideSrc
 , fetchFromGitHub
 , fetchSubmodules
@@ -16,20 +16,22 @@
 
 let
   lib = stdenv.lib;
-in rec {
+in
+rec {
   version = builtins.concatStringsSep "." (
     lib.attrVals [ "major" "minor" "patch" ] versionAttr
   );
-  src = if overrideSrc != {} then
-    overrideSrc
-  else
-    fetchFromGitHub {
-      repo = "gnuradio";
-      owner = "gnuradio";
-      rev = "v${version}";
-      sha256 = sourceSha256;
-      inherit fetchSubmodules;
-    }
+  src =
+    if overrideSrc != { } then
+      overrideSrc
+    else
+      fetchFromGitHub {
+        repo = "gnuradio";
+        owner = "gnuradio";
+        rev = "v${version}";
+        sha256 = sourceSha256;
+        inherit fetchSubmodules;
+      }
   ;
   # Check if a feature is enabled, while defaulting to true if feat is not
   # specified.
@@ -39,45 +41,52 @@ in rec {
     else
       true
   );
-  nativeBuildInputs = lib.flatten (lib.mapAttrsToList (
-    feat: info: (
-      if hasFeature feat features then
-        (if builtins.hasAttr "native" info then info.native else []) ++
-        (if builtins.hasAttr "pythonNative" info then info.pythonNative else [])
-      else
-        []
+  nativeBuildInputs = lib.flatten (lib.mapAttrsToList
+    (
+      feat: info: (
+        if hasFeature feat features then
+          (if builtins.hasAttr "native" info then info.native else [ ]) ++
+          (if builtins.hasAttr "pythonNative" info then info.pythonNative else [ ])
+        else
+          [ ]
+      )
     )
-  ) featuresInfo);
-  buildInputs = lib.flatten (lib.mapAttrsToList (
-    feat: info: (
-      if hasFeature feat features then
-        (if builtins.hasAttr "runtime" info then info.runtime else []) ++
-        (if builtins.hasAttr "pythonRuntime" info then info.pythonRuntime else [])
-      else
-        []
+    featuresInfo);
+  buildInputs = lib.flatten (lib.mapAttrsToList
+    (
+      feat: info: (
+        if hasFeature feat features then
+          (if builtins.hasAttr "runtime" info then info.runtime else [ ]) ++
+          (if builtins.hasAttr "pythonRuntime" info then info.pythonRuntime else [ ])
+        else
+          [ ]
+      )
     )
-  ) featuresInfo);
-  cmakeFlags = lib.mapAttrsToList (
-    feat: info: (
-      if feat == "basic" then
+    featuresInfo);
+  cmakeFlags = lib.mapAttrsToList
+    (
+      feat: info: (
+        if feat == "basic" then
         # Abuse this unavoidable "iteration" to set this flag which we want as
         # well - it means: Don't turn on features just because their deps are
         # satisfied, let only our cmakeFlags decide.
-        "-DENABLE_DEFAULT=OFF"
-      else
-        if hasFeature feat features then
-          "-DENABLE_${info.cmakeEnableFlag}=ON"
+          "-DENABLE_DEFAULT=OFF"
         else
-          "-DENABLE_${info.cmakeEnableFlag}=OFF"
-    )) featuresInfo
+          if hasFeature feat features then
+            "-DENABLE_${info.cmakeEnableFlag}=ON"
+          else
+            "-DENABLE_${info.cmakeEnableFlag}=OFF"
+      )
+    )
+    featuresInfo
   ;
   disallowedReferences = [
     # TODO: Should this be conditional?
     stdenv.cc
     stdenv.cc.cc
   ]
-    # If python-support is disabled, we probably don't want it referenced
-    ++ lib.optionals (!hasFeature "python-support" features) [ python ]
+  # If python-support is disabled, we probably don't want it referenced
+  ++ lib.optionals (!hasFeature "python-support" features) [ python ]
   ;
   # Gcc references from examples
   stripDebugList = [ "lib" "bin" ]
@@ -87,13 +96,13 @@ in rec {
   ;
   postInstall = ''
   ''
-    # Gcc references
-    + lib.optionalString (hasFeature "volk" features) ''
-      ${removeReferencesTo}/bin/remove-references-to -t ${stdenv.cc} $(readlink -f $out/lib/libvolk.so)
-    ''
-    + lib.optionalString (hasFeature "gnuradio-runtime" features) ''
-      ${removeReferencesTo}/bin/remove-references-to -t ${stdenv.cc} $(readlink -f $out/lib/libgnuradio-runtime.so)
-    ''
+  # Gcc references
+  + lib.optionalString (hasFeature "volk" features) ''
+    ${removeReferencesTo}/bin/remove-references-to -t ${stdenv.cc} $(readlink -f $out/lib/libvolk.so)
+  ''
+  + lib.optionalString (hasFeature "gnuradio-runtime" features) ''
+    ${removeReferencesTo}/bin/remove-references-to -t ${stdenv.cc} $(readlink -f $out/lib/libgnuradio-runtime.so)
+  ''
   ;
   # NOTE: Outputs are disabled due to upstream not using GNU InstallDIrs cmake
   # module. It's not that bad since it's a development package for most
@@ -108,7 +117,7 @@ in rec {
       python
       qt
       gtk
-    ;
+      ;
   };
   # Wrapping is done with an external wrapper
   dontWrapPythonPrograms = true;

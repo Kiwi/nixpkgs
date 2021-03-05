@@ -15,7 +15,7 @@ stdenv.mkDerivation {
   buildInputs = [ tree-sitter ];
 
   dontUnpack = true;
-  configurePhase= ":";
+  configurePhase = ":";
   buildPhase = ''
     runHook preBuild
     scanner_cc="$src/src/scanner.cc"

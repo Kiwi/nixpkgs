@@ -14,8 +14,8 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ unzip ];
 
   buildPhase = ''
-      # according to official documentation
-      cc rasm_v*.c -O2 -lm -lrt -o rasm
+    # according to official documentation
+    cc rasm_v*.c -O2 -lm -lrt -o rasm
   '';
 
   installPhase = ''

@@ -102,8 +102,8 @@ in
     systemd.services.plymouth-poweroff.wantedBy = [ "poweroff.target" ];
     systemd.services.plymouth-reboot.wantedBy = [ "reboot.target" ];
     systemd.services.plymouth-read-write.wantedBy = [ "sysinit.target" ];
-    systemd.services.systemd-ask-password-plymouth.wantedBy = ["multi-user.target"];
-    systemd.paths.systemd-ask-password-plymouth.wantedBy = ["multi-user.target"];
+    systemd.services.systemd-ask-password-plymouth.wantedBy = [ "multi-user.target" ];
+    systemd.paths.systemd-ask-password-plymouth.wantedBy = [ "multi-user.target" ];
 
     boot.initrd.extraUtilsCommands = ''
       copy_bin_and_libs ${pkgs.plymouth}/bin/plymouthd

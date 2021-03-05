@@ -1,6 +1,26 @@
-{ stdenv, fetchFromGitHub, nix-update-script, pantheon, meson, ninja, pkgconfig, vala, glib
-, libgee, granite, gexiv2, elementary-settings-daemon, gtk3, gnome-desktop
-, gala, wingpanel, elementary-dock, switchboard, gettext, bamf, fetchpatch }:
+{ stdenv
+, fetchFromGitHub
+, nix-update-script
+, pantheon
+, meson
+, ninja
+, pkgconfig
+, vala
+, glib
+, libgee
+, granite
+, gexiv2
+, elementary-settings-daemon
+, gtk3
+, gnome-desktop
+, gala
+, wingpanel
+, elementary-dock
+, switchboard
+, gettext
+, bamf
+, fetchpatch
+}:
 
 stdenv.mkDerivation rec {
   pname = "switchboard-plug-pantheon-shell";

@@ -1,7 +1,14 @@
-{ lib, buildPythonPackage, fetchFromGitHub
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
 , flit
-, lxml, httpx
-, pytest, pytestcov, pytest-asyncio, pytest-mock, aresponses
+, lxml
+, httpx
+, pytest
+, pytestcov
+, pytest-asyncio
+, pytest-mock
+, aresponses
 , pythonOlder
 }:
 

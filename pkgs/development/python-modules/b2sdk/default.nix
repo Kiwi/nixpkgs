@@ -1,5 +1,14 @@
-{ stdenv, buildPythonPackage, fetchPypi, setuptools_scm, isPy27, pytestCheckHook
-, requests, arrow, logfury, tqdm }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, setuptools_scm
+, isPy27
+, pytestCheckHook
+, requests
+, arrow
+, logfury
+, tqdm
+}:
 
 buildPythonPackage rec {
   pname = "b2sdk";

@@ -1,4 +1,11 @@
-{ mkDerivation, lib, fetchFromGitHub, alsaLib, pkgconfig, qtbase, qtscript, qmake
+{ mkDerivation
+, lib
+, fetchFromGitHub
+, alsaLib
+, pkgconfig
+, qtbase
+, qtscript
+, qmake
 }:
 
 mkDerivation rec {

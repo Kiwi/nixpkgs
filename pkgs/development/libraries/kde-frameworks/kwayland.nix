@@ -1,7 +1,11 @@
-{
-  mkDerivation, lib, propagateBin,
-  extra-cmake-modules,
-  plasma-wayland-protocols, qtbase, wayland, wayland-protocols
+{ mkDerivation
+, lib
+, propagateBin
+, extra-cmake-modules
+, plasma-wayland-protocols
+, qtbase
+, wayland
+, wayland-protocols
 }:
 
 mkDerivation {

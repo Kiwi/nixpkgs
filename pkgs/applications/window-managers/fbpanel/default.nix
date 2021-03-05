@@ -1,5 +1,16 @@
-{ stdenv, fetchurl, pkgconfig
-, libX11, libXmu, libXpm, gtk2, libpng, libjpeg, libtiff, librsvg, gdk-pixbuf, gdk-pixbuf-xlib
+{ stdenv
+, fetchurl
+, pkgconfig
+, libX11
+, libXmu
+, libXpm
+, gtk2
+, libpng
+, libjpeg
+, libtiff
+, librsvg
+, gdk-pixbuf
+, gdk-pixbuf-xlib
 }:
 
 stdenv.mkDerivation rec {
@@ -19,7 +30,7 @@ stdenv.mkDerivation rec {
       --replace "CFLAGSX =" "CFLAGSX = -I${gdk-pixbuf-xlib.dev}/include/gdk-pixbuf-2.0"
   '';
 
-  NIX_LDFLAGS="-lX11";
+  NIX_LDFLAGS = "-lX11";
 
   meta = with stdenv.lib; {
     description = "A stand-alone panel";

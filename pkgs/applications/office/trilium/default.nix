@@ -31,7 +31,8 @@ let
     sha256 = "1n3v7wdav6mvgcy72mmfhncsa74i0ax1ij5rjczgfjjyiyc5y0rk";
   };
 
-in {
+in
+{
 
   trilium-desktop = stdenv.mkDerivation rec {
     pname = "trilium-desktop";
@@ -95,7 +96,7 @@ in {
       libxkbfile
     ];
 
-    patches = [ ./0001-Use-console-logger-instead-of-rolling-files.patch ] ;
+    patches = [ ./0001-Use-console-logger-instead-of-rolling-files.patch ];
     installPhase = ''
       mkdir -p $out/bin
       mkdir -p $out/share/trilium-server

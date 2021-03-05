@@ -1,4 +1,11 @@
-{ stdenv, lib, fetchurl, ocaml, findlib, ocamlbuild, topkg, js_of_ocaml
+{ stdenv
+, lib
+, fetchurl
+, ocaml
+, findlib
+, ocamlbuild
+, topkg
+, js_of_ocaml
 , jsooSupport ? lib.versionAtLeast ocaml.version "4.03"
 }:
 
@@ -25,7 +32,7 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ ocaml findlib ocamlbuild ];
   buildInputs = [ findlib topkg ]
-  ++ stdenv.lib.optional jsooSupport js_of_ocaml;
+    ++ stdenv.lib.optional jsooSupport js_of_ocaml;
 
   buildPhase = "${topkg.buildPhase} --with-js_of_ocaml ${boolToString jsooSupport}";
 

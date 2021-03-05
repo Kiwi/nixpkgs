@@ -2,9 +2,11 @@
 
 with lib;
 
-let cfg = config.services.xserver.libinput;
-    xorgBool = v: if v then "on" else "off";
-in {
+let
+  cfg = config.services.xserver.libinput;
+  xorgBool = v: if v then "on" else "off";
+in
+{
 
   options = {
 
@@ -181,9 +183,9 @@ in {
         type = types.lines;
         default = "";
         example =
-        ''
-          Option "DragLockButtons" "L1 B1 L2 B2"
-        '';
+          ''
+            Option "DragLockButtons" "L1 B1 L2 B2"
+          '';
         description = ''
           Additional options for libinput touchpad driver. See
           <citerefentry><refentrytitle>libinput</refentrytitle><manvolnum>4</manvolnum></citerefentry>
@@ -204,7 +206,8 @@ in {
 
     environment.etc =
       let cfgPath = "X11/xorg.conf.d/40-libinput.conf";
-      in {
+      in
+      {
         ${cfgPath} = {
           source = pkgs.xorg.xf86inputlibinput.out + "/share/" + cfgPath;
         };

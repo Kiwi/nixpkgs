@@ -14,8 +14,9 @@ let
           makeWrapper $out/libexec/hercules-ci-agent $out/bin/hercules-ci-agent --prefix PATH : ${makeBinPath [ gnutar gzip git ]}
         '';
       });
-in pkg // {
-    meta = pkg.meta // {
-      position = toString ./default.nix + ":1";
-    };
-  }
+in
+pkg // {
+  meta = pkg.meta // {
+    position = toString ./default.nix + ":1";
+  };
+}

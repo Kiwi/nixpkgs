@@ -1,21 +1,69 @@
-{
-  mkDerivation, lib,
-
-  extra-cmake-modules, kdoctools,
-
-  coreutils, dbus, gnugrep, gnused, isocodes, libdbusmenu, libSM, libXcursor,
-  libXtst, pam, wayland, xmessage, xprop, xrdb, xsetroot,
-
-  baloo, breeze-qt5, kactivities, kactivities-stats, kcmutils, kconfig, kcrash,
-  kdbusaddons, kdeclarative, kdelibs4support, kdesu, kglobalaccel, kidletime,
-  kinit, kjsembed, knewstuff, knotifyconfig, kpackage, kpeople, krunner,
-  kscreenlocker, ktexteditor, ktextwidgets, kwallet, kwayland, kwin,
-  kxmlrpcclient, libkscreen, libksysguard, libqalculate, networkmanager-qt,
-  phonon, plasma-framework, prison, solid, kholidays, kquickcharts,
-  appstream-qt,
-
-  qtgraphicaleffects, qtquickcontrols, qtquickcontrols2, qtscript, qttools,
-  qtwayland, qtx11extras, qqc2-desktop-style,
+{ mkDerivation
+, lib
+, extra-cmake-modules
+, kdoctools
+, coreutils
+, dbus
+, gnugrep
+, gnused
+, isocodes
+, libdbusmenu
+, libSM
+, libXcursor
+, libXtst
+, pam
+, wayland
+, xmessage
+, xprop
+, xrdb
+, xsetroot
+, baloo
+, breeze-qt5
+, kactivities
+, kactivities-stats
+, kcmutils
+, kconfig
+, kcrash
+, kdbusaddons
+, kdeclarative
+, kdelibs4support
+, kdesu
+, kglobalaccel
+, kidletime
+, kinit
+, kjsembed
+, knewstuff
+, knotifyconfig
+, kpackage
+, kpeople
+, krunner
+, kscreenlocker
+, ktexteditor
+, ktextwidgets
+, kwallet
+, kwayland
+, kwin
+, kxmlrpcclient
+, libkscreen
+, libksysguard
+, libqalculate
+, networkmanager-qt
+, phonon
+, plasma-framework
+, prison
+, solid
+, kholidays
+, kquickcharts
+, appstream-qt
+, qtgraphicaleffects
+, qtquickcontrols
+, qtquickcontrols2
+, qtscript
+, qttools
+, qtwayland
+, qtx11extras
+, qqc2-desktop-style
+,
 }:
 
 let inherit (lib) getBin getLib; in
@@ -25,17 +73,58 @@ mkDerivation {
 
   nativeBuildInputs = [ extra-cmake-modules kdoctools ];
   buildInputs = [
-    isocodes libdbusmenu libSM libXcursor libXtst pam wayland
+    isocodes
+    libdbusmenu
+    libSM
+    libXcursor
+    libXtst
+    pam
+    wayland
 
-    baloo kactivities kactivities-stats kcmutils kconfig kcrash kdbusaddons
-    kdeclarative kdelibs4support kdesu kglobalaccel kidletime kjsembed knewstuff
-    knotifyconfig kpackage kpeople krunner kscreenlocker ktexteditor
-    ktextwidgets kwallet kwayland kwin kxmlrpcclient libkscreen libksysguard
-    libqalculate networkmanager-qt phonon plasma-framework prison solid
-    kholidays kquickcharts appstream-qt
+    baloo
+    kactivities
+    kactivities-stats
+    kcmutils
+    kconfig
+    kcrash
+    kdbusaddons
+    kdeclarative
+    kdelibs4support
+    kdesu
+    kglobalaccel
+    kidletime
+    kjsembed
+    knewstuff
+    knotifyconfig
+    kpackage
+    kpeople
+    krunner
+    kscreenlocker
+    ktexteditor
+    ktextwidgets
+    kwallet
+    kwayland
+    kwin
+    kxmlrpcclient
+    libkscreen
+    libksysguard
+    libqalculate
+    networkmanager-qt
+    phonon
+    plasma-framework
+    prison
+    solid
+    kholidays
+    kquickcharts
+    appstream-qt
 
-    qtgraphicaleffects qtquickcontrols qtquickcontrols2 qtscript qtwayland
-    qtx11extras qqc2-desktop-style
+    qtgraphicaleffects
+    qtquickcontrols
+    qtquickcontrols2
+    qtscript
+    qtwayland
+    qtx11extras
+    qqc2-desktop-style
   ];
   propagatedUserEnvPkgs = [ qtgraphicaleffects ];
   outputs = [ "out" "dev" ];

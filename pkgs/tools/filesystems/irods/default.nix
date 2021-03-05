@@ -1,18 +1,19 @@
-{ stdenv, fetchFromGitHub, bzip2, zlib, autoconf, automake, cmake, gnumake, help2man , texinfo, libtool , cppzmq , libarchive, avro-cpp_llvm, boost, jansson, zeromq, openssl , pam, libiodbc, kerberos, gcc, libcxx, which, catch2 }:
+{ stdenv, fetchFromGitHub, bzip2, zlib, autoconf, automake, cmake, gnumake, help2man, texinfo, libtool, cppzmq, libarchive, avro-cpp_llvm, boost, jansson, zeromq, openssl, pam, libiodbc, kerberos, gcc, libcxx, which, catch2 }:
 
 with stdenv;
 
 let
-  avro-cpp=avro-cpp_llvm;
+  avro-cpp = avro-cpp_llvm;
 in
 let
   common = import ./common.nix {
     inherit stdenv bzip2 zlib autoconf automake cmake gnumake
-            help2man texinfo libtool cppzmq libarchive jansson
-            zeromq openssl pam libiodbc kerberos gcc libcxx
-            boost avro-cpp which catch2;
+      help2man texinfo libtool cppzmq libarchive jansson
+      zeromq openssl pam libiodbc kerberos gcc libcxx
+      boost avro-cpp which catch2;
   };
-in rec {
+in
+rec {
 
   # irods: libs and server package
   irods = stdenv.mkDerivation (common // rec {
@@ -65,37 +66,37 @@ in rec {
 
   # icommands (CLI) package, depends on the irods package
   irods-icommands = stdenv.mkDerivation (common // rec {
-     version = "4.2.7";
-     pname = "irods-icommands";
+    version = "4.2.7";
+    pname = "irods-icommands";
 
-     src = fetchFromGitHub {
-       owner = "irods";
-       repo = "irods_client_icommands";
-       rev = version;
-       sha256 = "08hqrc9iaw0y9rrrcknnl5mzbcrsvqc39pwvm62fipl3vnfqryli";
-     };
+    src = fetchFromGitHub {
+      owner = "irods";
+      repo = "irods_client_icommands";
+      rev = version;
+      sha256 = "08hqrc9iaw0y9rrrcknnl5mzbcrsvqc39pwvm62fipl3vnfqryli";
+    };
 
-     patches = [ ./zmqcpp-deprecated-send_recv.patch ];
+    patches = [ ./zmqcpp-deprecated-send_recv.patch ];
 
-     buildInputs = common.buildInputs ++ [ irods ];
+    buildInputs = common.buildInputs ++ [ irods ];
 
-     preConfigure = common.preConfigure + ''
-       patchShebangs ./bin
-     '';
+    preConfigure = common.preConfigure + ''
+      patchShebangs ./bin
+    '';
 
-     cmakeFlags = common.cmakeFlags ++ [
-       "-DCMAKE_INSTALL_PREFIX=${out}"
-       "-DIRODS_DIR=${irods}/lib/irods/cmake"
-       "-DCMAKE_EXE_LINKER_FLAGS=-Wl,-rpath,${irods}/lib"
-       "-DCMAKE_MODULE_LINKER_FLAGS=-Wl,-rpath,${irods}/lib"
-       "-DCMAKE_SHARED_LINKER_FLAGS=-Wl,-rpath,${irods}/lib"
+    cmakeFlags = common.cmakeFlags ++ [
+      "-DCMAKE_INSTALL_PREFIX=${out}"
+      "-DIRODS_DIR=${irods}/lib/irods/cmake"
+      "-DCMAKE_EXE_LINKER_FLAGS=-Wl,-rpath,${irods}/lib"
+      "-DCMAKE_MODULE_LINKER_FLAGS=-Wl,-rpath,${irods}/lib"
+      "-DCMAKE_SHARED_LINKER_FLAGS=-Wl,-rpath,${irods}/lib"
     ];
 
-     meta = common.meta // {
-       description = common.meta.description + " CLI clients";
-       longDescription = common.meta.longDescription + ''
-         This package provides the CLI clients, called 'icommands'.'';
-     };
+    meta = common.meta // {
+      description = common.meta.description + " CLI clients";
+      longDescription = common.meta.longDescription + ''
+        This package provides the CLI clients, called 'icommands'.'';
+    };
   });
 }
 

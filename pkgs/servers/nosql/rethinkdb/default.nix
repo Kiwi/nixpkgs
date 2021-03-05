@@ -1,6 +1,17 @@
-{ stdenv, fetchurl, which, m4
-, protobuf, boost, zlib, curl, openssl, icu, jemalloc, libtool
-, python2Packages, makeWrapper
+{ stdenv
+, fetchurl
+, which
+, m4
+, protobuf
+, boost
+, zlib
+, curl
+, openssl
+, icu
+, jemalloc
+, libtool
+, python2Packages
+, makeWrapper
 }:
 
 stdenv.mkDerivation rec {
@@ -52,9 +63,9 @@ stdenv.mkDerivation rec {
       query language that supports really useful queries like table
       joins and group by, and is easy to setup and learn.
     '';
-    homepage    = "http://www.rethinkdb.com";
-    license     = stdenv.lib.licenses.asl20;
-    platforms   = stdenv.lib.platforms.linux;
+    homepage = "http://www.rethinkdb.com";
+    license = stdenv.lib.licenses.asl20;
+    platforms = stdenv.lib.platforms.linux;
     maintainers = with stdenv.lib.maintainers; [ thoughtpolice bluescreen303 ];
   };
 }

@@ -25,14 +25,21 @@ stdenv.mkDerivation rec {
   buildFlags = [ "PERL5LIB=${perlPackages.makePerlPath [ perlPackages.FileSlurp ]}" "bin" "man" ];
 
   installPhase = ''
-    mkdir -p $out/bin $out/share/man/man1
-    install -m 755 sieve-connect $out/bin
-    gzip -c sieve-connect.1 > $out/share/man/man1/sieve-connect.1.gz
+        mkdir -p $out/bin $out/share/man/man1
+        install -m 755 sieve-connect $out/bin
+        gzip -c sieve-connect.1 > $out/share/man/man1/sieve-connect.1.gz
 
-    wrapProgram $out/bin/sieve-connect \
-      --prefix PERL5LIB : "${with perlPackages; makePerlPath [
-        AuthenSASL Socket6 IOSocketInet6 IOSocketSSL NetSSLeay NetDNS
-        TermReadKey TermReadLineGnu ]}"
+        wrapProgram $out/bin/sieve-connect \
+          --prefix PERL5LIB : "${with perlPackages; makePerlPath [
+            AuthenSASL
+    Socket6
+    IOSocketInet6
+    IOSocketSSL
+    NetSSLeay
+    NetDNS
+            TermReadKey
+    TermReadLineGnu
+    ]}"
   '';
 
   meta = with stdenv.lib; {

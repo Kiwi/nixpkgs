@@ -14,7 +14,7 @@ rec {
 
   packageName = "fare-csv";
 
-  asdFilesToKeep = ["fare-csv.asd"];
+  asdFilesToKeep = [ "fare-csv.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM fare-csv DESCRIPTION Robust CSV parser and printer SHA256

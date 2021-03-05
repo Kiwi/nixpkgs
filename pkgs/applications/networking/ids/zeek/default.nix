@@ -17,7 +17,7 @@
 , coreutils
 }:
 let
-  preConfigure = (import ./script.nix {inherit coreutils;});
+  preConfigure = (import ./script.nix { inherit coreutils; });
 in
 stdenv.mkDerivation rec {
   pname = "zeek";

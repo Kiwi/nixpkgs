@@ -1,6 +1,13 @@
-{ stdenv, buildPythonPackage, fetchPypi
-, pyserial, pyserial-asyncio, zigpy
-, pytest, pytest-asyncio, asynctest }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, pyserial
+, pyserial-asyncio
+, zigpy
+, pytest
+, pytest-asyncio
+, asynctest
+}:
 
 buildPythonPackage rec {
   pname = "zigpy-deconz";

@@ -1,5 +1,17 @@
-{ lib, stdenv, vscode-utils, fetchFromGitHub, rustPlatform, makeWrapper, jq
-, nodePackages, cmake, nodejs, unzip, python3, lldb, breakpointHook
+{ lib
+, stdenv
+, vscode-utils
+, fetchFromGitHub
+, rustPlatform
+, makeWrapper
+, jq
+, nodePackages
+, cmake
+, nodejs
+, unzip
+, python3
+, lldb
+, breakpointHook
 , setDefaultLldbPath ? true
 }:
 assert lib.versionAtLeast python3.version "3.5";
@@ -82,7 +94,8 @@ let
     dontPatchELF = true;
   };
 
-in vscode-utils.buildVscodeExtension {
+in
+vscode-utils.buildVscodeExtension {
   inherit name;
   src = vsix;
 

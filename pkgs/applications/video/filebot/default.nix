@@ -1,5 +1,14 @@
-{ stdenv, fetchurl, openjdk11, makeWrapper, autoPatchelfHook
-, zlib, libzen, libmediainfo, curl, libmms, glib
+{ stdenv
+, fetchurl
+, openjdk11
+, makeWrapper
+, autoPatchelfHook
+, zlib
+, libzen
+, libmediainfo
+, curl
+, libmms
+, glib
 }:
 
 let

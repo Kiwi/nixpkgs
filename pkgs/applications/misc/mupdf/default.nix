@@ -1,9 +1,26 @@
-{ stdenv, lib, fetchurl, fetchpatch, pkgconfig, freetype, harfbuzz, openjpeg
-, jbig2dec, libjpeg , darwin
+{ stdenv
+, lib
+, fetchurl
+, fetchpatch
+, pkgconfig
+, freetype
+, harfbuzz
+, openjpeg
+, jbig2dec
+, libjpeg
+, darwin
 , gumbo
-, enableX11 ? true, libX11, libXext, libXi, libXrandr
-, enableCurl ? true, curl, openssl
-, enableGL ? true, freeglut, libGLU
+, enableX11 ? true
+, libX11
+, libXext
+, libXi
+, libXrandr
+, enableCurl ? true
+, curl
+, openssl
+, enableGL ? true
+, freeglut
+, libGLU
 }:
 
 let
@@ -13,7 +30,8 @@ let
     lib.versions.majorMinor (lib.getVersion openjpeg);
 
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   version = "1.18.0";
   pname = "mupdf";
 
@@ -24,17 +42,17 @@ in stdenv.mkDerivation rec {
 
   patches =
     stdenv.lib.optional stdenv.isDarwin ./darwin.patch ++ [
-    (fetchpatch {
+      (fetchpatch {
         name = "pdfocr.patch";
         url = "http://git.ghostscript.com/?p=mupdf.git;a=patch;h=a507b139adf37d2c742e039815601cdc2aa00a84";
         sha256 = "1fx6pdgwrbk3bqsx53764d61llfj9s5q8lxqkna7mjnp7mg4krj3";
       })
-    (fetchpatch {
+      (fetchpatch {
         name = "pdf-layer.patch";
         url = "http://git.ghostscript.com/?p=mupdf.git;a=patch;h=b82e9b6d6b46877e5c3763cc3bc641c66fa7eb54";
         sha256 = "0ma8jq8d9a0mf26qjklgi4gdaflpjik1br1nhafzvjz7ccl56ksm";
       })
-    (fetchpatch {
+      (fetchpatch {
         name = "pixmap.patch";
         url = "http://git.ghostscript.com/?p=mupdf.git;a=patch;h=32e4e8b4bcbacbf92af7c88337efae21986d9603";
         sha256 = "1zqkxgwrhcwsdya98pcmpq2815jjmv3fwsp0sba9f5nq5xi6whbj";
@@ -51,14 +69,15 @@ in stdenv.mkDerivation rec {
   makeFlags = [ "prefix=$(out) USE_SYSTEM_LIBS=yes" ];
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [ freetype harfbuzz openjpeg jbig2dec libjpeg freeglut libGLU gumbo ]
-                ++ lib.optionals enableX11 [ libX11 libXext libXi libXrandr ]
-                ++ lib.optionals enableCurl [ curl openssl ]
-                ++ lib.optionals enableGL (
-                  if stdenv.isDarwin then
-                    with darwin.apple_sdk.frameworks; [ GLUT OpenGL ]
-                  else
-                    [ freeglut libGLU ])
-                ;
+    ++ lib.optionals enableX11 [ libX11 libXext libXi libXrandr ]
+    ++ lib.optionals enableCurl [ curl openssl ]
+    ++ lib.optionals enableGL (
+    if stdenv.isDarwin then
+      with darwin.apple_sdk.frameworks; [ GLUT OpenGL ]
+    else
+      [ freeglut libGLU ]
+  )
+  ;
   outputs = [ "bin" "dev" "out" "man" "doc" ];
 
   preConfigure = ''

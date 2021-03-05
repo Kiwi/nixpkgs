@@ -13,7 +13,8 @@
 , SDL2_image
 , SDL2_gfx
 , SDL2_mixer
-, SDL2_net, SDL2_ttf
+, SDL2_net
+, SDL2_ttf
 , ffmpeg
 , sqlite
 , zlib
@@ -24,12 +25,26 @@
 
 let
   sharedLibs = [
-    pcre portaudio freetype
-    SDL2 SDL2_image SDL2_gfx SDL2_mixer SDL2_net SDL2_ttf
-    sqlite lua zlib libX11 libGLU libGL ffmpeg
+    pcre
+    portaudio
+    freetype
+    SDL2
+    SDL2_image
+    SDL2_gfx
+    SDL2_mixer
+    SDL2_net
+    SDL2_ttf
+    sqlite
+    lua
+    zlib
+    libX11
+    libGLU
+    libGL
+    ffmpeg
   ];
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "ultrastardx";
   version = "2020.4.0";
   src = fetchFromGitHub {
@@ -57,7 +72,8 @@ in stdenv.mkDerivation rec {
 
   preBuild = with stdenv.lib;
     let items = concatMapStringsSep " " (x: "-rpath ${getLib x}/lib") sharedLibs;
-    in ''
+    in
+    ''
       export NIX_LDFLAGS="$NIX_LDFLAGS ${items}"
     '';
 

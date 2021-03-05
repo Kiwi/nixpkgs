@@ -1,6 +1,10 @@
-{ lib, buildPythonPackage, fetchFromGitHub, pythonOlder
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, pythonOlder
 , defusedxml
-, pytest }:
+, pytest
+}:
 
 buildPythonPackage rec {
   pname = "python-didl-lite";

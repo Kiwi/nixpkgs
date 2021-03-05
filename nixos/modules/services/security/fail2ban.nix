@@ -176,7 +176,7 @@ in
         description = ''
           The contents of Fail2ban's main configuration file.  It's
           generally not necessary to change it.
-       '';
+        '';
       };
 
       jails = mkOption {

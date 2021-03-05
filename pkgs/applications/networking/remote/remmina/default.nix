@@ -1,11 +1,38 @@
-{ stdenv, fetchFromGitLab, cmake, ninja, pkgconfig, wrapGAppsHook
-, glib, gtk3, gettext, libxkbfile, libX11
-, freerdp, libssh, libgcrypt, gnutls
-, pcre, libdbusmenu-gtk3, libappindicator-gtk3
-, libvncserver, libpthreadstubs, libXdmcp, libxkbcommon
-, libsecret, libsoup, spice-protocol, spice-gtk, epoxy, at-spi2-core
-, openssl, gsettings-desktop-schemas, json-glib, libsodium, webkitgtk, harfbuzz
-# The themes here are soft dependencies; only icons are missing without them.
+{ stdenv
+, fetchFromGitLab
+, cmake
+, ninja
+, pkgconfig
+, wrapGAppsHook
+, glib
+, gtk3
+, gettext
+, libxkbfile
+, libX11
+, freerdp
+, libssh
+, libgcrypt
+, gnutls
+, pcre
+, libdbusmenu-gtk3
+, libappindicator-gtk3
+, libvncserver
+, libpthreadstubs
+, libXdmcp
+, libxkbcommon
+, libsecret
+, libsoup
+, spice-protocol
+, spice-gtk
+, epoxy
+, at-spi2-core
+, openssl
+, gsettings-desktop-schemas
+, json-glib
+, libsodium
+, webkitgtk
+, harfbuzz
+  # The themes here are soft dependencies; only icons are missing without them.
 , gnome3
 }:
 
@@ -16,21 +43,42 @@ stdenv.mkDerivation rec {
   version = "1.4.7";
 
   src = fetchFromGitLab {
-    owner  = "Remmina";
-    repo   = "Remmina";
-    rev    = "v${version}";
+    owner = "Remmina";
+    repo = "Remmina";
+    rev = "v${version}";
     sha256 = "0h09f2amj7ab78fzil2w7cr22d21ad5mp1r2fa70w26g7ra3jzk9";
   };
 
   nativeBuildInputs = [ cmake ninja pkgconfig wrapGAppsHook ];
   buildInputs = [
     gsettings-desktop-schemas
-    glib gtk3 gettext libxkbfile libX11
-    freerdp libssh libgcrypt gnutls
-    pcre libdbusmenu-gtk3 libappindicator-gtk3
-    libvncserver libpthreadstubs libXdmcp libxkbcommon
-    libsecret libsoup spice-protocol spice-gtk epoxy at-spi2-core
-    openssl gnome3.adwaita-icon-theme json-glib libsodium webkitgtk
+    glib
+    gtk3
+    gettext
+    libxkbfile
+    libX11
+    freerdp
+    libssh
+    libgcrypt
+    gnutls
+    pcre
+    libdbusmenu-gtk3
+    libappindicator-gtk3
+    libvncserver
+    libpthreadstubs
+    libXdmcp
+    libxkbcommon
+    libsecret
+    libsoup
+    spice-protocol
+    spice-gtk
+    epoxy
+    at-spi2-core
+    openssl
+    gnome3.adwaita-icon-theme
+    json-glib
+    libsodium
+    webkitgtk
     harfbuzz
   ];
 

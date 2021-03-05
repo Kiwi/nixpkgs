@@ -1,6 +1,20 @@
-{ stdenv, lib, fetchurl, meson, ninja, pkg-config, git
-, cairo, libdrm, libexecinfo, libinput, libjpeg, libxkbcommon, wayland
-, wayland-protocols, wf-config, wlroots
+{ stdenv
+, lib
+, fetchurl
+, meson
+, ninja
+, pkg-config
+, git
+, cairo
+, libdrm
+, libexecinfo
+, libinput
+, libjpeg
+, libxkbcommon
+, wayland
+, wayland-protocols
+, wf-config
+, wlroots
 }:
 
 stdenv.mkDerivation rec {
@@ -14,8 +28,16 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ meson ninja pkg-config wayland ];
   buildInputs = [
-    cairo libdrm libexecinfo libinput libjpeg libxkbcommon wayland
-    wayland-protocols wf-config wlroots
+    cairo
+    libdrm
+    libexecinfo
+    libinput
+    libjpeg
+    libxkbcommon
+    wayland
+    wayland-protocols
+    wf-config
+    wlroots
   ];
 
   mesonFlags = [ "--sysconfdir" "/etc" ];

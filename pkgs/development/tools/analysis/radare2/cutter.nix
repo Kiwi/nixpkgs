@@ -1,12 +1,18 @@
-{ fetchFromGitHub, lib, mkDerivation
-# nativeBuildInputs
-, qmake, pkgconfig
-# Qt
-, qtbase, qtsvg, qtwebengine
-# buildInputs
+{ fetchFromGitHub
+, lib
+, mkDerivation
+  # nativeBuildInputs
+, qmake
+, pkgconfig
+  # Qt
+, qtbase
+, qtsvg
+, qtwebengine
+  # buildInputs
 , r2-for-cutter
 , python3
-, wrapQtAppsHook }:
+, wrapQtAppsHook
+}:
 
 mkDerivation rec {
   pname = "radare2-cutter";

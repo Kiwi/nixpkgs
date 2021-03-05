@@ -1,10 +1,23 @@
-{ stdenv, fetchFromGitHub, fetchpatch
-, ncurses, boehmgc, gettext, zlib
-, sslSupport ? true, openssl ? null
-, graphicsSupport ? !stdenv.isDarwin, imlib2 ? null
-, x11Support ? graphicsSupport, libX11 ? null
-, mouseSupport ? !stdenv.isDarwin, gpm-ncurses ? null
-, perl, man, pkgconfig, buildPackages, w3m
+{ stdenv
+, fetchFromGitHub
+, fetchpatch
+, ncurses
+, boehmgc
+, gettext
+, zlib
+, sslSupport ? true
+, openssl ? null
+, graphicsSupport ? !stdenv.isDarwin
+, imlib2 ? null
+, x11Support ? graphicsSupport
+, libX11 ? null
+, mouseSupport ? !stdenv.isDarwin
+, gpm-ncurses ? null
+, perl
+, man
+, pkgconfig
+, buildPackages
+, w3m
 }:
 
 assert sslSupport -> openssl != null;
@@ -24,7 +37,8 @@ let
       install -D mktable $out/bin/mktable
     '';
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "w3m";
   version = "0.5.3+git20190105";
 

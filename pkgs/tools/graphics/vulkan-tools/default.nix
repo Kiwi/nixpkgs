@@ -1,6 +1,17 @@
-{ stdenv, lib, fetchFromGitHub, cmake, python3, vulkan-loader,
- vulkan-headers, glslang, pkgconfig, xlibsWrapper, libxcb,
- libXrandr, wayland }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, python3
+, vulkan-loader
+, vulkan-headers
+, glslang
+, pkgconfig
+, xlibsWrapper
+, libxcb
+, libXrandr
+, wayland
+}:
 
 stdenv.mkDerivation rec {
   pname = "vulkan-tools";
@@ -36,9 +47,9 @@ stdenv.mkDerivation rec {
       development by enabling developers to verify their applications correct
       use of the Vulkan API.
     '';
-    homepage    = "https://github.com/KhronosGroup/Vulkan-Tools";
-    platforms   = platforms.linux;
-    license     = licenses.asl20;
+    homepage = "https://github.com/KhronosGroup/Vulkan-Tools";
+    platforms = platforms.linux;
+    license = licenses.asl20;
     maintainers = [ maintainers.ralith ];
   };
 }

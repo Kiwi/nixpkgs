@@ -1,5 +1,14 @@
-{ stdenv, lib, fetchurl, cmake, phonon, pkgconfig, libvlc
-, extra-cmake-modules, qttools, qtbase, qtx11extras
+{ stdenv
+, lib
+, fetchurl
+, cmake
+, phonon
+, pkgconfig
+, libvlc
+, extra-cmake-modules
+, qttools
+, qtbase
+, qtx11extras
 , debug ? false
 }:
 

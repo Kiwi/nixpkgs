@@ -5,20 +5,21 @@
 , stdenv
 , wrapBintoolsWith
 , wrapCCWith
-, buildIosSdk, targetIosSdkPkgs
+, buildIosSdk
+, targetIosSdkPkgs
 , xcode
 , lib
 }:
 
 let
 
-minSdkVersion = targetPlatform.minSdkVersion or "9.0";
+  minSdkVersion = targetPlatform.minSdkVersion or "9.0";
 
-iosPlatformArch = { parsed, ... }: {
-  armv7a  = "armv7";
-  aarch64 = "arm64";
-  x86_64  = "x86_64";
-}.${parsed.cpu.name};
+  iosPlatformArch = { parsed, ... }: {
+    armv7a = "armv7";
+    aarch64 = "arm64";
+    x86_64 = "x86_64";
+  }.${parsed.cpu.name};
 
 in
 
@@ -63,15 +64,17 @@ rec {
     inherit sdk;
   };
 
-  libraries = let sdk = buildIosSdk; in runCommand "libSystem-prebuilt" {
-    passthru = {
-      inherit sdk;
-    };
-  } ''
-    if ! [ -d ${sdk} ]; then
-        echo "You must have version ${sdk.version} of the ${sdk.platform} sdk installed at ${sdk}" >&2
-        exit 1
-    fi
-    ln -s ${sdk}/usr $out
-  '';
+  libraries = let sdk = buildIosSdk; in
+    runCommand "libSystem-prebuilt"
+      {
+        passthru = {
+          inherit sdk;
+        };
+      } ''
+      if ! [ -d ${sdk} ]; then
+          echo "You must have version ${sdk.version} of the ${sdk.platform} sdk installed at ${sdk}" >&2
+          exit 1
+      fi
+      ln -s ${sdk}/usr $out
+    '';
 }

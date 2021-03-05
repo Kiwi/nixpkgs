@@ -12,7 +12,13 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    automake autoconf pkgconfig gettext libtool pandoc which
+    automake
+    autoconf
+    pkgconfig
+    gettext
+    libtool
+    pandoc
+    which
   ];
   prePatch = ''
     sed -i -e '/chown/d' -e '/chmod/d' libfuse/Makefile

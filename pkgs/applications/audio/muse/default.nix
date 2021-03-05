@@ -1,6 +1,26 @@
-{ stdenv, fetchFromGitHub, cmake, pkgconfig, qttools, wrapQtAppsHook
-, alsaLib, dssi, fluidsynth, ladspaH, lash, libinstpatch, libjack2, liblo
-, libsamplerate, libsndfile, lilv, lrdf, lv2, qtsvg, rtaudio, rubberband, sord
+{ stdenv
+, fetchFromGitHub
+, cmake
+, pkgconfig
+, qttools
+, wrapQtAppsHook
+, alsaLib
+, dssi
+, fluidsynth
+, ladspaH
+, lash
+, libinstpatch
+, libjack2
+, liblo
+, libsamplerate
+, libsndfile
+, lilv
+, lrdf
+, lv2
+, qtsvg
+, rtaudio
+, rubberband
+, sord
 }:
 
 stdenv.mkDerivation rec {
@@ -10,7 +30,7 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "muse-sequencer";
     repo = "muse";
-    rev = "muse_${builtins.replaceStrings ["."] ["_"] version}";
+    rev = "muse_${builtins.replaceStrings [ "." ] [ "_" ] version}";
     sha256 = "1rasp2v1ds2aw296lbf27rzw0l9fjl0cvbvw85d5ycvh6wkm301p";
   };
 
@@ -25,8 +45,23 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake pkgconfig qttools wrapQtAppsHook ];
 
   buildInputs = [
-    alsaLib dssi fluidsynth ladspaH lash libinstpatch libjack2 liblo
-    libsamplerate libsndfile lilv lrdf lv2 qtsvg rtaudio rubberband sord
+    alsaLib
+    dssi
+    fluidsynth
+    ladspaH
+    lash
+    libinstpatch
+    libjack2
+    liblo
+    libsamplerate
+    libsndfile
+    lilv
+    lrdf
+    lv2
+    qtsvg
+    rtaudio
+    rubberband
+    sord
   ];
 
   meta = with stdenv.lib; {

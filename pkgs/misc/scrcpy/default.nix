@@ -1,4 +1,7 @@
-{ stdenv, fetchurl, fetchFromGitHub, makeWrapper
+{ stdenv
+, fetchurl
+, fetchFromGitHub
+, makeWrapper
 , meson
 , ninja
 , pkg-config

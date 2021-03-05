@@ -1,8 +1,22 @@
-{ stdenv, fetchurl, makeDesktopItem, makeWrapper
-, freetype, fontconfig, libX11, libXrender, zlib
-, glib, gtk3, gtk2, libXtst, jdk, jdk8, gsettings-desktop-schemas
+{ stdenv
+, fetchurl
+, makeDesktopItem
+, makeWrapper
+, freetype
+, fontconfig
+, libX11
+, libXrender
+, zlib
+, glib
+, gtk3
+, gtk2
+, libXtst
+, jdk
+, jdk8
+, gsettings-desktop-schemas
 , webkitgtk ? null  # for internal web browser
-, buildEnv, runCommand
+, buildEnv
+, runCommand
 , callPackage
 }:
 
@@ -21,12 +35,13 @@ let
   month = "09";
   timestamp = "${year}${month}021800";
   gtk = gtk3;
-in rec {
+in
+rec {
 
   buildEclipse = callPackage ./build-eclipse.nix {
     inherit stdenv makeDesktopItem freetype fontconfig libX11 libXrender zlib
-            jdk glib gtk libXtst gsettings-desktop-schemas webkitgtk
-            makeWrapper;
+      jdk glib gtk libXtst gsettings-desktop-schemas webkitgtk
+      makeWrapper;
   };
 
   ### Eclipse CPP
@@ -74,9 +89,9 @@ in rec {
       src =
         fetchurl {
           url = "https://downloads.typesafe.com/scalaide-pack/4.7.0-vfinal-oxygen-212-20170929/scala-SDK-4.7.0-vfinal-2.12-linux.gtk.x86_64.tar.gz";
-          sha256  = "1n5w2a7mh9ajv6fxcas1gpgwb04pdxbr9v5dzr67gsz5bhahq4ya";
+          sha256 = "1n5w2a7mh9ajv6fxcas1gpgwb04pdxbr9v5dzr67gsz5bhahq4ya";
         };
-  };
+    };
 
   ### Eclipse SDK
 
@@ -130,39 +145,39 @@ in rec {
 
   # Function that assembles a complete Eclipse environment from an
   # Eclipse package and list of Eclipse plugins.
-  eclipseWithPlugins = { eclipse, plugins ? [], jvmArgs ? [] }:
+  eclipseWithPlugins = { eclipse, plugins ? [ ], jvmArgs ? [ ] }:
     let
       # Gather up the desired plugins.
       pluginEnv = buildEnv {
         name = "eclipse-plugins";
         paths =
           with stdenv.lib;
-            filter (x: x ? isEclipsePlugin) (closePropagation plugins);
+          filter (x: x ? isEclipsePlugin) (closePropagation plugins);
       };
 
       # Prepare the JVM arguments to add to the ini file. We here also
       # add the property indicating the plugin directory.
       dropinPropName = "org.eclipse.equinox.p2.reconciler.dropins.directory";
       dropinProp = "-D${dropinPropName}=${pluginEnv}/eclipse/dropins";
-      jvmArgsText = stdenv.lib.concatStringsSep "\n" (jvmArgs ++ [dropinProp]);
+      jvmArgsText = stdenv.lib.concatStringsSep "\n" (jvmArgs ++ [ dropinProp ]);
 
       # Base the derivation name on the name of the underlying
       # Eclipse.
       name = (stdenv.lib.meta.appendToName "with-plugins" eclipse).name;
     in
-      runCommand name { buildInputs = [ makeWrapper ]; } ''
-        mkdir -p $out/bin $out/etc
+    runCommand name { buildInputs = [ makeWrapper ]; } ''
+      mkdir -p $out/bin $out/etc
 
-        # Prepare an eclipse.ini with the plugin directory.
-        cat ${eclipse}/eclipse/eclipse.ini - > $out/etc/eclipse.ini <<EOF
-        ${jvmArgsText}
-        EOF
+      # Prepare an eclipse.ini with the plugin directory.
+      cat ${eclipse}/eclipse/eclipse.ini - > $out/etc/eclipse.ini <<EOF
+      ${jvmArgsText}
+      EOF
 
-        makeWrapper ${eclipse}/bin/eclipse $out/bin/eclipse \
-          --add-flags "--launcher.ini $out/etc/eclipse.ini"
+      makeWrapper ${eclipse}/bin/eclipse $out/bin/eclipse \
+        --add-flags "--launcher.ini $out/etc/eclipse.ini"
 
-        ln -s ${eclipse}/share $out/
-      '';
+      ln -s ${eclipse}/share $out/
+    '';
 
   ### Plugins
 

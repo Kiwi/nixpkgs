@@ -1,7 +1,18 @@
-{ stdenv, fetchFromGitHub, fetchurl, makeWrapper, makeDesktopItem, linkFarmFromDrvs
-, dotnet-sdk_3, dotnetPackages, dotnetCorePackages
-, SDL2, libX11, openal
-, gtk3, gobject-introspection, wrapGAppsHook
+{ stdenv
+, fetchFromGitHub
+, fetchurl
+, makeWrapper
+, makeDesktopItem
+, linkFarmFromDrvs
+, dotnet-sdk_3
+, dotnetPackages
+, dotnetCorePackages
+, SDL2
+, libX11
+, openal
+, gtk3
+, gobject-introspection
+, wrapGAppsHook
 }:
 
 let
@@ -11,7 +22,8 @@ let
     libX11
     openal
   ];
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "ryujinx";
   version = "1.0.5551"; # Versioning is based off of the official appveyor builds: https://ci.appveyor.com/project/gdkchan/ryujinx
 

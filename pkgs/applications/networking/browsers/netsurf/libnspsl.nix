@@ -1,4 +1,6 @@
-{ stdenv, fetchurl, pkgconfig
+{ stdenv
+, fetchurl
+, pkgconfig
 , buildsystem
 }:
 
@@ -24,7 +26,7 @@ stdenv.mkDerivation rec {
     homepage = "https://www.netsurf-browser.org/";
     description = "NetSurf Public Suffix List - Handling library";
     license = licenses.mit;
-    maintainers =  [ maintainers.samueldr maintainers.AndersonTorres ];
+    maintainers = [ maintainers.samueldr maintainers.AndersonTorres ];
     platforms = platforms.linux;
   };
 }

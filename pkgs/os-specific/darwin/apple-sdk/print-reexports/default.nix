@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation {
   name = "print-reexports";
-  src = stdenv.lib.sourceFilesBySuffices ./. [".c"];
+  src = stdenv.lib.sourceFilesBySuffices ./. [ ".c" ];
 
   buildInputs = [ libyaml ];
 

@@ -5,8 +5,8 @@ buildGoModule rec {
 
   src = fetchFromGitHub {
     owner = "scottwinkler";
-    repo   = pname;
-    rev    = "v${version}";
+    repo = pname;
+    rev = "v${version}";
     sha256 = "0jxb30vw93ibnwz8nfqapac7p9r2famzvsf2h4nfbmhkm6mpan4l";
   };
 

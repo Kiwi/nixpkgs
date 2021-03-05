@@ -17,8 +17,8 @@ let
 
       src = fetchFromGitHub {
         owner = "crystal-lang";
-        repo  = "shards";
-        rev   = "v${version}";
+        repo = "shards";
+        rev = "v${version}";
         inherit sha256;
       };
 
@@ -39,7 +39,8 @@ let
     }
   );
 
-in rec {
+in
+rec {
   shards_0_11 = generic {
     version = "0.11.1";
     sha256 = "05qnhc23xbmicdl4fwyxfpcvd8jq4inzh6v7jsjjw4n76vzb1f71";

@@ -1,4 +1,4 @@
-{stdenv, fetchurl, help2man}:
+{ stdenv, fetchurl, help2man }:
 
 stdenv.mkDerivation rec {
   version = "1.6.3.622";

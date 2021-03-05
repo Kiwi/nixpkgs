@@ -36,8 +36,23 @@ buildPythonPackage rec {
     sha256 = "1052f0ed084e532f66cb3e4ba617960d820152aee8b93fc6c05bd53861768c1c";
   };
 
-  checkInputs = [ blinker botocore chalice django flask tornado bottle rq falcon sqlalchemy werkzeug trytond
-    executing pure-eval asttokens ]
+  checkInputs = [
+    blinker
+    botocore
+    chalice
+    django
+    flask
+    tornado
+    bottle
+    rq
+    falcon
+    sqlalchemy
+    werkzeug
+    trytond
+    executing
+    pure-eval
+    asttokens
+  ]
   ++ stdenv.lib.optionals isPy3k [ celery pyramid sanic aiohttp ];
 
   propagatedBuildInputs = [ urllib3 certifi ];

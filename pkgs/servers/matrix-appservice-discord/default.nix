@@ -6,7 +6,8 @@ let
     inherit (stdenv.hostPlatform) system;
   };
 
-in nodePackages."matrix-appservice-discord-git+https://github.com/Half-Shot/matrix-appservice-discord.git#v0.5.2".override {
+in
+nodePackages."matrix-appservice-discord-git+https://github.com/Half-Shot/matrix-appservice-discord.git#v0.5.2".override {
   nativeBuildInputs = [ pkgs.makeWrapper ];
 
   postInstall = ''

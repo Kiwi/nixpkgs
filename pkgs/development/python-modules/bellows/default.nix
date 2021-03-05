@@ -1,13 +1,24 @@
-{ stdenv, buildPythonPackage, fetchPypi
-, click, click-log, pure-pcapy3
-, pyserial, pyserial-asyncio, voluptuous, zigpy
-, asynctest, pytest, pytest-asyncio }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, click
+, click-log
+, pure-pcapy3
+, pyserial
+, pyserial-asyncio
+, voluptuous
+, zigpy
+, asynctest
+, pytest
+, pytest-asyncio
+}:
 
 let
   pname = "bellows";
   version = "0.21.0";
 
-in buildPythonPackage rec {
+in
+buildPythonPackage rec {
   inherit pname version;
 
   src = fetchPypi {
@@ -16,11 +27,19 @@ in buildPythonPackage rec {
   };
 
   propagatedBuildInputs = [
-    click click-log pure-pcapy3 pyserial pyserial-asyncio voluptuous zigpy
+    click
+    click-log
+    pure-pcapy3
+    pyserial
+    pyserial-asyncio
+    voluptuous
+    zigpy
   ];
 
   checkInputs = [
-    asynctest pytest pytest-asyncio
+    asynctest
+    pytest
+    pytest-asyncio
   ];
 
   prePatch = ''

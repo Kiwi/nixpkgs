@@ -1,5 +1,14 @@
-{ stdenv, fetchurl, fetchpatch, cmake, fftw, gtkmm2, libxcb, lv2, pkgconfig
-, xorg }:
+{ stdenv
+, fetchurl
+, fetchpatch
+, cmake
+, fftw
+, gtkmm2
+, libxcb
+, lv2
+, pkgconfig
+, xorg
+}:
 stdenv.mkDerivation rec {
   pname = "eq10q";
   version = "2.2";
@@ -20,10 +29,10 @@ stdenv.mkDerivation rec {
   ];
 
   postPatch = ''
-     # Fix build with lv2 1.18: https://sourceforge.net/p/eq10q/bugs/23/
-     find . -type f -exec fgrep -q LV2UI_Descriptor {} \; \
-       -exec sed -i {} -e 's/const _\?LV2UI_Descriptor/const LV2UI_Descriptor/' \;
-   '';
+    # Fix build with lv2 1.18: https://sourceforge.net/p/eq10q/bugs/23/
+    find . -type f -exec fgrep -q LV2UI_Descriptor {} \; \
+      -exec sed -i {} -e 's/const _\?LV2UI_Descriptor/const LV2UI_Descriptor/' \;
+  '';
 
   installFlags = [ "DESTDIR=$(out)" ];
 

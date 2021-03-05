@@ -10,7 +10,7 @@
 , nodejs
 , packaging
 , pillow
-#, pytestCheckHook#
+  #, pytestCheckHook#
 , pytest
 , python
 , python-dateutil
@@ -84,7 +84,7 @@ buildPythonPackage rec {
     packaging
     typing-extensions
   ]
-  ++ lib.optionals ( isPy27 ) [
+  ++ lib.optionals (isPy27) [
     futures
   ];
 

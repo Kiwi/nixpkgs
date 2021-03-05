@@ -6,26 +6,29 @@ let
 
   cfg = config.services.cntlm;
 
-  configFile = if cfg.configText != "" then
-    pkgs.writeText "cntlm.conf" ''
-      ${cfg.configText}
-    ''
+  configFile =
+    if cfg.configText != "" then
+      pkgs.writeText "cntlm.conf" ''
+        ${cfg.configText}
+      ''
     else
-    pkgs.writeText "lighttpd.conf" ''
-      # Cntlm Authentication Proxy Configuration
-      Username ${cfg.username}
-      Domain ${cfg.domain}
-      Password ${cfg.password}
-      ${optionalString (cfg.netbios_hostname != "") "Workstation ${cfg.netbios_hostname}"}
-      ${concatMapStrings (entry: "Proxy ${entry}\n") cfg.proxy}
-      ${optionalString (cfg.noproxy != []) "NoProxy ${concatStringsSep ", " cfg.noproxy}"}
+      pkgs.writeText "lighttpd.conf" ''
+              # Cntlm Authentication Proxy Configuration
+              Username ${cfg.username}
+              Domain ${cfg.domain}
+              Password ${cfg.password}
+              ${optionalString (cfg.netbios_hostname != "") "Workstation ${cfg.netbios_hostname}"}
+              ${concatMapStrings (entry: "Proxy ${entry}\n") cfg.proxy}
+              ${optionalString (cfg.noproxy != [ ]) "NoProxy ${concatStringsSep ", " cfg.noproxy}"}
 
-      ${concatMapStrings (port: ''
-        Listen ${toString port}
-      '') cfg.port}
+              ${concatMapStrings
+        (port: ''
+                Listen ${toString port}
+              '')
+        cfg.port}
 
-      ${cfg.extraConfig}
-    '';
+              ${cfg.extraConfig}
+      '';
 
 in
 
@@ -74,12 +77,12 @@ in
       description = ''
         A list of domains where the proxy is skipped.
       '';
-      default = [];
+      default = [ ];
       example = [ "*.example.com" "example.com" ];
     };
 
     port = mkOption {
-      default = [3128];
+      default = [ 3128 ];
       description = "Specifies on which ports the cntlm daemon listens.";
     };
 
@@ -90,9 +93,9 @@ in
     };
 
     configText = mkOption {
-       type = types.lines;
-       default = "";
-       description = "Verbatim contents of <filename>cntlm.conf</filename>.";
+      type = types.lines;
+      default = "";
+      description = "Verbatim contents of <filename>cntlm.conf</filename>.";
     };
 
   };

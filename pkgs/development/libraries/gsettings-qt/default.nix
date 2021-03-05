@@ -1,7 +1,14 @@
-{ stdenv, fetchFromGitLab, pkgconfig
-, qmake, qtbase, qtdeclarative, wrapQtAppsHook
-, glib, gobject-introspection
-, genericUpdater, common-updater-scripts
+{ stdenv
+, fetchFromGitLab
+, pkgconfig
+, qmake
+, qtbase
+, qtdeclarative
+, wrapQtAppsHook
+, glib
+, gobject-introspection
+, genericUpdater
+, common-updater-scripts
 }:
 
 stdenv.mkDerivation rec {

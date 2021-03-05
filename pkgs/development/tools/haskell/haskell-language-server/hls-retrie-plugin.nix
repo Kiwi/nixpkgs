@@ -1,7 +1,24 @@
-{ mkDerivation, aeson, base, containers, deepseq, directory, extra
-, fetchgit, ghc, ghcide, hashable, haskell-lsp, haskell-lsp-types
-, hls-plugin-api, retrie, safe-exceptions, shake, stdenv, text
-, transformers, unordered-containers
+{ mkDerivation
+, aeson
+, base
+, containers
+, deepseq
+, directory
+, extra
+, fetchgit
+, ghc
+, ghcide
+, hashable
+, haskell-lsp
+, haskell-lsp-types
+, hls-plugin-api
+, retrie
+, safe-exceptions
+, shake
+, stdenv
+, text
+, transformers
+, unordered-containers
 }:
 mkDerivation {
   pname = "hls-retrie-plugin";
@@ -14,9 +31,24 @@ mkDerivation {
   };
   postUnpack = "sourceRoot+=/plugins/hls-retrie-plugin; echo source root reset to $sourceRoot";
   libraryHaskellDepends = [
-    aeson base containers deepseq directory extra ghc ghcide hashable
-    haskell-lsp haskell-lsp-types hls-plugin-api retrie safe-exceptions
-    shake text transformers unordered-containers
+    aeson
+    base
+    containers
+    deepseq
+    directory
+    extra
+    ghc
+    ghcide
+    hashable
+    haskell-lsp
+    haskell-lsp-types
+    hls-plugin-api
+    retrie
+    safe-exceptions
+    shake
+    text
+    transformers
+    unordered-containers
   ];
   description = "Retrie integration plugin for Haskell Language Server";
   license = stdenv.lib.licenses.asl20;

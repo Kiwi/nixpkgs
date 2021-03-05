@@ -1,5 +1,11 @@
-{ stdenv, buildPythonPackage, fetchPypi, fetchFromGitHub
-, wheel, pytestCheckHook, pytestrunner }:
+{ stdenv
+, buildPythonPackage
+, fetchPypi
+, fetchFromGitHub
+, wheel
+, pytestCheckHook
+, pytestrunner
+}:
 
 buildPythonPackage rec {
   version = "0.18.1";

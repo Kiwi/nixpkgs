@@ -1,7 +1,26 @@
-{ stdenv, fetchurl, pkgconfig, gettext, m4, intltool, libxmlxx, keybinder
-, gtk2, libX11, libfm, libwnck, libXmu, libXpm, cairo, gdk-pixbuf, gdk-pixbuf-xlib
-, menu-cache, lxmenu-data, wirelesstools, curl
-, supportAlsa ? false, alsaLib
+{ stdenv
+, fetchurl
+, pkgconfig
+, gettext
+, m4
+, intltool
+, libxmlxx
+, keybinder
+, gtk2
+, libX11
+, libfm
+, libwnck
+, libXmu
+, libXpm
+, cairo
+, gdk-pixbuf
+, gdk-pixbuf-xlib
+, menu-cache
+, lxmenu-data
+, wirelesstools
+, curl
+, supportAlsa ? false
+, alsaLib
 }:
 
 stdenv.mkDerivation rec {
@@ -14,8 +33,21 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkgconfig gettext m4 intltool libxmlxx ];
   buildInputs = [
-    keybinder gtk2 libX11 libfm libwnck libXmu libXpm cairo gdk-pixbuf gdk-pixbuf-xlib.dev
-    menu-cache lxmenu-data m4 wirelesstools curl
+    keybinder
+    gtk2
+    libX11
+    libfm
+    libwnck
+    libXmu
+    libXpm
+    cairo
+    gdk-pixbuf
+    gdk-pixbuf-xlib.dev
+    menu-cache
+    lxmenu-data
+    m4
+    wirelesstools
+    curl
   ] ++ stdenv.lib.optional supportAlsa alsaLib;
 
   postPatch = ''

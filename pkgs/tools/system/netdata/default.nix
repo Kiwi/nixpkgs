@@ -1,20 +1,40 @@
-{ stdenv, callPackage, fetchFromGitHub, autoreconfHook, pkgconfig
-, CoreFoundation, IOKit, libossp_uuid
-, curl, libcap,  libuuid, lm_sensors, zlib, fetchpatch
+{ stdenv
+, callPackage
+, fetchFromGitHub
+, autoreconfHook
+, pkgconfig
+, CoreFoundation
+, IOKit
+, libossp_uuid
+, curl
+, libcap
+, libuuid
+, lm_sensors
+, zlib
+, fetchpatch
 , nixosTests
-, withCups ? false, cups
-, withDBengine ? true, libuv, lz4, judy
-, withIpmi ? (!stdenv.isDarwin), freeipmi
-, withNetfilter ? (!stdenv.isDarwin), libmnl, libnetfilter_acct
-, withSsl ? true, openssl
+, withCups ? false
+, cups
+, withDBengine ? true
+, libuv
+, lz4
+, judy
+, withIpmi ? (!stdenv.isDarwin)
+, freeipmi
+, withNetfilter ? (!stdenv.isDarwin)
+, libmnl
+, libnetfilter_acct
+, withSsl ? true
+, openssl
 , withDebug ? false
 }:
 
 with stdenv.lib;
 
 let
-  go-d-plugin = callPackage ./go.d.plugin.nix {};
-in stdenv.mkDerivation rec {
+  go-d-plugin = callPackage ./go.d.plugin.nix { };
+in
+stdenv.mkDerivation rec {
   version = "1.26.0";
   pname = "netdata";
 

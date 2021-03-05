@@ -1,6 +1,13 @@
-{ stdenv, fetchurl, buildDunePackage
-, ppx_sexp_conv, sexplib, astring, uri, logs
-, ipaddr, ipaddr-sexp
+{ stdenv
+, fetchurl
+, buildDunePackage
+, ppx_sexp_conv
+, sexplib
+, astring
+, uri
+, logs
+, ipaddr
+, ipaddr-sexp
 }:
 
 buildDunePackage rec {

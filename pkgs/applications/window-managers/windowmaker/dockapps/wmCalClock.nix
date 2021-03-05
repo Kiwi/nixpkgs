@@ -1,5 +1,9 @@
-{ stdenv, dockapps-sources
-, libX11, libXpm, libXext }:
+{ stdenv
+, dockapps-sources
+, libX11
+, libXpm
+, libXext
+}:
 
 stdenv.mkDerivation rec {
   pname = "wmCalClock";

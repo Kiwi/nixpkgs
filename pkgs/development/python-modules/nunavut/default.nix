@@ -1,6 +1,6 @@
 { lib, buildPythonPackage, pythonOlder, fetchPypi, pydsdl }:
 
- buildPythonPackage rec {
+buildPythonPackage rec {
   pname = "nunavut";
   version = "0.6.2";
   disabled = pythonOlder "3.5"; # only python>=3.5 is supported

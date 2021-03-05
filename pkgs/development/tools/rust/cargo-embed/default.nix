@@ -1,6 +1,11 @@
-{ stdenv, lib
-, rustPlatform, fetchFromGitHub
-, libusb1, pkg-config, rustfmt }:
+{ stdenv
+, lib
+, rustPlatform
+, fetchFromGitHub
+, libusb1
+, pkg-config
+, rustfmt
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "cargo-embed";

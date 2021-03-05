@@ -1,5 +1,17 @@
-{ fetchFromGitHub, stdenv, cmake, pkgconfig, python3, alsaLib
-, libX11, libGLU, SDL2, lua5_3, zlib, freetype, wavpack, icoutils
+{ fetchFromGitHub
+, stdenv
+, cmake
+, pkgconfig
+, python3
+, alsaLib
+, libX11
+, libGLU
+, SDL2
+, lua5_3
+, zlib
+, freetype
+, wavpack
+, icoutils
 , nixosTests
 }:
 
@@ -25,7 +37,15 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake pkgconfig icoutils ];
 
   buildInputs = [
-    python3 alsaLib libX11 libGLU SDL2 lua5_3 zlib freetype wavpack
+    python3
+    alsaLib
+    libX11
+    libGLU
+    SDL2
+    lua5_3
+    zlib
+    freetype
+    wavpack
   ];
 
   postInstall = ''

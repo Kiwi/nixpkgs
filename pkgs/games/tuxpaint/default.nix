@@ -1,5 +1,19 @@
-{ stdenv, fetchurl, SDL, SDL_image, SDL_ttf, SDL_mixer, libpng,
-  cairo, librsvg, gettext, libpaper, fribidi, pkgconfig, gperf, imagemagick }:
+{ stdenv
+, fetchurl
+, SDL
+, SDL_image
+, SDL_ttf
+, SDL_mixer
+, libpng
+, cairo
+, librsvg
+, gettext
+, libpaper
+, fribidi
+, pkgconfig
+, gperf
+, imagemagick
+}:
 
 stdenv.mkDerivation rec {
   version = "0.9.24";
@@ -10,13 +24,27 @@ stdenv.mkDerivation rec {
     sha256 = "06m1lg2pikfkmassfvvrbwqffwgixcmjh1li6akaldgkalpmfql7";
   };
 
-  nativeBuildInputs = [ SDL SDL_image SDL_ttf SDL_mixer libpng cairo
-    librsvg gettext libpaper fribidi pkgconfig gperf imagemagick ];
+  nativeBuildInputs = [
+    SDL
+    SDL_image
+    SDL_ttf
+    SDL_mixer
+    libpng
+    cairo
+    librsvg
+    gettext
+    libpaper
+    fribidi
+    pkgconfig
+    gperf
+    imagemagick
+  ];
   hardeningDisable = [ "format" ];
-  makeFlags = [ "GPERF=${gperf}/bin/gperf"
-                "PREFIX=$$out"
-                "COMPLETIONDIR=$$out/share/bash-completion/completions"
-              ];
+  makeFlags = [
+    "GPERF=${gperf}/bin/gperf"
+    "PREFIX=$$out"
+    "COMPLETIONDIR=$$out/share/bash-completion/completions"
+  ];
 
   patches = [ ./tuxpaint-completion.diff ];
   postPatch = ''
