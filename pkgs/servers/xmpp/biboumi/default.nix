@@ -1,5 +1,20 @@
-{ lib, stdenv, fetchurl, fetchgit, cmake, libuuid, expat, sqlite, libidn,
-  libiconv, botan2, systemd, pkg-config, udns, coreutils, python3Packages } :
+{ lib
+, stdenv
+, fetchurl
+, fetchgit
+, cmake
+, libuuid
+, expat
+, sqlite
+, libidn
+, libiconv
+, botan2
+, systemd
+, pkg-config
+, udns
+, coreutils
+, python3Packages
+}:
 
 stdenv.mkDerivation rec {
   pname = "biboumi";
@@ -19,8 +34,16 @@ stdenv.mkDerivation rec {
   patches = [ ./catch.patch ];
 
   nativeBuildInputs = [ cmake pkg-config python3Packages.sphinx ];
-  buildInputs = [ libuuid expat sqlite libiconv libidn botan2 systemd
-    udns ];
+  buildInputs = [
+    libuuid
+    expat
+    sqlite
+    libiconv
+    libidn
+    botan2
+    systemd
+    udns
+  ];
   buildFlags = [ "all" "man" ];
 
   preConfigure = ''

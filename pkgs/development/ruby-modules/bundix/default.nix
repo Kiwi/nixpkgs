@@ -1,5 +1,12 @@
-{ buildRubyGem, fetchFromGitHub, makeWrapper, lib, bundler, nix,
-  nix-prefetch-git, fetchpatch }:
+{ buildRubyGem
+, fetchFromGitHub
+, makeWrapper
+, lib
+, bundler
+, nix
+, nix-prefetch-git
+, fetchpatch
+}:
 
 buildRubyGem rec {
   inherit (bundler) ruby;

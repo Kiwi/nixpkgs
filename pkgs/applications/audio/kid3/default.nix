@@ -1,8 +1,28 @@
-{ lib, stdenv, fetchurl
-, pkg-config, cmake, python3, ffmpeg_3, phonon, automoc4
-, chromaprint, docbook_xml_dtd_45, docbook_xsl, libxslt
-, id3lib, taglib, mp4v2, flac, libogg, libvorbis
-, zlib, readline , qtbase, qttools, qtmultimedia, qtquickcontrols
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, cmake
+, python3
+, ffmpeg_3
+, phonon
+, automoc4
+, chromaprint
+, docbook_xml_dtd_45
+, docbook_xsl
+, libxslt
+, id3lib
+, taglib
+, mp4v2
+, flac
+, libogg
+, libvorbis
+, zlib
+, readline
+, qtbase
+, qttools
+, qtmultimedia
+, qtquickcontrols
 , wrapQtAppsHook
 }:
 
@@ -16,10 +36,28 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ cmake pkg-config wrapQtAppsHook ];
-  buildInputs = [ python3 ffmpeg_3 phonon automoc4 chromaprint
-    docbook_xml_dtd_45 docbook_xsl libxslt id3lib taglib mp4v2 flac
-    libogg libvorbis zlib readline qtbase qttools qtmultimedia
-    qtquickcontrols ];
+  buildInputs = [
+    python3
+    ffmpeg_3
+    phonon
+    automoc4
+    chromaprint
+    docbook_xml_dtd_45
+    docbook_xsl
+    libxslt
+    id3lib
+    taglib
+    mp4v2
+    flac
+    libogg
+    libvorbis
+    zlib
+    readline
+    qtbase
+    qttools
+    qtmultimedia
+    qtquickcontrols
+  ];
 
   cmakeFlags = [ "-DWITH_APPS=Qt;CLI" ];
   NIX_LDFLAGS = "-lm -lpthread";

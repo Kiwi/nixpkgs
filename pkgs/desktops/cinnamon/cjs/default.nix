@@ -2,7 +2,8 @@
 , fetchFromGitHub
 , gobject-introspection
 , pkg-config
-, lib, stdenv
+, lib
+, stdenv
 , wrapGAppsHook
 , python3
 , cairo

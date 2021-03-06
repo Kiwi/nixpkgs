@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
     ./configure-socket-path.patch
   ];
 
-  configureFlags = [ "--disable-debug"];
+  configureFlags = [ "--disable-debug" ];
 
   meta = with lib; {
     homepage = "http://spacenav.sourceforge.net/";

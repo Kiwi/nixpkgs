@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   version = "2020.12";
 
   src = fetchurl {
-    url    = "https://www.rakudo.org/dl/rakudo/rakudo-${version}.tar.gz";
+    url = "https://www.rakudo.org/dl/rakudo/rakudo-${version}.tar.gz";
     sha256 = "1g3ciwhlac85d6l2kqslw8pm4bjjd1z79m1c5ll0fxmr6awgpk67";
   };
 
@@ -24,9 +24,9 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Raku implementation on top of Moar virtual machine";
-    homepage    = "https://www.rakudo.org";
-    license     = licenses.artistic2;
-    platforms   = platforms.unix;
+    homepage = "https://www.rakudo.org";
+    license = licenses.artistic2;
+    platforms = platforms.unix;
     maintainers = with maintainers; [ thoughtpolice vrthra sgo ];
   };
 }

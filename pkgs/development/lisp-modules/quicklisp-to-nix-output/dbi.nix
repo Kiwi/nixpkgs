@@ -16,7 +16,7 @@ rec {
 
   packageName = "dbi";
 
-  asdFilesToKeep = ["dbi.asd"];
+  asdFilesToKeep = [ "dbi.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM dbi DESCRIPTION Database independent interface for Common Lisp

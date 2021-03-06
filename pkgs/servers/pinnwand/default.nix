@@ -12,7 +12,8 @@ let
       });
     };
   };
-in with python.pkgs; buildPythonApplication rec {
+in
+with python.pkgs; buildPythonApplication rec {
   pname = "pinnwand";
   version = "1.2.3";
   format = "pyproject";

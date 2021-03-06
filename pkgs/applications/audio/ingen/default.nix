@@ -1,10 +1,26 @@
-{ lib, stdenv, fetchgit, boost, ganv, glibmm, gtkmm2, libjack2, lilv
-, lv2, makeWrapper, pkg-config, python, raul, rdflib, serd, sord, sratom
+{ lib
+, stdenv
+, fetchgit
+, boost
+, ganv
+, glibmm
+, gtkmm2
+, libjack2
+, lilv
+, lv2
+, makeWrapper
+, pkg-config
+, python
+, raul
+, rdflib
+, serd
+, sord
+, sratom
 , wafHook
 , suil
 }:
 
-stdenv.mkDerivation  rec {
+stdenv.mkDerivation rec {
   pname = "ingen";
   version = "unstable-2019-12-09";
   name = "${pname}-${version}";
@@ -18,8 +34,20 @@ stdenv.mkDerivation  rec {
 
   nativeBuildInputs = [ pkg-config wafHook ];
   buildInputs = [
-    boost ganv glibmm gtkmm2 libjack2 lilv lv2 makeWrapper
-    python raul serd sord sratom suil
+    boost
+    ganv
+    glibmm
+    gtkmm2
+    libjack2
+    lilv
+    lv2
+    makeWrapper
+    python
+    raul
+    serd
+    sord
+    sratom
+    suil
   ];
 
   preConfigure = ''

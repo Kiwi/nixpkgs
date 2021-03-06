@@ -24,7 +24,8 @@
 , networkmanager
 , pkg-config
 , polkit
-, lib, stdenv
+, lib
+, stdenv
 , wrapGAppsHook
 , libxml2
 , gtk-doc
@@ -157,7 +158,7 @@ stdenv.mkDerivation rec {
   '';
 
   passthru = {
-    providedSessions = ["cinnamon" "cinnamon2d"];
+    providedSessions = [ "cinnamon" "cinnamon2d" ];
   };
 
   meta = with lib; {

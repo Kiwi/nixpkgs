@@ -20,7 +20,9 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake pkg-config ];
   buildInputs = [
-    boost libevdevplus libuinputplus
+    boost
+    libevdevplus
+    libuinputplus
   ];
 
   meta = with lib; {

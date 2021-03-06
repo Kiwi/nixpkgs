@@ -48,7 +48,7 @@ assert portaudioSupport -> (portaudio != null);
 
 with lib;
 stdenv.mkDerivation
- rec {
+rec {
   pname = "aegisub";
   version = "3.2.2";
 
@@ -98,13 +98,13 @@ stdenv.mkDerivation
     boost
     libiconv
   ]
-    ++ optional spellcheckSupport hunspell
-    ++ optional automationSupport lua
-    ++ optional openalSupport openal
-    ++ optional alsaSupport alsaLib
-    ++ optional pulseaudioSupport libpulseaudio
-    ++ optional portaudioSupport portaudio
-    ;
+  ++ optional spellcheckSupport hunspell
+  ++ optional automationSupport lua
+  ++ optional openalSupport openal
+  ++ optional alsaSupport alsaLib
+  ++ optional pulseaudioSupport libpulseaudio
+  ++ optional portaudioSupport portaudio
+  ;
 
   enableParallelBuilding = true;
 

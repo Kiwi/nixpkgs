@@ -91,9 +91,20 @@ import ./make-test-python.nix ({ pkgs, lib, ... }:
         services.unbound = {
           enable = true;
           allowedAccess = [ "192.168.0.0/24" "fd21::/64" "::1" "127.0.0.0/8" ];
-          interfaces = [ "::1" "127.0.0.1" "192.168.0.2" "fd21::2"
-                         "192.168.0.2@853" "fd21::2@853" "::1@853" "127.0.0.1@853"
-                         "192.168.0.2@443" "fd21::2@443" "::1@443" "127.0.0.1@443" ];
+          interfaces = [
+            "::1"
+            "127.0.0.1"
+            "192.168.0.2"
+            "fd21::2"
+            "192.168.0.2@853"
+            "fd21::2@853"
+            "::1@853"
+            "127.0.0.1@853"
+            "192.168.0.2@443"
+            "fd21::2@443"
+            "::1@443"
+            "127.0.0.1@443"
+          ];
           forwardAddresses = [
             (lib.head nodes.authoritative.config.networking.interfaces.eth1.ipv6.addresses).address
             (lib.head nodes.authoritative.config.networking.interfaces.eth1.ipv4.addresses).address
@@ -137,7 +148,7 @@ import ./make-test-python.nix ({ pkgs, lib, ... }:
           ];
 
           # user that is not permitted to access the unix socket
-          unauthorizeduser = {};
+          unauthorizeduser = { };
         };
 
         environment.etc = {

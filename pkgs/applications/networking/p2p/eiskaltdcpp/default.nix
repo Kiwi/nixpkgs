@@ -1,6 +1,25 @@
-{ lib, stdenv, fetchFromGitHub, cmake, pkg-config, boost, bzip2, libX11
-, mkDerivation, qtbase, qttools, qtmultimedia, qtscript
-, libiconv, pcre-cpp, libidn, lua5, miniupnpc, aspell, gettext, perl }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, cmake
+, pkg-config
+, boost
+, bzip2
+, libX11
+, mkDerivation
+, qtbase
+, qttools
+, qtmultimedia
+, qtscript
+, libiconv
+, pcre-cpp
+, libidn
+, lua5
+, miniupnpc
+, aspell
+, gettext
+, perl
+}:
 
 mkDerivation rec {
   pname = "eiskaltdcpp";
@@ -14,13 +33,27 @@ mkDerivation rec {
   };
 
   nativeBuildInputs = [ cmake pkg-config ];
-  buildInputs = [ qtbase qttools qtmultimedia qtscript boost bzip2 libX11 pcre-cpp libidn lua5 miniupnpc aspell gettext
+  buildInputs = [
+    qtbase
+    qttools
+    qtmultimedia
+    qtscript
+    boost
+    bzip2
+    libX11
+    pcre-cpp
+    libidn
+    lua5
+    miniupnpc
+    aspell
+    gettext
     (perl.withPackages (p: with p; [
       GetoptLong
       RpcXML
       TermShellUI
-    ])) ]
-    ++ lib.optional stdenv.isDarwin libiconv;
+    ]))
+  ]
+  ++ lib.optional stdenv.isDarwin libiconv;
 
   cmakeFlags = [
     "-DUSE_ASPELL=ON"

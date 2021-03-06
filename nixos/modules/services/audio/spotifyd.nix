@@ -33,7 +33,7 @@ in
         RestartSec = 12;
         DynamicUser = true;
         CacheDirectory = "spotifyd";
-        SupplementaryGroups = ["audio"];
+        SupplementaryGroups = [ "audio" ];
       };
     };
   };

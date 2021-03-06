@@ -1,5 +1,11 @@
-{ lib, stdenv, fetchFromGitHub,
-  bzip2, nix, perl, perlPackages,
+{ lib
+, stdenv
+, fetchFromGitHub
+, bzip2
+, nix
+, perl
+, perlPackages
+,
 }:
 
 with lib;

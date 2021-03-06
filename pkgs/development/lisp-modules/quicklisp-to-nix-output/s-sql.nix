@@ -16,7 +16,7 @@ rec {
 
   packageName = "s-sql";
 
-  asdFilesToKeep = ["s-sql.asd"];
+  asdFilesToKeep = [ "s-sql.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM s-sql DESCRIPTION Lispy DSL for SQL SHA256

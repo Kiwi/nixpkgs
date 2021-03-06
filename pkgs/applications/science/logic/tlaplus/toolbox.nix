@@ -1,5 +1,12 @@
-{ lib, fetchzip, makeWrapper, makeDesktopItem, stdenv
-, gtk, libXtst, glib, zlib
+{ lib
+, fetchzip
+, makeWrapper
+, makeDesktopItem
+, stdenv
+, gtk
+, libXtst
+, glib
+, zlib
 }:
 
 let
@@ -20,7 +27,8 @@ let
   };
 
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "tla-toolbox";
   inherit version;
   src = fetchzip {

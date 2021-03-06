@@ -1,6 +1,29 @@
-{ lib, stdenv, fetchurl, makeWrapper, makeDesktopItem, zlib, glib, libpng, freetype, openssl
-, xorg, fontconfig, qtbase, qtwebengine, qtwebchannel, qtsvg, qtwebsockets, xkeyboard_config
-, alsaLib, libpulseaudio ? null, libredirect, quazip, which, unzip, llvmPackages, writeShellScriptBin
+{ lib
+, stdenv
+, fetchurl
+, makeWrapper
+, makeDesktopItem
+, zlib
+, glib
+, libpng
+, freetype
+, openssl
+, xorg
+, fontconfig
+, qtbase
+, qtwebengine
+, qtwebchannel
+, qtsvg
+, qtwebsockets
+, xkeyboard_config
+, alsaLib
+, libpulseaudio ? null
+, libredirect
+, quazip
+, which
+, unzip
+, llvmPackages
+, writeShellScriptBin
 }:
 
 let
@@ -10,10 +33,33 @@ let
   libDir = if stdenv.is64bit then "lib64" else "lib";
 
   deps =
-    [ zlib glib libpng freetype xorg.libSM xorg.libICE xorg.libXrender openssl
-      xorg.libXrandr xorg.libXfixes xorg.libXcursor xorg.libXinerama
-      xorg.libxcb fontconfig xorg.libXext xorg.libX11 alsaLib qtbase qtwebengine qtwebchannel qtsvg
-      qtwebsockets libpulseaudio quazip llvmPackages.libcxx llvmPackages.libcxxabi
+    [
+      zlib
+      glib
+      libpng
+      freetype
+      xorg.libSM
+      xorg.libICE
+      xorg.libXrender
+      openssl
+      xorg.libXrandr
+      xorg.libXfixes
+      xorg.libXcursor
+      xorg.libXinerama
+      xorg.libxcb
+      fontconfig
+      xorg.libXext
+      xorg.libX11
+      alsaLib
+      qtbase
+      qtwebengine
+      qtwebchannel
+      qtsvg
+      qtwebsockets
+      libpulseaudio
+      quazip
+      llvmPackages.libcxx
+      llvmPackages.libcxxabi
     ];
 
   desktopItem = makeDesktopItem {
@@ -37,9 +83,10 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://files.teamspeak-services.com/releases/client/${version}/TeamSpeak3-Client-linux_${arch}-${version}.run";
-    sha256 = if stdenv.is64bit
-                then "sha256:0hjai1bd4mq3g2dlyi0zkn8s4zlgxd38skw77mb78nc4di5gvgpg"
-                else "sha256:1y1c65nap91nv9xkvd96fagqbfl56p9n0rl6iac0i29bkysdmija";
+    sha256 =
+      if stdenv.is64bit
+      then "sha256:0hjai1bd4mq3g2dlyi0zkn8s4zlgxd38skw77mb78nc4di5gvgpg"
+      else "sha256:1y1c65nap91nv9xkvd96fagqbfl56p9n0rl6iac0i29bkysdmija";
   };
 
   # grab the plugin sdk for the desktop icon

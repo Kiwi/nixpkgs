@@ -14,7 +14,7 @@ rec {
 
   packageName = "cl-cffi-gtk";
 
-  asdFilesToKeep = ["cl-cffi-gtk.asd"];
+  asdFilesToKeep = [ "cl-cffi-gtk.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-cffi-gtk DESCRIPTION A Lisp binding to GTK 3 SHA256

@@ -1,4 +1,6 @@
-{ config, lib, stdenv
+{ config
+, lib
+, stdenv
 , mkDerivation
 , fetchFromGitHub
 , addOpenGLRunpath
@@ -38,7 +40,8 @@
 let
   inherit (lib) optional optionals;
 
-in mkDerivation rec {
+in
+mkDerivation rec {
   pname = "obs-studio";
   version = "26.1.2";
 
@@ -101,13 +104,13 @@ in mkDerivation rec {
   ];
 
   postInstall = ''
-      wrapProgram $out/bin/obs \
-        --prefix "LD_LIBRARY_PATH" : "${xorg.libX11.out}/lib:${libvlc}/lib"
+    wrapProgram $out/bin/obs \
+      --prefix "LD_LIBRARY_PATH" : "${xorg.libX11.out}/lib:${libvlc}/lib"
   '';
 
   postFixup = lib.optionalString stdenv.isLinux ''
-      addOpenGLRunpath $out/lib/lib*.so
-      addOpenGLRunpath $out/lib/obs-plugins/*.so
+    addOpenGLRunpath $out/lib/lib*.so
+    addOpenGLRunpath $out/lib/obs-plugins/*.so
   '';
 
   meta = with lib; {

@@ -1,6 +1,11 @@
-{ lib, stdenv, fetchurl, pkg-config
-, gtk2, alsaLib
-, fftw, gsl
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, gtk2
+, alsaLib
+, fftw
+, gsl
 }:
 
 stdenv.mkDerivation rec {
@@ -14,8 +19,10 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ pkg-config ];
 
   buildInputs = [
-    gtk2 alsaLib
-    fftw gsl
+    gtk2
+    alsaLib
+    fftw
+    gsl
   ];
 
   meta = {

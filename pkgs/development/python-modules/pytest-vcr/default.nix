@@ -19,7 +19,7 @@ buildPythonPackage rec {
   propagatedBuildInputs = [
     pytest
     vcrpy
-   ];
+  ];
 
   # Tests are using an obsolete attribute 'config'
   # https://github.com/ktosiek/pytest-vcr/issues/43

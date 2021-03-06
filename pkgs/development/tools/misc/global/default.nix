@@ -1,5 +1,14 @@
-{ fetchurl, lib, stdenv, libtool, makeWrapper
-, coreutils, ctags, ncurses, pythonPackages, sqlite, universal-ctags
+{ fetchurl
+, lib
+, stdenv
+, libtool
+, makeWrapper
+, coreutils
+, ctags
+, ncurses
+, pythonPackages
+, sqlite
+, universal-ctags
 }:
 
 stdenv.mkDerivation rec {

@@ -1,6 +1,11 @@
-{ buildPythonPackage, fetchPypi, lib, isPy3k
-, pkg-config, igraph
-, texttable }:
+{ buildPythonPackage
+, fetchPypi
+, lib
+, isPy3k
+, pkg-config
+, igraph
+, texttable
+}:
 
 buildPythonPackage rec {
   pname = "python-igraph";

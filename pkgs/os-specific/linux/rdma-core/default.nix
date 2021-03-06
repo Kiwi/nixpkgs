@@ -1,12 +1,24 @@
-{ lib, stdenv, fetchFromGitHub, cmake, pkg-config, docutils
-, pandoc, ethtool, iproute, libnl, udev, python, perl
+{ lib
+, stdenv
+, fetchFromGitHub
+, cmake
+, pkg-config
+, docutils
+, pandoc
+, ethtool
+, iproute
+, libnl
+, udev
+, python
+, perl
 , makeWrapper
-} :
+}:
 
 let
   version = "33.1";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "rdma-core";
   inherit version;
 

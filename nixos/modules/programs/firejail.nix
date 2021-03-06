@@ -6,31 +6,36 @@ let
   cfg = config.programs.firejail;
 
   wrappedBins = pkgs.runCommand "firejail-wrapped-binaries"
-    { preferLocalBuild = true;
+    {
+      preferLocalBuild = true;
       allowSubstitutes = false;
     }
     ''
-      mkdir -p $out/bin
-      ${lib.concatStringsSep "\n" (lib.mapAttrsToList (command: value:
-      let
-        opts = if builtins.isAttrs value
-        then value
-        else { executable = value; profile = null; extraArgs = []; };
-        args = lib.escapeShellArgs (
-          (optional (opts.profile != null) "--profile=${toString opts.profile}")
-          ++ opts.extraArgs
-          );
-      in
-      ''
-        cat <<_EOF >$out/bin/${command}
-        #! ${pkgs.runtimeShell} -e
-        exec /run/wrappers/bin/firejail ${args} -- ${toString opts.executable} "\$@"
-        _EOF
-        chmod 0755 $out/bin/${command}
-      '') cfg.wrappedBinaries)}
+            mkdir -p $out/bin
+            ${lib.concatStringsSep "\n" (lib.mapAttrsToList
+      (command: value:
+            let
+              opts =
+      if builtins.isAttrs value
+              then value
+              else { executable = value; profile = null; extraArgs = [ ]; };
+              args = lib.escapeShellArgs (
+                (optional (opts.profile != null) "--profile=${toString opts.profile}")
+                ++ opts.extraArgs
+                );
+            in
+            ''
+              cat <<_EOF >$out/bin/${command}
+              #! ${pkgs.runtimeShell} -e
+              exec /run/wrappers/bin/firejail ${args} -- ${toString opts.executable} "\$@"
+              _EOF
+              chmod 0755 $out/bin/${command}
+            '')
+      cfg.wrappedBinaries)}
     '';
 
-in {
+in
+{
   options.programs.firejail = {
     enable = mkEnableOption "firejail";
 
@@ -50,13 +55,13 @@ in {
           };
           extraArgs = mkOption {
             type = types.listOf types.str;
-            default = [];
+            default = [ ];
             description = "Extra arguments to pass to firejail";
             example = [ "--private=~/.firejail_home" ];
           };
         };
       }));
-      default = {};
+      default = { };
       example = literalExample ''
         {
           firefox = {

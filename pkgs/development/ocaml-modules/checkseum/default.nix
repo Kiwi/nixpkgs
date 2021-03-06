@@ -1,6 +1,11 @@
-{ lib, fetchurl, buildDunePackage, dune-configurator
-, bigarray-compat, optint
-, fmt, rresult
+{ lib
+, fetchurl
+, buildDunePackage
+, dune-configurator
+, bigarray-compat
+, optint
+, fmt
+, rresult
 , alcotest
 }:
 

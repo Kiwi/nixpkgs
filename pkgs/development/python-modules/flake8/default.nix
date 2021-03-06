@@ -1,6 +1,18 @@
-{ lib, buildPythonPackage, fetchPypi, pythonOlder
-, mock, pytest, pytestrunner
-, configparser, enum34, mccabe, pycodestyle, pyflakes, functools32, typing, importlib-metadata
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, mock
+, pytest
+, pytestrunner
+, configparser
+, enum34
+, mccabe
+, pycodestyle
+, pyflakes
+, functools32
+, typing
+, importlib-metadata
 }:
 
 buildPythonPackage rec {

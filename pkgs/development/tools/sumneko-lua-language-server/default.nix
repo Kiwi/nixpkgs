@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
 
   ninjaFlags = [
     "-f ninja/linux.ninja"
-    ];
+  ];
 
   postBuild = ''
     cd ../..

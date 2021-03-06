@@ -9,7 +9,8 @@
 , makeWrapper
 , cryptsetup
 , squashfsTools
-, buildGoPackage}:
+, buildGoPackage
+}:
 
 with lib;
 
@@ -57,8 +58,8 @@ buildGoPackage rec {
     chmod 755 $out/libexec/singularity/bin/starter-suid
 
     # Explicitly configure paths in the config file
-    sed -i 's|^# mksquashfs path =.*$|mksquashfs path = ${lib.makeBinPath [squashfsTools]}/mksquashfs|' $out/etc/singularity/singularity.conf
-    sed -i 's|^# cryptsetup path =.*$|cryptsetup path = ${lib.makeBinPath [cryptsetup]}/cryptsetup|' $out/etc/singularity/singularity.conf
+    sed -i 's|^# mksquashfs path =.*$|mksquashfs path = ${lib.makeBinPath [ squashfsTools ]}/mksquashfs|' $out/etc/singularity/singularity.conf
+    sed -i 's|^# cryptsetup path =.*$|cryptsetup path = ${lib.makeBinPath [ cryptsetup ]}/cryptsetup|' $out/etc/singularity/singularity.conf
 
     runHook postInstall
   '';

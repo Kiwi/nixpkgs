@@ -1,5 +1,24 @@
-{ lib, stdenv, fetchurl, meson, ninja, pkg-config, libxml2, glib, gtk3, gettext, libsoup
-, gtk-doc, docbook_xsl, docbook_xml_dtd_43, gobject-introspection, python3, tzdata, geocode-glib, vala, gnome3 }:
+{ lib
+, stdenv
+, fetchurl
+, meson
+, ninja
+, pkg-config
+, libxml2
+, glib
+, gtk3
+, gettext
+, libsoup
+, gtk-doc
+, docbook_xsl
+, docbook_xml_dtd_43
+, gobject-introspection
+, python3
+, tzdata
+, geocode-glib
+, vala
+, gnome3
+}:
 
 stdenv.mkDerivation rec {
   pname = "libgweather";

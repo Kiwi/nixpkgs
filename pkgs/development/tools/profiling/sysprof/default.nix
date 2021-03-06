@@ -8,7 +8,8 @@
 , itstool
 , libdazzle
 , libxml2
-, meson, ninja
+, meson
+, ninja
 , pango
 , pkg-config
 , polkit

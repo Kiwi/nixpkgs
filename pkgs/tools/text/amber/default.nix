@@ -1,4 +1,7 @@
-{ lib, stdenv, fetchFromGitHub, rustPlatform
+{ lib
+, stdenv
+, fetchFromGitHub
+, rustPlatform
 , Security
 }:
 

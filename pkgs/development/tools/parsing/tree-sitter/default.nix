@@ -1,7 +1,18 @@
-{ lib, stdenv
-, fetchgit, fetchFromGitHub, fetchurl
-, writeShellScript, runCommand, which, formats
-, rustPlatform, jq, nix-prefetch-git, xe, curl, emscripten
+{ lib
+, stdenv
+, fetchgit
+, fetchFromGitHub
+, fetchurl
+, writeShellScript
+, runCommand
+, which
+, formats
+, rustPlatform
+, jq
+, nix-prefetch-git
+, xe
+, curl
+, emscripten
 , Security
 , callPackage
 
@@ -32,23 +43,24 @@ let
     inherit writeShellScript nix-prefetch-git curl jq xe src formats lib;
   };
 
-  fetchGrammar = (v: fetchgit {inherit (v) url rev sha256 fetchSubmodules; });
+  fetchGrammar = (v: fetchgit { inherit (v) url rev sha256 fetchSubmodules; });
 
   grammars =
-    runCommand "grammars" {} (''
-       mkdir $out
-     '' + (lib.concatStrings (lib.mapAttrsToList
-            (name: grammar: "ln -s ${fetchGrammar grammar} $out/${name}\n")
-            (import ./grammars))));
+    runCommand "grammars" { } (''
+      mkdir $out
+    '' + (lib.concatStrings (lib.mapAttrsToList
+      (name: grammar: "ln -s ${fetchGrammar grammar} $out/${name}\n")
+      (import ./grammars))));
 
-  builtGrammars = let
-    change = name: grammar:
-      callPackage ./grammar.nix {} {
-        language = name;
-        inherit version;
-        source = fetchGrammar grammar;
-      };
-  in
+  builtGrammars =
+    let
+      change = name: grammar:
+        callPackage ./grammar.nix { } {
+          language = name;
+          inherit version;
+          source = fetchGrammar grammar;
+        };
+    in
     lib.mapAttrs change (removeAttrs (import ./grammars) [
       # TODO these don't have parser.c in the same place as others.
       # They might require more elaborate builds?
@@ -60,7 +72,8 @@ let
       "tree-sitter-razor"
     ]);
 
-in rustPlatform.buildRustPackage {
+in
+rustPlatform.buildRustPackage {
   pname = "tree-sitter";
   inherit src version cargoSha256;
 

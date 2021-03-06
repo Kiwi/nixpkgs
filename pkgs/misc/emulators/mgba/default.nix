@@ -1,6 +1,22 @@
-{ lib, stdenv, fetchFromGitHub, makeDesktopItem, wrapQtAppsHook, pkg-config
-, cmake, epoxy, libzip, libelf, libedit, ffmpeg_3, SDL2, imagemagick
-, qtbase, qtmultimedia, qttools, minizip }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, makeDesktopItem
+, wrapQtAppsHook
+, pkg-config
+, cmake
+, epoxy
+, libzip
+, libelf
+, libedit
+, ffmpeg_3
+, SDL2
+, imagemagick
+, qtbase
+, qtmultimedia
+, qttools
+, minizip
+}:
 
 let
   desktopItem = makeDesktopItem {
@@ -13,7 +29,8 @@ let
     categories = "Game;Emulator;";
     startupNotify = "false";
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "mgba";
   version = "0.8.4";
 
@@ -27,8 +44,17 @@ in stdenv.mkDerivation rec {
   nativeBuildInputs = [ wrapQtAppsHook pkg-config cmake ];
 
   buildInputs = [
-    epoxy libzip libelf libedit ffmpeg_3 SDL2 imagemagick
-    qtbase qtmultimedia qttools minizip
+    epoxy
+    libzip
+    libelf
+    libedit
+    ffmpeg_3
+    SDL2
+    imagemagick
+    qtbase
+    qtmultimedia
+    qttools
+    minizip
   ];
 
   postInstall = ''

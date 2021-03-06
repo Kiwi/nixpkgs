@@ -8,7 +8,7 @@ let
 in
 {
   imports = [
-    (mkRenamedOptionModule [ "services" "kubernetes" "proxy" "address" ] ["services" "kubernetes" "proxy" "bindAddress"])
+    (mkRenamedOptionModule [ "services" "kubernetes" "proxy" "address" ] [ "services" "kubernetes" "proxy" "bindAddress" ])
   ];
 
   ###### interface
@@ -64,9 +64,9 @@ in
         Slice = "kubernetes.slice";
         ExecStart = ''${top.package}/bin/kube-proxy \
           --bind-address=${cfg.bindAddress} \
-          ${optionalString (top.clusterCidr!=null)
+          ${optionalString (top.clusterCidr != null)
             "--cluster-cidr=${top.clusterCidr}"} \
-          ${optionalString (cfg.featureGates != [])
+          ${optionalString (cfg.featureGates != [ ])
             "--feature-gates=${concatMapStringsSep "," (feature: "${feature}=true") cfg.featureGates}"} \
           --hostname-override=${cfg.hostname} \
           --kubeconfig=${top.lib.mkKubeConfig "kube-proxy" cfg.kubeconfig} \

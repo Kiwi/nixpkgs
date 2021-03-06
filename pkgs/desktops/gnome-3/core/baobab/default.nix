@@ -1,11 +1,26 @@
-{ lib, stdenv, gettext, fetchurl, vala, desktop-file-utils
-, meson, ninja, pkg-config, python3, gtk3, glib, libxml2
-, wrapGAppsHook, itstool, gnome3 }:
+{ lib
+, stdenv
+, gettext
+, fetchurl
+, vala
+, desktop-file-utils
+, meson
+, ninja
+, pkg-config
+, python3
+, gtk3
+, glib
+, libxml2
+, wrapGAppsHook
+, itstool
+, gnome3
+}:
 
 let
   pname = "baobab";
   version = "3.38.0";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "${pname}-${version}";
 
   src = fetchurl {

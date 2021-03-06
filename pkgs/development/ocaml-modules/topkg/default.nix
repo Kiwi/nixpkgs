@@ -9,20 +9,20 @@ build system is required, the attribute `run` can be used.
 
 let
   param =
-  if lib.versionAtLeast ocaml.version "4.03" then {
-    version = "1.0.3";
-    sha256 = "0b77gsz9bqby8v77kfi4lans47x9p2lmzanzwins5r29maphb8y6";
-  } else {
-    version = "1.0.0";
-    sha256 = "1df61vw6v5bg2mys045682ggv058yqkqb67w7r2gz85crs04d5fw";
-    propagatedBuildInputs = [ result ];
-  };
+    if lib.versionAtLeast ocaml.version "4.03" then {
+      version = "1.0.3";
+      sha256 = "0b77gsz9bqby8v77kfi4lans47x9p2lmzanzwins5r29maphb8y6";
+    } else {
+      version = "1.0.0";
+      sha256 = "1df61vw6v5bg2mys045682ggv058yqkqb67w7r2gz85crs04d5fw";
+      propagatedBuildInputs = [ result ];
+    };
 
-/* This command allows to run the “topkg” build system.
- * It is usually called with `build` or `test` as argument.
- * Packages that use `topkg` may call this command as part of
- *  their `buildPhase` or `checkPhase`.
-*/
+  /* This command allows to run the “topkg” build system.
+   * It is usually called with `build` or `test` as argument.
+   * Packages that use `topkg` may call this command as part of
+   *  their `buildPhase` or `checkPhase`.
+  */
   run = "ocaml -I ${findlib}/lib/ocaml/${ocaml.version}/site-lib/ pkg/pkg.ml";
 in
 
@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ ocaml findlib ocamlbuild ];
-  propagatedBuildInputs = param.propagatedBuildInputs or [];
+  propagatedBuildInputs = param.propagatedBuildInputs or [ ];
 
   buildPhase = "${run} build";
   createFindlibDestdir = true;

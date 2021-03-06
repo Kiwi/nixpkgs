@@ -1,6 +1,23 @@
-{ stdenv, lib, fetchFromGitHub, writeText, openjdk11_headless, gradleGen
-, pkg-config, perl, cmake, gperf, gtk2, gtk3, libXtst, libXxf86vm, glib, alsaLib
-, ffmpeg, python3, ruby }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, writeText
+, openjdk11_headless
+, gradleGen
+, pkg-config
+, perl
+, cmake
+, gperf
+, gtk2
+, gtk3
+, libXtst
+, libXxf86vm
+, glib
+, alsaLib
+, ffmpeg
+, python3
+, ruby
+}:
 
 let
   major = "15";
@@ -69,7 +86,8 @@ let
     }.${stdenv.system} or (throw "Unsupported platform");
   };
 
-in makePackage {
+in
+makePackage {
   pname = "openjfx-modular-sdk";
 
   gradleProperties = ''
@@ -96,7 +114,7 @@ in makePackage {
   postFixup = ''
     # Remove references to bootstrap.
     find "$out" -name \*.so | while read lib; do
-      new_refs="$(patchelf --print-rpath "$lib" | sed -E 's,:?${lib.escape ["+"] openjdk11_headless.outPath}[^:]*,,')"
+      new_refs="$(patchelf --print-rpath "$lib" | sed -E 's,:?${lib.escape [ "+" ] openjdk11_headless.outPath}[^:]*,,')"
       patchelf --set-rpath "$new_refs" "$lib"
     done
   '';

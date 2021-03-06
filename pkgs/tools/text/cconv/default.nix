@@ -1,6 +1,6 @@
 { lib, stdenv, fetchurl, autoreconfHook }:
 let version = "0.6.3"; in
-  stdenv.mkDerivation {
+stdenv.mkDerivation {
   pname = "cconv";
   inherit version;
 

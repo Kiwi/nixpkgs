@@ -2,7 +2,8 @@
 
 let
   version = "3.2.0";
-in fetchzip {
+in
+fetchzip {
   name = "emacs-all-the-icons-fonts-${version}";
 
   url = "https://github.com/domtronn/all-the-icons.el/archive/${version}.zip";

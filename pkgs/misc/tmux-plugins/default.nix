@@ -13,21 +13,21 @@ let
       overrideAttrs = f: mkDerivation (attrs // f attrs);
     };
 
-  mkDerivation = a@{
-    pluginName,
-    rtpFilePath ? (builtins.replaceStrings ["-"] ["_"] pluginName) + ".tmux",
-    namePrefix ? "tmuxplugin-",
-    src,
-    unpackPhase ? "",
-    configurePhase ? ":",
-    buildPhase ? ":",
-    addonInfo ? null,
-    preInstall ? "",
-    postInstall ? "",
-    path ? lib.getName pluginName,
-    dependencies ? [],
-    ...
-  }:
+  mkDerivation =
+    a@{ pluginName
+    , rtpFilePath ? (builtins.replaceStrings [ "-" ] [ "_" ] pluginName) + ".tmux"
+    , namePrefix ? "tmuxplugin-"
+    , src
+    , unpackPhase ? ""
+    , configurePhase ? ":"
+    , buildPhase ? ":"
+    , addonInfo ? null
+    , preInstall ? ""
+    , postInstall ? ""
+    , path ? lib.getName pluginName
+    , dependencies ? [ ]
+    , ...
+    }:
     addRtp "${rtpPath}/${path}" rtpFilePath a (stdenv.mkDerivation (a // {
       pname = namePrefix + pluginName;
 
@@ -49,7 +49,8 @@ let
       dependencies = [ pkgs.bash ] ++ dependencies;
     }));
 
-in rec {
+in
+rec {
 
   inherit mkDerivation;
 
@@ -78,16 +79,16 @@ in rec {
       homepage = "https://github.com/tmux-plugins/tmux-continuum";
       description = "continous saving of tmux environment";
       longDescription =
-      ''
-        Features:
-        * continuous saving of tmux environment
-        * automatic tmux start when computer/server is turned on
-        * automatic restore when tmux is started
+        ''
+          Features:
+          * continuous saving of tmux environment
+          * automatic tmux start when computer/server is turned on
+          * automatic restore when tmux is started
 
-        Together, these features enable uninterrupted tmux usage. No matter the
-        computer or server restarts, if the machine is on, tmux will be there how
-        you left it off the last time it was used.
-      '';
+          Together, these features enable uninterrupted tmux usage. No matter the
+          computer or server restarts, if the machine is on, tmux will be there how
+          you left it off the last time it was used.
+        '';
       license = lib.licenses.mit;
       platforms = lib.platforms.unix;
       maintainers = with lib.maintainers; [ ronanmacf ];
@@ -378,7 +379,7 @@ in rec {
           Optional:
           * restoring vim and neovim sessions
           * restoring pane contents
-      '';
+        '';
       license = lib.licenses.mit;
       platforms = lib.platforms.unix;
       maintainers = with lib.maintainers; [ ronanmacf ];
@@ -477,21 +478,21 @@ in rec {
       find $target -type f -print0 | xargs -0 sed -i -e 's|sed |${pkgs.gnused}/bin/sed |g'
       find $target -type f -print0 | xargs -0 sed -i -e 's|tput |${pkgs.ncurses}/bin/tput |g'
     '';
-     meta = {
+    meta = {
       homepage = "https://github.com/sainnhe/tmux-fzf";
       description = "Use fzf to manage your tmux work environment! ";
       longDescription =
         ''
-        Features:
-        * Manage sessions (attach, detach*, rename, kill*).
-        * Manage windows (switch, link, move, swap, rename, kill*).
-        * Manage panes (switch, break, join*, swap, layout, kill*, resize).
-        * Multiple selection (support for actions marked by *).
-        * Search commands and append to command prompt.
-        * Search key bindings and execute.
-        * User menu.
-        * Popup window support.
-      '';
+          Features:
+          * Manage sessions (attach, detach*, rename, kill*).
+          * Manage windows (switch, link, move, swap, rename, kill*).
+          * Manage panes (switch, break, join*, swap, layout, kill*, resize).
+          * Multiple selection (support for actions marked by *).
+          * Search commands and append to command prompt.
+          * Search key bindings and execute.
+          * User menu.
+          * Popup window support.
+        '';
       license = lib.licenses.mit;
       platforms = lib.platforms.unix;
       maintainers = with lib.maintainers; [ kyleondy ];

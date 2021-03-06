@@ -1,7 +1,21 @@
-{ fetchurl, lib, stdenv, guile, guile-lib, gwrap
-, pkg-config, gconf, glib, gnome_vfs, gtk2
-, libglade, libgnome, libgnomecanvas, libgnomeui
-, pango, guile-cairo, texinfo
+{ fetchurl
+, lib
+, stdenv
+, guile
+, guile-lib
+, gwrap
+, pkg-config
+, gconf
+, glib
+, gnome_vfs
+, gtk2
+, libglade
+, libgnome
+, libgnomecanvas
+, libgnomeui
+, pango
+, guile-cairo
+, texinfo
 }:
 
 stdenv.mkDerivation rec {
@@ -14,8 +28,20 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
-    texinfo guile gwrap pkg-config gconf glib gnome_vfs gtk2
-    libglade libgnome libgnomecanvas libgnomeui pango guile-cairo
+    texinfo
+    guile
+    gwrap
+    pkg-config
+    gconf
+    glib
+    gnome_vfs
+    gtk2
+    libglade
+    libgnome
+    libgnomecanvas
+    libgnomeui
+    pango
+    guile-cairo
   ] ++ lib.optional doCheck guile-lib;
 
   # The test suite tries to open an X display, which fails.

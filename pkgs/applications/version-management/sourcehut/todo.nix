@@ -1,6 +1,13 @@
-{ lib, fetchgit, buildPythonPackage
-, srht, redis, alembic, pystache
-, pytest, factory_boy }:
+{ lib
+, fetchgit
+, buildPythonPackage
+, srht
+, redis
+, alembic
+, pystache
+, pytest
+, factory_boy
+}:
 
 buildPythonPackage rec {
   pname = "todosrht";

@@ -1,9 +1,17 @@
 { lib
 , sway-unwrapped
-, makeWrapper, symlinkJoin, writeShellScriptBin
-, withBaseWrapper ? true, extraSessionCommands ? "", dbus
-, withGtkWrapper ? false, wrapGAppsHook, gdk-pixbuf, glib, gtk3
-, extraOptions ? [] # E.g.: [ "--verbose" ]
+, makeWrapper
+, symlinkJoin
+, writeShellScriptBin
+, withBaseWrapper ? true
+, extraSessionCommands ? ""
+, dbus
+, withGtkWrapper ? false
+, wrapGAppsHook
+, gdk-pixbuf
+, glib
+, gtk3
+, extraOptions ? [ ] # E.g.: [ "--verbose" ]
 }:
 
 assert extraSessionCommands != "" -> withBaseWrapper;
@@ -12,19 +20,20 @@ with lib;
 
 let
   baseWrapper = writeShellScriptBin "sway" ''
-     set -o errexit
-     if [ ! "$_SWAY_WRAPPER_ALREADY_EXECUTED" ]; then
-       ${extraSessionCommands}
-       export _SWAY_WRAPPER_ALREADY_EXECUTED=1
-     fi
-     if [ "$DBUS_SESSION_BUS_ADDRESS" ]; then
-       export DBUS_SESSION_BUS_ADDRESS
-       exec ${sway-unwrapped}/bin/sway "$@"
-     else
-       exec ${dbus}/bin/dbus-run-session ${sway-unwrapped}/bin/sway "$@"
-     fi
-   '';
-in symlinkJoin {
+    set -o errexit
+    if [ ! "$_SWAY_WRAPPER_ALREADY_EXECUTED" ]; then
+      ${extraSessionCommands}
+      export _SWAY_WRAPPER_ALREADY_EXECUTED=1
+    fi
+    if [ "$DBUS_SESSION_BUS_ADDRESS" ]; then
+      export DBUS_SESSION_BUS_ADDRESS
+      exec ${sway-unwrapped}/bin/sway "$@"
+    else
+      exec ${dbus}/bin/dbus-run-session ${sway-unwrapped}/bin/sway "$@"
+    fi
+  '';
+in
+symlinkJoin {
   name = "sway-${sway-unwrapped.version}";
 
   paths = (optional withBaseWrapper baseWrapper)
@@ -43,7 +52,7 @@ in symlinkJoin {
 
     wrapProgram $out/bin/sway \
       ${optionalString withGtkWrapper ''"''${gappsWrapperArgs[@]}"''} \
-      ${optionalString (extraOptions != []) "${concatMapStrings (x: " --add-flags " + x) extraOptions}"}
+      ${optionalString (extraOptions != [ ]) "${concatMapStrings (x: " --add-flags " + x) extraOptions}"}
   '';
 
   passthru.providedSessions = [ "sway" ];

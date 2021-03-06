@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake ];
 
-  buildInputs = [ aws-c-cal aws-c-common s2n-tls] ++ lib.optionals stdenv.isDarwin [ Security ];
+  buildInputs = [ aws-c-cal aws-c-common s2n-tls ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
   cmakeFlags = [
     "-DBUILD_SHARED_LIBS=ON"

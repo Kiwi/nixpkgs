@@ -50,9 +50,27 @@
 #AMR-WB float support      no
 #AMR-WB IF2 support        no
 
-{ lib, stdenv, fetchurl, gtk2, libglade, libxml2, libraw1394, libsamplerate, libdv
-, pkg-config, perlPackages, libavc1394, libiec61883, libXv, gettext
-, libX11, glib, cairo, intltool, ffmpeg, libv4l
+{ lib
+, stdenv
+, fetchurl
+, gtk2
+, libglade
+, libxml2
+, libraw1394
+, libsamplerate
+, libdv
+, pkg-config
+, perlPackages
+, libavc1394
+, libiec61883
+, libXv
+, gettext
+, libX11
+, glib
+, cairo
+, intltool
+, ffmpeg
+, libv4l
 }:
 
 stdenv.mkDerivation {
@@ -63,9 +81,26 @@ stdenv.mkDerivation {
     sha256 = "020s05k0ma83rq2kfs8x474pqicaqp9spar81qc816ddfrnh8k8i";
   };
 
-  buildInputs = [ gtk2 libglade libxml2 libraw1394 libsamplerate libdv
-      pkg-config libavc1394 libiec61883 intltool libXv gettext libX11 glib cairo ffmpeg libv4l ] # TODOoptional packages
-    ++ (with perlPackages; [ perl XMLParser ]);
+  buildInputs = [
+    gtk2
+    libglade
+    libxml2
+    libraw1394
+    libsamplerate
+    libdv
+    pkg-config
+    libavc1394
+    libiec61883
+    intltool
+    libXv
+    gettext
+    libX11
+    glib
+    cairo
+    ffmpeg
+    libv4l
+  ] # TODOoptional packages
+  ++ (with perlPackages; [ perl XMLParser ]);
 
   configureFlags = [ "--enable-local-ffmpeg=no" ];
 
@@ -87,9 +122,9 @@ stdenv.mkDerivation {
   ";
 
   meta = {
-      description = "Non-linear DV editor for GNU/Linux";
-      homepage = "http://www.kinodv.org/";
-      license = lib.licenses.gpl2;
+    description = "Non-linear DV editor for GNU/Linux";
+    homepage = "http://www.kinodv.org/";
+    license = lib.licenses.gpl2;
     platforms = lib.platforms.linux;
   };
 }

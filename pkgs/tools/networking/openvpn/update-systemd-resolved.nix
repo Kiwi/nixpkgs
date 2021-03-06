@@ -1,6 +1,12 @@
-{ lib, stdenv, fetchFromGitHub
+{ lib
+, stdenv
+, fetchFromGitHub
 , makeWrapper
-, iproute, systemd, coreutils, util-linux }:
+, iproute
+, systemd
+, coreutils
+, util-linux
+}:
 
 stdenv.mkDerivation rec {
   pname = "update-systemd-resolved";

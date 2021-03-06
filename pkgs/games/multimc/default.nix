@@ -3,7 +3,8 @@
 let
   jdk = jdk8;
   libpath = with xorg; lib.makeLibraryPath [ libX11 libXext libXcursor libXrandr libXxf86vm libpulseaudio libGL ];
-in mkDerivation rec {
+in
+mkDerivation rec {
   pname = "multimc";
   version = "unstable-2021-01-17";
   src = fetchFromGitHub {

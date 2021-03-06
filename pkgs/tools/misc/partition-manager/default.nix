@@ -1,12 +1,24 @@
-{ mkDerivation, fetchurl, lib
-, extra-cmake-modules, kdoctools, wrapGAppsHook, wrapQtAppsHook
-, kconfig, kcrash, kinit, kpmcore
-, eject, libatasmart , util-linux, qtbase
+{ mkDerivation
+, fetchurl
+, lib
+, extra-cmake-modules
+, kdoctools
+, wrapGAppsHook
+, wrapQtAppsHook
+, kconfig
+, kcrash
+, kinit
+, kpmcore
+, eject
+, libatasmart
+, util-linux
+, qtbase
 }:
 
 let
   pname = "partitionmanager";
-in mkDerivation rec {
+in
+mkDerivation rec {
   name = "${pname}-${version}";
   version = "3.3.1";
 

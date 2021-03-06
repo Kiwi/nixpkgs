@@ -1,5 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, ncurses, readline
-, conf ? null, withIcons ? false, withNerdIcons ? false }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, pkg-config
+, ncurses
+, readline
+, conf ? null
+, withIcons ? false
+, withNerdIcons ? false
+}:
 
 # Mutually exclusive options
 assert withIcons -> withNerdIcons == false;
@@ -26,7 +34,7 @@ stdenv.mkDerivation rec {
     "DESTDIR=${placeholder "out"}"
     "PREFIX="
   ] ++ lib.optional withIcons [ "O_ICONS=1" ]
-    ++ lib.optional withNerdIcons [ "O_NERD=1" ];
+  ++ lib.optional withNerdIcons [ "O_NERD=1" ];
 
   # shell completions
   postInstall = ''

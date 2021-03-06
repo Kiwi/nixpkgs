@@ -1,5 +1,17 @@
-{ lib, buildPythonPackage, fetchFromGitHub, python, cmake
-, pyqt5, numpy, scipy, shapely, libarcus, doxygen, gettext, pythonOlder }:
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, python
+, cmake
+, pyqt5
+, numpy
+, scipy
+, shapely
+, libarcus
+, doxygen
+, gettext
+, pythonOlder
+}:
 
 buildPythonPackage rec {
   version = "4.7.1";

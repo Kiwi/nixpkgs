@@ -1,6 +1,15 @@
-{ stdenv, fetchFromGitHub
-, withMySQL ? true, withPSQL ? false, withSQLite ? false
-, mysql, postgresql, sqlite, gawk, gnugrep, findutils, gnused
+{ stdenv
+, fetchFromGitHub
+, withMySQL ? true
+, withPSQL ? false
+, withSQLite ? false
+, mysql
+, postgresql
+, sqlite
+, gawk
+, gnugrep
+, findutils
+, gnused
 , lib
 }:
 

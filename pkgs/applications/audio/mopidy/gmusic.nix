@@ -24,6 +24,6 @@ python3Packages.buildPythonApplication rec {
     description = "Mopidy extension for playing music from Google Play Music";
     license = licenses.asl20;
     maintainers = [ maintainers.jgillich ];
-    hydraPlatforms = [];
+    hydraPlatforms = [ ];
   };
 }

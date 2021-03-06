@@ -1,5 +1,14 @@
-{ fetchurl, lib, stdenv, gtk, pkg-config, libofx, intltool, wrapGAppsHook
-, libsoup, gnome3 }:
+{ fetchurl
+, lib
+, stdenv
+, gtk
+, pkg-config
+, libofx
+, intltool
+, wrapGAppsHook
+, libsoup
+, gnome3
+}:
 
 stdenv.mkDerivation rec {
   name = "homebank-5.5";
@@ -9,8 +18,13 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ pkg-config wrapGAppsHook ];
-  buildInputs = [ gtk libofx intltool libsoup
-    gnome3.adwaita-icon-theme ];
+  buildInputs = [
+    gtk
+    libofx
+    intltool
+    libsoup
+    gnome3.adwaita-icon-theme
+  ];
 
   meta = with lib; {
     description = "Free, easy, personal accounting for everyone";

@@ -1,7 +1,8 @@
 { lib, fetchFromGitHub, crystal_0_33, openssl }:
 
 let crystal = crystal_0_33;
-in crystal.buildCrystalPackage rec {
+in
+crystal.buildCrystalPackage rec {
   version = "0.9.0";
   pname = "mint";
 

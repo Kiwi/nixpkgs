@@ -1,5 +1,15 @@
-{ stdenv, lib, fetchFromGitHub, makeWrapper
-, apk-tools, coreutils, e2fsprogs, findutils, gnugrep, gnused, kmod, qemu-utils
+{ stdenv
+, lib
+, fetchFromGitHub
+, makeWrapper
+, apk-tools
+, coreutils
+, e2fsprogs
+, findutils
+, gnugrep
+, gnused
+, kmod
+, qemu-utils
 , util-linux
 }:
 
@@ -20,10 +30,17 @@ stdenv.mkDerivation rec {
   makeFlags = [ "PREFIX=$(out)" ];
 
   postInstall = ''
-    wrapProgram $out/bin/alpine-make-vm-image --set PATH ${lib.makeBinPath [
-      apk-tools coreutils e2fsprogs findutils gnugrep gnused kmod qemu-utils
-      util-linux
-    ]}
+        wrapProgram $out/bin/alpine-make-vm-image --set PATH ${lib.makeBinPath [
+          apk-tools
+    coreutils
+    e2fsprogs
+    findutils
+    gnugrep
+    gnused
+    kmod
+    qemu-utils
+          util-linux
+        ]}
   '';
 
   meta = with lib; {

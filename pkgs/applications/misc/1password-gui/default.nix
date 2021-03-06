@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetchurl
 , appimageTools
 , makeWrapper
@@ -26,30 +27,32 @@ stdenv.mkDerivation rec {
   dontConfigure = true;
   dontBuild = true;
 
-  installPhase = let
-    runtimeLibs = [
-      openssl.out
-      stdenv.cc.cc
-    ];
-  in ''
-    mkdir -p $out/bin $out/share/1password
+  installPhase =
+    let
+      runtimeLibs = [
+        openssl.out
+        stdenv.cc.cc
+      ];
+    in
+    ''
+      mkdir -p $out/bin $out/share/1password
 
-    # Applications files.
-    cp -a ${appimageContents}/{locales,resources} $out/share/${pname}
+      # Applications files.
+      cp -a ${appimageContents}/{locales,resources} $out/share/${pname}
 
-    # Desktop file.
-    install -Dt $out/share/applications ${appimageContents}/${pname}.desktop
-    substituteInPlace $out/share/applications/${pname}.desktop \
-      --replace 'Exec=AppRun' 'Exec=${pname}'
+      # Desktop file.
+      install -Dt $out/share/applications ${appimageContents}/${pname}.desktop
+      substituteInPlace $out/share/applications/${pname}.desktop \
+        --replace 'Exec=AppRun' 'Exec=${pname}'
 
-    # Icons.
-    cp -a ${appimageContents}/usr/share/icons $out/share
+      # Icons.
+      cp -a ${appimageContents}/usr/share/icons $out/share
 
-    # Wrap the application with Electron.
-    makeWrapper "${electron_11}/bin/electron" "$out/bin/${pname}" \
-      --add-flags "$out/share/${pname}/resources/app.asar" \
-      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath runtimeLibs}"
-  '';
+      # Wrap the application with Electron.
+      makeWrapper "${electron_11}/bin/electron" "$out/bin/${pname}" \
+        --add-flags "$out/share/${pname}/resources/app.asar" \
+        --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath runtimeLibs}"
+    '';
 
   passthru.updateScript = ./update.sh;
 

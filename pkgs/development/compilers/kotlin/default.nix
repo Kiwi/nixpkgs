@@ -2,7 +2,8 @@
 
 let
   version = "1.4.21";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit version;
   pname = "kotlin";
 
@@ -11,8 +12,8 @@ in stdenv.mkDerivation {
     sha256 = "1ixnwrvgs14f9160d9d69r7w2dfp5cdwiwpk1ky0ps8nly8hjwj6";
   };
 
-  propagatedBuildInputs = [ jre ] ;
-  buildInputs = [ unzip ] ;
+  propagatedBuildInputs = [ jre ];
+  buildInputs = [ unzip ];
   nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''

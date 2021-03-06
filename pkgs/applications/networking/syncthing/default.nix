@@ -7,9 +7,9 @@ let
       name = "${stname}-${version}";
 
       src = fetchFromGitHub {
-        owner  = "syncthing";
-        repo   = "syncthing";
-        rev    = "v${version}";
+        owner = "syncthing";
+        repo = "syncthing";
+        rev = "v${version}";
         sha256 = "1jvmcpyj4k43s4hv753pr9a1qg930nac90d5c8haqv30v1rw5pws";
       };
 
@@ -20,8 +20,8 @@ let
       patches = [
         ./add-stcli-target.patch
       ];
-      BUILD_USER="nix";
-      BUILD_HOST="nix";
+      BUILD_USER = "nix";
+      BUILD_HOST = "nix";
 
       buildPhase = ''
         runHook preBuild
@@ -52,7 +52,8 @@ let
       };
     };
 
-in {
+in
+{
   syncthing = common {
     stname = "syncthing";
     target = "syncthing";

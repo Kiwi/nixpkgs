@@ -1,6 +1,11 @@
-{lib, stdenv, fetchurl, tk, tcllib, makeWrapper
+{ lib
+, stdenv
+, fetchurl
+, tk
+, tcllib
+, makeWrapper
 , tkremind ? true
-} :
+}:
 
 assert tkremind -> tk != null;
 assert tkremind -> tcllib != null;
@@ -14,7 +19,8 @@ let
   tkremindPatch = optionalString tkremind ''
     substituteInPlace scripts/tkremind --replace "exec wish" "exec ${tk}/bin/wish"
   '';
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "remind";
   version = "03.03.01";
 
@@ -43,7 +49,7 @@ in stdenv.mkDerivation rec {
     homepage = "https://dianne.skoll.ca/projects/remind/";
     description = "Sophisticated calendar and alarm program for the console";
     license = lib.licenses.gpl2;
-    maintainers = with lib.maintainers; [raskin kovirobi];
+    maintainers = with lib.maintainers; [ raskin kovirobi ];
     platforms = with lib.platforms; unix;
   };
 }

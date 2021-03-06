@@ -16,7 +16,7 @@ rec {
 
   packageName = "cl-containers";
 
-  asdFilesToKeep = ["cl-containers.asd"];
+  asdFilesToKeep = [ "cl-containers.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-containers DESCRIPTION

@@ -1,6 +1,14 @@
-{ lib, stdenv, fetchurl, pkg-config, python3, bluez
-, alsaSupport ? stdenv.isLinux, alsaLib ? null
-, systemdSupport ? stdenv.isLinux, systemd ? null }:
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, python3
+, bluez
+, alsaSupport ? stdenv.isLinux
+, alsaLib ? null
+, systemdSupport ? stdenv.isLinux
+, systemd ? null
+}:
 
 assert alsaSupport -> alsaLib != null;
 assert systemdSupport -> systemd != null;

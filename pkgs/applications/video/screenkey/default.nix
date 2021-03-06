@@ -1,10 +1,10 @@
 { lib
 , fetchFromGitLab
-# native
+  # native
 , intltool
 , wrapGAppsHook
 , file
-# not native
+  # not native
 , xorg
 , gobject-introspection
 , gtk3

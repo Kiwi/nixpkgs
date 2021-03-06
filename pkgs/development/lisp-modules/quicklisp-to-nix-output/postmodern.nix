@@ -16,7 +16,7 @@ rec {
 
   packageName = "postmodern";
 
-  asdFilesToKeep = ["postmodern.asd"];
+  asdFilesToKeep = [ "postmodern.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM postmodern DESCRIPTION PostgreSQL programming API SHA256

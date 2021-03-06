@@ -1,5 +1,14 @@
-{ lib, buildDunePackage, cohttp-lwt, irmin, webmachine
-, checkseum, git-unix, irmin-git, irmin-test, digestif, git-cohttp-unix
+{ lib
+, buildDunePackage
+, cohttp-lwt
+, irmin
+, webmachine
+, checkseum
+, git-unix
+, irmin-git
+, irmin-test
+, digestif
+, git-cohttp-unix
 }:
 
 buildDunePackage rec {

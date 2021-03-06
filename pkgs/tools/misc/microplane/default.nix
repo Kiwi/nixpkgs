@@ -13,7 +13,7 @@ buildGoPackage rec {
 
   goPackagePath = "github.com/Clever/microplane";
 
-  subPackages = ["."];
+  subPackages = [ "." ];
 
   # Regenerate deps.nix with the following steps:
   # git clone git@github.com:Clever/microplane.git

@@ -80,7 +80,7 @@ self: super: {
   hnix = generateOptparseApplicativeCompletion "hnix"
     (overrideCabal super.hnix (drv: {
       # executable is allowed for ghc >= 8.10 and needs repline
-      executableHaskellDepends = drv.executableToolDepends or [] ++ [ self.repline ];
+      executableHaskellDepends = drv.executableToolDepends or [ ] ++ [ self.repline ];
     }));
 
   # Break out of "Cabal < 3.2" constraint.

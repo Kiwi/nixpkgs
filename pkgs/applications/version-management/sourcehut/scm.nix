@@ -1,6 +1,12 @@
-{ lib, fetchgit, buildPythonPackage
-, srht, redis, pyyaml, buildsrht
-, writeText }:
+{ lib
+, fetchgit
+, buildPythonPackage
+, srht
+, redis
+, pyyaml
+, buildsrht
+, writeText
+}:
 
 buildPythonPackage rec {
   pname = "scmsrht";

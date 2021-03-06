@@ -1,11 +1,20 @@
-{ lib, stdenv, fetchFromGitHub
-, doxygen, fontconfig, graphviz-nox, libxml2, pkg-config, which
-, systemd }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, doxygen
+, fontconfig
+, graphviz-nox
+, libxml2
+, pkg-config
+, which
+, systemd
+}:
 
 let
   version = "2019-12-08";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "openzwave";
   inherit version;
 
@@ -34,8 +43,8 @@ in stdenv.mkDerivation {
     runHook postInstall
   '';
 
-  FONTCONFIG_FILE="${fontconfig.out}/etc/fonts/fonts.conf";
-  FONTCONFIG_PATH="${fontconfig.out}/etc/fonts/";
+  FONTCONFIG_FILE = "${fontconfig.out}/etc/fonts/fonts.conf";
+  FONTCONFIG_PATH = "${fontconfig.out}/etc/fonts/";
 
   postPatch = ''
     substituteInPlace cpp/src/Options.cpp \

@@ -14,7 +14,7 @@ stdenv.mkDerivation ({
   '';
 
   buildInputs = [ zlib ncurses bzip2 file gd libpng libjpeg ] ++
-  (with ocamlPackages; [ ocaml camlp4 ]);
+    (with ocamlPackages; [ ocaml camlp4 ]);
   configureFlags = [ "--disable-gui" ];
 
   meta = {
@@ -24,14 +24,14 @@ stdenv.mkDerivation ({
     platforms = lib.platforms.unix;
   };
 } // (if !ocamlPackages.ocaml.nativeCompilers then
-{
-  # Byte code compilation (the ocaml opt compiler is not supported in some platforms)
-  buildPhase = "make mlnet.byte";
-  installPhase = ''
-    mkdir -p $out/bin
-    cp mlnet.byte $out/bin/mlnet
-  '';
+  {
+    # Byte code compilation (the ocaml opt compiler is not supported in some platforms)
+    buildPhase = "make mlnet.byte";
+    installPhase = ''
+      mkdir -p $out/bin
+      cp mlnet.byte $out/bin/mlnet
+    '';
 
-  # ocaml bytecode selfcontained binaries loose the bytecode if stripped
-  dontStrip = true;
-} else {}))
+    # ocaml bytecode selfcontained binaries loose the bytecode if stripped
+    dontStrip = true;
+  } else { }))

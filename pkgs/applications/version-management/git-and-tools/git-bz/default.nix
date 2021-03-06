@@ -1,6 +1,14 @@
-{ lib, stdenv, fetchgit
-, asciidoc, docbook_xml_dtd_45, docbook_xsl, libxslt, makeWrapper, xmlto
-, pythonPackages }:
+{ lib
+, stdenv
+, fetchgit
+, asciidoc
+, docbook_xml_dtd_45
+, docbook_xsl
+, libxslt
+, makeWrapper
+, xmlto
+, pythonPackages
+}:
 
 stdenv.mkDerivation {
   pname = "git-bz";
@@ -13,9 +21,14 @@ stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [
-    asciidoc docbook_xml_dtd_45 docbook_xsl libxslt makeWrapper xmlto
+    asciidoc
+    docbook_xml_dtd_45
+    docbook_xsl
+    libxslt
+    makeWrapper
+    xmlto
   ];
-  buildInputs = []
+  buildInputs = [ ]
     ++ (with pythonPackages; [ python pysqlite ]);
 
   postPatch = ''

@@ -1,6 +1,13 @@
-{ lib, fetchurl, buildDunePackage
-, stdlib-shims, bigarray-compat, fmt
-, alcotest, hxd, crowbar, bigstringaf
+{ lib
+, fetchurl
+, buildDunePackage
+, stdlib-shims
+, bigarray-compat
+, fmt
+, alcotest
+, hxd
+, crowbar
+, bigstringaf
 }:
 
 buildDunePackage rec {

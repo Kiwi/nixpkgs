@@ -4,13 +4,14 @@ let
   pname = "nbxmpp";
   version = "1.0.2";
   name = "${pname}-${version}";
-in buildPythonPackage {
+in
+buildPythonPackage {
   inherit pname version;
   # Tests aren't included in PyPI tarball.
   src = fetchzip {
     name = "${name}.tar.bz2";
     url = "https://dev.gajim.org/gajim/python-nbxmpp/repository/archive.tar.bz2?"
-        + "ref=${name}";
+      + "ref=${name}";
     sha256 = "1rhzsakqrybzq5j5b9400wjd14pncph47c1ggn5a6f3di03lk4az";
   };
 

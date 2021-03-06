@@ -5,9 +5,9 @@ buildGoModule rec {
   version = "5.2.1";
 
   src = fetchFromGitHub {
-    owner  = "kovetskiy";
-    repo   = "mark";
-    rev    = version;
+    owner = "kovetskiy";
+    repo = "mark";
+    rev = version;
     sha256 = "sha256-eRKUoRr0FPVNUZV5WenA7GlpYPAVRNKe0uRxOzFjhVE=";
   };
 

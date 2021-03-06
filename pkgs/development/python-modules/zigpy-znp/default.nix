@@ -13,7 +13,8 @@
 , pytestcov
 , pytestCheckHook
 , voluptuous
-, zigpy }:
+, zigpy
+}:
 
 buildPythonPackage rec {
   pname = "zigpy-znp";

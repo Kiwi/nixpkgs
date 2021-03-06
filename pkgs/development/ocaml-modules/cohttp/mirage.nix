@@ -1,7 +1,14 @@
-{ buildDunePackage, cohttp, cohttp-lwt
-, mirage-flow, mirage-channel, mirage-kv
-, conduit, conduit-mirage, lwt
-, astring, magic-mime
+{ buildDunePackage
+, cohttp
+, cohttp-lwt
+, mirage-flow
+, mirage-channel
+, mirage-kv
+, conduit
+, conduit-mirage
+, lwt
+, astring
+, magic-mime
 }:
 
 buildDunePackage {
@@ -10,8 +17,16 @@ buildDunePackage {
   inherit (cohttp) version src minimumOCamlVersion useDune2;
 
   propagatedBuildInputs = [
-    mirage-flow mirage-channel conduit conduit-mirage mirage-kv
-    lwt cohttp cohttp-lwt astring magic-mime
+    mirage-flow
+    mirage-channel
+    conduit
+    conduit-mirage
+    mirage-kv
+    lwt
+    cohttp
+    cohttp-lwt
+    astring
+    magic-mime
   ];
 
   meta = cohttp.meta // {

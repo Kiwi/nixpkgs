@@ -9,9 +9,9 @@ buildGoModule rec {
   version = "2.0.30";
 
   src = fetchFromGitHub {
-    owner  = "trezor";
-    repo   = "trezord-go";
-    rev    = "v${version}";
+    owner = "trezor";
+    repo = "trezord-go";
+    rev = "v${version}";
     sha256 = "1hzvk0wfgg7b4wpqjk3738yqxlv3pj5i7zxwm0jady2h97hmrqrr";
   };
 

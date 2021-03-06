@@ -1,8 +1,21 @@
-{ lib, stdenv, fetchurl, pkg-config, libevent, openssl, zlib, torsocks
-, libseccomp, systemd, libcap, lzma, zstd, scrypt, nixosTests
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, libevent
+, openssl
+, zlib
+, torsocks
+, libseccomp
+, systemd
+, libcap
+, lzma
+, zstd
+, scrypt
+, nixosTests
 , writeShellScript
 
-# for update.nix
+  # for update.nix
 , writeScript
 , common-updater-scripts
 , bash
@@ -15,7 +28,7 @@
 }:
 let
   tor-client-auth-gen = writeShellScript "tor-client-auth-gen" ''
-    PATH="${lib.makeBinPath [coreutils gnugrep openssl]}"
+    PATH="${lib.makeBinPath [ coreutils gnugrep openssl ]}"
     pem="$(openssl genpkey -algorithm x25519)"
 
     printf private_key=descriptor:x25519:
@@ -84,7 +97,7 @@ stdenv.mkDerivation rec {
         gnugrep
         gnused
         nix
-      ;
+        ;
     };
   };
 

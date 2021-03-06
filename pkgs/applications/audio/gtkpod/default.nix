@@ -1,6 +1,22 @@
-{ lib, stdenv, fetchurl, pkg-config, wrapGAppsHook, intltool, libgpod, curl, flac,
-  gnome3, gtk3, gettext, perlPackages, flex, libid3tag, gdl,
-  libvorbis, gdk-pixbuf }:
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, wrapGAppsHook
+, intltool
+, libgpod
+, curl
+, flac
+, gnome3
+, gtk3
+, gettext
+, perlPackages
+, flex
+, libid3tag
+, gdl
+, libvorbis
+, gdk-pixbuf
+}:
 
 stdenv.mkDerivation rec {
   version = "2.1.5";
@@ -13,9 +29,18 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkg-config wrapGAppsHook intltool ];
   buildInputs = [
-    curl gettext
-    flex libgpod libid3tag flac libvorbis gtk3 gdk-pixbuf
-    gdl gnome3.adwaita-icon-theme gnome3.anjuta
+    curl
+    gettext
+    flex
+    libgpod
+    libid3tag
+    flac
+    libvorbis
+    gtk3
+    gdk-pixbuf
+    gdl
+    gnome3.adwaita-icon-theme
+    gnome3.anjuta
   ] ++ (with perlPackages; [ perl XMLParser ]);
 
   patchPhase = ''

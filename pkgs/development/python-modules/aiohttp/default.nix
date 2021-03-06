@@ -36,8 +36,16 @@ buildPythonPackage rec {
   };
 
   checkInputs = [
-    pytestrunner pytestCheckHook gunicorn async_generator pytest_xdist
-    pytest-mock pytestcov trustme brotlipy freezegun
+    pytestrunner
+    pytestCheckHook
+    gunicorn
+    async_generator
+    pytest_xdist
+    pytest-mock
+    pytestcov
+    trustme
+    brotlipy
+    freezegun
     re-assert
   ];
 
@@ -75,7 +83,7 @@ buildPythonPackage rec {
     "test_read_incomplete_chunk"
     "test_request_tracing_exception"
   ] ++ lib.optionals stdenv.isDarwin [
-    "test_addresses"  # https://github.com/aio-libs/aiohttp/issues/3572
+    "test_addresses" # https://github.com/aio-libs/aiohttp/issues/3572
     "test_close"
   ];
 

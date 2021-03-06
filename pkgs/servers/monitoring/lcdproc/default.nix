@@ -1,14 +1,27 @@
-{ lib, stdenv, fetchFromGitHub, autoreconfHook, makeWrapper, pkg-config
-, doxygen, freetype, libX11, libftdi, libusb-compat-0_1, libusb1, ncurses, perl }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, autoreconfHook
+, makeWrapper
+, pkg-config
+, doxygen
+, freetype
+, libX11
+, libftdi
+, libusb-compat-0_1
+, libusb1
+, ncurses
+, perl
+}:
 
 stdenv.mkDerivation rec {
   pname = "lcdproc";
   version = "0.5.9";
 
   src = fetchFromGitHub {
-    owner  = "lcdproc";
-    repo   = "lcdproc";
-    rev    = "v${version}";
+    owner = "lcdproc";
+    repo = "lcdproc";
+    rev = "v${version}";
     sha256 = "1r885zv1gsh88j43x6fvzbdgfkh712a227d369h4fdcbnnfd0kpm";
   };
 
@@ -41,9 +54,9 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Client/server suite for controlling a wide variety of LCD devices";
-    homepage    = "http://lcdproc.org/";
-    license     = licenses.gpl2;
+    homepage = "http://lcdproc.org/";
+    license = licenses.gpl2;
     maintainers = with maintainers; [ peterhoeg ];
-    platforms   = platforms.unix;
+    platforms = platforms.unix;
   };
 }

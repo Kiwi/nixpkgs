@@ -1,7 +1,16 @@
-{ lib, buildPythonPackage, fetchFromGitHub
-, click, click-log, pure-pcapy3
-, pyserial-asyncio, voluptuous, zigpy
-, asynctest, pytestCheckHook, pytest-asyncio }:
+{ lib
+, buildPythonPackage
+, fetchFromGitHub
+, click
+, click-log
+, pure-pcapy3
+, pyserial-asyncio
+, voluptuous
+, zigpy
+, asynctest
+, pytestCheckHook
+, pytest-asyncio
+}:
 
 buildPythonPackage rec {
   pname = "bellows";
@@ -15,7 +24,12 @@ buildPythonPackage rec {
   };
 
   propagatedBuildInputs = [
-    click click-log pure-pcapy3 pyserial-asyncio voluptuous zigpy
+    click
+    click-log
+    pure-pcapy3
+    pyserial-asyncio
+    voluptuous
+    zigpy
   ];
 
   checkInputs = [

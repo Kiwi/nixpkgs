@@ -1,6 +1,19 @@
-{ boto3, buildPythonPackage, crc32c, fetchFromGitHub, lib, matplotlib, moto
-, numpy, pillow, pytorch, protobuf, six, pytestCheckHook
-, tensorflow-tensorboard, torchvision }:
+{ boto3
+, buildPythonPackage
+, crc32c
+, fetchFromGitHub
+, lib
+, matplotlib
+, moto
+, numpy
+, pillow
+, pytorch
+, protobuf
+, six
+, pytestCheckHook
+, tensorflow-tensorboard
+, torchvision
+}:
 
 buildPythonPackage rec {
   pname = "tensorboardx";
@@ -14,7 +27,15 @@ buildPythonPackage rec {
   };
 
   checkInputs = [
-    pytestCheckHook boto3 crc32c matplotlib moto pillow pytorch tensorflow-tensorboard torchvision
+    pytestCheckHook
+    boto3
+    crc32c
+    matplotlib
+    moto
+    pillow
+    pytorch
+    tensorflow-tensorboard
+    torchvision
   ];
 
   propagatedBuildInputs = [ numpy protobuf six ];
@@ -25,7 +46,7 @@ buildPythonPackage rec {
   '';
 
 
-  disabledTests = [ "test_TorchVis"  "test_onnx_graph" ];
+  disabledTests = [ "test_TorchVis" "test_onnx_graph" ];
 
   meta = with lib; {
     description = "Library for writing tensorboard-compatible logs";

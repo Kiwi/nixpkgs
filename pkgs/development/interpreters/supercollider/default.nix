@@ -1,7 +1,22 @@
-{ lib, stdenv, fetchurl, cmake, pkg-config, alsaLib
-, libjack2, libsndfile, fftw, curl, gcc
-, libXt, qtbase, qttools, qtwebengine
-, readline, qtwebsockets, useSCEL ? false, emacs
+{ lib
+, stdenv
+, fetchurl
+, cmake
+, pkg-config
+, alsaLib
+, libjack2
+, libsndfile
+, fftw
+, curl
+, gcc
+, libXt
+, qtbase
+, qttools
+, qtwebengine
+, readline
+, qtwebsockets
+, useSCEL ? false
+, emacs
 }:
 
 let optional = lib.optional;
@@ -27,9 +42,19 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake pkg-config qttools ];
 
   buildInputs = [
-    gcc libjack2 libsndfile fftw curl libXt qtbase qtwebengine qtwebsockets readline ]
-      ++ optional (!stdenv.isDarwin) alsaLib
-      ++ optional useSCEL emacs;
+    gcc
+    libjack2
+    libsndfile
+    fftw
+    curl
+    libXt
+    qtbase
+    qtwebengine
+    qtwebsockets
+    readline
+  ]
+  ++ optional (!stdenv.isDarwin) alsaLib
+  ++ optional useSCEL emacs;
 
   dontWrapQtApps = true;
 

@@ -17,8 +17,9 @@ let
     let
       scfg = cfg.${service};
     in
-      if scfg.configFile != null then scfg.configFile
-      else pkgs.writeText "${daemonName service}.conf"
+    if scfg.configFile != null then scfg.configFile
+    else
+      pkgs.writeText "${daemonName service}.conf"
         ''
           ! Quagga ${daemonName service} configuration
           !
@@ -120,7 +121,7 @@ in
   config = mkIf (any isEnabled allServices) {
 
     environment.systemPackages = [
-      pkgs.quagga               # for the vtysh tool
+      pkgs.quagga # for the vtysh tool
     ];
 
     users.users.quagga = {
@@ -130,7 +131,7 @@ in
     };
 
     users.groups = {
-      quagga = {};
+      quagga = { };
       # Members of the quaggavty group can use vtysh to inspect the Quagga daemons
       quaggavty = { members = [ "quagga" ]; };
     };
@@ -142,41 +143,41 @@ in
             scfg = cfg.${service};
             daemon = daemonName service;
           in
-            nameValuePair daemon ({
-              wantedBy = [ "multi-user.target" ];
-              restartTriggers = [ (configFile service) ];
+          nameValuePair daemon ({
+            wantedBy = [ "multi-user.target" ];
+            restartTriggers = [ (configFile service) ];
 
-              serviceConfig = {
-                Type = "forking";
-                PIDFile = "/run/quagga/${daemon}.pid";
-                ExecStart = "@${pkgs.quagga}/libexec/quagga/${daemon} ${daemon} -d -f ${configFile service}"
-                  + optionalString (scfg.vtyListenAddress != "") " -A ${scfg.vtyListenAddress}"
-                  + optionalString (scfg.vtyListenPort != null) " -P ${toString scfg.vtyListenPort}";
-                ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
-                Restart = "on-abort";
-              };
-            } // (
-              if service == "zebra" then
-                {
-                  description = "Quagga Zebra routing manager";
-                  unitConfig.Documentation = "man:zebra(8)";
-                  after = [ "network.target" ];
-                  preStart = ''
-                    install -m 0755 -o quagga -g quagga -d /run/quagga
+            serviceConfig = {
+              Type = "forking";
+              PIDFile = "/run/quagga/${daemon}.pid";
+              ExecStart = "@${pkgs.quagga}/libexec/quagga/${daemon} ${daemon} -d -f ${configFile service}"
+                + optionalString (scfg.vtyListenAddress != "") " -A ${scfg.vtyListenAddress}"
+                + optionalString (scfg.vtyListenPort != null) " -P ${toString scfg.vtyListenPort}";
+              ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
+              Restart = "on-abort";
+            };
+          } // (
+            if service == "zebra" then
+              {
+                description = "Quagga Zebra routing manager";
+                unitConfig.Documentation = "man:zebra(8)";
+                after = [ "network.target" ];
+                preStart = ''
+                  install -m 0755 -o quagga -g quagga -d /run/quagga
 
-                    ${pkgs.iproute}/bin/ip route flush proto zebra
-                  '';
-                }
-              else
-                {
-                  description = "Quagga ${toUpper service} routing daemon";
-                  unitConfig.Documentation = "man:${daemon}(8) man:zebra(8)";
-                  bindsTo = [ "zebra.service" ];
-                  after = [ "network.target" "zebra.service" ];
-                }
-            ));
-       in
-         listToAttrs (map quaggaService (filter isEnabled allServices));
+                  ${pkgs.iproute}/bin/ip route flush proto zebra
+                '';
+              }
+            else
+              {
+                description = "Quagga ${toUpper service} routing daemon";
+                unitConfig.Documentation = "man:${daemon}(8) man:zebra(8)";
+                bindsTo = [ "zebra.service" ];
+                after = [ "network.target" "zebra.service" ];
+              }
+          ));
+      in
+      listToAttrs (map quaggaService (filter isEnabled allServices));
 
   };
 

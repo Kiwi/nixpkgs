@@ -1,4 +1,8 @@
-{ lib, buildPythonPackage, fetchPypi, pythonOlder, isPy27
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, isPy27
 , decorator
 , http-parser
 , importlib-metadata

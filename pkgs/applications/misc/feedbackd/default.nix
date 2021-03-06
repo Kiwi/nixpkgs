@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
     domain = "source.puri.sm";
     owner = "Librem5";
     repo = "feedbackd";
-    rev = "v0.0.0+git${builtins.replaceStrings ["-"] [""] version}";
+    rev = "v0.0.0+git${builtins.replaceStrings [ "-" ] [ "" ] version}";
     sha256 = "184ag10sfzrka533inv6f38x6z769kq5jj56vdkcm65j5h786w5v";
   };
 

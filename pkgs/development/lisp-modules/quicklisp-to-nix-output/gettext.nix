@@ -14,7 +14,7 @@ rec {
 
   packageName = "gettext";
 
-  asdFilesToKeep = ["gettext.asd"];
+  asdFilesToKeep = [ "gettext.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM gettext DESCRIPTION

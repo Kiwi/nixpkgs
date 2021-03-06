@@ -34,7 +34,7 @@ in
     };
 
     environment.mate.excludePackages = mkOption {
-      default = [];
+      default = [ ];
       example = literalExample "[ pkgs.mate.mate-terminal pkgs.mate.pluma ]";
       type = types.listOf types.package;
       description = "Which MATE packages to exclude from the default environment";
@@ -49,22 +49,24 @@ in
     ];
 
     services.xserver.displayManager.sessionCommands = ''
-      if test "$XDG_CURRENT_DESKTOP" = "MATE"; then
-          export XDG_MENU_PREFIX=mate-
+            if test "$XDG_CURRENT_DESKTOP" = "MATE"; then
+                export XDG_MENU_PREFIX=mate-
 
-          # Let caja find extensions
-          export CAJA_EXTENSION_DIRS=$CAJA_EXTENSION_DIRS''${CAJA_EXTENSION_DIRS:+:}${config.system.path}/lib/caja/extensions-2.0
+                # Let caja find extensions
+                export CAJA_EXTENSION_DIRS=$CAJA_EXTENSION_DIRS''${CAJA_EXTENSION_DIRS:+:}${config.system.path}/lib/caja/extensions-2.0
 
-          # Let caja extensions find gsettings schemas
-          ${concatMapStrings (p: ''
-          if [ -d "${p}/lib/caja/extensions-2.0" ]; then
-              ${addToXDGDirs p}
-          fi
-          '') config.environment.systemPackages}
+                # Let caja extensions find gsettings schemas
+                ${concatMapStrings
+      (p: ''
+                if [ -d "${p}/lib/caja/extensions-2.0" ]; then
+                    ${addToXDGDirs p}
+                fi
+                '')
+      config.environment.systemPackages}
 
-          # Add mate-control-center paths to some XDG variables because its schemas are needed by mate-settings-daemon, and mate-settings-daemon is a dependency for mate-control-center (that is, they are mutually recursive)
-          ${addToXDGDirs pkgs.mate.mate-control-center}
-      fi
+                # Add mate-control-center paths to some XDG variables because its schemas are needed by mate-settings-daemon, and mate-settings-daemon is a dependency for mate-control-center (that is, they are mutually recursive)
+                ${addToXDGDirs pkgs.mate.mate-control-center}
+            fi
     '';
 
     # Let mate-panel find applets

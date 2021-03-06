@@ -1,6 +1,14 @@
-{ lib, fetchurl, buildDunePackage
-, checkseum, bigarray-compat, optint
-, bigstringaf, alcotest, hxd, camlzip, base64
+{ lib
+, fetchurl
+, buildDunePackage
+, checkseum
+, bigarray-compat
+, optint
+, bigstringaf
+, alcotest
+, hxd
+, camlzip
+, base64
 }:
 
 buildDunePackage rec {

@@ -8,7 +8,7 @@
     cargoSha256 = "02s6qnq61vifx59hnbaalqmfvp8anfik62y6rzy3rwm1l9r85qrz";
   };
 
-  rust-analyzer = callPackage ./wrapper.nix {} {
+  rust-analyzer = callPackage ./wrapper.nix { } {
     unwrapped = pkgs.rust-analyzer-unwrapped;
   };
 }

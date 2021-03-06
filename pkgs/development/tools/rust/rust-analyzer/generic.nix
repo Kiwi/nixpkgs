@@ -1,9 +1,17 @@
-{ lib, stdenv, fetchFromGitHub, rustPlatform, darwin, cmake
+{ lib
+, stdenv
+, fetchFromGitHub
+, rustPlatform
+, darwin
+, cmake
 , useMimalloc ? false
 , doCheck ? true
 
-# Version specific args
-, rev, version, sha256, cargoSha256
+  # Version specific args
+, rev
+, version
+, sha256
+, cargoSha256
 }:
 
 rustPlatform.buildRustPackage {

@@ -30,10 +30,11 @@ stdenv.mkDerivation {
   '';
 
   meta = with lib;
-  { description = "Kakoune plugin that brings integration with fzf";
-    homepage = "https://github.com/andreyorst/fzf.kak";
-    license = licenses.mit;
-    maintainers = with maintainers; [ nrdxp ];
-    platform = platforms.all;
-  };
+    {
+      description = "Kakoune plugin that brings integration with fzf";
+      homepage = "https://github.com/andreyorst/fzf.kak";
+      license = licenses.mit;
+      maintainers = with maintainers; [ nrdxp ];
+      platform = platforms.all;
+    };
 }

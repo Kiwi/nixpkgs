@@ -1,8 +1,16 @@
-{ lib, stdenv, fetchFromGitLab, rustPlatform, cmake, pkg-config, openssl
-, darwin, installShellFiles
+{ lib
+, stdenv
+, fetchFromGitLab
+, rustPlatform
+, cmake
+, pkg-config
+, openssl
+, darwin
+, installShellFiles
 
 , x11Support ? stdenv.isLinux || stdenv.hostPlatform.isBSD
-, xclip ? null, xsel ? null
+, xclip ? null
+, xsel ? null
 , preferXsel ? false # if true and xsel is non-null, use it instead of xclip
 }:
 

@@ -12,14 +12,14 @@
 , cython
 , setuptoolsBuildHook
 , fetchpatch
- }:
+}:
 
 assert (!blas.isILP64) && (!lapack.isILP64);
 
 let
   cfg = writeTextFile {
     name = "site.cfg";
-    text = (lib.generators.toINI {} {
+    text = (lib.generators.toINI { } {
       ${blas.implementation} = {
         include_dirs = "${lib.getDev blas}/include:${lib.getDev lapack}/include";
         library_dirs = "${blas}/lib:${lapack}/lib";
@@ -38,7 +38,8 @@ let
       };
     });
   };
-in buildPythonPackage rec {
+in
+buildPythonPackage rec {
   pname = "numpy";
   version = "1.19.4";
   format = "pyproject.toml";
@@ -104,7 +105,7 @@ in buildPythonPackage rec {
 
   # Disable test
   # - test_large_file_support: takes a long time and can cause the machine to run out of disk space
-  NOSE_EXCLUDE="test_large_file_support";
+  NOSE_EXCLUDE = "test_large_file_support";
 
   meta = {
     description = "Scientific tools for Python";

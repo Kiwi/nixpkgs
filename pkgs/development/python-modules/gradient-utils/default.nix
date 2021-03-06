@@ -38,9 +38,9 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Gradient ML SDK";
-    homepage    = "https://github.com/Paperspace/gradient-utils";
-    license     = licenses.mit;
-    platforms   = platforms.unix;
+    homepage = "https://github.com/Paperspace/gradient-utils";
+    license = licenses.mit;
+    platforms = platforms.unix;
     maintainers = with maintainers; [ freezeboy ];
   };
 }

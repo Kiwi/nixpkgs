@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchurl, cmake, fetchpatch
+{ lib
+, stdenv
+, fetchurl
+, cmake
+, fetchpatch
 , zlib
 }:
 

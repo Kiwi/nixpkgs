@@ -32,9 +32,9 @@ buildPythonApplication rec {
 
   patches = [
     # make enum34 depend on python version
-    ( fetchpatch {
-        url = "https://github.com/linode/linode-cli/pull/184/commits/4cf55759c5da33fbc49b9ba664698875d67d4f76.patch";
-        sha256 = "04n9a6yh0abyyymvfzajhav6qxwvzjl2vs8jnqp3yqrma7kl0slj";
+    (fetchpatch {
+      url = "https://github.com/linode/linode-cli/pull/184/commits/4cf55759c5da33fbc49b9ba664698875d67d4f76.patch";
+      sha256 = "04n9a6yh0abyyymvfzajhav6qxwvzjl2vs8jnqp3yqrma7kl0slj";
     })
   ];
 

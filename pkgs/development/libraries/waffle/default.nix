@@ -8,9 +8,14 @@
 , makeWrapper
 , pkg-config
 , python3
-, x11Support ? true, libxcb ? null, libX11 ? null
-, waylandSupport ? true, wayland ? null
-, useGbm ? true, mesa ? null, libudev ? null
+, x11Support ? true
+, libxcb ? null
+, libX11 ? null
+, waylandSupport ? true
+, wayland ? null
+, useGbm ? true
+, mesa ? null
+, libudev ? null
 }:
 
 assert x11Support -> (libxcb != null && libX11 != null);

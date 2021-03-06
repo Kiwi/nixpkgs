@@ -1,5 +1,12 @@
-{ lib, stdenv, callPackage, fetchFromGitHub, leiningen, openjdk11
-, graalvm11-ce, babashka }:
+{ lib
+, stdenv
+, callPackage
+, fetchFromGitHub
+, leiningen
+, openjdk11
+, graalvm11-ce
+, babashka
+}:
 
 let
   pname = "clojure-lsp";
@@ -17,7 +24,8 @@ let
     inherit src pname version;
     leiningen = leiningen11;
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   inherit src pname version;
 
   postPatch = ''

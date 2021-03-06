@@ -1,11 +1,17 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch, makeWrapper
-, coqPackages, ocamlPackages, coq2html
+{ lib
+, stdenv
+, fetchFromGitHub
+, fetchpatch
+, makeWrapper
+, coqPackages
+, ocamlPackages
+, coq2html
 , tools ? stdenv.cc
 , version ? "3.8"
 }:
 
 let
-  ocaml-pkgs      = with ocamlPackages; [ ocaml findlib menhir ];
+  ocaml-pkgs = with ocamlPackages; [ ocaml findlib menhir ];
   ccomp-platform = if stdenv.isDarwin then "x86_64-macosx" else "x86_64-linux";
   inherit (coqPackages) coq flocq;
   inherit (lib) optional optionalString;
@@ -15,11 +21,11 @@ let param = {
   "3.7" = {
     sha256 = "1h4zhk9rrqki193nxs9vjvya7nl9yxjcf07hfqb6g77riy1vd2jr";
     patches = [
-     (fetchpatch {
+      (fetchpatch {
         url = "https://github.com/AbsInt/CompCert/commit/0a2db0269809539ccc66f8ec73637c37fbd23580.patch";
         sha256 = "0n8qrba70x8f422jdvq9ddgsx6avf2dkg892g4ldh3jiiidyhspy";
       })
-     (fetchpatch {
+      (fetchpatch {
         url = "https://github.com/AbsInt/CompCert/commit/5e29f8b5ba9582ecf2a1d0baeaef195873640607.patch";
         sha256 = "184nfdgxrkci880lkaj5pgnify3plka7xfgqrgv16275sqppc5hc";
       })
@@ -42,7 +48,7 @@ stdenv.mkDerivation rec {
     inherit (param) sha256;
   };
 
-  patches = param.patches or [];
+  patches = param.patches or [ ];
 
   nativeBuildInputs = [ makeWrapper ];
   buildInputs = ocaml-pkgs ++ [ coq coq2html ];
@@ -85,9 +91,9 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Formally verified C compiler";
-    homepage    = "https://compcert.org";
-    license     = licenses.inria-compcert;
-    platforms   = [ "x86_64-linux" "x86_64-darwin" ];
+    homepage = "https://compcert.org";
+    license = licenses.inria-compcert;
+    platforms = [ "x86_64-linux" "x86_64-darwin" ];
     maintainers = with maintainers; [ thoughtpolice jwiegley vbgl ];
   };
 }

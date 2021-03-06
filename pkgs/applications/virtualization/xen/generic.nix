@@ -1,37 +1,87 @@
 config:
-{ lib, stdenv, cmake, pkg-config, which
+{ lib
+, stdenv
+, cmake
+, pkg-config
+, which
 
-# Xen
-, bison, bzip2, checkpolicy, dev86, figlet, flex, gettext, glib
-, iasl, libaio, libiconv, libuuid, ncurses, openssl, perl
+  # Xen
+, bison
+, bzip2
+, checkpolicy
+, dev86
+, figlet
+, flex
+, gettext
+, glib
+, iasl
+, libaio
+, libiconv
+, libuuid
+, ncurses
+, openssl
+, perl
 , python2Packages
-# python2Packages.python
-, xz, yajl, zlib
+  # python2Packages.python
+, xz
+, yajl
+, zlib
 
-# Xen Optional
+  # Xen Optional
 , ocamlPackages
 
-# Scripts
-, coreutils, gawk, gnused, gnugrep, diffutils, multipath-tools
-, iproute, inetutils, iptables, bridge-utils, openvswitch, nbd, drbd
-, lvm2, util-linux, procps, systemd
+  # Scripts
+, coreutils
+, gawk
+, gnused
+, gnugrep
+, diffutils
+, multipath-tools
+, iproute
+, inetutils
+, iptables
+, bridge-utils
+, openvswitch
+, nbd
+, drbd
+, lvm2
+, util-linux
+, procps
+, systemd
 
-# Documentation
-# python2Packages.markdown
-, transfig, ghostscript, texinfo, pandoc
+  # Documentation
+  # python2Packages.markdown
+, transfig
+, ghostscript
+, texinfo
+, pandoc
 
 , binutils-unwrapped
 
-, ...} @ args:
+, ...
+} @ args:
 
 with lib;
 
 let
   #TODO: fix paths instead
   scriptEnvPath = concatMapStringsSep ":" (x: "${x}/bin") [
-    which perl
-    coreutils gawk gnused gnugrep diffutils util-linux multipath-tools
-    iproute inetutils iptables bridge-utils openvswitch nbd drbd
+    which
+    perl
+    coreutils
+    gawk
+    gnused
+    gnugrep
+    diffutils
+    util-linux
+    multipath-tools
+    iproute
+    inetutils
+    iptables
+    bridge-utils
+    openvswitch
+    nbd
+    drbd
   ];
 
   withXenfiles = f: concatStringsSep "\n" (mapAttrsToList f config.xenfiles);
@@ -68,24 +118,48 @@ stdenv.mkDerivation (rec {
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [
-    cmake which
+    cmake
+    which
 
     # Xen
-    bison bzip2 checkpolicy dev86 figlet flex gettext glib iasl libaio
-    libiconv libuuid ncurses openssl perl python2Packages.python xz yajl zlib
+    bison
+    bzip2
+    checkpolicy
+    dev86
+    figlet
+    flex
+    gettext
+    glib
+    iasl
+    libaio
+    libiconv
+    libuuid
+    ncurses
+    openssl
+    perl
+    python2Packages.python
+    xz
+    yajl
+    zlib
 
     # oxenstored
-    ocamlPackages.findlib ocamlPackages.ocaml systemd
+    ocamlPackages.findlib
+    ocamlPackages.ocaml
+    systemd
 
     # Python fixes
     python2Packages.wrapPython
 
     # Documentation
-    python2Packages.markdown transfig ghostscript texinfo pandoc
+    python2Packages.markdown
+    transfig
+    ghostscript
+    texinfo
+    pandoc
 
     # Others
-  ] ++ (concatMap (x: x.buildInputs or []) (attrValues config.xenfiles))
-    ++ (config.buildInputs or []);
+  ] ++ (concatMap (x: x.buildInputs or [ ]) (attrValues config.xenfiles))
+  ++ (config.buildInputs or [ ]);
 
   prePatch = ''
     ### Generic fixes
@@ -137,63 +211,65 @@ stdenv.mkDerivation (rec {
     ./0000-fix-install-python.patch
     ./0004-makefile-use-efi-ld.patch
     ./0005-makefile-fix-efi-mountdir-use.patch
-  ] ++ (config.patches or []);
+  ] ++ (config.patches or [ ]);
 
   postPatch = ''
-    ### Hacks
+        ### Hacks
 
-    # Work around a bug in our GCC wrapper: `gcc -MF foo -v' doesn't
-    # print the GCC version number properly.
-    substituteInPlace xen/Makefile \
-      --replace '$(CC) $(CFLAGS) -v' '$(CC) -v'
+        # Work around a bug in our GCC wrapper: `gcc -MF foo -v' doesn't
+        # print the GCC version number properly.
+        substituteInPlace xen/Makefile \
+          --replace '$(CC) $(CFLAGS) -v' '$(CC) -v'
 
-    # Hack to get `gcc -m32' to work without having 32-bit Glibc headers.
-    mkdir -p tools/include/gnu
-    touch tools/include/gnu/stubs-32.h
+        # Hack to get `gcc -m32' to work without having 32-bit Glibc headers.
+        mkdir -p tools/include/gnu
+        touch tools/include/gnu/stubs-32.h
 
-    ### Fixing everything else
+        ### Fixing everything else
 
-    substituteInPlace tools/libfsimage/common/fsimage_plugin.c \
-      --replace /usr $out
+        substituteInPlace tools/libfsimage/common/fsimage_plugin.c \
+          --replace /usr $out
 
-    substituteInPlace tools/blktap2/lvm/lvm-util.c \
-      --replace /usr/sbin/vgs ${lvm2}/bin/vgs \
-      --replace /usr/sbin/lvs ${lvm2}/bin/lvs
+        substituteInPlace tools/blktap2/lvm/lvm-util.c \
+          --replace /usr/sbin/vgs ${lvm2}/bin/vgs \
+          --replace /usr/sbin/lvs ${lvm2}/bin/lvs
 
-    substituteInPlace tools/misc/xenpvnetboot \
-      --replace /usr/sbin/mount ${util-linux}/bin/mount \
-      --replace /usr/sbin/umount ${util-linux}/bin/umount
+        substituteInPlace tools/misc/xenpvnetboot \
+          --replace /usr/sbin/mount ${util-linux}/bin/mount \
+          --replace /usr/sbin/umount ${util-linux}/bin/umount
 
-    substituteInPlace tools/xenmon/xenmon.py \
-      --replace /usr/bin/pkill ${procps}/bin/pkill
+        substituteInPlace tools/xenmon/xenmon.py \
+          --replace /usr/bin/pkill ${procps}/bin/pkill
 
-    substituteInPlace tools/xenstat/Makefile \
-      --replace /usr/include/curses.h ${ncurses.dev}/include/curses.h
+        substituteInPlace tools/xenstat/Makefile \
+          --replace /usr/include/curses.h ${ncurses.dev}/include/curses.h
 
-    ${optionalString (builtins.compareVersions config.version "4.8" >= 0) ''
-      substituteInPlace tools/hotplug/Linux/launch-xenstore.in \
-        --replace /bin/mkdir mkdir
-    ''}
+        ${optionalString (builtins.compareVersions config.version "4.8" >= 0) ''
+          substituteInPlace tools/hotplug/Linux/launch-xenstore.in \
+            --replace /bin/mkdir mkdir
+        ''}
 
-    ${optionalString (builtins.compareVersions config.version "4.6" < 0) ''
-      # TODO: use this as a template and support our own if-up scripts instead?
-      substituteInPlace tools/hotplug/Linux/xen-backend.rules.in \
-        --replace "@XEN_SCRIPT_DIR@" $out/etc/xen/scripts
+        ${optionalString (builtins.compareVersions config.version "4.6" < 0) ''
+          # TODO: use this as a template and support our own if-up scripts instead?
+          substituteInPlace tools/hotplug/Linux/xen-backend.rules.in \
+            --replace "@XEN_SCRIPT_DIR@" $out/etc/xen/scripts
 
-      # blktap is not provided by xen, but by xapi
-      sed -i '/blktap/d' tools/hotplug/Linux/xen-backend.rules.in
-    ''}
+          # blktap is not provided by xen, but by xapi
+          sed -i '/blktap/d' tools/hotplug/Linux/xen-backend.rules.in
+        ''}
 
-    ${withTools "patches" (name: x: ''
-      ${concatMapStringsSep "\n" (p: ''
-        echo "# Patching with ${p}"
-        patch -p1 < ${p}
-      '') x.patches}
-    '')}
+        ${withTools "patches" (name: x: ''
+          ${concatMapStringsSep "\n"
+    (p: ''
+            echo "# Patching with ${p}"
+            patch -p1 < ${p}
+          '')
+    x.patches}
+        '')}
 
-    ${withTools "postPatch" (name: x: x.postPatch)}
+        ${withTools "postPatch" (name: x: x.postPatch)}
 
-    ${config.postPatch or ""}
+        ${config.postPatch or ""}
   '';
 
   postConfigure = ''
@@ -207,7 +283,7 @@ stdenv.mkDerivation (rec {
   # TODO: Flask needs more testing before enabling it by default.
   #makeFlags = [ "XSM_ENABLE=y" "FLASK_ENABLE=y" "PREFIX=$(out)" "CONFIG_DIR=/etc" "XEN_EXTFILES_URL=\\$(XEN_ROOT)/xen_ext_files" ];
   makeFlags = [ "PREFIX=$(out) CONFIG_DIR=/etc" "XEN_SCRIPT_DIR=/etc/xen/scripts" ]
-           ++ (config.makeFlags or []);
+    ++ (config.makeFlags or [ ]);
 
   buildFlags = [ "xen" "tools" ];
 
@@ -246,13 +322,13 @@ stdenv.mkDerivation (rec {
   meta = {
     homepage = "http://www.xen.org/";
     description = "Xen hypervisor and related components"
-                + optionalString (args ? meta && args.meta ? description)
-                                 " (${args.meta.description})";
+      + optionalString (args ? meta && args.meta ? description)
+      " (${args.meta.description})";
     longDescription = (args.meta.longDescription or "")
-                    + "\nIncludes:\n"
-                    + withXenfiles (name: x: "* ${name}: ${x.meta.description or "(No description)"}.");
+      + "\nIncludes:\n"
+      + withXenfiles (name: x: "* ${name}: ${x.meta.description or "(No description)"}.");
     platforms = [ "x86_64-linux" ];
     maintainers = with lib.maintainers; [ eelco tstrobel oxij ];
     license = lib.licenses.gpl2;
-  } // (config.meta or {});
+  } // (config.meta or { });
 } // removeAttrs config [ "xenfiles" "buildInputs" "patches" "postPatch" "meta" ])

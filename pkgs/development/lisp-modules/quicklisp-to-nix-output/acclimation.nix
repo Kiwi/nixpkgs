@@ -14,7 +14,7 @@ rec {
 
   packageName = "acclimation";
 
-  asdFilesToKeep = ["acclimation.asd"];
+  asdFilesToKeep = [ "acclimation.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM acclimation DESCRIPTION Library supporting internationalization

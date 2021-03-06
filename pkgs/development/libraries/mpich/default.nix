@@ -1,17 +1,26 @@
-{ stdenv, lib, fetchurl, perl, gfortran
-, openssh, hwloc, autoconf, automake, libtool
-# device options are ch3 or ch4
+{ stdenv
+, lib
+, fetchurl
+, perl
+, gfortran
+, openssh
+, hwloc
+, autoconf
+, automake
+, libtool
+  # device options are ch3 or ch4
 , device ? "ch4"
-# backend option are libfabric or ucx
+  # backend option are libfabric or ucx
 , ch4backend ? "libfabric"
-, ucx, libfabric
-# Process manager to build
+, ucx
+, libfabric
+  # Process manager to build
 , withPm ? "hydra:gforker"
-} :
+}:
 
 assert (ch4backend == "ucx" || ch4backend == "libfabric");
 
-stdenv.mkDerivation  rec {
+stdenv.mkDerivation rec {
   pname = "mpich";
   version = "3.4.1";
 

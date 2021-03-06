@@ -1,5 +1,25 @@
-{ lib, stdenv, fetchurl, glib, gtk3, meson, ninja, pkg-config, gnome3, gettext, itstool, libxml2, libarchive
-, file, json-glib, python3, wrapGAppsHook, desktop-file-utils, libnotify, nautilus, glibcLocales }:
+{ lib
+, stdenv
+, fetchurl
+, glib
+, gtk3
+, meson
+, ninja
+, pkg-config
+, gnome3
+, gettext
+, itstool
+, libxml2
+, libarchive
+, file
+, json-glib
+, python3
+, wrapGAppsHook
+, desktop-file-utils
+, libnotify
+, nautilus
+, glibcLocales
+}:
 
 stdenv.mkDerivation rec {
   pname = "file-roller";

@@ -5538,8 +5538,8 @@
     githubId = 7243783;
     name = "Bernardo Meurer";
     keys = [{
-        longkeyid = "rsa4096/0xF4C0D53B8D14C246";
-        fingerprint = "F193 7596 57D5 6DA4 CCD4  786B F4C0 D53B 8D14 C246";
+      longkeyid = "rsa4096/0xF4C0D53B8D14C246";
+      fingerprint = "F193 7596 57D5 6DA4 CCD4  786B F4C0 D53B 8D14 C246";
     }];
   };
   lowfatcomputing = {
@@ -9044,10 +9044,10 @@
     name = "Felix Bühler";
   };
   stupremee = {
-      email = "jutus.k@protonmail.com";
-      github = "Stupremee";
-      githubId = 39732259;
-      name = "Justus K";
+    email = "jutus.k@protonmail.com";
+    github = "Stupremee";
+    githubId = 39732259;
+    name = "Justus K";
   };
   suhr = {
     email = "suhr@i2pmail.org";

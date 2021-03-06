@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , cairo
 , fetchFromGitHub
 , gettext
@@ -16,7 +17,8 @@
 , sphinx
 , util-linux
 , wrapGAppsHook
-, withGui ? false }:
+, withGui ? false
+}:
 
 with lib;
 stdenv.mkDerivation rec {
@@ -30,7 +32,7 @@ stdenv.mkDerivation rec {
     sha256 = "15xfkcw1bkfyf3z8kl23k3rlv702m0h7ghqxvhniynvlwbgh6j2x";
   };
 
-  CFLAGS="-I${lib.getDev util-linux}/include";
+  CFLAGS = "-I${lib.getDev util-linux}/include";
 
   nativeBuildInputs = [
     pkg-config

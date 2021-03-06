@@ -1,5 +1,22 @@
-{ lib, buildPythonPackage, fetchPypi, pythonOlder
-, bcrypt, blinker, flask, flask-compress, flask-cors, mohawk, psycopg2, pyjwt, pymongo, python-dateutil, pytz, pyyaml, requests, requests-hawk, sentry-sdk
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, bcrypt
+, blinker
+, flask
+, flask-compress
+, flask-cors
+, mohawk
+, psycopg2
+, pyjwt
+, pymongo
+, python-dateutil
+, pytz
+, pyyaml
+, requests
+, requests-hawk
+, sentry-sdk
 }:
 
 buildPythonPackage rec {

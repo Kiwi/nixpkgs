@@ -14,7 +14,7 @@ rec {
 
   packageName = "clfswm";
 
-  asdFilesToKeep = ["clfswm.asd"];
+  asdFilesToKeep = [ "clfswm.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM clfswm DESCRIPTION CLFSWM: Fullscreen Window Manager SHA256

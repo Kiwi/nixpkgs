@@ -1,5 +1,13 @@
-{ lib, perlPackages, nix, dmidecode, pciutils, usbutils, iproute, nettools
-, fetchFromGitHub, makeWrapper
+{ lib
+, perlPackages
+, nix
+, dmidecode
+, pciutils
+, usbutils
+, iproute
+, nettools
+, fetchFromGitHub
+, makeWrapper
 }:
 
 perlPackages.buildPerlPackage rec {
@@ -23,7 +31,7 @@ perlPackages.buildPerlPackage rec {
       --replace /sbin/ip ${iproute}/sbin/ip
   '';
 
-  buildTools = [];
+  buildTools = [ ];
   nativeBuildInputs = [ makeWrapper ];
   buildInputs = (with perlPackages; [
     CGI
@@ -67,7 +75,7 @@ perlPackages.buildPerlPackage rec {
     for cur in $out/bin/*; do
       if [ -x "$cur" ]; then
         sed -e "s|./lib|$out/lib|" -i "$cur"
-        wrapProgram "$cur" --prefix PATH : ${lib.makeBinPath [nix dmidecode pciutils usbutils nettools iproute]}
+        wrapProgram "$cur" --prefix PATH : ${lib.makeBinPath [ nix dmidecode pciutils usbutils nettools iproute ]}
       fi
     done
   '';

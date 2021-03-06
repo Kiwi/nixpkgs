@@ -8,9 +8,9 @@ stdenv.mkDerivation {
   buildInputs = [ git gnupg ];
 
   src = fetchFromGitHub {
-    owner  = "TheLocehiliosan";
-    repo   = "yadm";
-    rev    = version;
+    owner = "TheLocehiliosan";
+    repo = "yadm";
+    rev = version;
     sha256 = "128qlx8mp7h5ifapqqgsj3fwghn3q6x6ya0y33h5r7gnassd3njr";
   };
 

@@ -1,6 +1,24 @@
-{ lib, stdenv, buildPythonPackage, fetchFromGitHub, isPyPy, isPy3k
-, olefile, freetype, libjpeg, zlib, libtiff, libwebp, tcl, lcms2
-, tk, libX11, openjpeg, libimagequant, pyroma, numpy, pytestCheckHook
+{ lib
+, stdenv
+, buildPythonPackage
+, fetchFromGitHub
+, isPyPy
+, isPy3k
+, olefile
+, freetype
+, libjpeg
+, zlib
+, libtiff
+, libwebp
+, tcl
+, lcms2
+, tk
+, libX11
+, openjpeg
+, libimagequant
+, pyroma
+, numpy
+, pytestCheckHook
 }@args:
 
 import ../pillow/generic.nix (rec {
@@ -29,4 +47,4 @@ import ../pillow/generic.nix (rec {
     license = "http://www.pythonware.com/products/pil/license.htm";
     maintainers = with maintainers; [ SuperSandro2000 ];
   };
-} // args )
+} // args)

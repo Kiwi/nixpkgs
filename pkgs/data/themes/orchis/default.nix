@@ -1,5 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, gtk3, gnome-themes-extra, gtk-engine-murrine
-, accentColor ? "default" }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, gtk3
+, gnome-themes-extra
+, gtk-engine-murrine
+, accentColor ? "default"
+}:
 
 stdenv.mkDerivation rec {
   pname = "orchis";

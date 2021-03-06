@@ -16,7 +16,7 @@ rec {
 
   packageName = "parser.common-rules";
 
-  asdFilesToKeep = ["parser.common-rules.asd"];
+  asdFilesToKeep = [ "parser.common-rules.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM parser.common-rules DESCRIPTION

@@ -16,7 +16,7 @@ rec {
 
   packageName = "uax-15";
 
-  asdFilesToKeep = ["uax-15.asd"];
+  asdFilesToKeep = [ "uax-15.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM uax-15 DESCRIPTION

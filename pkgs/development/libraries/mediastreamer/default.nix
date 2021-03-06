@@ -28,7 +28,8 @@
 , SDL
 , speex
 , srtp
-, lib, stdenv
+, lib
+, stdenv
 }:
 
 stdenv.mkDerivation rec {

@@ -82,37 +82,39 @@ stdenv.mkDerivation rec {
   # compatible with never dependency versions when possible. All these changes
   # should come from or be proposed to upstream. This list will probably never
   # be empty since dependencies update all the time.
-  packageUpgradePatches = let
-    # Fetch a diff between `base` and `rev` on sage's git server.
-    # Used to fetch trac tickets by setting the `base` to the last release and the
-    # `rev` to the last commit of the ticket.
-    fetchSageDiff = { base, rev, name ? "sage-diff-${base}-${rev}.patch", ...}@args: (
-      fetchpatch ({
-        inherit name;
-        url = "https://git.sagemath.org/sage.git/patch?id2=${base}&id=${rev}";
-        # We don't care about sage's own build system (which builds all its dependencies).
-        # Exclude build system changes to avoid conflicts.
-        excludes = [ "build/*" ];
-      } // builtins.removeAttrs args [ "rev" "base" ])
-    );
-  in [
-    # After updating smypow to (https://trac.sagemath.org/ticket/3360) we can
-    # now set the cache dir to be withing the .sage directory. This is not
-    # strictly necessary, but keeps us from littering in the user's HOME.
-    ./patches/sympow-cache.patch
+  packageUpgradePatches =
+    let
+      # Fetch a diff between `base` and `rev` on sage's git server.
+      # Used to fetch trac tickets by setting the `base` to the last release and the
+      # `rev` to the last commit of the ticket.
+      fetchSageDiff = { base, rev, name ? "sage-diff-${base}-${rev}.patch", ... }@args: (
+        fetchpatch ({
+          inherit name;
+          url = "https://git.sagemath.org/sage.git/patch?id2=${base}&id=${rev}";
+          # We don't care about sage's own build system (which builds all its dependencies).
+          # Exclude build system changes to avoid conflicts.
+          excludes = [ "build/*" ];
+        } // builtins.removeAttrs args [ "rev" "base" ])
+      );
+    in
+    [
+      # After updating smypow to (https://trac.sagemath.org/ticket/3360) we can
+      # now set the cache dir to be withing the .sage directory. This is not
+      # strictly necessary, but keeps us from littering in the user's HOME.
+      ./patches/sympow-cache.patch
 
-    # ignore a deprecation warning for usage of `cmp` in the attrs library in the doctests
-    ./patches/ignore-cmp-deprecation.patch
+      # ignore a deprecation warning for usage of `cmp` in the attrs library in the doctests
+      ./patches/ignore-cmp-deprecation.patch
 
-    # adapt sage's Image class to pillow 8.0.1 (https://trac.sagemath.org/ticket/30971)
-    ./patches/pillow-update.patch
+      # adapt sage's Image class to pillow 8.0.1 (https://trac.sagemath.org/ticket/30971)
+      ./patches/pillow-update.patch
 
-    # fix test output with sympy 1.7 (https://trac.sagemath.org/ticket/30985)
-    ./patches/sympy-1.7-update.patch
+      # fix test output with sympy 1.7 (https://trac.sagemath.org/ticket/30985)
+      ./patches/sympy-1.7-update.patch
 
-    # workaround until we use sage's fork of threejs, which contains a "version" file
-    ./patches/dont-grep-threejs-version-from-minified-js.patch
-  ];
+      # workaround until we use sage's fork of threejs, which contains a "version" file
+      ./patches/dont-grep-threejs-version-from-minified-js.patch
+    ];
 
   patches = nixPatches ++ bugfixPatches ++ packageUpgradePatches;
 

@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetchFromGitHub
 , fetchpatch
 , pkg-config
@@ -36,18 +37,18 @@ stdenv.mkDerivation rec {
   # Darwin needs a patch for argp-standalone usage and differing endian.h location on macOS
   # https://github.com/zchunk/zchunk/pull/35
   patches = [
-  (fetchpatch {
-    name = "darwin-support.patch";
-    url = "https://github.com/zchunk/zchunk/commit/f7db2ac0a95028a7f82ecb89862426bf53a69232.patch";
-    sha256 = "0cm84gyii4ly6nsmagk15g9kbfa13rw395nqk3fdcwm0dpixlkh4";
-  })
-];
+    (fetchpatch {
+      name = "darwin-support.patch";
+      url = "https://github.com/zchunk/zchunk/commit/f7db2ac0a95028a7f82ecb89862426bf53a69232.patch";
+      sha256 = "0cm84gyii4ly6nsmagk15g9kbfa13rw395nqk3fdcwm0dpixlkh4";
+    })
+  ];
 
   meta = with lib; {
     description = "File format designed for highly efficient deltas while maintaining good compression";
     homepage = "https://github.com/zchunk/zchunk";
     license = licenses.bsd2;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     platforms = platforms.unix;
   };
 }

@@ -26,25 +26,29 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ makeWrapper ];
 
-  buildInputs = [ bash
-                  curl
-                  gawk
-                  host.dnsutils
-                  jq
-                  netcat ];
+  buildInputs = [
+    bash
+    curl
+    gawk
+    host.dnsutils
+    jq
+    netcat
+  ];
 
   installPhase = ''
-    install -Dm 0755 twa "$out/bin/twa"
-    install -Dm 0755 tscore "$out/bin/tscore"
-    install -Dm 0644 twa.1 "$out/share/man/man1/twa.1"
-    install -Dm 0644 README.md "$out/share/doc/twa/README.md"
+        install -Dm 0755 twa "$out/bin/twa"
+        install -Dm 0755 tscore "$out/bin/tscore"
+        install -Dm 0644 twa.1 "$out/share/man/man1/twa.1"
+        install -Dm 0644 README.md "$out/share/doc/twa/README.md"
 
-    wrapProgram "$out/bin/twa" \
-      --prefix PATH : ${lib.makeBinPath [ curl
-                                                 host.dnsutils
-                                                 jq
-                                                 ncurses
-                                                 netcat ]}
+        wrapProgram "$out/bin/twa" \
+          --prefix PATH : ${lib.makeBinPath [
+    curl
+                                                     host.dnsutils
+                                                     jq
+                                                     ncurses
+                                                     netcat
+    ]}
   '';
 
   meta = with lib; {

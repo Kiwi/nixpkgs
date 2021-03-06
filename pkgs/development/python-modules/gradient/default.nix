@@ -1,8 +1,22 @@
-{ lib, fetchPypi, buildPythonPackage
-, attrs, boto3, requests, gradient_statsd, terminaltables
-, click-completion , click-didyoumean, click-help-colors
-, colorama, requests_toolbelt, gradient-utils, halo, progressbar2
-, marshmallow, pyyaml, websocket_client
+{ lib
+, fetchPypi
+, buildPythonPackage
+, attrs
+, boto3
+, requests
+, gradient_statsd
+, terminaltables
+, click-completion
+, click-didyoumean
+, click-help-colors
+, colorama
+, requests_toolbelt
+, gradient-utils
+, halo
+, progressbar2
+, marshmallow
+, pyyaml
+, websocket_client
 }:
 
 buildPythonPackage rec {
@@ -22,9 +36,23 @@ buildPythonPackage rec {
       --replace 'marshmallow<' 'marshmallow>='
   '';
 
-  propagatedBuildInputs = [ attrs boto3 requests gradient_statsd terminaltables
-    click-completion click-didyoumean click-help-colors requests_toolbelt
-    colorama gradient-utils halo marshmallow progressbar2 pyyaml websocket_client
+  propagatedBuildInputs = [
+    attrs
+    boto3
+    requests
+    gradient_statsd
+    terminaltables
+    click-completion
+    click-didyoumean
+    click-help-colors
+    requests_toolbelt
+    colorama
+    gradient-utils
+    halo
+    marshmallow
+    progressbar2
+    pyyaml
+    websocket_client
   ];
 
   # tries to use /homeless-shelter to mimic container usage, etc
@@ -32,9 +60,9 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "The command line interface for Gradient";
-    homepage    = "https://github.com/Paperspace/gradient-cli";
-    license     = licenses.isc;
-    platforms   = platforms.unix;
+    homepage = "https://github.com/Paperspace/gradient-cli";
+    license = licenses.isc;
+    platforms = platforms.unix;
     maintainers = with maintainers; [ thoughtpolice ];
   };
 }

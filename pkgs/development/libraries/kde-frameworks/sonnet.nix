@@ -1,6 +1,9 @@
-{ mkDerivation, lib
+{ mkDerivation
+, lib
 , extra-cmake-modules
-, aspell, qtbase, qttools
+, aspell
+, qtbase
+, qttools
 }:
 
 mkDerivation {

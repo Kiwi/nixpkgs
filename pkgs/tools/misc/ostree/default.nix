@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetchurl
 , fetchpatch
 , substituteAll
@@ -37,7 +38,8 @@ let
   testPython = (python3.withPackages (p: with p; [
     pyyaml
   ]));
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "ostree";
   version = "2020.8";
 
@@ -118,16 +120,18 @@ in stdenv.mkDerivation rec {
     env NOCONFIGURE=1 ./autogen.sh
   '';
 
-  postFixup = let
-    typelibPath = lib.makeSearchPath "/lib/girepository-1.0" [
-      (placeholder "out")
-      gobject-introspection
-    ];
-  in ''
-    for test in $installedTests/libexec/installed-tests/libostree/*.js; do
-      wrapProgram "$test" --prefix GI_TYPELIB_PATH : "${typelibPath}"
-    done
-  '';
+  postFixup =
+    let
+      typelibPath = lib.makeSearchPath "/lib/girepository-1.0" [
+        (placeholder "out")
+        gobject-introspection
+      ];
+    in
+    ''
+      for test in $installedTests/libexec/installed-tests/libostree/*.js; do
+        wrapProgram "$test" --prefix GI_TYPELIB_PATH : "${typelibPath}"
+      done
+    '';
 
   passthru = {
     tests = {

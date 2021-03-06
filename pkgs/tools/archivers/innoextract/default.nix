@@ -1,6 +1,14 @@
-{ lib, stdenv, fetchurl, cmake, makeWrapper, python
-, boost, lzma
-, withGog ? false, unar ? null }:
+{ lib
+, stdenv
+, fetchurl
+, cmake
+, makeWrapper
+, python
+, boost
+, lzma
+, withGog ? false
+, unar ? null
+}:
 
 stdenv.mkDerivation rec {
   name = "innoextract-1.9";

@@ -1,6 +1,26 @@
-{ lib, stdenv, fetchurl, fetchpatch, pkg-config, xorg, alsaLib, libGLU, libGL, aalib
-, libvorbis, libtheora, speex, zlib, perl, ffmpeg_3
-, flac, libcaca, libpulseaudio, libmng, libcdio, libv4l, vcdimager
+{ lib
+, stdenv
+, fetchurl
+, fetchpatch
+, pkg-config
+, xorg
+, alsaLib
+, libGLU
+, libGL
+, aalib
+, libvorbis
+, libtheora
+, speex
+, zlib
+, perl
+, ffmpeg_3
+, flac
+, libcaca
+, libpulseaudio
+, libmng
+, libcdio
+, libv4l
+, vcdimager
 , libmpcdec
 }:
 
@@ -15,9 +35,28 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ pkg-config perl ];
 
   buildInputs = [
-    xorg.libX11 xorg.libXv xorg.libXinerama xorg.libxcb xorg.libXext
-    alsaLib libGLU libGL aalib libvorbis libtheora speex perl ffmpeg_3 flac
-    libcaca libpulseaudio libmng libcdio libv4l vcdimager libmpcdec
+    xorg.libX11
+    xorg.libXv
+    xorg.libXinerama
+    xorg.libxcb
+    xorg.libXext
+    alsaLib
+    libGLU
+    libGL
+    aalib
+    libvorbis
+    libtheora
+    speex
+    perl
+    ffmpeg_3
+    flac
+    libcaca
+    libpulseaudio
+    libmng
+    libcdio
+    libv4l
+    vcdimager
+    libmpcdec
   ];
 
   patches = [
@@ -30,7 +69,7 @@ stdenv.mkDerivation rec {
 
   NIX_LDFLAGS = "-lxcb-shm";
 
-  propagatedBuildInputs = [zlib];
+  propagatedBuildInputs = [ zlib ];
 
   enableParallelBuilding = true;
 

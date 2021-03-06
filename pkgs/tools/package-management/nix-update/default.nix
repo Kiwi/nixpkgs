@@ -17,7 +17,10 @@ buildPythonApplication rec {
   };
 
   makeWrapperArgs = [
-    "--prefix" "PATH" ":" (lib.makeBinPath [ nixFlakes nix-prefetch ])
+    "--prefix"
+    "PATH"
+    ":"
+    (lib.makeBinPath [ nixFlakes nix-prefetch ])
   ];
 
   checkPhase = ''

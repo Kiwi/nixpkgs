@@ -1,9 +1,27 @@
-{ lib, stdenv, fetchFromGitHub, cmake, boost, SDL2, SDL2_image, SDL2_ttf, libpng
-, glew, gettext, libsndfile, libvorbis, libogg, physfs, openal
-, xmlstarlet, doxygen, python3, callPackage }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, cmake
+, boost
+, SDL2
+, SDL2_image
+, SDL2_ttf
+, libpng
+, glew
+, gettext
+, libsndfile
+, libvorbis
+, libogg
+, physfs
+, openal
+, xmlstarlet
+, doxygen
+, python3
+, callPackage
+}:
 
 let
-  colobot-data = callPackage ./data.nix {};
+  colobot-data = callPackage ./data.nix { };
 in
 stdenv.mkDerivation rec {
   pname = "colobot";

@@ -1,9 +1,25 @@
-{ lib, stdenv, fetchurl, wrapGAppsHook, gsettings-desktop-schemas, gspell, gtksourceview4, libgee
-, tepl, amtk, gnome3, glib, pkg-config, intltool, itstool, libxml2 }:
+{ lib
+, stdenv
+, fetchurl
+, wrapGAppsHook
+, gsettings-desktop-schemas
+, gspell
+, gtksourceview4
+, libgee
+, tepl
+, amtk
+, gnome3
+, glib
+, pkg-config
+, intltool
+, itstool
+, libxml2
+}:
 let
   version = "3.38.0";
   pname = "gnome-latex";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "${pname}-${version}";
 
   src = fetchurl {
@@ -12,7 +28,7 @@ in stdenv.mkDerivation {
   };
 
   NIX_CFLAGS_COMPILE = "-I${glib.dev}/include/gio-unix-2.0";
-  configureFlags = ["--disable-dconf-migration"];
+  configureFlags = [ "--disable-dconf-migration" ];
 
   nativeBuildInputs = [
     pkg-config

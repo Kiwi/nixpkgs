@@ -1,10 +1,33 @@
-{ lib, stdenv, fetchFromGitHub, jdk, gmp, readline, openssl, unixODBC, zlib
-, libarchive, db, pcre, libedit, libossp_uuid, libXpm
-, libSM, libXt, freetype, pkg-config, fontconfig
-, cmake, libyaml, Security
-, libjpeg, libX11, libXext, libXft, libXinerama
+{ lib
+, stdenv
+, fetchFromGitHub
+, jdk
+, gmp
+, readline
+, openssl
+, unixODBC
+, zlib
+, libarchive
+, db
+, pcre
+, libedit
+, libossp_uuid
+, libXpm
+, libSM
+, libXt
+, freetype
+, pkg-config
+, fontconfig
+, cmake
+, libyaml
+, Security
+, libjpeg
+, libX11
+, libXext
+, libXft
+, libXinerama
 , extraLibraries ? [ jdk unixODBC libXpm libSM libXt freetype fontconfig ]
-, extraPacks     ? []
+, extraPacks ? [ ]
 , withGui ? false
 }:
 
@@ -28,9 +51,18 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ cmake pkg-config ];
 
-  buildInputs = [ gmp readline openssl
-    libarchive libyaml db pcre libedit libossp_uuid
-    zlib ]
+  buildInputs = [
+    gmp
+    readline
+    openssl
+    libarchive
+    libyaml
+    db
+    pcre
+    libedit
+    libossp_uuid
+    zlib
+  ]
   ++ lib.optionals (withGui && !stdenv.isDarwin) [ libXpm libX11 libXext libXft libXinerama libjpeg ]
   ++ extraLibraries
   ++ lib.optional stdenv.isDarwin Security;
@@ -40,8 +72,8 @@ stdenv.mkDerivation {
   cmakeFlags = [ "-DSWIPL_INSTALL_IN_LIB=ON" ];
 
   postInstall = builtins.concatStringsSep "\n"
-  ( builtins.map (packInstall "$out") extraPacks
-  );
+    (builtins.map (packInstall "$out") extraPacks
+    );
 
   meta = {
     homepage = "https://www.swi-prolog.org";

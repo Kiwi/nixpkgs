@@ -1,4 +1,4 @@
-import ./make-test-python.nix ({ pkgs, ...} : {
+import ./make-test-python.nix ({ pkgs, ... }: {
   name = "kernel-lts";
   meta = with pkgs.lib.maintainers; {
     maintainers = [ nequissimus ];

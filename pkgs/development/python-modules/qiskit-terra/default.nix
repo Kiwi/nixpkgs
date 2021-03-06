@@ -102,7 +102,7 @@ buildPythonPackage rec {
 
   pytestFlagsArray = [
     "--ignore=test/randomized/test_transpiler_equivalence.py" # collection requires qiskit-aer, which would cause circular dependency
-  ] ++ lib.optionals (!withClassicalFunctionCompiler ) [
+  ] ++ lib.optionals (!withClassicalFunctionCompiler) [
     "--ignore=test/python/classical_function_compiler/"
   ];
   disabledTests = [

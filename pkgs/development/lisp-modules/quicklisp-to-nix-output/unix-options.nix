@@ -14,7 +14,7 @@ rec {
 
   packageName = "unix-options";
 
-  asdFilesToKeep = ["unix-options.asd"];
+  asdFilesToKeep = [ "unix-options.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM unix-options DESCRIPTION Easy to use command line option parser

@@ -15,7 +15,7 @@ simple string literal definition that doesn't require escaping characters.'';
 
   packageName = "pythonic-string-reader";
 
-  asdFilesToKeep = ["pythonic-string-reader.asd"];
+  asdFilesToKeep = [ "pythonic-string-reader.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM pythonic-string-reader DESCRIPTION

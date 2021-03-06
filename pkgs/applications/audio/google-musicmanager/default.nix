@@ -1,11 +1,19 @@
-{ lib, stdenv, fetchurl
-, flac, expat, libidn, qtbase, qtwebkit, libvorbis }:
+{ lib
+, stdenv
+, fetchurl
+, flac
+, expat
+, libidn
+, qtbase
+, qtwebkit
+, libvorbis
+}:
 assert stdenv.hostPlatform.system == "x86_64-linux";
 
 stdenv.mkDerivation rec {
   version = "beta_1.0.467.4929-r0"; # friendly to nix-env version sorting algo
   product = "google-musicmanager";
-  name    = "${product}-${version}";
+  name = "${product}-${version}";
 
   # When looking for newer versions, since google doesn't let you list their repo dirs,
   # curl http://dl.google.com/linux/musicmanager/deb/dists/stable/Release
@@ -14,7 +22,7 @@ stdenv.mkDerivation rec {
   # which will contain the links to all available *.debs for the arch.
 
   src = fetchurl {
-    url    = "http://dl.google.com/linux/musicmanager/deb/pool/main/g/google-musicmanager-beta/${name}_amd64.deb";
+    url = "http://dl.google.com/linux/musicmanager/deb/pool/main/g/google-musicmanager-beta/${name}_amd64.deb";
     sha256 = "0yaprpbp44var88kdj1h11fqkhgcklixr69jyia49v9m22529gg2";
   };
 
@@ -69,9 +77,9 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Uploads music from your computer to Google Play";
-    homepage    = "https://support.google.com/googleplay/answer/1229970";
-    license     = licenses.unfree;
+    homepage = "https://support.google.com/googleplay/answer/1229970";
+    license = licenses.unfree;
     maintainers = with maintainers; [ lovek323 ];
-    platforms   = platforms.linux;
+    platforms = platforms.linux;
   };
 }

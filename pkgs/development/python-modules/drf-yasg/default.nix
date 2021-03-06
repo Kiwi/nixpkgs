@@ -1,13 +1,13 @@
-{
-  lib,
-  buildPythonPackage,
-  fetchPypi,
-  inflection,
-  ruamel_yaml,
-  setuptools_scm,
-  six,
-  coreapi,
-  djangorestframework,
+{ lib
+, buildPythonPackage
+, fetchPypi
+, inflection
+, ruamel_yaml
+, setuptools_scm
+, six
+, coreapi
+, djangorestframework
+,
 }:
 
 buildPythonPackage rec {

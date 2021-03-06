@@ -4,7 +4,8 @@
 , fetchFromGitLab
 , libantlr3c
 , mbedtls
-, lib, stdenv
+, lib
+, stdenv
 , zlib
 }:
 

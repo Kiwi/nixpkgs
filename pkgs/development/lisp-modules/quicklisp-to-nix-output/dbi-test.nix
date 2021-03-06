@@ -14,7 +14,7 @@ rec {
 
   packageName = "dbi-test";
 
-  asdFilesToKeep = ["dbi-test.asd"];
+  asdFilesToKeep = [ "dbi-test.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM dbi-test DESCRIPTION System lacks description SHA256

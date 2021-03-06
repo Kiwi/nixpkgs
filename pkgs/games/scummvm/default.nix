@@ -1,5 +1,21 @@
-{ lib, stdenv, fetchurl, nasm
-, alsaLib, curl, flac, fluidsynth, freetype, libjpeg, libmad, libmpeg2, libogg, libvorbis, libGLU, libGL, SDL2, zlib
+{ lib
+, stdenv
+, fetchurl
+, nasm
+, alsaLib
+, curl
+, flac
+, fluidsynth
+, freetype
+, libjpeg
+, libmad
+, libmpeg2
+, libogg
+, libvorbis
+, libGLU
+, libGL
+, SDL2
+, zlib
 }:
 
 stdenv.mkDerivation rec {
@@ -14,7 +30,20 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ nasm ];
 
   buildInputs = [
-    alsaLib curl freetype flac fluidsynth libjpeg libmad libmpeg2 libogg libvorbis libGLU libGL SDL2 zlib
+    alsaLib
+    curl
+    freetype
+    flac
+    fluidsynth
+    libjpeg
+    libmad
+    libmpeg2
+    libogg
+    libvorbis
+    libGLU
+    libGL
+    SDL2
+    zlib
   ];
 
   dontDisableStatic = true;

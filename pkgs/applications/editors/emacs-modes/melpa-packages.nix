@@ -25,27 +25,33 @@ instantenous and formats commits for you.
 { lib, pkgs }: variant: self:
 let
   dontConfigure = pkg:
-    if pkg != null then pkg.override (args: {
-      melpaBuild = drv: args.melpaBuild (drv // {
-        dontConfigure = true;
-      });
-    }) else null;
+    if pkg != null then
+      pkg.override
+        (args: {
+          melpaBuild = drv: args.melpaBuild (drv // {
+            dontConfigure = true;
+          });
+        }) else null;
 
   markBroken = pkg:
-    if pkg != null then pkg.override (args: {
-      melpaBuild = drv: args.melpaBuild (drv // {
-        meta = (drv.meta or { }) // { broken = true; };
-      });
-    }) else null;
+    if pkg != null then
+      pkg.override
+        (args: {
+          melpaBuild = drv: args.melpaBuild (drv // {
+            meta = (drv.meta or { }) // { broken = true; };
+          });
+        }) else null;
 
   externalSrc = pkg: epkg:
-    if pkg != null then pkg.override (args: {
-      melpaBuild = drv: args.melpaBuild (drv // {
-        inherit (epkg) src version;
+    if pkg != null then
+      pkg.override
+        (args: {
+          melpaBuild = drv: args.melpaBuild (drv // {
+            inherit (epkg) src version;
 
-        propagatedUserEnvPkgs = [ epkg ];
-      });
-    }) else null;
+            propagatedUserEnvPkgs = [ epkg ];
+          });
+        }) else null;
 
   buildWithGit = pkg: pkg.overrideAttrs (attrs: {
     nativeBuildInputs =
@@ -198,8 +204,8 @@ let
 
         ivy-rtags = fix-rtags super.ivy-rtags;
 
-        libgit = super.libgit.overrideAttrs(attrs: {
-          nativeBuildInputs = (attrs.nativeBuildInputs or []) ++ [ pkgs.cmake ];
+        libgit = super.libgit.overrideAttrs (attrs: {
+          nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ [ pkgs.cmake ];
           buildInputs = attrs.buildInputs ++ [ pkgs.libgit2 ];
           dontUseCmakeBuildDir = true;
           postPatch = ''

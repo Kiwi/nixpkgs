@@ -1,27 +1,48 @@
-{ lib, stdenv, wrapQtAppsHook, makeDesktopItem
+{ lib
+, stdenv
+, wrapQtAppsHook
+, makeDesktopItem
 , fetchFromGitHub
-, cmake, qttools, pkg-config
-, qtbase, qtdeclarative, qtgraphicaleffects
-, qtmultimedia, qtxmlpatterns
-, qtquickcontrols, qtquickcontrols2
+, cmake
+, qttools
+, pkg-config
+, qtbase
+, qtdeclarative
+, qtgraphicaleffects
+, qtmultimedia
+, qtxmlpatterns
+, qtquickcontrols
+, qtquickcontrols2
 , qtmacextras
-, monero, miniupnpc, unbound, readline
-, boost, libunwind, libsodium, pcsclite
-, randomx, zeromq, libgcrypt, libgpgerror
-, hidapi, rapidjson, quirc
+, monero
+, miniupnpc
+, unbound
+, readline
+, boost
+, libunwind
+, libsodium
+, pcsclite
+, randomx
+, zeromq
+, libgcrypt
+, libgpgerror
+, hidapi
+, rapidjson
+, quirc
 , trezorSupport ? true
-,   libusb1  ? null
-,   protobuf ? null
-,   python3  ? null
+, libusb1 ? null
+, protobuf ? null
+, python3 ? null
 }:
 
 with lib;
 
-assert trezorSupport -> all (x: x!=null) [ libusb1 protobuf python3 ];
+assert trezorSupport -> all (x: x != null) [ libusb1 protobuf python3 ];
 
 let
-  arch = if stdenv.isx86_64  then "x86-64"
-    else if stdenv.isi686    then "i686"
+  arch =
+    if stdenv.isx86_64 then "x86-64"
+    else if stdenv.isi686 then "i686"
     else if stdenv.isAarch64 then "armv8-a"
     else throw "unsupported architecture";
 in
@@ -31,27 +52,44 @@ stdenv.mkDerivation rec {
   version = "0.17.1.9";
 
   src = fetchFromGitHub {
-    owner  = "monero-project";
-    repo   = "monero-gui";
-    rev    = "v${version}";
+    owner = "monero-project";
+    repo = "monero-gui";
+    rev = "v${version}";
     sha256 = "0143mmxk0jfb5pmjlx6v0knvf8v49kmkpjxlp6rw8lwnlf71xadn";
   };
 
   nativeBuildInputs = [
-    cmake pkg-config wrapQtAppsHook
+    cmake
+    pkg-config
+    wrapQtAppsHook
     (getDev qttools)
   ];
 
   buildInputs = [
-    qtbase qtdeclarative qtgraphicaleffects
-    qtmultimedia qtquickcontrols qtquickcontrols2
+    qtbase
+    qtdeclarative
+    qtgraphicaleffects
+    qtmultimedia
+    qtquickcontrols
+    qtquickcontrols2
     qtxmlpatterns
-    monero miniupnpc unbound readline
-    randomx libgcrypt libgpgerror
-    boost libunwind libsodium pcsclite
-    zeromq hidapi rapidjson quirc
+    monero
+    miniupnpc
+    unbound
+    readline
+    randomx
+    libgcrypt
+    libgpgerror
+    boost
+    libunwind
+    libsodium
+    pcsclite
+    zeromq
+    hidapi
+    rapidjson
+    quirc
   ] ++ optionals trezorSupport [ libusb1 protobuf python3 ]
-    ++ optionals stdenv.isDarwin [ qtmacextras ];
+  ++ optionals stdenv.isDarwin [ qtmacextras ];
 
   postUnpack = ''
     # copy monero sources here
@@ -89,7 +127,7 @@ stdenv.mkDerivation rec {
     icon = "monero";
     desktopName = "Monero";
     genericName = "Wallet";
-    categories  = "Network;Utility;";
+    categories = "Network;Utility;";
   };
 
   postInstall = ''
@@ -107,10 +145,10 @@ stdenv.mkDerivation rec {
   '';
 
   meta = {
-    description  = "Private, secure, untraceable currency";
-    homepage     = "https://getmonero.org/";
-    license      = licenses.bsd3;
-    platforms    = platforms.all;
-    maintainers  = with maintainers; [ rnhmjoj ];
+    description = "Private, secure, untraceable currency";
+    homepage = "https://getmonero.org/";
+    license = licenses.bsd3;
+    platforms = platforms.all;
+    maintainers = with maintainers; [ rnhmjoj ];
   };
 }

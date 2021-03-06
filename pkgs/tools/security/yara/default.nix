@@ -1,12 +1,16 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetchFromGitHub
 , autoreconfHook
 , pcre
 , pkg-config
 , protobufc
-, withCrypto ? true, openssl
-, enableMagic ? true, file
-, enableCuckoo ? true, jansson
+, withCrypto ? true
+, openssl
+, enableMagic ? true
+, file
+, enableCuckoo ? true
+, jansson
 }:
 
 stdenv.mkDerivation rec {

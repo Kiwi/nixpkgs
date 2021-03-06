@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, meson, ninja, pkg-config, gtk3, epoxy, wayland, wrapGAppsHook
+{ lib
+, stdenv
+, fetchFromGitHub
+, meson
+, ninja
+, pkg-config
+, gtk3
+, epoxy
+, wayland
+, wrapGAppsHook
 , fetchpatch
 }:
 

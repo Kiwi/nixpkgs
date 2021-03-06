@@ -6,7 +6,7 @@
     chown sogo:sogo /etc/sogo/sogo.conf
     chmod 640 /etc/sogo/sogo.conf
 
-    ${if (cfg.configReplaces != {}) then ''
+    ${if (cfg.configReplaces != { }) then ''
       # Insert secrets
       ${concatStringsSep "\n" (mapAttrsToList (k: v: ''export ${k}="$(cat "${v}" | tr -d '\n')"'') cfg.configReplaces)}
 
@@ -16,7 +16,8 @@
     ''}
   '';
 
-in {
+in
+{
   options.services.sogo = with types; {
     enable = mkEnableOption "SOGo groupware";
 
@@ -53,7 +54,7 @@ in {
         specified file.
       '';
       type = attrsOf str;
-      default = {};
+      default = { };
       example = {
         LDAP_BINDPW = "/var/lib/secrets/sogo/ldappw";
       };
@@ -261,7 +262,7 @@ in {
     };
 
     # User and group
-    users.groups.sogo = {};
+    users.groups.sogo = { };
     users.users.sogo = {
       group = "sogo";
       isSystemUser = true;

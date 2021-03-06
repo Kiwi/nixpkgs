@@ -1,5 +1,12 @@
-{ lib, stdenv, fetchurl, lua, pkg-config, systemd, nixosTests
-, tlsSupport ? true, openssl
+{ lib
+, stdenv
+, fetchurl
+, lua
+, pkg-config
+, systemd
+, nixosTests
+, tlsSupport ? true
+, openssl
 }:
 
 stdenv.mkDerivation rec {
@@ -31,7 +38,7 @@ stdenv.mkDerivation rec {
   # It's weird that the build isn't failing because of failure to compile dependencies, it's from failure to link them!
   makeFlags = [ "PREFIX=$(out)" ]
     ++ lib.optionals (stdenv.buildPlatform != stdenv.hostPlatform) [ "AR=${stdenv.cc.targetPrefix}ar" "RANLIB=${stdenv.cc.targetPrefix}ranlib" "MALLOC=libc" ]
-    ++ lib.optional (stdenv.isLinux && !stdenv.hostPlatform.isMusl) ["USE_SYSTEMD=yes"]
+    ++ lib.optional (stdenv.isLinux && !stdenv.hostPlatform.isMusl) [ "USE_SYSTEMD=yes" ]
     ++ lib.optionals tlsSupport [ "BUILD_TLS=yes" ];
 
   enableParallelBuilding = true;

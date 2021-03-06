@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , buildPythonPackage
 , fetchPypi
 , python
@@ -17,11 +18,11 @@
 , tables
 , xlrd
 , xlwt
-# Test Inputs
+  # Test Inputs
 , glibcLocales
 , hypothesis
 , pytestCheckHook
-# Darwin inputs
+  # Darwin inputs
 , runtimeShell
 , libcxx ? null
 }:

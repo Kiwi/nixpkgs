@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
     "--mandir=\${man}/share/man"
   ]
   # jq is linked to libjq:
-    ++ lib.optional (!stdenv.isDarwin) "LDFLAGS=-Wl,-rpath,\\\${libdir}";
+  ++ lib.optional (!stdenv.isDarwin) "LDFLAGS=-Wl,-rpath,\\\${libdir}";
 
   doInstallCheck = true;
   installCheckTarget = "check";

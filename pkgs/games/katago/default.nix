@@ -25,14 +25,17 @@
 }:
 
 assert !enableGPU -> (
-  !enableCuda);
+  !enableCuda
+);
 
 let
-  env = if enableCuda
+  env =
+    if enableCuda
     then gcc8Stdenv
     else stdenv;
 
-in env.mkDerivation rec {
+in
+env.mkDerivation rec {
   pname = "katago";
   version = "1.8.0";
   githash = "8ffda1fe05c69c67342365013b11225d443445e8";
@@ -104,9 +107,9 @@ in env.mkDerivation rec {
 
   meta = with lib; {
     description = "Go engine modeled after AlphaGo Zero";
-    homepage    = "https://github.com/lightvector/katago";
-    license     = licenses.mit;
+    homepage = "https://github.com/lightvector/katago";
+    license = licenses.mit;
     maintainers = [ maintainers.omnipotententity ];
-    platforms   = [ "x86_64-linux" ];
+    platforms = [ "x86_64-linux" ];
   };
 }

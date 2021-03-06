@@ -1,5 +1,13 @@
-{ lib, buildDunePackage, async, cohttp, conduit-async, uri, ppx_sexp_conv
-, logs, magic-mime }:
+{ lib
+, buildDunePackage
+, async
+, cohttp
+, conduit-async
+, uri
+, ppx_sexp_conv
+, logs
+, magic-mime
+}:
 
 if !lib.versionAtLeast cohttp.version "0.99" then
   cohttp

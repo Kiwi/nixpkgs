@@ -20,7 +20,7 @@ let newPython = python3.override {
         inherit version;
         sha256 = "1vn1db2akw98ybnpns92qi11v94hydwp130s8753k6ikby95883j";
       };
-      patches = oldAttrs.patches or [] ++ [
+      patches = oldAttrs.patches or [ ] ++ [
         # Don't raise import error on non-linux os. Remove after upgrading to distro≥1.2.0
         (fetchpatch {
           url = "https://github.com/nir0s/distro/commit/25aa3f8c5934346dc838387fc081ce81baddeb95.patch";
@@ -45,7 +45,8 @@ let newPython = python3.override {
   };
 };
 
-in newPython.pkgs.buildPythonApplication rec {
+in
+newPython.pkgs.buildPythonApplication rec {
   version = "1.27.0";
   pname = "conan";
 

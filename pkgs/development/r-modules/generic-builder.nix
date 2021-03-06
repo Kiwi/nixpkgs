@@ -1,11 +1,11 @@
 { stdenv, lib, R, libcxx, xvfb_run, util-linux, Cocoa, Foundation, gettext, gfortran }:
 
-{ name, buildInputs ? [], requireX ? false, ... } @ attrs:
+{ name, buildInputs ? [ ], requireX ? false, ... } @ attrs:
 
 stdenv.mkDerivation ({
-  buildInputs = buildInputs ++ [R gettext] ++
-                lib.optionals requireX [util-linux xvfb_run] ++
-                lib.optionals stdenv.isDarwin [Cocoa Foundation gfortran];
+  buildInputs = buildInputs ++ [ R gettext ] ++
+    lib.optionals requireX [ util-linux xvfb_run ] ++
+    lib.optionals stdenv.isDarwin [ Cocoa Foundation gfortran ];
 
   NIX_CFLAGS_COMPILE =
     lib.optionalString stdenv.isDarwin "-I${libcxx}/include/c++/v1";
@@ -21,17 +21,19 @@ stdenv.mkDerivation ({
     runHook postBuild
   '';
 
-  installFlags = if attrs.doCheck or true then
-    []
-  else
-    [ "--no-test-load" ];
+  installFlags =
+    if attrs.doCheck or true then
+      [ ]
+    else
+      [ "--no-test-load" ];
 
-  rCommand = if requireX then
+  rCommand =
+    if requireX then
     # Unfortunately, xvfb-run has a race condition even with -a option, so that
     # we acquire a lock explicitly.
-    "flock ${xvfb_run} xvfb-run -a -e xvfb-error R"
-  else
-    "R";
+      "flock ${xvfb_run} xvfb-run -a -e xvfb-error R"
+    else
+      "R";
 
   installPhase = ''
     runHook preInstall

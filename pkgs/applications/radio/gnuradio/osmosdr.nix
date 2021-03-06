@@ -1,6 +1,13 @@
-{ lib, stdenv, fetchgit, cmake, pkg-config, makeWrapper
+{ lib
+, stdenv
+, fetchgit
+, cmake
+, pkg-config
+, makeWrapper
 , boost
-, pythonSupport ? true, python, swig
+, pythonSupport ? true
+, python
+, swig
 , airspy
 , gnuradio
 , hackrf
@@ -25,9 +32,16 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake makeWrapper pkg-config ];
   buildInputs = [
-    boost log4cpp airspy gnuradio hackrf libbladeRF rtl-sdr uhd
+    boost
+    log4cpp
+    airspy
+    gnuradio
+    hackrf
+    libbladeRF
+    rtl-sdr
+    uhd
   ] ++ lib.optionals stdenv.isLinux [ soapysdr-with-plugins ]
-    ++ lib.optionals pythonSupport [ python swig python.pkgs.cheetah ];
+  ++ lib.optionals pythonSupport [ python swig python.pkgs.cheetah ];
 
   postInstall = ''
     for prog in "$out"/bin/*; do

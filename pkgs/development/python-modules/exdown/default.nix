@@ -1,5 +1,9 @@
-{ lib, buildPythonPackage, fetchPypi, pythonOlder
-, importlib-metadata }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, pythonOlder
+, importlib-metadata
+}:
 
 buildPythonPackage rec {
   pname = "exdown";

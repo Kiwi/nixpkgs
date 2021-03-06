@@ -1,5 +1,8 @@
-{ lib, buildDunePackage, ocaml
-, bitstring, ppxlib
+{ lib
+, buildDunePackage
+, ocaml
+, bitstring
+, ppxlib
 , ounit
 }:
 

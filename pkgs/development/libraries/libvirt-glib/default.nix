@@ -1,5 +1,13 @@
-{ lib, stdenv, fetchurl, pkg-config, gobject-introspection, intltool, vala
-, libcap_ng, libvirt, libxml2
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, gobject-introspection
+, intltool
+, vala
+, libcap_ng
+, libvirt
+, libxml2
 }:
 
 stdenv.mkDerivation rec {

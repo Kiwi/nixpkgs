@@ -40,7 +40,8 @@
 , soci
 , speex
 , sqlite
-, lib, stdenv
+, lib
+, stdenv
 , udev
 , xercesc
 , xsd

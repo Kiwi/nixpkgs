@@ -1,5 +1,17 @@
-{ lib, stdenv, fetchurl, unzip, makeWrapper, flex, bison, ncurses, buddy, tecla
-, libsigsegv, gmpxx, cln, yices
+{ lib
+, stdenv
+, fetchurl
+, unzip
+, makeWrapper
+, flex
+, bison
+, ncurses
+, buddy
+, tecla
+, libsigsegv
+, gmpxx
+, cln
+, yices
 }:
 
 let
@@ -23,7 +35,17 @@ stdenv.mkDerivation {
   };
 
   buildInputs = [
-    flex bison ncurses buddy tecla gmpxx libsigsegv makeWrapper unzip cln yices
+    flex
+    bison
+    ncurses
+    buddy
+    tecla
+    gmpxx
+    libsigsegv
+    makeWrapper
+    unzip
+    cln
+    yices
   ];
 
   hardeningDisable = [ "stackprotector" ] ++

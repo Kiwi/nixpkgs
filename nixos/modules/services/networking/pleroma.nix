@@ -1,7 +1,8 @@
 { config, options, lib, pkgs, stdenv, ... }:
 let
   cfg = config.services.pleroma;
-in {
+in
+{
   options = {
     services.pleroma = with lib; {
       enable = mkEnableOption "pleroma";
@@ -52,7 +53,7 @@ in {
 
           Have a look to Pleroma section in the NixOS manual for more
           informations.
-          '';
+        '';
       };
 
       secretConfigFile = mkOption {
@@ -76,7 +77,7 @@ in {
         home = cfg.stateDir;
         extraGroups = [ cfg.group ];
       };
-      groups."${cfg.group}" = {};
+      groups."${cfg.group}" = { };
     };
 
     environment.systemPackages = [ cfg.package ];

@@ -4,7 +4,7 @@ python3Packages.buildPythonApplication rec {
   pname = "ledger-autosync";
   version = "1.0.2";
 
-# no tests included in PyPI tarball
+  # no tests included in PyPI tarball
   src = fetchFromGitHub {
     owner = "egh";
     repo = "ledger-autosync";
@@ -33,7 +33,7 @@ python3Packages.buildPythonApplication rec {
     secretstorage
     six
   ] ++ lib.optional useLedger ledger
-    ++ lib.optional useHledger hledger;
+  ++ lib.optional useHledger hledger;
 
   # Checks require ledger as a python package,
   # ledger does not support python3 while ledger-autosync requires it.

@@ -9,10 +9,10 @@ buildPythonPackage rec {
   version = "5.0.0";
 
   src = fetchFromGitHub {
-     owner = "workhorsy";
-     repo = pname;
-     rev = "v${version}";
-     sha256 = "0lxl9n6djaz5h1zrb2jca4qwl41c2plxy8chr7yhcxnzg0srddqi";
+    owner = "workhorsy";
+    repo = pname;
+    rev = "v${version}";
+    sha256 = "0lxl9n6djaz5h1zrb2jca4qwl41c2plxy8chr7yhcxnzg0srddqi";
   };
 
   checkInputs = [

@@ -1,7 +1,24 @@
-{ lib, python3, fetchPypi, appdirs, attrs, requests,
-beautifulsoup4, click-plugins, elasticsearch, flask_login, flask_wtf,
-pypandoc, python-dotenv, python-frontmatter, tinydb, validators,
-watchdog, wtforms, html2text, flask-compress }:
+{ lib
+, python3
+, fetchPypi
+, appdirs
+, attrs
+, requests
+, beautifulsoup4
+, click-plugins
+, elasticsearch
+, flask_login
+, flask_wtf
+, pypandoc
+, python-dotenv
+, python-frontmatter
+, tinydb
+, validators
+, watchdog
+, wtforms
+, html2text
+, flask-compress
+}:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "archivy";

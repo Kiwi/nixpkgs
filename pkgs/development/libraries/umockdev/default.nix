@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , docbook_xsl
 , fetchurl
 , glib

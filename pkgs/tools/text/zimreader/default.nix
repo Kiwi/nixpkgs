@@ -1,5 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch, automake, autoconf, libtool
-, zimlib, cxxtools, tntnet
+{ lib
+, stdenv
+, fetchFromGitHub
+, fetchpatch
+, automake
+, autoconf
+, libtool
+, zimlib
+, cxxtools
+, tntnet
 }:
 
 stdenv.mkDerivation {

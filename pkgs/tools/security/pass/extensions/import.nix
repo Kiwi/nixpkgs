@@ -11,7 +11,8 @@ let
     p.secretstorage
   ]);
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "pass-import";
   version = "3.1";
 

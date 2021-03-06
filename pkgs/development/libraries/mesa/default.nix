@@ -1,16 +1,38 @@
-{ stdenv, lib, fetchurl, fetchpatch, buildPackages
-, pkg-config, intltool, ninja, meson
-, file, flex, bison, expat, libdrm, xorg, wayland, wayland-protocols, openssl
-, llvmPackages, libffi, libomxil-bellagio, libva-minimal
-, libelf, libvdpau, python3Packages
+{ stdenv
+, lib
+, fetchurl
+, fetchpatch
+, buildPackages
+, pkg-config
+, intltool
+, ninja
+, meson
+, file
+, flex
+, bison
+, expat
+, libdrm
+, xorg
+, wayland
+, wayland-protocols
+, openssl
+, llvmPackages
+, libffi
+, libomxil-bellagio
+, libva-minimal
+, libelf
+, libvdpau
+, python3Packages
 , libglvnd
 , enableRadv ? true
-, galliumDrivers ? ["auto"]
-, driDrivers ? ["auto"]
-, vulkanDrivers ? ["auto"]
+, galliumDrivers ? [ "auto" ]
+, driDrivers ? [ "auto" ]
+, vulkanDrivers ? [ "auto" ]
 , eglPlatforms ? [ "x11" ] ++ lib.optionals stdenv.isLinux [ "wayland" ]
-, OpenGL, Xplugin
-, withValgrind ? stdenv.hostPlatform.isLinux && !stdenv.hostPlatform.isAarch32, valgrind-light
+, OpenGL
+, Xplugin
+, withValgrind ? stdenv.hostPlatform.isLinux && !stdenv.hostPlatform.isAarch32
+, valgrind-light
 , enableGalliumNine ? stdenv.isLinux
 , enableOSMesa ? stdenv.isLinux
 }:
@@ -32,7 +54,7 @@ let
   # Release calendar: https://www.mesa3d.org/release-calendar.html
   # Release frequency: https://www.mesa3d.org/releasing.html#schedule
   version = "20.3.4";
-  branch  = versions.major version;
+  branch = versions.major version;
 in
 
 stdenv.mkDerivation {
@@ -119,28 +141,48 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = with xorg; [
-    expat llvmPackages.llvm libglvnd xorgproto
-    libX11 libXext libxcb libXt libXfixes libxshmfence libXrandr
-    libffi libvdpau libelf libXvMC
-    libpthreadstubs openssl /*or another sha1 provider*/
+    expat
+    llvmPackages.llvm
+    libglvnd
+    xorgproto
+    libX11
+    libXext
+    libxcb
+    libXt
+    libXfixes
+    libxshmfence
+    libXrandr
+    libffi
+    libvdpau
+    libelf
+    libXvMC
+    libpthreadstubs
+    openssl /*or another sha1 provider*/
   ] ++ lib.optionals (elem "wayland" eglPlatforms) [ wayland wayland-protocols ]
-    ++ lib.optionals stdenv.isLinux [ libomxil-bellagio libva-minimal ]
-    ++ lib.optional withValgrind valgrind-light;
+  ++ lib.optionals stdenv.isLinux [ libomxil-bellagio libva-minimal ]
+  ++ lib.optional withValgrind valgrind-light;
 
   depsBuildBuild = [ pkg-config ];
 
   nativeBuildInputs = [
-    pkg-config meson ninja
-    intltool bison flex file
-    python3Packages.python python3Packages.Mako
+    pkg-config
+    meson
+    ninja
+    intltool
+    bison
+    flex
+    file
+    python3Packages.python
+    python3Packages.Mako
   ] ++ lib.optionals (elem "wayland" eglPlatforms) [
     wayland # For wayland-scanner during the build
   ];
 
   propagatedBuildInputs = with xorg; [
-    libXdamage libXxf86vm
+    libXdamage
+    libXxf86vm
   ] ++ optional stdenv.isLinux libdrm
-    ++ optionals stdenv.isDarwin [ OpenGL Xplugin ];
+  ++ optionals stdenv.isDarwin [ OpenGL Xplugin ];
 
   enableParallelBuilding = true;
   doCheck = false;

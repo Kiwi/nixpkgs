@@ -1,5 +1,11 @@
-{ appimageTools, lib, fetchurl, gtk3, gsettings-desktop-schemas
-, texlive, pandoc, pandoc-citeproc
+{ appimageTools
+, lib
+, fetchurl
+, gtk3
+, gsettings-desktop-schemas
+, texlive
+, pandoc
+, pandoc-citeproc
 }:
 
 # Based on https://gist.github.com/msteen/96cb7df66a359b827497c5269ccbbf94 and joplin-desktop nixpkgs.
@@ -14,7 +20,8 @@ let
   appimageContents = appimageTools.extractType2 {
     inherit name src;
   };
-in appimageTools.wrapType2 rec {
+in
+appimageTools.wrapType2 rec {
   inherit name src;
 
   profile = ''

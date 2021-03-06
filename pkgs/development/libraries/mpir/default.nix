@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
     inherit version;
     description = "A highly optimised library for bignum arithmetic forked from GMP";
     license = lib.licenses.lgpl3Plus;
-    maintainers = [lib.maintainers.raskin];
+    maintainers = [ lib.maintainers.raskin ];
     platforms = lib.platforms.unix;
     downloadPage = "http://mpir.org/downloads.html";
     homepage = "http://mpir.org/";

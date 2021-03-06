@@ -1,5 +1,17 @@
-{ lib, stdenv, fetchurl, pkg-config, autoconf, automake, gettext
-, fluxbox, bc, gtkmm2, glibmm, libglademm, libsigcxx }:
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, autoconf
+, automake
+, gettext
+, fluxbox
+, bc
+, gtkmm2
+, glibmm
+, libglademm
+, libsigcxx
+}:
 
 stdenv.mkDerivation rec {
 

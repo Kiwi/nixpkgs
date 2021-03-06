@@ -1,7 +1,18 @@
-{ lib, fetchurl, buildDunePackage, fetchpatch
-, alcotest, cstruct-unix
-, asn1-combinators, domain-name, fmt, gmap, rresult, mirage-crypto, mirage-crypto-pk
-, logs, base64
+{ lib
+, fetchurl
+, buildDunePackage
+, fetchpatch
+, alcotest
+, cstruct-unix
+, asn1-combinators
+, domain-name
+, fmt
+, gmap
+, rresult
+, mirage-crypto
+, mirage-crypto-pk
+, logs
+, base64
 }:
 
 buildDunePackage rec {
@@ -26,7 +37,7 @@ buildDunePackage rec {
   useDune2 = true;
 
   buildInputs = [ alcotest cstruct-unix ];
-  propagatedBuildInputs = [ asn1-combinators domain-name fmt gmap mirage-crypto mirage-crypto-pk rresult  logs base64 ];
+  propagatedBuildInputs = [ asn1-combinators domain-name fmt gmap mirage-crypto mirage-crypto-pk rresult logs base64 ];
 
   doCheck = true;
 

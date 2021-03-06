@@ -1,6 +1,14 @@
-{ lib, stdenv, buildPackages, fetchurl, flex, cracklib, db4, gettext
+{ lib
+, stdenv
+, buildPackages
+, fetchurl
+, flex
+, cracklib
+, db4
+, gettext
 , nixosTests
-, withLibxcrypt ? false, libxcrypt
+, withLibxcrypt ? false
+, libxcrypt
 }:
 
 stdenv.mkDerivation rec {
@@ -8,7 +16,7 @@ stdenv.mkDerivation rec {
   version = "1.5.1";
 
   src = fetchurl {
-    url    = "https://github.com/linux-pam/linux-pam/releases/download/v${version}/Linux-PAM-${version}.tar.xz";
+    url = "https://github.com/linux-pam/linux-pam/releases/download/v${version}/Linux-PAM-${version}.tar.xz";
     sha256 = "sha256-IB1AcwsRNbGzzeoJ8sKKxjTXMYHM0Bcs7d7jZJxXkvw=";
   };
 
@@ -36,11 +44,11 @@ stdenv.mkDerivation rec {
   # $out/etc was also missed: pam_env(login:session): Unable to open config file
 
   preConfigure = lib.optionalString (stdenv.hostPlatform.libc == "musl") ''
-      # export ac_cv_search_crypt=no
-      # (taken from Alpine linux, apparently insecure but also doesn't build O:))
-      # disable insecure modules
-      # sed -e 's/pam_rhosts//g' -i modules/Makefile.am
-      sed -e 's/pam_rhosts//g' -i modules/Makefile.in
+    # export ac_cv_search_crypt=no
+    # (taken from Alpine linux, apparently insecure but also doesn't build O:))
+    # disable insecure modules
+    # sed -e 's/pam_rhosts//g' -i modules/Makefile.am
+    sed -e 's/pam_rhosts//g' -i modules/Makefile.in
   '';
 
   configureFlags = [

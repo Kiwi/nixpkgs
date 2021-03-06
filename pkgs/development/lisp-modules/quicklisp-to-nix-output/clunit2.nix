@@ -14,7 +14,7 @@ rec {
 
   packageName = "clunit2";
 
-  asdFilesToKeep = ["clunit2.asd"];
+  asdFilesToKeep = [ "clunit2.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM clunit2 DESCRIPTION CLUnit is a Common Lisp unit testing framework.

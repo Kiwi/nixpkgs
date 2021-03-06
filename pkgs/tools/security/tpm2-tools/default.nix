@@ -1,6 +1,16 @@
-{ stdenv, fetchurl, lib
-, pandoc, pkg-config, makeWrapper, curl, openssl, tpm2-tss, libuuid
-, abrmdSupport ? true, tpm2-abrmd ? null }:
+{ stdenv
+, fetchurl
+, lib
+, pandoc
+, pkg-config
+, makeWrapper
+, curl
+, openssl
+, tpm2-tss
+, libuuid
+, abrmdSupport ? true
+, tpm2-abrmd ? null
+}:
 
 stdenv.mkDerivation rec {
   pname = "tpm2-tools";
@@ -13,19 +23,24 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pandoc pkg-config makeWrapper ];
   buildInputs = [
-    curl openssl tpm2-tss libuuid
+    curl
+    openssl
+    tpm2-tss
+    libuuid
   ];
 
-  preFixup = let
-    ldLibraryPath = lib.makeLibraryPath ([
-      tpm2-tss
-    ] ++ (lib.optional abrmdSupport tpm2-abrmd));
-  in ''
-    for bin in $out/bin/*; do
-      wrapProgram $bin \
-        --suffix LD_LIBRARY_PATH : "${ldLibraryPath}"
-    done
-  '';
+  preFixup =
+    let
+      ldLibraryPath = lib.makeLibraryPath ([
+        tpm2-tss
+      ] ++ (lib.optional abrmdSupport tpm2-abrmd));
+    in
+    ''
+      for bin in $out/bin/*; do
+        wrapProgram $bin \
+          --suffix LD_LIBRARY_PATH : "${ldLibraryPath}"
+      done
+    '';
 
 
   # Unit tests disabled, as they rely on a dbus session

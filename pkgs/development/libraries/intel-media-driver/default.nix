@@ -1,7 +1,13 @@
-{ lib, stdenv, fetchFromGitHub
-, cmake, pkg-config
-, libva, libpciaccess, intel-gmmlib
-, enableX11 ? true, libX11
+{ lib
+, stdenv
+, fetchFromGitHub
+, cmake
+, pkg-config
+, libva
+, libpciaccess
+, intel-gmmlib
+, enableX11 ? true
+, libX11
 }:
 
 stdenv.mkDerivation rec {
@@ -9,9 +15,9 @@ stdenv.mkDerivation rec {
   version = "21.1.1";
 
   src = fetchFromGitHub {
-    owner  = "intel";
-    repo   = "media-driver";
-    rev    = "intel-media-${version}";
+    owner = "intel";
+    repo = "media-driver";
+    rev = "intel-media-${version}";
     sha256 = "1cgmpy2wqhv8zljz73wm4rggpk9w1prpmab5qphfp7ljajfv7k8r";
   };
 
@@ -42,7 +48,7 @@ stdenv.mkDerivation rec {
   };
 
   postFixup = lib.optionalString enableX11 ''
-    patchelf --set-rpath "$(patchelf --print-rpath $out/lib/dri/iHD_drv_video.so):${lib.makeLibraryPath [ libX11  ]}" \
+    patchelf --set-rpath "$(patchelf --print-rpath $out/lib/dri/iHD_drv_video.so):${lib.makeLibraryPath [ libX11 ]}" \
       $out/lib/dri/iHD_drv_video.so
   '';
 }

@@ -1,6 +1,7 @@
 { fetchurl
 , fetchpatch
-, lib, stdenv
+, lib
+, stdenv
 , meson
 , ninja
 , pkg-config
@@ -25,9 +26,13 @@
 let
   testDeps = [
     gobject-introspection # for Gio and cairo typelibs
-    gtk3 atk pango.out gdk-pixbuf
+    gtk3
+    atk
+    pango.out
+    gdk-pixbuf
   ];
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "gjs";
   version = "1.66.2";
 

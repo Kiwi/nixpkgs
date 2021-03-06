@@ -1,8 +1,20 @@
-{ lib, stdenv, fetchurl, pkg-config, libtool
-, xlibsWrapper, xbitmaps, libXrender, libXmu, libXt
-, expat, libjpeg, libpng, libiconv
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, libtool
+, xlibsWrapper
+, xbitmaps
+, libXrender
+, libXmu
+, libXt
+, expat
+, libjpeg
+, libpng
+, libiconv
 , flex
-, libXp, libXau
+, libXp
+, libXau
 , demoSupport ? false
 }:
 # refer to the gentoo package
@@ -18,8 +30,15 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     libtool
-    xlibsWrapper xbitmaps libXrender libXmu libXt
-    expat libjpeg libpng libiconv
+    xlibsWrapper
+    xbitmaps
+    libXrender
+    libXmu
+    libXt
+    expat
+    libjpeg
+    libpng
+    libiconv
   ];
 
   nativeBuildInputs = [ pkg-config flex ];
@@ -36,10 +55,11 @@ stdenv.mkDerivation rec {
     sed '/^SUBDIRS =,^$/s/\<demos\>//' -i Makefile.{am,in}
   '';
 
-  patches = [ ./Remove-unsupported-weak-refs-on-darwin.patch
-              ./Use-correct-header-for-malloc.patch
-              ./Add-X.Org-to-bindings-file.patch
-            ];
+  patches = [
+    ./Remove-unsupported-weak-refs-on-darwin.patch
+    ./Use-correct-header-for-malloc.patch
+    ./Add-X.Org-to-bindings-file.patch
+  ];
 
   meta = with lib; {
     homepage = "https://motif.ics.com";

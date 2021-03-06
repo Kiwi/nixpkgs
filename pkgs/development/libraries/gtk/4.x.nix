@@ -169,7 +169,7 @@ stdenv.mkDerivation rec {
     patchShebangs ''${files[@]}
   '';
 
-  postBuild =  lib.optionalString withGtkDoc ''
+  postBuild = lib.optionalString withGtkDoc ''
     # Meson not building `custom_target`s passed to `custom_files` argument of `gnome.gtkdoc` function
     # as part of the `install` target. We have to build the docs manually first.
     # https://github.com/mesonbuild/meson/issues/2831
@@ -196,7 +196,7 @@ stdenv.mkDerivation rec {
   '';
 
   # Wrap demos
-  postFixup =  lib.optionalString (!stdenv.isDarwin) ''
+  postFixup = lib.optionalString (!stdenv.isDarwin) ''
     demos=(gtk4-demo gtk4-demo-application gtk4-icon-browser gtk4-widget-factory)
 
     for program in ''${demos[@]}; do

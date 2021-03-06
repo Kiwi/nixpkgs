@@ -1,4 +1,8 @@
-{ lib, python, buildPythonPackage, fetchPypi, isPy27
+{ lib
+, python
+, buildPythonPackage
+, fetchPypi
+, isPy27
 , fetchpatch
 , azure-common
 , azure-core

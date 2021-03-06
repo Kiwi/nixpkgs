@@ -1,7 +1,16 @@
-{ lib, stdenv, fetchFromGitLab
-, meson, ninja, pkg-config, scdoc
+{ lib
+, stdenv
+, fetchFromGitLab
+, meson
+, ninja
+, pkg-config
+, scdoc
 , openssh
-, mesa, lz4, zstd, ffmpeg, libva
+, mesa
+, lz4
+, zstd
+, ffmpeg
+, libva
 }:
 
 stdenv.mkDerivation rec {
@@ -25,7 +34,11 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     # Optional dependencies:
-    mesa lz4 zstd ffmpeg libva
+    mesa
+    lz4
+    zstd
+    ffmpeg
+    libva
   ];
 
   meta = with lib; {

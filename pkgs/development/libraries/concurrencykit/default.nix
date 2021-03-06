@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   version = "0.6.0";
 
   src = fetchurl {
-    url    = "http://concurrencykit.org/releases/ck-${version}.tar.gz";
+    url = "http://concurrencykit.org/releases/ck-${version}.tar.gz";
     sha256 = "1pv21p7sjwwmbs2xblpy1lqk53r2i212yrqyjlr5dr3rlv87vqnp";
   };
 
@@ -16,9 +16,9 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "A library of safe, high-performance concurrent data structures";
-    homepage    = "http://concurrencykit.org";
-    license     = licenses.bsd2;
-    platforms   = platforms.unix;
+    homepage = "http://concurrencykit.org";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
     maintainers = [ maintainers.thoughtpolice ];
   };
 }

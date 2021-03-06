@@ -1,6 +1,19 @@
-{ stdenv, lib, buildPythonPackage, fetchFromGitHub, python, pythonOlder
-, pytestCheckHook, pyhamcrest, pytestrunner, pytest
-, six, isodate, tornado, aenum, radish-bdd, mock
+{ stdenv
+, lib
+, buildPythonPackage
+, fetchFromGitHub
+, python
+, pythonOlder
+, pytestCheckHook
+, pyhamcrest
+, pytestrunner
+, pytest
+, six
+, isodate
+, tornado
+, aenum
+, radish-bdd
+, mock
 }:
 
 buildPythonPackage rec {
@@ -24,7 +37,7 @@ buildPythonPackage rec {
       --replace 'pytest>=4.6.4,<5.0.0' 'pytest'
   '';
 
-  nativeBuildInputs = [ pytestrunner ];  # simply to placate requirements
+  nativeBuildInputs = [ pytestrunner ]; # simply to placate requirements
   propagatedBuildInputs = [ six isodate tornado aenum ];
 
   checkInputs = [ pytestCheckHook pyhamcrest radish-bdd mock ];

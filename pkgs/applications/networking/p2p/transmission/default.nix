@@ -25,7 +25,8 @@
 let
   version = "3.00";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "transmission";
   inherit version;
 

@@ -1,5 +1,10 @@
-{ lib, buildPythonPackage, fetchPypi, isPy3k, pytest
-, construct }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, isPy3k
+, pytest
+, construct
+}:
 
 buildPythonPackage rec {
   pname = "snapcast";

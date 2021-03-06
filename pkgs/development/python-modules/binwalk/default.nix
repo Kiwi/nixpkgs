@@ -19,7 +19,8 @@
 , nose
 , pycrypto
 , pyqtgraph
-, visualizationSupport ? false }:
+, visualizationSupport ? false
+}:
 
 buildPythonPackage rec {
   pname = "binwalk";
@@ -33,8 +34,8 @@ buildPythonPackage rec {
   };
 
   propagatedBuildInputs = [ zlib xz ncompress gzip bzip2 gnutar p7zip cabextract squashfsTools lzma pycrypto ]
-  ++ lib.optionals visualizationSupport [ matplotlib pyqtgraph ]
-  ++ lib.optionals (!stdenv.isDarwin) [ cramfsprogs cramfsswap sasquatch ];
+    ++ lib.optionals visualizationSupport [ matplotlib pyqtgraph ]
+    ++ lib.optionals (!stdenv.isDarwin) [ cramfsprogs cramfsswap sasquatch ];
 
   # setup.py only installs version.py during install, not test
   postPatch = ''

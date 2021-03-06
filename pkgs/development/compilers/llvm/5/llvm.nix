@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetch
 , fetchpatch
 , cmake
@@ -89,7 +90,7 @@ stdenv.mkDerivation ({
 
   cmakeFlags = with stdenv; [
     "-DCMAKE_BUILD_TYPE=${if debugVersion then "Debug" else "Release"}"
-    "-DLLVM_INSTALL_UTILS=ON"  # Needed by rustc
+    "-DLLVM_INSTALL_UTILS=ON" # Needed by rustc
     "-DLLVM_BUILD_TESTS=ON"
     "-DLLVM_ENABLE_FFI=ON"
     "-DLLVM_ENABLE_RTTI=ON"
@@ -134,12 +135,14 @@ stdenv.mkDerivation ({
       --replace "\''${_IMPORT_PREFIX}/lib/libLLVM-" "$lib/lib/libLLVM-"
   ''
   + lib.optionalString (stdenv.isDarwin && enableSharedLibraries) ''
-    substituteInPlace "$out/lib/cmake/llvm/LLVMExports-${if debugVersion then "debug" else "release"}.cmake" \
-      --replace "\''${_IMPORT_PREFIX}/lib/libLLVM.dylib" "$lib/lib/libLLVM.dylib" \
-      --replace "\''${_IMPORT_PREFIX}/lib/libLTO.dylib" "$lib/lib/libLTO.dylib"
-    ${lib.concatMapStringsSep "\n" (v: ''
-      ln -s $lib/lib/libLLVM.dylib $lib/lib/libLLVM-${v}.dylib
-    '') versionSuffixes}
+        substituteInPlace "$out/lib/cmake/llvm/LLVMExports-${if debugVersion then "debug" else "release"}.cmake" \
+          --replace "\''${_IMPORT_PREFIX}/lib/libLLVM.dylib" "$lib/lib/libLLVM.dylib" \
+          --replace "\''${_IMPORT_PREFIX}/lib/libLTO.dylib" "$lib/lib/libLTO.dylib"
+        ${lib.concatMapStringsSep "\n"
+    (v: ''
+          ln -s $lib/lib/libLLVM.dylib $lib/lib/libLLVM-${v}.dylib
+        '')
+    versionSuffixes}
   '';
 
   doCheck = stdenv.isLinux && (!stdenv.isi686);
@@ -149,10 +152,10 @@ stdenv.mkDerivation ({
   requiredSystemFeatures = [ "big-parallel" ];
   meta = {
     description = "Collection of modular and reusable compiler and toolchain technologies";
-    homepage    = "https://llvm.org/";
-    license     = lib.licenses.ncsa;
+    homepage = "https://llvm.org/";
+    license = lib.licenses.ncsa;
     maintainers = with lib.maintainers; [ lovek323 raskin dtzWill ];
-    platforms   = lib.platforms.all;
+    platforms = lib.platforms.all;
   };
 } // lib.optionalAttrs enableManpages {
   pname = "llvm-manpages";
@@ -161,7 +164,7 @@ stdenv.mkDerivation ({
     make docs-llvm-man
   '';
 
-  propagatedBuildInputs = [];
+  propagatedBuildInputs = [ ];
 
   installPhase = ''
     make -C docs install

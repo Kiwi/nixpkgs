@@ -1,8 +1,17 @@
-{ lib, fetchFromGitHub, cmake, qtbase, qtsvg, gnuradio, boost, gr-osmosdr
+{ lib
+, fetchFromGitHub
+, cmake
+, qtbase
+, qtsvg
+, gnuradio
+, boost
+, gr-osmosdr
 , mkDerivation
-# drivers (optional):
-, rtl-sdr, hackrf
-, pulseaudioSupport ? true, libpulseaudio
+  # drivers (optional):
+, rtl-sdr
+, hackrf
+, pulseaudioSupport ? true
+, libpulseaudio
 }:
 
 assert pulseaudioSupport -> libpulseaudio != null;
@@ -20,7 +29,13 @@ mkDerivation rec {
 
   nativeBuildInputs = [ cmake ];
   buildInputs = [
-    qtbase qtsvg gnuradio boost gr-osmosdr rtl-sdr hackrf
+    qtbase
+    qtsvg
+    gnuradio
+    boost
+    gr-osmosdr
+    rtl-sdr
+    hackrf
   ] ++ lib.optionals pulseaudioSupport [ libpulseaudio ];
 
   postInstall = ''
@@ -40,7 +55,7 @@ mkDerivation rec {
     # Some of the code comes from the Cutesdr project, with a BSD license, but
     # it's currently unknown which version of the BSD license that is.
     license = licenses.gpl3Plus;
-    platforms = platforms.linux;  # should work on Darwin / macOS too
+    platforms = platforms.linux; # should work on Darwin / macOS too
     maintainers = with maintainers; [ bjornfor fpletz ];
   };
 }

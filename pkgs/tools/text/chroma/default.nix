@@ -5,9 +5,9 @@ buildGoModule rec {
   version = "0.8.2";
 
   src = fetchFromGitHub {
-    owner  = "alecthomas";
-    repo   = pname;
-    rev    = "v${version}";
+    owner = "alecthomas";
+    repo = pname;
+    rev = "v${version}";
     sha256 = "0vzxd0jvjaakwjvkkkjppakjb00z44k7gb5ng1i4924agh24n5ka";
     leaveDotGit = true;
     fetchSubmodules = true;

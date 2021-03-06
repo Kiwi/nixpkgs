@@ -18,7 +18,7 @@ let
   stdenv = gcc8Stdenv;
 in
 
-  # Doesn't build with gcc9
+# Doesn't build with gcc9
 mkDerivationWith stdenv.mkDerivation rec {
   pname = "librecad";
   version = "2.2.0-rc1";

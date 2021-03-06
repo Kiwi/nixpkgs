@@ -1,5 +1,9 @@
-{ lib, stdenv, fetchurl, autoreconfHook
-, mp4v2Support ? true, mp4v2 ? null
+{ lib
+, stdenv
+, fetchurl
+, autoreconfHook
+, mp4v2Support ? true
+, mp4v2 ? null
 , drmSupport ? false # Digital Radio Mondiale
 }:
 
@@ -11,7 +15,7 @@ stdenv.mkDerivation rec {
   version = "1.30";
 
   src = fetchurl {
-    url = "mirror://sourceforge/faac/${pname}-${builtins.replaceStrings ["."] ["_"] version}.tar.gz";
+    url = "mirror://sourceforge/faac/${pname}-${builtins.replaceStrings [ "." ] [ "_" ] version}.tar.gz";
     sha256 = "1lmj0dib3mjp84jhxc5ddvydkzzhb0gfrdh3ikcidjlcb378ghxd";
   };
 
@@ -30,8 +34,8 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "Open source MPEG-4 and MPEG-2 AAC encoder";
-    license     = licenses.unfreeRedistributable;
+    license = licenses.unfreeRedistributable;
     maintainers = with maintainers; [ codyopel ];
-    platforms   = platforms.all;
+    platforms = platforms.all;
   };
 }

@@ -1,6 +1,6 @@
 { lib, stdenv, fetchurl, emacs, texlive, ghostscript }:
 
-let auctex = stdenv.mkDerivation ( rec {
+let auctex = stdenv.mkDerivation (rec {
   version = "12.3";
 
   # Make this a valid tex(live-new) package;

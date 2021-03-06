@@ -1,5 +1,15 @@
-{ lib, buildPythonApplication, fetchPypi, matplotlib, procps, pyqt5, python
-, pythonPackages, qt5, sphinx, xvfb_run }:
+{ lib
+, buildPythonApplication
+, fetchPypi
+, matplotlib
+, procps
+, pyqt5
+, python
+, pythonPackages
+, qt5
+, sphinx
+, xvfb_run
+}:
 
 buildPythonApplication rec {
   pname = "flent";

@@ -2,7 +2,7 @@
 , stdenv
 , fetchFromGitHub
 
-# Dependencies
+  # Dependencies
 , cmake
 , libjpeg_turbo
 , makeWrapper

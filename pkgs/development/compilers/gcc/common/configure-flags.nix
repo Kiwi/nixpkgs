@@ -1,10 +1,16 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , targetPackages
 
-, crossStageStatic, libcCross
+, crossStageStatic
+, libcCross
 , version
 
-, gmp, mpfr, libmpc, libelf, isl
+, gmp
+, mpfr
+, libmpc
+, libelf
+, isl
 , cloog ? null
 
 , enableLTO
@@ -16,7 +22,10 @@
 , langCC
 , langD ? false
 , langFortran
-, langJava ? false, javaAwtGtk ? false, javaAntlr ? null, javaEcj ? null
+, langJava ? false
+, javaAwtGtk ? false
+, javaAntlr ? null
+, javaEcj ? null
 , langAda ? false
 , langGo
 , langObjC
@@ -79,7 +88,7 @@ let
       "--with-dwarf2"
     ] else [
       (if crossDarwin then "--with-sysroot=${lib.getLib libcCross}/share/sysroot"
-       else                "--with-headers=${lib.getDev libcCross}${libcCross.incdir or "/include"}")
+      else "--with-headers=${lib.getDev libcCross}${libcCross.incdir or "/include"}")
       "--enable-__cxa_atexit"
       "--enable-long-long"
       "--enable-threads=${if targetPlatform.isUnix then "posix"
@@ -95,7 +104,7 @@ let
       # and as I don't know how to pass it, I disable libgomp.
       "--disable-libgomp"
     ] ++ lib.optional (targetPlatform.libc == "newlib") "--with-newlib"
-      ++ lib.optional (targetPlatform.libc == "avrlibc") "--with-avrlibc"
+    ++ lib.optional (targetPlatform.libc == "avrlibc") "--with-avrlibc"
     );
 
   configureFlags =
@@ -120,25 +129,25 @@ let
       "--enable-static"
       "--enable-languages=${
         lib.concatStrings (lib.intersperse ","
-          (  lib.optional langC        "c"
-          ++ lib.optional langCC       "c++"
-          ++ lib.optional langD        "d"
-          ++ lib.optional langFortran  "fortran"
-          ++ lib.optional langJava     "java"
-          ++ lib.optional langAda      "ada"
-          ++ lib.optional langGo       "go"
-          ++ lib.optional langObjC     "objc"
-          ++ lib.optional langObjCpp   "obj-c++"
+          (lib.optional langC "c"
+          ++ lib.optional langCC "c++"
+          ++ lib.optional langD "d"
+          ++ lib.optional langFortran "fortran"
+          ++ lib.optional langJava "java"
+          ++ lib.optional langAda "ada"
+          ++ lib.optional langGo "go"
+          ++ lib.optional langObjC "objc"
+          ++ lib.optional langObjCpp "obj-c++"
           ++ lib.optionals crossDarwin [ "objc" "obj-c++" ]
-          ++ lib.optional langJit      "jit"
+          ++ lib.optional langJit "jit"
           )
         )
       }"
     ]
 
     ++ (if (enableMultilib || targetPlatform.isAvr)
-      then ["--enable-multilib" "--disable-libquadmath"]
-      else ["--disable-multilib"])
+    then [ "--enable-multilib" "--disable-libquadmath" ]
+    else [ "--disable-multilib" ])
     ++ lib.optional (!enableShared) "--disable-shared"
     ++ [
       (lib.enableFeature enablePlugin "plugin")
@@ -171,16 +180,21 @@ let
     ++ lib.optional javaAwtGtk "--enable-java-awt=gtk"
     ++ lib.optional (langJava && javaAntlr != null) "--with-antlr-jar=${javaAntlr}"
 
-    ++ (import ../common/platform-flags.nix { inherit (stdenv)  targetPlatform; inherit lib; })
+    ++ (import ../common/platform-flags.nix { inherit (stdenv) targetPlatform; inherit lib; })
     ++ lib.optionals (targetPlatform != hostPlatform) crossConfigureFlags
     ++ lib.optional (targetPlatform != hostPlatform) "--disable-bootstrap"
 
     # Platform-specific flags
     ++ lib.optional (targetPlatform == hostPlatform && targetPlatform.isx86_32) "--with-arch=${stdenv.hostPlatform.parsed.cpu.name}"
     ++ lib.optionals hostPlatform.isSunOS [
-      "--enable-long-long" "--enable-libssp" "--enable-threads=posix" "--disable-nls" "--enable-__cxa_atexit"
+      "--enable-long-long"
+      "--enable-libssp"
+      "--enable-threads=posix"
+      "--disable-nls"
+      "--enable-__cxa_atexit"
       # On Illumos/Solaris GNU as is preferred
-      "--with-gnu-as" "--without-gnu-ld"
+      "--with-gnu-as"
+      "--without-gnu-ld"
     ]
     ++ lib.optional (targetPlatform.libc == "musl")
       # musl at least, disable: https://git.buildroot.net/buildroot/commit/?id=873d4019f7fb00f6a80592224236b3ba7d657865
@@ -202,4 +216,5 @@ let
     ++ lib.optional (version >= "10.1.0") "--with-specs=%{!fno-common:%{!fcommon:-fcommon}}"
   ;
 
-in configureFlags
+in
+configureFlags

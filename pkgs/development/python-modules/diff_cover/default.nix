@@ -1,10 +1,12 @@
-{ lib, buildPythonPackage, fetchPypi
+{ lib
+, buildPythonPackage
+, fetchPypi
 , inflect
 , jinja2
 , jinja2_pluralize
 , pygments
 , six
-# test dependencies
+  # test dependencies
 , coverage
 , mock
 , nose

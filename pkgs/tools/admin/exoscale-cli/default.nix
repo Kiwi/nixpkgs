@@ -5,9 +5,9 @@ buildGoPackage rec {
   version = "1.24.0";
 
   src = fetchFromGitHub {
-    owner  = "exoscale";
-    repo   = "cli";
-    rev    = "v${version}";
+    owner = "exoscale";
+    repo = "cli";
+    rev = "v${version}";
     sha256 = "sha256-uriXZ4fEUswSBh9hv122wkAPHOnmt6+AodKkCHAMSh8=";
   };
 
@@ -26,8 +26,8 @@ buildGoPackage rec {
 
   meta = {
     description = "Command-line tool for everything at Exoscale: compute, storage, dns";
-    homepage    = "https://github.com/exoscale/cli";
-    license     = lib.licenses.asl20;
+    homepage = "https://github.com/exoscale/cli";
+    license = lib.licenses.asl20;
     maintainers = with lib.maintainers; [ dramaturg ];
   };
 }

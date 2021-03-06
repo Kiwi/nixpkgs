@@ -1,10 +1,31 @@
-{
-  mkDerivation, lib,
-  extra-cmake-modules, gettext, kdoctools, python,
-  appstream-qt, discount, flatpak, fwupd, ostree, packagekit-qt, pcre, util-linux,
-  qtbase, qtquickcontrols2,
-  karchive, kconfig, kcrash, kdbusaddons, kdeclarative, kio, kirigami2, kitemmodels,
-  knewstuff, kwindowsystem, kxmlgui, plasma-framework
+{ mkDerivation
+, lib
+, extra-cmake-modules
+, gettext
+, kdoctools
+, python
+, appstream-qt
+, discount
+, flatpak
+, fwupd
+, ostree
+, packagekit-qt
+, pcre
+, util-linux
+, qtbase
+, qtquickcontrols2
+, karchive
+, kconfig
+, kcrash
+, kdbusaddons
+, kdeclarative
+, kio
+, kirigami2
+, kitemmodels
+, knewstuff
+, kwindowsystem
+, kxmlgui
+, plasma-framework
 }:
 
 mkDerivation {
@@ -13,9 +34,26 @@ mkDerivation {
   nativeBuildInputs = [ extra-cmake-modules gettext kdoctools python ];
   buildInputs = [
     # discount is needed for libmarkdown
-    appstream-qt discount flatpak fwupd ostree packagekit-qt pcre util-linux
+    appstream-qt
+    discount
+    flatpak
+    fwupd
+    ostree
+    packagekit-qt
+    pcre
+    util-linux
     qtquickcontrols2
-    karchive kconfig kcrash kdbusaddons kdeclarative kio kirigami2 kitemmodels knewstuff kwindowsystem kxmlgui
+    karchive
+    kconfig
+    kcrash
+    kdbusaddons
+    kdeclarative
+    kio
+    kirigami2
+    kitemmodels
+    knewstuff
+    kwindowsystem
+    kxmlgui
     plasma-framework
   ];
 }

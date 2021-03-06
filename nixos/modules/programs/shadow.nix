@@ -76,7 +76,8 @@ in
         config.users.defaultUserShell;
 
     environment.etc =
-      { # /etc/login.defs: global configuration for pwdutils.  You
+      {
+        # /etc/login.defs: global configuration for pwdutils.  You
         # cannot login without it!
         "login.defs".source = pkgs.writeText "login.defs" loginDefs;
 
@@ -90,10 +91,11 @@ in
       };
 
     security.pam.services =
-      { chsh = { rootOK = true; };
+      {
+        chsh = { rootOK = true; };
         chfn = { rootOK = true; };
         su = { rootOK = true; forwardXAuth = true; logFailures = true; };
-        passwd = {};
+        passwd = { };
         # Note: useradd, groupadd etc. aren't setuid root, so it
         # doesn't really matter what the PAM config says as long as it
         # lets root in.
@@ -109,14 +111,14 @@ in
       };
 
     security.wrappers = {
-      su.source        = "${pkgs.shadow.su}/bin/su";
-      sg.source        = "${pkgs.shadow.out}/bin/sg";
-      newgrp.source    = "${pkgs.shadow.out}/bin/newgrp";
+      su.source = "${pkgs.shadow.su}/bin/su";
+      sg.source = "${pkgs.shadow.out}/bin/sg";
+      newgrp.source = "${pkgs.shadow.out}/bin/newgrp";
       newuidmap.source = "${pkgs.shadow.out}/bin/newuidmap";
       newgidmap.source = "${pkgs.shadow.out}/bin/newgidmap";
     } // lib.optionalAttrs config.users.mutableUsers {
-      chsh.source      = "${pkgs.shadow.out}/bin/chsh";
-      passwd.source    = "${pkgs.shadow.out}/bin/passwd";
+      chsh.source = "${pkgs.shadow.out}/bin/chsh";
+      passwd.source = "${pkgs.shadow.out}/bin/passwd";
     };
   };
 }

@@ -1,7 +1,9 @@
-{
-  mkDerivation, lib,
-  extra-cmake-modules,
-  ffmpeg_3, kio, taglib
+{ mkDerivation
+, lib
+, extra-cmake-modules
+, ffmpeg_3
+, kio
+, taglib
 }:
 
 mkDerivation {

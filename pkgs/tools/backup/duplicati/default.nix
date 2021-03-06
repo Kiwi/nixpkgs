@@ -15,16 +15,18 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''
-    mkdir -p $out/{bin,share/${pname}-${version}}
-    cp -r * $out/share/${pname}-${version}
-    makeWrapper "${mono}/bin/mono" $out/bin/duplicati-cli \
-      --add-flags "$out/share/${pname}-${version}/Duplicati.CommandLine.exe" \
-      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [
-          sqlite ]}
-    makeWrapper "${mono}/bin/mono" $out/bin/duplicati-server \
-      --add-flags "$out/share/${pname}-${version}/Duplicati.Server.exe" \
-      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [
-          sqlite ]}
+        mkdir -p $out/{bin,share/${pname}-${version}}
+        cp -r * $out/share/${pname}-${version}
+        makeWrapper "${mono}/bin/mono" $out/bin/duplicati-cli \
+          --add-flags "$out/share/${pname}-${version}/Duplicati.CommandLine.exe" \
+          --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [
+              sqlite
+    ]}
+        makeWrapper "${mono}/bin/mono" $out/bin/duplicati-server \
+          --add-flags "$out/share/${pname}-${version}/Duplicati.Server.exe" \
+          --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [
+              sqlite
+    ]}
   '';
 
   meta = with lib; {

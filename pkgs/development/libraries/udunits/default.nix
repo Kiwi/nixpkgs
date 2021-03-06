@@ -1,5 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, autoreconfHook,
-  texinfo, bison, flex, expat, file
+{ lib
+, stdenv
+, fetchFromGitHub
+, autoreconfHook
+, texinfo
+, bison
+, flex
+, expat
+, file
 }:
 
 stdenv.mkDerivation rec {

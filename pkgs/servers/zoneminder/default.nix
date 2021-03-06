@@ -1,7 +1,33 @@
-{ stdenv, lib, fetchFromGitHub, fetchurl, fetchpatch, substituteAll, cmake, makeWrapper, pkg-config
-, curl, ffmpeg_3, glib, libjpeg, libselinux, libsepol, mp4v2, libmysqlclient, mysql, pcre, perl, perlPackages
-, polkit, util-linuxMinimal, x264, zlib
-, coreutils, procps, psmisc, nixosTests }:
+{ stdenv
+, lib
+, fetchFromGitHub
+, fetchurl
+, fetchpatch
+, substituteAll
+, cmake
+, makeWrapper
+, pkg-config
+, curl
+, ffmpeg_3
+, glib
+, libjpeg
+, libselinux
+, libsepol
+, mp4v2
+, libmysqlclient
+, mysql
+, pcre
+, perl
+, perlPackages
+, polkit
+, util-linuxMinimal
+, x264
+, zlib
+, coreutils
+, procps
+, psmisc
+, nixosTests
+}:
 
 # NOTES:
 #
@@ -72,18 +98,19 @@ let
     }
   ];
 
-  user    = "zoneminder";
+  user = "zoneminder";
   dirName = "zoneminder";
   perlBin = "${perl}/bin/perl";
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "zoneminder";
   version = "1.34.22";
 
   src = fetchFromGitHub {
-    owner  = "ZoneMinder";
-    repo   = "zoneminder";
-    rev    = version;
+    owner = "ZoneMinder";
+    repo = "zoneminder";
+    rev = version;
     sha256 = "1144j9crm0q5pwxnkmy3ahw1vbkddpbk2ys2m2pxxxiqifdhll83";
   };
 
@@ -93,68 +120,98 @@ in stdenv.mkDerivation rec {
   ];
 
   postPatch = ''
-    ${lib.concatStringsSep "\n" (map (e: ''
-      rm -rf ${e.path}/*
-      cp -r ${e.src}/* ${e.path}/
-    '') modules)}
+        ${lib.concatStringsSep "\n" (map
+    (e: ''
+          rm -rf ${e.path}/*
+          cp -r ${e.src}/* ${e.path}/
+        '')
+    modules)}
 
-    rm -rf web/api/lib/Cake/Test
+        rm -rf web/api/lib/Cake/Test
 
-    ${lib.concatStringsSep "\n" (map (e: ''
-      cp ${e.src} ${e.path}
-    '') addons)}
+        ${lib.concatStringsSep "\n" (map
+    (e: ''
+          cp ${e.src} ${e.path}
+        '')
+    addons)}
 
-    for d in scripts/ZoneMinder onvif/{modules,proxy} ; do
-      substituteInPlace $d/CMakeLists.txt \
-        --replace 'DESTDIR="''${CMAKE_CURRENT_BINARY_DIR}/output"' "PREFIX=$out INSTALLDIRS=site"
-      sed -i '/^install/d' $d/CMakeLists.txt
-    done
+        for d in scripts/ZoneMinder onvif/{modules,proxy} ; do
+          substituteInPlace $d/CMakeLists.txt \
+            --replace 'DESTDIR="''${CMAKE_CURRENT_BINARY_DIR}/output"' "PREFIX=$out INSTALLDIRS=site"
+          sed -i '/^install/d' $d/CMakeLists.txt
+        done
 
-    substituteInPlace misc/CMakeLists.txt \
-      --replace '"''${PC_POLKIT_PREFIX}/''${CMAKE_INSTALL_DATAROOTDIR}' "\"$out/share"
+        substituteInPlace misc/CMakeLists.txt \
+          --replace '"''${PC_POLKIT_PREFIX}/''${CMAKE_INSTALL_DATAROOTDIR}' "\"$out/share"
 
-    for f in misc/*.policy.in \
-             scripts/*.pl* \
-             scripts/ZoneMinder/lib/ZoneMinder/Memory.pm.in ; do
-      substituteInPlace $f \
-        --replace '/usr/bin/perl' '${perlBin}' \
-        --replace '/bin:/usr/bin' "$out/bin:${lib.makeBinPath [ coreutils procps psmisc ]}"
-    done
+        for f in misc/*.policy.in \
+                 scripts/*.pl* \
+                 scripts/ZoneMinder/lib/ZoneMinder/Memory.pm.in ; do
+          substituteInPlace $f \
+            --replace '/usr/bin/perl' '${perlBin}' \
+            --replace '/bin:/usr/bin' "$out/bin:${lib.makeBinPath [ coreutils procps psmisc ]}"
+        done
 
-    substituteInPlace scripts/zmdbbackup.in \
-      --replace /usr/bin/mysqldump ${mysql.client}/bin/mysqldump
+        substituteInPlace scripts/zmdbbackup.in \
+          --replace /usr/bin/mysqldump ${mysql.client}/bin/mysqldump
 
-    substituteInPlace scripts/zmupdate.pl.in \
-      --replace "'mysql'" "'${mysql.client}/bin/mysql'" \
-      --replace "'mysqldump'" "'${mysql.client}/bin/mysqldump'"
+        substituteInPlace scripts/zmupdate.pl.in \
+          --replace "'mysql'" "'${mysql.client}/bin/mysql'" \
+          --replace "'mysqldump'" "'${mysql.client}/bin/mysqldump'"
 
-    for f in scripts/ZoneMinder/lib/ZoneMinder/Config.pm.in \
-             scripts/zmupdate.pl.in \
-             src/zm_config.h.in \
-             web/api/app/Config/bootstrap.php.in \
-             web/includes/config.php.in ; do
-      substituteInPlace $f --replace @ZM_CONFIG_SUBDIR@ /etc/zoneminder
-    done
+        for f in scripts/ZoneMinder/lib/ZoneMinder/Config.pm.in \
+                 scripts/zmupdate.pl.in \
+                 src/zm_config.h.in \
+                 web/api/app/Config/bootstrap.php.in \
+                 web/includes/config.php.in ; do
+          substituteInPlace $f --replace @ZM_CONFIG_SUBDIR@ /etc/zoneminder
+        done
 
-    for f in includes/Event.php views/image.php ; do
-      substituteInPlace web/$f \
-        --replace "'ffmpeg " "'${ffmpeg_3}/bin/ffmpeg "
-    done
+        for f in includes/Event.php views/image.php ; do
+          substituteInPlace web/$f \
+            --replace "'ffmpeg " "'${ffmpeg_3}/bin/ffmpeg "
+        done
 
-    substituteInPlace web/includes/functions.php \
-      --replace "'date " "'${coreutils}/bin/date " \
-      --subst-var-by srcHash "`basename $out`"
+        substituteInPlace web/includes/functions.php \
+          --replace "'date " "'${coreutils}/bin/date " \
+          --subst-var-by srcHash "`basename $out`"
   '';
 
   buildInputs = [
-    curl ffmpeg_3 glib libjpeg libselinux libsepol mp4v2 libmysqlclient mysql.client pcre perl polkit x264 zlib
+    curl
+    ffmpeg_3
+    glib
+    libjpeg
+    libselinux
+    libsepol
+    mp4v2
+    libmysqlclient
+    mysql.client
+    pcre
+    perl
+    polkit
+    x264
+    zlib
     util-linuxMinimal # for libmount
   ] ++ (with perlPackages; [
     # build-time dependencies
-    DateManip DBI DBDmysql LWP SysMmap
+    DateManip
+    DBI
+    DBDmysql
+    LWP
+    SysMmap
     # run-time dependencies not checked at build-time
-    ClassStdFast DataDump DeviceSerialPort JSONMaybeXS LWPProtocolHttps NumberBytesHuman SysCPU SysMemInfo TimeDate
-    CryptEksblowfish DataEntropy # zmupdate.pl
+    ClassStdFast
+    DataDump
+    DeviceSerialPort
+    JSONMaybeXS
+    LWPProtocolHttps
+    NumberBytesHuman
+    SysCPU
+    SysMemInfo
+    TimeDate
+    CryptEksblowfish
+    DataEntropy # zmupdate.pl
   ]);
 
   nativeBuildInputs = [ cmake makeWrapper pkg-config ];

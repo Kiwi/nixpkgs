@@ -16,7 +16,7 @@ rec {
 
   packageName = "chanl";
 
-  asdFilesToKeep = ["chanl.asd"];
+  asdFilesToKeep = [ "chanl.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM chanl DESCRIPTION

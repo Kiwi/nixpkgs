@@ -6,7 +6,8 @@
 let
   version = "v2.3.0";
   pname = "pebble";
-in buildGoPackage {
+in
+buildGoPackage {
   inherit pname version;
   goPackagePath = "github.com/letsencrypt/${pname}";
 

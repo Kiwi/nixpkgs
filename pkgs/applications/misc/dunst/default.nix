@@ -1,8 +1,27 @@
-{ stdenv, lib, fetchFromGitHub, makeWrapper
-, pkg-config, which, perl, libXrandr
-, cairo, dbus, systemd, gdk-pixbuf, glib, libX11, libXScrnSaver
-, gtk3, wayland, wayland-protocols
-, libXinerama, libnotify, pango, xorgproto, librsvg, dunstify ? false
+{ stdenv
+, lib
+, fetchFromGitHub
+, makeWrapper
+, pkg-config
+, which
+, perl
+, libXrandr
+, cairo
+, dbus
+, systemd
+, gdk-pixbuf
+, glib
+, libX11
+, libXScrnSaver
+, gtk3
+, wayland
+, wayland-protocols
+, libXinerama
+, libnotify
+, pango
+, xorgproto
+, librsvg
+, dunstify ? false
 }:
 
 stdenv.mkDerivation rec {
@@ -19,9 +38,21 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ perl pkg-config which systemd makeWrapper ];
 
   buildInputs = [
-    cairo dbus gdk-pixbuf glib libX11 libXScrnSaver
-    libXinerama libnotify pango xorgproto librsvg libXrandr
-    gtk3 wayland wayland-protocols
+    cairo
+    dbus
+    gdk-pixbuf
+    glib
+    libX11
+    libXScrnSaver
+    libXinerama
+    libnotify
+    pango
+    xorgproto
+    librsvg
+    libXrandr
+    gtk3
+    wayland
+    wayland-protocols
   ];
 
   outputs = [ "out" "man" ];
@@ -33,7 +64,7 @@ stdenv.mkDerivation rec {
     "SERVICEDIR_SYSTEMD=$(out)/lib/systemd/user"
   ];
 
-  buildFlags = if dunstify then [ "dunstify" ] else [];
+  buildFlags = if dunstify then [ "dunstify" ] else [ ];
 
   postInstall = lib.optionalString dunstify ''
     install -Dm755 dunstify $out/bin

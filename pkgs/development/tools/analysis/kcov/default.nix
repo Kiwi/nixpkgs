@@ -1,4 +1,4 @@
-{lib, stdenv, fetchFromGitHub, cmake, pkg-config, zlib, curl, elfutils, python, libiberty, libopcodes}:
+{ lib, stdenv, fetchFromGitHub, cmake, pkg-config, zlib, curl, elfutils, python, libiberty, libopcodes }:
 
 stdenv.mkDerivation rec {
   pname = "kcov";

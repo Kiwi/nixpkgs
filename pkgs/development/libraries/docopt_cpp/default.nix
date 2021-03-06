@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake python ];
 
-  cmakeFlags = ["-DWITH_TESTS=ON"];
+  cmakeFlags = [ "-DWITH_TESTS=ON" ];
 
   doCheck = true;
 

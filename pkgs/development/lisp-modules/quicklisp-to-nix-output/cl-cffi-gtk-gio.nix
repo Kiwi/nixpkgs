@@ -14,7 +14,7 @@ rec {
 
   packageName = "cl-cffi-gtk-gio";
 
-  asdFilesToKeep = ["cl-cffi-gtk-gio.asd"];
+  asdFilesToKeep = [ "cl-cffi-gtk-gio.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-cffi-gtk-gio DESCRIPTION A Lisp binding to GIO 2 SHA256

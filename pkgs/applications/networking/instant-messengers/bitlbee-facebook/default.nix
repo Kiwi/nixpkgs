@@ -15,10 +15,10 @@ stdenv.mkDerivation rec {
   #       these lines should be removed when this happens.
   patches = [
     (fetchpatch {
-        name = "FB_ORCA_AGENT_version_bump.patch";
-        url = "https://github.com/bitlbee/bitlbee-facebook/commit/49ea312d98b0578b9b2c1ff759e2cfa820a41f4d.patch";
-        sha256 = "0nzyyg8pw4f2jcickcpxq7r2la5wgl7q6iz94lhzybrkhss5753d";
-      }
+      name = "FB_ORCA_AGENT_version_bump.patch";
+      url = "https://github.com/bitlbee/bitlbee-facebook/commit/49ea312d98b0578b9b2c1ff759e2cfa820a41f4d.patch";
+      sha256 = "0nzyyg8pw4f2jcickcpxq7r2la5wgl7q6iz94lhzybrkhss5753d";
+    }
     )
   ];
 

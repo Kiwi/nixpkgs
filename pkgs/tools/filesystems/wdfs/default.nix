@@ -1,4 +1,4 @@
-{lib, stdenv, fetchurl, glib, neon, fuse, pkg-config}:
+{ lib, stdenv, fetchurl, glib, neon, fuse, pkg-config }:
 
 stdenv.mkDerivation {
   name = "wdfs-fuse-1.4.2";
@@ -7,7 +7,7 @@ stdenv.mkDerivation {
     sha256 = "fcf2e1584568b07c7f3683a983a9be26fae6534b8109e09167e5dff9114ba2e5";
   };
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [fuse glib neon];
+  buildInputs = [ fuse glib neon ];
 
   meta = with lib; {
     homepage = "http://noedler.de/projekte/wdfs/";

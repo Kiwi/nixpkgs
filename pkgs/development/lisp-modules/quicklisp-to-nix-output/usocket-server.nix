@@ -14,7 +14,7 @@ rec {
 
   packageName = "usocket-server";
 
-  asdFilesToKeep = ["usocket-server.asd"];
+  asdFilesToKeep = [ "usocket-server.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM usocket-server DESCRIPTION

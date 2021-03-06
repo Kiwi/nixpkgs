@@ -1,11 +1,14 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetchurl
 , fetchpatch
 , gmp
 , mpir
 , mpfr
 , ntl
-, openblas ? null, blas, lapack
+, openblas ? null
+, blas
+, lapack
 , withBlas ? true
 }:
 
@@ -54,7 +57,7 @@ stdenv.mkDerivation rec {
     inherit version;
     description = "Fast Library for Number Theory";
     license = lib.licenses.gpl2Plus;
-    maintainers = [lib.maintainers.raskin];
+    maintainers = [ lib.maintainers.raskin ];
     platforms = lib.platforms.unix;
     homepage = "http://www.flintlib.org/";
     downloadPage = "http://www.flintlib.org/downloads.html";

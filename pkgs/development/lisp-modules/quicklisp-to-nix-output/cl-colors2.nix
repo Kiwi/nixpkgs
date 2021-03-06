@@ -16,7 +16,7 @@ rec {
 
   packageName = "cl-colors2";
 
-  asdFilesToKeep = ["cl-colors2.asd"];
+  asdFilesToKeep = [ "cl-colors2.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM cl-colors2 DESCRIPTION Simple color library for Common Lisp SHA256

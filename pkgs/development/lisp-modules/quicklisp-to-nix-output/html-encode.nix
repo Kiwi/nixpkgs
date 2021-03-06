@@ -14,7 +14,7 @@ rec {
 
   packageName = "html-encode";
 
-  asdFilesToKeep = ["html-encode.asd"];
+  asdFilesToKeep = [ "html-encode.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM html-encode DESCRIPTION

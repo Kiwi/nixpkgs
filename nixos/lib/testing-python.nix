@@ -78,7 +78,7 @@ rec {
     , name ? "unnamed"
       # Skip linting (mainly intended for faster dev cycles)
     , skipLint ? false
-    , passthru ? {}
+    , passthru ? { }
     , ...
     } @ t:
     let

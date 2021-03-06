@@ -2,7 +2,8 @@
 
 let
   version = "0.196";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "metamath";
   inherit version;
 

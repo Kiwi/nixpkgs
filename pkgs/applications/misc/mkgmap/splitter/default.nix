@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetchurl
 , substituteAll
 , jdk
@@ -38,14 +39,16 @@ stdenv.mkDerivation rec {
     cp ${protobuf} lib/compile/${protobuf.name}
     cp ${xpp3} lib/compile/${xpp3.name}
   '' + lib.optionalString doCheck ''
-    mkdir -p lib/test
-    cp ${junit} lib/test/${junit.name}
-    cp ${hamcrest-core} lib/test/${hamcrest-core.name}
+        mkdir -p lib/test
+        cp ${junit} lib/test/${junit.name}
+        cp ${hamcrest-core} lib/test/${hamcrest-core.name}
 
-    mkdir -p test/resources/in/osm
-    ${lib.concatMapStringsSep "\n" (res: ''
-      cp ${res} test/resources/in/${builtins.replaceStrings [ "__" ] [ "/" ] res.name}
-    '') testInputs}
+        mkdir -p test/resources/in/osm
+        ${lib.concatMapStringsSep "\n"
+    (res: ''
+          cp ${res} test/resources/in/${builtins.replaceStrings [ "__" ] [ "/" ] res.name}
+        '')
+    testInputs}
   '';
 
   nativeBuildInputs = [ jdk ant makeWrapper ];

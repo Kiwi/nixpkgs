@@ -42,7 +42,7 @@ stdenv.mkDerivation rec {
   version = "2.2.0";
 
   src = fetchFromGitHub {
-    owner  = "bbidulock";
+    owner = "bbidulock";
     repo = pname;
     rev = version;
     hash = "sha256-STM8t311lf0xIqs2Onmwg48xgE7V9VZrUfJrUzYRxL4=";

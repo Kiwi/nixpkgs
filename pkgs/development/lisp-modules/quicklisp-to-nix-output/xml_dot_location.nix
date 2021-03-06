@@ -17,7 +17,7 @@ rec {
 
   packageName = "xml.location";
 
-  asdFilesToKeep = ["xml.location.asd"];
+  asdFilesToKeep = [ "xml.location.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM xml.location DESCRIPTION

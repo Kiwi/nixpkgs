@@ -19,8 +19,8 @@ let
     welcometext="${cfg.welcometext}"
     port=${toString cfg.port}
 
-    ${if cfg.hostName == "" then "" else "host="+cfg.hostName}
-    ${if cfg.password == "" then "" else "serverpassword="+cfg.password}
+    ${if cfg.hostName == "" then "" else "host=" + cfg.hostName}
+    ${if cfg.password == "" then "" else "serverpassword=" + cfg.password}
 
     bandwidth=${toString cfg.bandwidth}
     users=${toString cfg.users}
@@ -32,15 +32,15 @@ let
     bonjour=${boolToString cfg.bonjour}
     sendversion=${boolToString cfg.sendVersion}
 
-    ${if cfg.registerName     == "" then "" else "registerName="+cfg.registerName}
-    ${if cfg.registerPassword == "" then "" else "registerPassword="+cfg.registerPassword}
-    ${if cfg.registerUrl      == "" then "" else "registerUrl="+cfg.registerUrl}
-    ${if cfg.registerHostname == "" then "" else "registerHostname="+cfg.registerHostname}
+    ${if cfg.registerName == "" then "" else "registerName=" + cfg.registerName}
+    ${if cfg.registerPassword == "" then "" else "registerPassword=" + cfg.registerPassword}
+    ${if cfg.registerUrl == "" then "" else "registerUrl=" + cfg.registerUrl}
+    ${if cfg.registerHostname == "" then "" else "registerHostname=" + cfg.registerHostname}
 
     certrequired=${boolToString cfg.clientCertRequired}
-    ${if cfg.sslCert == "" then "" else "sslCert="+cfg.sslCert}
-    ${if cfg.sslKey  == "" then "" else "sslKey="+cfg.sslKey}
-    ${if cfg.sslCa   == "" then "" else "sslCA="+cfg.sslCa}
+    ${if cfg.sslCert == "" then "" else "sslCert=" + cfg.sslCert}
+    ${if cfg.sslKey == "" then "" else "sslKey=" + cfg.sslKey}
+    ${if cfg.sslCa == "" then "" else "sslCA=" + cfg.sslCa}
 
     ${cfg.extraConfig}
   '';
@@ -281,21 +281,21 @@ in
 
   config = mkIf cfg.enable {
     users.users.murmur = {
-      description     = "Murmur Service user";
-      home            = "/var/lib/murmur";
-      createHome      = true;
-      uid             = config.ids.uids.murmur;
-      group           = "murmur";
+      description = "Murmur Service user";
+      home = "/var/lib/murmur";
+      createHome = true;
+      uid = config.ids.uids.murmur;
+      group = "murmur";
     };
     users.groups.murmur = {
-      gid             = config.ids.gids.murmur;
+      gid = config.ids.gids.murmur;
     };
 
     systemd.services.murmur = {
       description = "Murmur Chat Service";
-      wantedBy    = [ "multi-user.target" ];
-      after       = [ "network-online.target "];
-      preStart    = ''
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network-online.target " ];
+      preStart = ''
         ${pkgs.envsubst}/bin/envsubst \
           -o /run/murmur/murmurd.ini \
           -i ${configFile}

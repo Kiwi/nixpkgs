@@ -1,6 +1,15 @@
-{ lib, fetchurl, buildDunePackage
-, ppx_fields_conv, ppx_sexp_conv, stdlib-shims
-, base64, fieldslib, jsonm, re, stringext, uri-sexp
+{ lib
+, fetchurl
+, buildDunePackage
+, ppx_fields_conv
+, ppx_sexp_conv
+, stdlib-shims
+, base64
+, fieldslib
+, jsonm
+, re
+, stringext
+, uri-sexp
 }:
 
 buildDunePackage rec {

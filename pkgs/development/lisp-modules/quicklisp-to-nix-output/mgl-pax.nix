@@ -17,7 +17,7 @@ rec {
 
   packageName = "mgl-pax";
 
-  asdFilesToKeep = ["mgl-pax.asd"];
+  asdFilesToKeep = [ "mgl-pax.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM mgl-pax DESCRIPTION Exploratory programming tool and documentation

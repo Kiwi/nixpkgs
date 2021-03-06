@@ -13,7 +13,8 @@ stdenv.mkDerivation rec {
 
   buildInputs = [ python3 ];
   pythonPath = [
-    pyqt5 pyserial
+    pyqt5
+    pyserial
   ];
 
   nativeBuildInputs = [ wrapPython qt5.wrapQtAppsHook ];

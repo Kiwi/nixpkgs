@@ -1,4 +1,4 @@
-{ buildEnv, indilib ? indilib, extraDrivers ? null , pkgName ? "indi-with-drivers" }:
+{ buildEnv, indilib ? indilib, extraDrivers ? null, pkgName ? "indi-with-drivers" }:
 
 buildEnv {
   name = pkgName;

@@ -5,9 +5,9 @@ stdenv.mkDerivation rec {
   version = "0.145.0";
 
   src = fetchFromGitHub {
-    owner  = "facebook";
-    repo   = "flow";
-    rev    = "refs/tags/v${version}";
+    owner = "facebook";
+    repo = "flow";
+    rev = "refs/tags/v${version}";
     sha256 = "sha256-6fRKXKh+hB/d2CcmZYYSlMzP1IGCl7fLdXCQ1M0wuY4=";
   };
 

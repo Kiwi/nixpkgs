@@ -1,5 +1,15 @@
-{ lib, stdenv, fetchurl, erlang, icu, openssl, spidermonkey_1_8_5
-, coreutils, bash, makeWrapper, python3 }:
+{ lib
+, stdenv
+, fetchurl
+, erlang
+, icu
+, openssl
+, spidermonkey_1_8_5
+, coreutils
+, bash
+, makeWrapper
+, python3
+}:
 
 stdenv.mkDerivation rec {
   pname = "couchdb";
@@ -14,7 +24,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = [ erlang icu openssl spidermonkey_1_8_5 (python3.withPackages(ps: with ps; [ requests ]))];
+  buildInputs = [ erlang icu openssl spidermonkey_1_8_5 (python3.withPackages (ps: with ps; [ requests ])) ];
 
   patches = [ ./jsapi.patch ];
   postPatch = ''

@@ -16,10 +16,11 @@ stdenv.mkDerivation {
   '';
 
   meta = with lib;
-  { description = "Prelude of shell blocks for Kakoune.";
-    homepage = "https://github.com/alexherbo2/prelude.kak";
-    license = licenses.unlicense;
-    maintainers = with maintainers; [ buffet ];
-    platform = platforms.all;
-  };
+    {
+      description = "Prelude of shell blocks for Kakoune.";
+      homepage = "https://github.com/alexherbo2/prelude.kak";
+      license = licenses.unlicense;
+      maintainers = with maintainers; [ buffet ];
+      platform = platforms.all;
+    };
 }

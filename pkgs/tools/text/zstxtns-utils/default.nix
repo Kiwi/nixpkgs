@@ -27,8 +27,8 @@ stdenv.mkDerivation rec {
   '';
 
   postInstall = ''
-    wrapProgram $out/bin/zstxtns-merge --prefix PATH ":" "${lib.makeBinPath [coreutils gnugrep moreutils]}"
-    wrapProgram $out/bin/zstxtns-unmerge --prefix PATH ":" "${lib.makeBinPath [coreutils gnugrep]}"
+    wrapProgram $out/bin/zstxtns-merge --prefix PATH ":" "${lib.makeBinPath [ coreutils gnugrep moreutils ]}"
+    wrapProgram $out/bin/zstxtns-unmerge --prefix PATH ":" "${lib.makeBinPath [ coreutils gnugrep ]}"
   '';
 
   meta = with lib; {

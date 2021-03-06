@@ -1,5 +1,14 @@
-{ fetchurl, lib, stdenv, pkg-config, meson, ninja
-, gobject-introspection, clutter, gtk3, gnome3 }:
+{ fetchurl
+, lib
+, stdenv
+, pkg-config
+, meson
+, ninja
+, gobject-introspection
+, clutter
+, gtk3
+, gnome3
+}:
 
 let
   pname = "clutter-gtk";
@@ -32,6 +41,6 @@ stdenv.mkDerivation rec {
     homepage = "http://www.clutter-project.org/";
     license = lib.licenses.lgpl2Plus;
     maintainers = with lib.maintainers; [ lethalman ];
-    platforms = lib.platforms.gnu ++ lib.platforms.linux;  # arbitrary choice
+    platforms = lib.platforms.gnu ++ lib.platforms.linux; # arbitrary choice
   };
 }

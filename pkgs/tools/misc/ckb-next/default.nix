@@ -1,5 +1,14 @@
-{ lib, mkDerivation, fetchFromGitHub, substituteAll, udev
-, pkg-config, qtbase, cmake, zlib, kmod }:
+{ lib
+, mkDerivation
+, fetchFromGitHub
+, substituteAll
+, udev
+, pkg-config
+, qtbase
+, cmake
+, zlib
+, kmod
+}:
 
 mkDerivation rec {
   version = "0.4.2";

@@ -1,5 +1,10 @@
-{ lib, buildPythonPackage, fetchPypi
-, dateutil, mock, isPy3k }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, dateutil
+, mock
+, isPy3k
+}:
 
 buildPythonPackage rec {
   pname = "aniso8601";
@@ -7,8 +12,8 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Parses ISO 8601 strings.";
-    homepage    = "https://bitbucket.org/nielsenb/aniso8601";
-    license     = licenses.bsd3;
+    homepage = "https://bitbucket.org/nielsenb/aniso8601";
+    license = licenses.bsd3;
   };
 
   propagatedBuildInputs = [ dateutil ];

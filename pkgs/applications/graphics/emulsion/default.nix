@@ -67,7 +67,7 @@ rustPlatform.buildRustPackage rec {
     runHook preInstall
     install -D $releaseDir/emulsion $out/bin/emulsion
   '' + lib.optionalString stdenv.isLinux ''
-      patchelf --set-rpath "${lib.makeLibraryPath rpathLibs}" $out/bin/emulsion
+    patchelf --set-rpath "${lib.makeLibraryPath rpathLibs}" $out/bin/emulsion
   '' + ''
     runHook postInstall
   '';

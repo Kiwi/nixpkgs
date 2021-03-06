@@ -14,7 +14,7 @@ rec {
 
   packageName = "net-telent-date";
 
-  asdFilesToKeep = ["net-telent-date.asd"];
+  asdFilesToKeep = [ "net-telent-date.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM net-telent-date DESCRIPTION System lacks description SHA256

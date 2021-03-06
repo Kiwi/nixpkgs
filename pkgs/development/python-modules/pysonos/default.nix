@@ -6,9 +6,14 @@
 , requests
 , ifaddr
 
-# Test dependencies
-, pytest, pylint, flake8, graphviz
-, mock, sphinx, sphinx_rtd_theme
+  # Test dependencies
+, pytest
+, pylint
+, flake8
+, graphviz
+, mock
+, sphinx
+, sphinx_rtd_theme
 , requests-mock
 }:
 
@@ -29,8 +34,13 @@ buildPythonPackage rec {
   propagatedBuildInputs = [ xmltodict requests ifaddr ];
 
   checkInputs = [
-    pytest pylint flake8 graphviz
-    mock sphinx sphinx_rtd_theme
+    pytest
+    pylint
+    flake8
+    graphviz
+    mock
+    sphinx
+    sphinx_rtd_theme
     requests-mock
   ];
 

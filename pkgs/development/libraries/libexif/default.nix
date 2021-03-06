@@ -7,7 +7,7 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = pname;
     repo = pname;
-    rev = "${pname}-${builtins.replaceStrings ["."] ["_"] version}-release";
+    rev = "${pname}-${builtins.replaceStrings [ "." ] [ "_" ] version}-release";
     sha256 = "0mzndakdi816zcs13z7yzp7hj031p2dcyfq2p391r63d9z21jmy1";
   };
 

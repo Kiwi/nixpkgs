@@ -1,5 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, zlib, curl, expat, fuse, openssl
-, autoreconfHook, python3
+{ lib
+, stdenv
+, fetchFromGitHub
+, zlib
+, curl
+, expat
+, fuse
+, openssl
+, autoreconfHook
+, python3
 }:
 
 stdenv.mkDerivation rec {

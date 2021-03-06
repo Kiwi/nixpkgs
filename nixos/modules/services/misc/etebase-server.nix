@@ -142,9 +142,10 @@ in
   config = mkIf cfg.enable {
 
     environment.systemPackages = with pkgs; [
-      (runCommand "etebase-server" {
-        buildInputs = [ makeWrapper ];
-      } ''
+      (runCommand "etebase-server"
+        {
+          buildInputs = [ makeWrapper ];
+        } ''
         makeWrapper ${pythonEnv}/bin/etebase-server \
           $out/bin/etebase-server \
           --run "cd ${cfg.dataDir}" \
@@ -166,8 +167,8 @@ in
         WorkingDirectory = cfg.dataDir;
       };
       environment = {
-        PYTHONPATH="${pythonEnv}/${pkgs.python3.sitePackages}";
-        ETEBASE_EASY_CONFIG_PATH="${configIni}";
+        PYTHONPATH = "${pythonEnv}/${pkgs.python3.sitePackages}";
+        ETEBASE_EASY_CONFIG_PATH = "${configIni}";
       };
       preStart = ''
         # Auto-migrate on first run or if the package has changed
@@ -179,10 +180,12 @@ in
       '';
       script =
         let
-          networking = if cfg.unixSocket != null
-          then "-u ${cfg.unixSocket}"
-          else "-b 0.0.0.0 -p ${toString cfg.port}";
-        in ''
+          networking =
+            if cfg.unixSocket != null
+            then "-u ${cfg.unixSocket}"
+            else "-b 0.0.0.0 -p ${toString cfg.port}";
+        in
+        ''
           cd "${pythonEnv}/lib/etebase-server";
           ${pythonEnv}/bin/daphne ${networking} \
             etebase_server.asgi:application
@@ -195,7 +198,7 @@ in
         home = cfg.dataDir;
       };
 
-      groups.${defaultUser} = {};
+      groups.${defaultUser} = { };
     };
 
     networking.firewall = mkIf cfg.openFirewall {

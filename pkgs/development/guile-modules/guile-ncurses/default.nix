@@ -3,7 +3,8 @@
 let
   name = "guile-ncurses-${version}";
   version = "1.7";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit name;
 
   src = fetchurl {

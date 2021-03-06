@@ -3,7 +3,8 @@
 , fetchurl
 , cmake
 , ninja
-, zip, unzip
+, zip
+, unzip
 , pkg-config
 , asciidoctor
 , gettext
@@ -41,7 +42,7 @@ in
 
 mkDerivation rec {
   inherit pname;
-  version  = "3.4.1";
+  version = "3.4.1";
 
   src = fetchurl {
     url = "mirror://sourceforge/${pname}/releases/${version}/${pname}_src.tar.xz";
@@ -72,7 +73,8 @@ mkDerivation rec {
   nativeBuildInputs = [
     cmake
     ninja
-    zip unzip
+    zip
+    unzip
     asciidoctor
     gettext
   ];

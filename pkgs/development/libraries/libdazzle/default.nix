@@ -1,5 +1,21 @@
-{ lib, stdenv, fetchurl, ninja, meson, pkg-config, vala, gobject-introspection, libxml2
-, gtk-doc, docbook_xsl, docbook_xml_dtd_43, dbus, xvfb_run, glib, gtk3, gnome3 }:
+{ lib
+, stdenv
+, fetchurl
+, ninja
+, meson
+, pkg-config
+, vala
+, gobject-introspection
+, libxml2
+, gtk-doc
+, docbook_xsl
+, docbook_xml_dtd_43
+, dbus
+, xvfb_run
+, glib
+, gtk3
+, gnome3
+}:
 
 stdenv.mkDerivation rec {
   pname = "libdazzle";

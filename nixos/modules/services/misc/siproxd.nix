@@ -17,9 +17,9 @@ let
     rtp_port_high   = ${toString cfg.rtpPortHigh}
     rtp_dscp        = ${toString cfg.rtpDscp}
     sip_dscp        = ${toString cfg.sipDscp}
-    ${optionalString (cfg.hostsAllowReg != []) "hosts_allow_reg = ${concatStringsSep "," cfg.hostsAllowReg}"}
-    ${optionalString (cfg.hostsAllowSip != []) "hosts_allow_sip = ${concatStringsSep "," cfg.hostsAllowSip}"}
-    ${optionalString (cfg.hostsDenySip != []) "hosts_deny_sip  = ${concatStringsSep "," cfg.hostsDenySip}"}
+    ${optionalString (cfg.hostsAllowReg != [ ]) "hosts_allow_reg = ${concatStringsSep "," cfg.hostsAllowReg}"}
+    ${optionalString (cfg.hostsAllowSip != [ ]) "hosts_allow_sip = ${concatStringsSep "," cfg.hostsAllowSip}"}
+    ${optionalString (cfg.hostsDenySip != [ ]) "hosts_deny_sip  = ${concatStringsSep "," cfg.hostsDenySip}"}
     ${if (cfg.passwordFile != "") then "proxy_auth_pwfile = ${cfg.passwordFile}" else ""}
     ${cfg.extraConfig}
   '';
@@ -95,7 +95,7 @@ in
         type = types.int;
         default = 7070;
         description = ''
-         Bottom of UDP port range for incoming and outgoing RTP traffic
+          Bottom of UDP port range for incoming and outgoing RTP traffic
         '';
       };
 
@@ -103,7 +103,7 @@ in
         type = types.int;
         default = 7089;
         description = ''
-         Top of UDP port range for incoming and outgoing RTP traffic
+          Top of UDP port range for incoming and outgoing RTP traffic
         '';
       };
 

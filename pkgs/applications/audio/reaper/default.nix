@@ -1,4 +1,6 @@
-{ config, lib, stdenv
+{ config
+, lib
+, stdenv
 , fetchurl
 , autoPatchelfHook
 , makeWrapper
@@ -9,8 +11,10 @@
 , ffmpeg
 , vlc
 
-, jackSupport ? true, libjack2
-, pulseaudioSupport ? config.pulseaudio or true, libpulseaudio
+, jackSupport ? true
+, libjack2
+, pulseaudioSupport ? config.pulseaudio or true
+, libpulseaudio
 }:
 
 stdenv.mkDerivation rec {
@@ -18,7 +22,7 @@ stdenv.mkDerivation rec {
   version = "6.23";
 
   src = fetchurl {
-    url = "https://www.reaper.fm/files/${lib.versions.major version}.x/reaper${builtins.replaceStrings ["."] [""] version}_linux_x86_64.tar.xz";
+    url = "https://www.reaper.fm/files/${lib.versions.major version}.x/reaper${builtins.replaceStrings [ "." ] [ "" ] version}_linux_x86_64.tar.xz";
     sha256 = "1s9c8prqk38738hjaixiy8ljp94cqw7jq3160890477jyk6cvicd";
   };
 

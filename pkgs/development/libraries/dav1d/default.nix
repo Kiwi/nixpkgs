@@ -1,8 +1,17 @@
-{ lib, stdenv, fetchFromGitLab
-, meson, ninja, nasm, pkg-config
+{ lib
+, stdenv
+, fetchFromGitLab
+, meson
+, ninja
+, nasm
+, pkg-config
 , withTools ? false # "dav1d" binary
-, withExamples ? false, SDL2 # "dav1dplay" binary
-, useVulkan ? false, libplacebo, vulkan-loader, vulkan-headers
+, withExamples ? false
+, SDL2 # "dav1dplay" binary
+, useVulkan ? false
+, libplacebo
+, vulkan-loader
+, vulkan-headers
 }:
 
 assert useVulkan -> withExamples;
@@ -24,7 +33,7 @@ stdenv.mkDerivation rec {
   buildInputs = lib.optional withExamples SDL2
     ++ lib.optionals useVulkan [ libplacebo vulkan-loader vulkan-headers ];
 
-  mesonFlags= [
+  mesonFlags = [
     "-Denable_tools=${lib.boolToString withTools}"
     "-Denable_examples=${lib.boolToString withExamples}"
   ];

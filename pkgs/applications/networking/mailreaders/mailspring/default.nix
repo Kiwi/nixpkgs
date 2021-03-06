@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
     glib
     # We don't know why with trackerSupport the executable fail to launch, See:
     # https://github.com/NixOS/nixpkgs/issues/106732
-    (gtk3.override {trackerSupport = false; })
+    (gtk3.override { trackerSupport = false; })
     libkrb5
     libsecret
     nss

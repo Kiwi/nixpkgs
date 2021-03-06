@@ -5,7 +5,8 @@
 , pytest
 , process-tests
 , pkgs
-, withDjango ? false, django_redis
+, withDjango ? false
+, django_redis
 }:
 
 buildPythonPackage rec {
@@ -24,7 +25,7 @@ buildPythonPackage rec {
   '';
 
   propagatedBuildInputs = [ redis ]
-  ++ lib.optional withDjango django_redis;
+    ++ lib.optional withDjango django_redis;
 
 
   meta = with lib; {

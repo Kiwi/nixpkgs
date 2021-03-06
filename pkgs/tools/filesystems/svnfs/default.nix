@@ -8,21 +8,21 @@ stdenv.mkDerivation {
     sha256 = "1lrzjr0812lrnkkwk60bws9k1hq2iibphm0nhqyv26axdsygkfky";
   };
 
-  buildInputs = [automake autoconf subversion fuse apr perl];
+  buildInputs = [ automake autoconf subversion fuse apr perl ];
 
   # why is this required?
-  preConfigure=''
+  preConfigure = ''
     export LD_LIBRARY_PATH=${subversion.out}/lib
   '';
 
-  NIX_CFLAGS_COMPILE="-I ${subversion.dev}/include/subversion-1";
-  NIX_LDFLAGS="-lsvn_client-1 -lsvn_subr-1";
+  NIX_CFLAGS_COMPILE = "-I ${subversion.dev}/include/subversion-1";
+  NIX_LDFLAGS = "-lsvn_client-1 -lsvn_subr-1";
 
   meta = {
     description = "FUSE filesystem for accessing Subversion repositories";
     homepage = "http://www.jmadden.eu/index.php/svnfs/";
     license = lib.licenses.gpl2;
-    maintainers = [lib.maintainers.marcweber];
+    maintainers = [ lib.maintainers.marcweber ];
     platforms = lib.platforms.linux;
   };
 }

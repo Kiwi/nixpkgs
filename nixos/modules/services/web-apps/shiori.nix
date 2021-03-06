@@ -3,7 +3,8 @@
 with lib;
 let
   cfg = config.services.shiori;
-in {
+in
+{
   options = {
     services.shiori = {
       enable = mkEnableOption "Shiori simple bookmarks manager";
@@ -87,9 +88,19 @@ in {
         SystemCallFilter = [
           "@system-service"
 
-          "~@chown" "~@cpu-emulation" "~@debug" "~@ipc" "~@keyring" "~@memlock"
-          "~@module" "~@obsolete" "~@privileged" "~@process" "~@raw-io"
-          "~@resources" "~@setuid"
+          "~@chown"
+          "~@cpu-emulation"
+          "~@debug"
+          "~@ipc"
+          "~@keyring"
+          "~@memlock"
+          "~@module"
+          "~@obsolete"
+          "~@privileged"
+          "~@process"
+          "~@raw-io"
+          "~@resources"
+          "~@setuid"
         ];
       };
     };

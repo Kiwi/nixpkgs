@@ -15,7 +15,8 @@
 , wrapGAppsHook
 , pkg-config
 , pulseaudio
-, lib, stdenv
+, lib
+, stdenv
 , systemd
 , upower
 , dconf

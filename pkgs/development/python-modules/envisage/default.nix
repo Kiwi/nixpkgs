@@ -1,7 +1,13 @@
-{ lib, fetchPypi, fetchpatch, isPy27
+{ lib
+, fetchPypi
+, fetchpatch
+, isPy27
 , buildPythonPackage
-, traits, apptools
-, python, ipykernel, ipython
+, traits
+, apptools
+, python
+, ipykernel
+, ipython
 }:
 
 buildPythonPackage rec {
@@ -22,13 +28,16 @@ buildPythonPackage rec {
   '';
 
   # fix a test failure; should be merged in next release
-  patches = [ (fetchpatch {
-    url = "https://github.com/enthought/envisage/pull/248/commits/7b6d2dd615d5cb7455b200eb8f37e030bbf4df9e.patch";
-    sha256 = "0a3dmbpxwsn1bkjcjv9v7b751rcmppj6hc9wcgiayg4l9r2nrvyh";
-  }) ];
+  patches = [
+    (fetchpatch {
+      url = "https://github.com/enthought/envisage/pull/248/commits/7b6d2dd615d5cb7455b200eb8f37e030bbf4df9e.patch";
+      sha256 = "0a3dmbpxwsn1bkjcjv9v7b751rcmppj6hc9wcgiayg4l9r2nrvyh";
+    })
+  ];
 
   checkInputs = [
-    ipykernel ipython
+    ipykernel
+    ipython
   ];
 
   checkPhase = ''

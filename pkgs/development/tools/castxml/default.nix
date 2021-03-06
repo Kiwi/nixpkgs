@@ -1,19 +1,23 @@
-{ lib, stdenv, fetchFromGitHub
+{ lib
+, stdenv
+, fetchFromGitHub
 , python3Packages
 , cmake
 , llvmPackages
-, libffi, libxml2, zlib
+, libffi
+, libxml2
+, zlib
 , withMan ? true
 }:
 stdenv.mkDerivation rec {
 
-  pname   = "CastXML";
+  pname = "CastXML";
   version = "0.3.4";
 
   src = fetchFromGitHub {
-    owner  = pname;
-    repo   = pname;
-    rev    = "v${version}";
+    owner = pname;
+    repo = pname;
+    rev = "v${version}";
     sha256 = "0ypj67xrgj228myp7l1gsjw1ja97q68nmj98dsd33srmiayqraj4";
   };
 
@@ -29,7 +33,9 @@ stdenv.mkDerivation rec {
   buildInputs = [
     llvmPackages.clang-unwrapped
     llvmPackages.llvm
-    libffi libxml2 zlib
+    libffi
+    libxml2
+    zlib
   ];
 
   propagatedBuildInputs = [ llvmPackages.libclang ];

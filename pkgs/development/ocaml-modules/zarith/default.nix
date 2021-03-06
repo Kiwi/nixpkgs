@@ -1,5 +1,10 @@
-{ lib, stdenv, fetchurl
-, ocaml, findlib, pkg-config, perl
+{ lib
+, stdenv
+, fetchurl
+, ocaml
+, findlib
+, pkg-config
+, perl
 , gmp
 }:
 
@@ -33,8 +38,8 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Fast, arbitrary precision OCaml integers";
-    homepage    = "http://forge.ocamlcore.org/projects/zarith";
-    license     = licenses.lgpl2;
+    homepage = "http://forge.ocamlcore.org/projects/zarith";
+    license = licenses.lgpl2;
     inherit (ocaml.meta) platforms;
     maintainers = with maintainers; [ thoughtpolice vbgl ];
   };

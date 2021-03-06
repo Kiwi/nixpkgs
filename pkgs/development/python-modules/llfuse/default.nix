@@ -1,5 +1,15 @@
-{ lib, stdenv, fetchPypi, fetchpatch, buildPythonPackage, pkg-config, pytest, fuse, attr, which
-, contextlib2, osxfuse
+{ lib
+, stdenv
+, fetchPypi
+, fetchpatch
+, buildPythonPackage
+, pkg-config
+, pytest
+, fuse
+, attr
+, which
+, contextlib2
+, osxfuse
 }:
 
 buildPythonPackage rec {

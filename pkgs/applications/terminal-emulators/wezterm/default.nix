@@ -9,7 +9,7 @@
 , openssl
 , perl
 
-# Apple frameworks
+  # Apple frameworks
 , CoreGraphics
 , Cocoa
 , Foundation
@@ -83,15 +83,15 @@ rustPlatform.buildRustPackage {
       install -D $releaseDir/$artifact -t $out/bin
     done
   '' + lib.optionalString stdenv.isDarwin ''
-  mkdir -p "$out/Applications"
-  OUT_APP="$out/Applications/WezTerm.app"
-  cp -r assets/macos/WezTerm.app "$OUT_APP"
-  rm $OUT_APP/*.dylib
-  cp -r assets/shell-integration/* "$OUT_APP"
-  cp $releaseDir/wezterm "$OUT_APP"
-  cp $releaseDir/wezterm-mux-server "$OUT_APP"
-  cp $releaseDir/wezterm-gui "$OUT_APP"
-  cp $releaseDir/strip-ansi-escapes "$OUT_APP"
+    mkdir -p "$out/Applications"
+    OUT_APP="$out/Applications/WezTerm.app"
+    cp -r assets/macos/WezTerm.app "$OUT_APP"
+    rm $OUT_APP/*.dylib
+    cp -r assets/shell-integration/* "$OUT_APP"
+    cp $releaseDir/wezterm "$OUT_APP"
+    cp $releaseDir/wezterm-mux-server "$OUT_APP"
+    cp $releaseDir/wezterm-gui "$OUT_APP"
+    cp $releaseDir/strip-ansi-escapes "$OUT_APP"
   '';
 
   # prevent further changes to the RPATH

@@ -5,13 +5,16 @@
 with lib;
 
 let
-  cfg  = config.programs.mininet;
+  cfg = config.programs.mininet;
 
-  generatedPath = with pkgs; makeSearchPath "bin"  [
-    iperf ethtool iproute socat
+  generatedPath = with pkgs; makeSearchPath "bin" [
+    iperf
+    ethtool
+    iproute
+    socat
   ];
 
-  pyEnv = pkgs.python.withPackages(ps: [ ps.mininet-python ]);
+  pyEnv = pkgs.python.withPackages (ps: [ ps.mininet-python ]);
 
   mnexecWrapped = pkgs.runCommand "mnexec-wrapper"
     { buildInputs = [ pkgs.makeWrapper pkgs.pythonPackages.wrapPython ]; }

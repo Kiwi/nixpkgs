@@ -1,10 +1,10 @@
-{
-  lib, stdenv,
-  fetchFromGitHub,
-  cmake,
-  gtest,
-  python,
-  boost
+{ lib
+, stdenv
+, fetchFromGitHub
+, cmake
+, gtest
+, python
+, boost
 }:
 
 stdenv.mkDerivation rec {

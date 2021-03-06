@@ -1,6 +1,16 @@
-{ buildDunePackage, irmin-mirage, irmin-git
-, mirage-kv, cohttp, conduit-lwt, conduit-mirage
-, git-cohttp-mirage, fmt, git, lwt, mirage-clock, uri
+{ buildDunePackage
+, irmin-mirage
+, irmin-git
+, mirage-kv
+, cohttp
+, conduit-lwt
+, conduit-mirage
+, git-cohttp-mirage
+, fmt
+, git
+, lwt
+, mirage-clock
+, uri
 }:
 
 buildDunePackage {

@@ -14,7 +14,7 @@ rec {
 
   packageName = "enchant";
 
-  asdFilesToKeep = ["enchant.asd"];
+  asdFilesToKeep = [ "enchant.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM enchant DESCRIPTION

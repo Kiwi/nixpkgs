@@ -80,7 +80,7 @@ in
 
     plugins = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = ''
         List of roundcube plugins to enable. Currently, only those directly shipped with Roundcube are supported.
       '';
@@ -88,7 +88,7 @@ in
 
     dicts = mkOption {
       type = types.listOf types.package;
-      default = [];
+      default = [ ];
       example = literalExample "with pkgs.aspellDicts; [ en fr de ]";
       description = ''
         List of aspell dictionnaries for spell checking. If empty, spell checking is disabled.
@@ -120,23 +120,24 @@ in
     warnings = lib.optional (!localDB && cfg.database.password != "") "services.roundcube.database.password is deprecated and insecure; use services.roundcube.database.passwordFile instead";
 
     environment.etc."roundcube/config.inc.php".text = ''
-      <?php
+            <?php
 
-      ${lib.optionalString (!localDB) "$password = file_get_contents('${cfg.database.passwordFile}');"}
+            ${lib.optionalString (!localDB) "$password = file_get_contents('${cfg.database.passwordFile}');"}
 
-      $config = array();
-      $config['db_dsnw'] = 'pgsql://${cfg.database.username}${lib.optionalString (!localDB) ":' . $password . '"}@${if localDB then "unix(/run/postgresql)" else cfg.database.host}/${cfg.database.dbname}';
-      $config['log_driver'] = 'syslog';
-      $config['max_message_size'] =  '${cfg.maxAttachmentSize}';
-      $config['plugins'] = [${concatMapStringsSep "," (p: "'${p}'") cfg.plugins}];
-      $config['des_key'] = file_get_contents('/var/lib/roundcube/des_key');
-      $config['mime_types'] = '${pkgs.nginx}/conf/mime.types';
-      $config['enable_spellcheck'] = ${if cfg.dicts == [] then "false" else "true"};
-      # by default, spellchecking uses a third-party cloud services
-      $config['spellcheck_engine'] = 'pspell';
-      $config['spellcheck_languages'] = array(${lib.concatMapStringsSep ", " (dict: let p = builtins.parseDrvName dict.shortName; in "'${p.name}' => '${dict.fullName}'") cfg.dicts});
+            $config = array();
+            $config['db_dsnw'] = 'pgsql://${cfg.database.username}${lib.optionalString (!localDB) ":' . $password . '"}@${if localDB then "unix(/run/postgresql)" else cfg.database.host}/${cfg.database.dbname}';
+            $config['log_driver'] = 'syslog';
+            $config['max_message_size'] =  '${cfg.maxAttachmentSize}';
+            $config['plugins'] = [${concatMapStringsSep "," (p: "'${p}'") cfg.plugins}];
+            $config['des_key'] = file_get_contents('/var/lib/roundcube/des_key');
+            $config['mime_types'] = '${pkgs.nginx}/conf/mime.types';
+            $config['enable_spellcheck'] = ${if cfg.dicts == [ ] then "false" else "true"};
+            # by default, spellchecking uses a third-party cloud services
+            $config['spellcheck_engine'] = 'pspell';
+            $config['spellcheck_languages'] = array(${lib.concatMapStringsSep ", " (dict:
+      let p = builtins.parseDrvName dict.shortName; in "'${p.name}' => '${dict.fullName}'") cfg.dicts});
 
-      ${cfg.extraConfig}
+            ${cfg.extraConfig}
     '';
 
     services.nginx = {
@@ -164,12 +165,12 @@ in
     services.postgresql = mkIf localDB {
       enable = true;
       ensureDatabases = [ cfg.database.dbname ];
-      ensureUsers = [ {
+      ensureUsers = [{
         name = cfg.database.username;
         ensurePermissions = {
           "DATABASE ${cfg.database.username}" = "ALL PRIVILEGES";
         };
-      } ];
+      }];
     };
 
     users.users.${user} = mkIf localDB {
@@ -177,7 +178,7 @@ in
       isSystemUser = true;
       createHome = false;
     };
-    users.groups.${user} = mkIf localDB {};
+    users.groups.${user} = mkIf localDB { };
 
     services.phpfpm.pools.roundcube = {
       user = if localDB then user else "nginx";
@@ -217,24 +218,25 @@ in
       })
       {
         wantedBy = [ "multi-user.target" ];
-        script = let
-          psql = "${lib.optionalString (!localDB) "PGPASSFILE=${cfg.database.passwordFile}"} ${pkgs.postgresql}/bin/psql ${lib.optionalString (!localDB) "-h ${cfg.database.host} -U ${cfg.database.username} "} ${cfg.database.dbname}";
-        in
-        ''
-          version="$(${psql} -t <<< "select value from system where name = 'roundcube-version';" || true)"
-          if ! (grep -E '[a-zA-Z0-9]' <<< "$version"); then
-            ${psql} -f ${cfg.package}/SQL/postgres.initial.sql
-          fi
+        script =
+          let
+            psql = "${lib.optionalString (!localDB) "PGPASSFILE=${cfg.database.passwordFile}"} ${pkgs.postgresql}/bin/psql ${lib.optionalString (!localDB) "-h ${cfg.database.host} -U ${cfg.database.username} "} ${cfg.database.dbname}";
+          in
+          ''
+            version="$(${psql} -t <<< "select value from system where name = 'roundcube-version';" || true)"
+            if ! (grep -E '[a-zA-Z0-9]' <<< "$version"); then
+              ${psql} -f ${cfg.package}/SQL/postgres.initial.sql
+            fi
 
-          if [ ! -f /var/lib/roundcube/des_key ]; then
-            base64 /dev/urandom | head -c 24 > /var/lib/roundcube/des_key;
-            # we need to log out everyone in case change the des_key
-            # from the default when upgrading from nixos 19.09
-            ${psql} <<< 'TRUNCATE TABLE session;'
-          fi
+            if [ ! -f /var/lib/roundcube/des_key ]; then
+              base64 /dev/urandom | head -c 24 > /var/lib/roundcube/des_key;
+              # we need to log out everyone in case change the des_key
+              # from the default when upgrading from nixos 19.09
+              ${psql} <<< 'TRUNCATE TABLE session;'
+            fi
 
-          ${phpWithPspell}/bin/php ${cfg.package}/bin/update.sh
-        '';
+            ${phpWithPspell}/bin/php ${cfg.package}/bin/update.sh
+          '';
         serviceConfig = {
           Type = "oneshot";
           StateDirectory = "roundcube";

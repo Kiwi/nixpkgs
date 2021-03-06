@@ -1,6 +1,13 @@
-{ lib, buildDunePackage, fetchurl
-, dune-configurator, cmdliner, angstrom
-, rresult, stdlib-shims, fmt, fpath
+{ lib
+, buildDunePackage
+, fetchurl
+, dune-configurator
+, cmdliner
+, angstrom
+, rresult
+, stdlib-shims
+, fmt
+, fpath
 }:
 
 buildDunePackage rec {

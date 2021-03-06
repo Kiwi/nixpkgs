@@ -9,7 +9,7 @@
 , importlib-resources
 , importlib-metadata
 
-# for tests
+  # for tests
 , pytestCheckHook
 , yosys
 , symbiyosys
@@ -37,8 +37,8 @@ buildPythonPackage rec {
     pyvcd
     jinja2
   ] ++
-    lib.optional (pythonOlder "3.9") importlib-resources ++
-    lib.optional (pythonOlder "3.8") importlib-metadata;
+  lib.optional (pythonOlder "3.9") importlib-resources ++
+  lib.optional (pythonOlder "3.8") importlib-metadata;
 
   checkInputs = [ pytestCheckHook yosys symbiyosys yices ];
 

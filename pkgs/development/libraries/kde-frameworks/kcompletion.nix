@@ -1,7 +1,11 @@
-{
-  mkDerivation, lib, fetchpatch,
-  extra-cmake-modules,
-  kconfig, kwidgetsaddons, qtbase, qttools
+{ mkDerivation
+, lib
+, fetchpatch
+, extra-cmake-modules
+, kconfig
+, kwidgetsaddons
+, qtbase
+, qttools
 }:
 
 mkDerivation {

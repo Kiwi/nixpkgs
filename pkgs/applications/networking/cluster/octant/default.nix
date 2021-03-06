@@ -9,9 +9,9 @@ let
   }."${system}" or (throw "Unsupported system: ${system}");
   baseurl = "https://github.com/vmware-tanzu/octant/releases/download";
   fetchsrc = version: sha256: fetchzip {
-      url = "${baseurl}/v${version}/octant_${version}_${suffix}.tar.gz";
-      sha256 = sha256."${system}";
-    };
+    url = "${baseurl}/v${version}/octant_${version}_${suffix}.tar.gz";
+    sha256 = sha256."${system}";
+  };
 in
 stdenv.mkDerivation rec {
   pname = "octant";

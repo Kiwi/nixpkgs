@@ -1,7 +1,24 @@
-{ lib, buildPythonPackage, fetchPypi
-, aiofiles, httptools, httpx, multidict, ujson, uvloop, websockets
-, pytestCheckHook, beautifulsoup4, gunicorn, httpcore, uvicorn
-, pytest-asyncio, pytest-benchmark, pytest-dependency, pytest-sanic, pytest-sugar, pytestcov
+{ lib
+, buildPythonPackage
+, fetchPypi
+, aiofiles
+, httptools
+, httpx
+, multidict
+, ujson
+, uvloop
+, websockets
+, pytestCheckHook
+, beautifulsoup4
+, gunicorn
+, httpcore
+, uvicorn
+, pytest-asyncio
+, pytest-benchmark
+, pytest-dependency
+, pytest-sanic
+, pytest-sugar
+, pytestcov
 }:
 
 buildPythonPackage rec {
@@ -22,12 +39,27 @@ buildPythonPackage rec {
   '';
 
   propagatedBuildInputs = [
-    aiofiles httptools httpx multidict ujson uvloop websockets
+    aiofiles
+    httptools
+    httpx
+    multidict
+    ujson
+    uvloop
+    websockets
   ];
 
   checkInputs = [
-    pytestCheckHook beautifulsoup4 gunicorn httpcore uvicorn
-    pytest-asyncio pytest-benchmark pytest-dependency pytest-sanic pytest-sugar pytestcov
+    pytestCheckHook
+    beautifulsoup4
+    gunicorn
+    httpcore
+    uvicorn
+    pytest-asyncio
+    pytest-benchmark
+    pytest-dependency
+    pytest-sanic
+    pytest-sugar
+    pytestcov
   ];
 
   disabledTests = [

@@ -1,5 +1,8 @@
-{ lib, fetchgit, buildPythonPackage
-, srht }:
+{ lib
+, fetchgit
+, buildPythonPackage
+, srht
+}:
 
 buildPythonPackage rec {
   pname = "hubsrht";

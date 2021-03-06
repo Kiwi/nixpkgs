@@ -11,12 +11,12 @@ stdenv.mkDerivation {
   };
 
   buildInputs = [
-     unzip
-     pkg-config
-     ncurses
-     libX11
-     libXft
-     cwebbin
+    unzip
+    pkg-config
+    ncurses
+    libX11
+    libXft
+    cwebbin
   ];
 
   buildPhase = ''

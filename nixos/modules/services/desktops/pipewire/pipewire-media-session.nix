@@ -6,27 +6,28 @@ with lib;
 let
   cfg = config.services.pipewire.media-session;
   enable32BitAlsaPlugins = cfg.alsa.support32Bit
-                           && pkgs.stdenv.isx86_64
-                           && pkgs.pkgsi686Linux.pipewire != null;
+    && pkgs.stdenv.isx86_64
+    && pkgs.pkgsi686Linux.pipewire != null;
 
   # Helpers for generating the pipewire JSON config file
   mkSPAValueString = v:
-  if builtins.isList v then "[${lib.concatMapStringsSep " " mkSPAValueString v}]"
-  else if lib.types.attrs.check v then
-    "{${lib.concatStringsSep " " (mkSPAKeyValue v)}}"
-  else lib.generators.mkValueStringDefault { } v;
+    if builtins.isList v then "[${lib.concatMapStringsSep " " mkSPAValueString v}]"
+    else if lib.types.attrs.check v then
+      "{${lib.concatStringsSep " " (mkSPAKeyValue v)}}"
+    else lib.generators.mkValueStringDefault { } v;
 
   mkSPAKeyValue = attrs: map (def: def.content) (
-  lib.sortProperties
-    (
-      lib.mapAttrsToList
-        (k: v: lib.mkOrder (v._priority or 1000) "${lib.escape [ "=" ] k} = ${mkSPAValueString (v._content or v)}")
-        attrs
-    )
+    lib.sortProperties
+      (
+        lib.mapAttrsToList
+          (k: v: lib.mkOrder (v._priority or 1000) "${lib.escape [ "=" ] k} = ${mkSPAValueString (v._content or v)}")
+          attrs
+      )
   );
 
   toSPAJSON = attrs: lib.concatStringsSep "\n" (mkSPAKeyValue attrs);
-in {
+in
+{
 
   meta = {
     maintainers = teams.freedesktop.members;
@@ -79,21 +80,21 @@ in {
             # the default bundle is always enabled.
 
             default = [
-              "flatpak"			# manages flatpak access
-              "portal"			# manage portal permissions
-              "v4l2"			# video for linux udev detection
-              #"libcamera"		# libcamera udev detection
-              "suspend-node"		# suspend inactive nodes
-              "policy-node"		# configure and link nodes
-              #"metadata"		# export metadata API
-              #"default-nodes"		# restore default nodes
-              #"default-profile"	# restore default profiles
-              #"default-routes"		# restore default route
-              #"streams-follow-default"	# move streams when default changes
-              #"alsa-seq"		# alsa seq midi support
-              #"alsa-monitor"		# alsa udev detection
-              #"bluez5"			# bluetooth support
-              #"restore-stream"		# restore stream settings
+              "flatpak" # manages flatpak access
+              "portal" # manage portal permissions
+              "v4l2" # video for linux udev detection
+              #"libcamera"    # libcamera udev detection
+              "suspend-node" # suspend inactive nodes
+              "policy-node" # configure and link nodes
+              #"metadata"    # export metadata API
+              #"default-nodes"    # restore default nodes
+              #"default-profile"  # restore default profiles
+              #"default-routes"    # restore default route
+              #"streams-follow-default"  # move streams when default changes
+              #"alsa-seq"    # alsa seq midi support
+              #"alsa-monitor"    # alsa udev detection
+              #"bluez5"      # bluetooth support
+              #"restore-stream"    # restore stream settings
             ];
             "with-audio" = [
               "metadata"
@@ -131,64 +132,64 @@ in {
           };
 
           rules = [
-          # an array of matches/actions to evaluate
-          {
-            # rules for matching a device or node. It is an array of
-            # properties that all need to match the regexp. If any of the
-            # matches work, the actions are executed for the object.
-            matches = [
-              {
-                # this matches all cards
-                device.name = "~alsa_card.*";
-              }
-            ];
-            actions = {
-              # actions can update properties on the matched object.
-              update-props = {
-                api.alsa.use-acp = true;
-                #api.alsa.use-ucm = true;
-                #api.alsa.soft-mixer = false;
-                #api.alsa.ignore-dB = false;
-                #device.profile-set = "profileset-name";
-                #device.profile = "default profile name";
-                api.acp.auto-profile = false;
-                api.acp.auto-port = false;
-                #device.nick = "My Device";
+            # an array of matches/actions to evaluate
+            {
+              # rules for matching a device or node. It is an array of
+              # properties that all need to match the regexp. If any of the
+              # matches work, the actions are executed for the object.
+              matches = [
+                {
+                  # this matches all cards
+                  device.name = "~alsa_card.*";
+                }
+              ];
+              actions = {
+                # actions can update properties on the matched object.
+                update-props = {
+                  api.alsa.use-acp = true;
+                  #api.alsa.use-ucm = true;
+                  #api.alsa.soft-mixer = false;
+                  #api.alsa.ignore-dB = false;
+                  #device.profile-set = "profileset-name";
+                  #device.profile = "default profile name";
+                  api.acp.auto-profile = false;
+                  api.acp.auto-port = false;
+                  #device.nick = "My Device";
+                };
               };
-            };
-          }
-          {
-            matches = [
-              {
-                # matches all sinks
-                node.name = "~alsa_input.*";
-              }
-              {
-                # matches all sources
-                node.name = "~alsa_output.*";
-              }
-            ];
-            actions = {
-              update-props = {
-                #node.nick = 			"My Node";
-                #node.nick = 			null;
-                #priority.driver = 		100;
-                #priority.session = 		100;
-                #node.pause-on-idle = 		false;
-                #resample.quality = 		4;
-                #channelmix.normalize =		false;
-                #channelmix.mix-lfe = 		false;
-                #audio.channels = 		2;
-                #audio.format = 		"S16LE";
-                #audio.rate = 			44100;
-                #audio.position = 		"FL,FR";
-                #api.alsa.period-size =         1024;
-                #api.alsa.headroom =            0;
-                #api.alsa.disable-mmap =        false;
-                #api.alsa.disable-batch =       false;
+            }
+            {
+              matches = [
+                {
+                  # matches all sinks
+                  node.name = "~alsa_input.*";
+                }
+                {
+                  # matches all sources
+                  node.name = "~alsa_output.*";
+                }
+              ];
+              actions = {
+                update-props = {
+                  #node.nick =       "My Node";
+                  #node.nick =       null;
+                  #priority.driver =     100;
+                  #priority.session =     100;
+                  #node.pause-on-idle =     false;
+                  #resample.quality =     4;
+                  #channelmix.normalize =    false;
+                  #channelmix.mix-lfe =     false;
+                  #audio.channels =     2;
+                  #audio.format =     "S16LE";
+                  #audio.rate =       44100;
+                  #audio.position =     "FL,FR";
+                  #api.alsa.period-size =         1024;
+                  #api.alsa.headroom =            0;
+                  #api.alsa.disable-mmap =        false;
+                  #api.alsa.disable-batch =       false;
+                };
               };
-            };
-          }
+            }
           ];
         };
       };
@@ -220,48 +221,48 @@ in {
           };
 
           rules = [
-          # an array of matches/actions to evaluate
-          {
-            # rules for matching a device or node. It is an array of
-            # properties that all need to match the regexp. If any of the
-            # matches work, the actions are executed for the object.
-            matches = [
-              {
-                # this matches all cards
-                device.name = "~bluez_card.*";
-              }
-            ];
-            actions = {
-              # actions can update properties on the matched object.
-              update-props = {
-                #device.nick = 			"My Device";
+            # an array of matches/actions to evaluate
+            {
+              # rules for matching a device or node. It is an array of
+              # properties that all need to match the regexp. If any of the
+              # matches work, the actions are executed for the object.
+              matches = [
+                {
+                  # this matches all cards
+                  device.name = "~bluez_card.*";
+                }
+              ];
+              actions = {
+                # actions can update properties on the matched object.
+                update-props = {
+                  #device.nick =       "My Device";
+                };
               };
-            };
-          }
-          {
-            matches = [
-              {
-                # matches all sinks
-                node.name = "~bluez_input.*";
-              }
-              {
-                # matches all sources
-                node.name = "~bluez_output.*";
-              }
-            ];
-            actions = {
-              update-props = {
-                #node.nick = 			"My Node"
-                #node.nick = 			null;
-                #priority.driver = 		100;
-                #priority.session = 		100;
-                #node.pause-on-idle = 		false;
-                #resample.quality = 		4;
-                #channelmix.normalize =		false;
-                #channelmix.mix-lfe = 		false;
+            }
+            {
+              matches = [
+                {
+                  # matches all sinks
+                  node.name = "~bluez_input.*";
+                }
+                {
+                  # matches all sources
+                  node.name = "~bluez_output.*";
+                }
+              ];
+              actions = {
+                update-props = {
+                  #node.nick =       "My Node"
+                  #node.nick =       null;
+                  #priority.driver =     100;
+                  #priority.session =     100;
+                  #node.pause-on-idle =     false;
+                  #resample.quality =     4;
+                  #channelmix.normalize =    false;
+                  #channelmix.mix-lfe =     false;
+                };
               };
-            };
-          }
+            }
           ];
         };
       };
@@ -273,8 +274,7 @@ in {
         '';
         default = {
           # v4l2-monitor config file
-          properties = {
-          };
+          properties = { };
 
           rules = [
             # an array of matches/actions to evaluate
@@ -291,7 +291,7 @@ in {
               actions = {
                 # actions can update properties on the matched object.
                 update-props = {
-                  #device.nick = 			"My Device";
+                  #device.nick =       "My Device";
                 };
               };
             }
@@ -308,11 +308,11 @@ in {
               ];
               actions = {
                 update-props = {
-                  #node.nick = 			"My Node";
-                  #node.nick = 			null;
-                  #priority.driver = 		100;
-                  #priority.session = 		100;
-                  #node.pause-on-idle = 		true;
+                  #node.nick =       "My Node";
+                  #node.nick =       null;
+                  #priority.driver =     100;
+                  #priority.session =     100;
+                  #node.pause-on-idle =     true;
                 };
               };
             }

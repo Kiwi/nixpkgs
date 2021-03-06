@@ -1,8 +1,16 @@
-{ config, lib, stdenv, fetchurl, pkg-config, gettext, glib
-, alsaSupport ? stdenv.isLinux, alsaLib
-, pulseaudioSupport ? config.pulseaudio or true, libpulseaudio
+{ config
+, lib
+, stdenv
+, fetchurl
+, pkg-config
+, gettext
+, glib
+, alsaSupport ? stdenv.isLinux
+, alsaLib
+, pulseaudioSupport ? config.pulseaudio or true
+, libpulseaudio
 , ossSupport ? false
- }:
+}:
 
 stdenv.mkDerivation rec {
   pname = "libmatemixer";

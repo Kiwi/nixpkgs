@@ -24,7 +24,11 @@ let
   '';
 
   settingType = with types; (oneOf
-    [ bool int float str
+    [
+      bool
+      int
+      float
+      str
       (listOf settingType)
       (attrsOf settingType)
     ]) // { description = "JSON value"; };
@@ -161,7 +165,8 @@ in
     environment.systemPackages = [ cfg.package ];
 
     users.users.searx =
-      { description = "Searx daemon user";
+      {
+        description = "Searx daemon user";
         group = "searx";
         isSystemUser = true;
       };
@@ -187,7 +192,7 @@ in
       requires = [ "searx-init.service" ];
       after = [ "searx-init.service" ];
       serviceConfig = {
-        User  = "searx";
+        User = "searx";
         Group = "searx";
         ExecStart = "${cfg.package}/bin/searx-run";
       } // optionalAttrs (cfg.environmentFile != null)
@@ -196,7 +201,8 @@ in
     };
 
     systemd.services.uwsgi = mkIf (cfg.runInUwsgi)
-      { requires = [ "searx-init.service" ];
+      {
+        requires = [ "searx-init.service" ];
         after = [ "searx-init.service" ];
       };
 

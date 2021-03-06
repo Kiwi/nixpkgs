@@ -9,9 +9,9 @@ let
       passAsFile = [ "buildCommand" ];
     }
     // (lib.optionalAttrs runLocal {
-          preferLocalBuild = true;
-          allowSubstitutes = false;
-       })
+      preferLocalBuild = true;
+      allowSubstitutes = false;
+    })
     // env);
 
 in
@@ -80,7 +80,8 @@ rec {
     , checkPhase ? ""    # syntax checks, e.g. for scripts
     }:
     runCommand name
-      { inherit text executable;
+      {
+        inherit text executable;
         passAsFile = [ "text" ];
         # Pointless to do this on a remote machine.
         preferLocalBuild = true;
@@ -112,7 +113,7 @@ rec {
    *   '';
    *
   */
-  writeText = name: text: writeTextFile {inherit name text;};
+  writeText = name: text: writeTextFile { inherit name text; };
 
   /*
    * Writes a text file to nix store in a specific directory with no
@@ -148,7 +149,7 @@ rec {
    *   '';
    *
   */
-  writeScript = name: text: writeTextFile {inherit name text; executable = true;};
+  writeScript = name: text: writeTextFile { inherit name text; executable = true; };
 
   /*
    * Writes a text file to /nix/store/<store path>/bin/<name> and
@@ -162,7 +163,7 @@ rec {
    *   '';
    *
   */
-  writeScriptBin = name: text: writeTextFile {inherit name text; executable = true; destination = "/bin/${name}";};
+  writeScriptBin = name: text: writeTextFile { inherit name text; executable = true; destination = "/bin/${name}"; };
 
   /*
    * Similar to writeScript. Writes a Shell script and checks its syntax.
@@ -183,7 +184,7 @@ rec {
       text = ''
         #!${runtimeShell}
         ${text}
-        '';
+      '';
       checkPhase = ''
         ${stdenv.shell} -n $out
       '';
@@ -202,7 +203,7 @@ rec {
    *   '';
    *
   */
-  writeShellScriptBin = name : text :
+  writeShellScriptBin = name: text:
     writeTextFile {
       inherit name;
       executable = true;
@@ -210,7 +211,7 @@ rec {
       text = ''
         #!${runtimeShell}
         ${text}
-        '';
+      '';
       checkPhase = ''
         ${stdenv.shell} -n $out/bin/${name}
       '';
@@ -219,20 +220,20 @@ rec {
   # Create a C binary
   writeCBin = name: code:
     runCommandCC name
-    {
-      inherit name code;
-      executable = true;
-      passAsFile = ["code"];
-      # Pointless to do this on a remote machine.
-      preferLocalBuild = true;
-      allowSubstitutes = false;
-    }
-    ''
-    n=$out/bin/$name
-    mkdir -p "$(dirname "$n")"
-    mv "$codePath" code.c
-    $CC -x c code.c -o "$n"
-    '';
+      {
+        inherit name code;
+        executable = true;
+        passAsFile = [ "code" ];
+        # Pointless to do this on a remote machine.
+        preferLocalBuild = true;
+        allowSubstitutes = false;
+      }
+      ''
+        n=$out/bin/$name
+        mkdir -p "$(dirname "$n")"
+        mv "$codePath" code.c
+        $CC -x c code.c -o "$n"
+      '';
 
   /*
    * Create a forest of symlinks to the files in `paths'.
@@ -281,19 +282,20 @@ rec {
    */
   symlinkJoin =
     args_@{ name
-         , paths
-         , preferLocalBuild ? true
-         , allowSubstitutes ? false
-         , postBuild ? ""
-         , ...
-         }:
+    , paths
+    , preferLocalBuild ? true
+    , allowSubstitutes ? false
+    , postBuild ? ""
+    , ...
+    }:
     let
       args = removeAttrs args_ [ "name" "postBuild" ]
         // {
-          inherit preferLocalBuild allowSubstitutes;
-          passAsFile = [ "paths" ];
-        }; # pass the defaults
-    in runCommand name args
+        inherit preferLocalBuild allowSubstitutes;
+        passAsFile = [ "paths" ];
+      }; # pass the defaults
+    in
+    runCommand name args
       ''
         mkdir -p $out
         for i in $(cat $pathsPath); do
@@ -327,10 +329,12 @@ rec {
   linkFarm = name: entries: runCommand name { preferLocalBuild = true; allowSubstitutes = false; }
     ''mkdir -p $out
       cd $out
-      ${lib.concatMapStrings (x: ''
+      ${lib.concatMapStrings
+(x: ''
           mkdir -p "$(dirname ${lib.escapeShellArg x.name})"
           ln -s ${lib.escapeShellArg x.path} ${lib.escapeShellArg x.name}
-      '') entries}
+      '')
+entries}
     '';
 
   /*
@@ -374,14 +378,14 @@ rec {
    *                 substitutions = { bash = "${pkgs.bash}/bin/bash"; };
    *               } ./myscript.sh;
    */
-  makeSetupHook = { name ? "hook", deps ? [], substitutions ? {} }: script:
+  makeSetupHook = { name ? "hook", deps ? [ ], substitutions ? { } }: script:
     runCommand name substitutions
       (''
         mkdir -p $out/nix-support
         cp ${script} $out/nix-support/setup-hook
-      '' + lib.optionalString (deps != []) ''
+      '' + lib.optionalString (deps != [ ]) ''
         printWords ${toString deps} > $out/nix-support/propagated-build-inputs
-      '' + lib.optionalString (substitutions != {}) ''
+      '' + lib.optionalString (substitutions != { }) ''
         substituteAll ${script} $out/nix-support/setup-hook
       '');
 
@@ -390,7 +394,7 @@ rec {
 
   writeReferencesToFile = path: runCommand "runtime-deps"
     {
-      exportReferencesGraph = ["graph" path];
+      exportReferencesGraph = [ "graph" path ];
     }
     ''
       touch $out
@@ -417,49 +421,51 @@ rec {
    *   sha256 = "ffffffffffffffffffffffffffffffffffffffffffffffffffff";
    * }
    */
-  requireFile = { name ? null
-                , sha256 ? null
-                , sha1 ? null
-                , url ? null
-                , message ? null
-                , hashMode ? "flat"
-                } :
-    assert (message != null) || (url != null);
-    assert (sha256 != null) || (sha1 != null);
-    assert (name != null) || (url != null);
-    let msg =
-      if message != null then message
-      else ''
-        Unfortunately, we cannot download file ${name_} automatically.
-        Please go to ${url} to download it yourself, and add it to the Nix store
-        using either
-          nix-store --add-fixed ${hashAlgo} ${name_}
-        or
-          nix-prefetch-url --type ${hashAlgo} file:///path/to/${name_}
-      '';
-      hashAlgo = if sha256 != null then "sha256" else "sha1";
-      hash = if sha256 != null then sha256 else sha1;
-      name_ = if name == null then baseNameOf (toString url) else name;
-    in
-    stdenvNoCC.mkDerivation {
-      name = name_;
-      outputHashMode = hashMode;
-      outputHashAlgo = hashAlgo;
-      outputHash = hash;
-      preferLocalBuild = true;
-      allowSubstitutes = false;
-      builder = writeScript "restrict-message" ''
-        source ${stdenvNoCC}/setup
-        cat <<_EOF_
+  requireFile =
+    { name ? null
+    , sha256 ? null
+    , sha1 ? null
+    , url ? null
+    , message ? null
+    , hashMode ? "flat"
+    }:
+      assert (message != null) || (url != null);
+      assert (sha256 != null) || (sha1 != null);
+      assert (name != null) || (url != null);
+      let
+        msg =
+          if message != null then message
+          else ''
+            Unfortunately, we cannot download file ${name_} automatically.
+            Please go to ${url} to download it yourself, and add it to the Nix store
+            using either
+              nix-store --add-fixed ${hashAlgo} ${name_}
+            or
+              nix-prefetch-url --type ${hashAlgo} file:///path/to/${name_}
+          '';
+        hashAlgo = if sha256 != null then "sha256" else "sha1";
+        hash = if sha256 != null then sha256 else sha1;
+        name_ = if name == null then baseNameOf (toString url) else name;
+      in
+      stdenvNoCC.mkDerivation {
+        name = name_;
+        outputHashMode = hashMode;
+        outputHashAlgo = hashAlgo;
+        outputHash = hash;
+        preferLocalBuild = true;
+        allowSubstitutes = false;
+        builder = writeScript "restrict-message" ''
+          source ${stdenvNoCC}/setup
+          cat <<_EOF_
 
-        ***
-        ${msg}
-        ***
+          ***
+          ${msg}
+          ***
 
-        _EOF_
-        exit 1
-      '';
-    };
+          _EOF_
+          exit 1
+        '';
+      };
 
 
   # Copy a path to the Nix store.
@@ -490,13 +496,13 @@ rec {
   applyPatches =
     { src
     , name ? (if builtins.typeOf src == "path"
-              then builtins.baseNameOf src
-              else
-                if builtins.isAttrs src && builtins.hasAttr "name" src
-                then src.name
-                else throw "applyPatches: please supply a `name` argument because a default name can only be computed when the `src` is a path or is an attribute set with a `name` attribute."
-             ) + "-patched"
-    , patches   ? []
+      then builtins.baseNameOf src
+      else
+        if builtins.isAttrs src && builtins.hasAttr "name" src
+        then src.name
+        else throw "applyPatches: please supply a `name` argument because a default name can only be computed when the `src` is a path or is an attribute set with a `name` attribute."
+      ) + "-patched"
+    , patches ? [ ]
     , postPatch ? ""
     }: stdenvNoCC.mkDerivation {
       inherit name src patches postPatch;

@@ -2,7 +2,7 @@
 
 with lib; mkCoqDerivation {
   pname = "coq${coq.coq-version}-VST";
-  namePrefix = [];
+  namePrefix = [ ];
   displayVersion = { coq = false; };
   owner = "PrincetonUniversity";
   repo = "VST";

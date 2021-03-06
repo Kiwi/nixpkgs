@@ -1,5 +1,15 @@
-{ stdenv, lib, fetchurl, autoreconfHook, docutils, pkg-config
-, kerberos, keyutils, pam, talloc, python3 }:
+{ stdenv
+, lib
+, fetchurl
+, autoreconfHook
+, docutils
+, pkg-config
+, kerberos
+, keyutils
+, pam
+, talloc
+, python3
+}:
 
 stdenv.mkDerivation rec {
   pname = "cifs-utils";

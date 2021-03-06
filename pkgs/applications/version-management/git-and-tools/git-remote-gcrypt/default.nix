@@ -1,6 +1,15 @@
-{ lib, stdenv, fetchFromGitHub, docutils, makeWrapper
-, gnupg, curl, rsync, coreutils
-, gawk, gnused, gnugrep
+{ lib
+, stdenv
+, fetchFromGitHub
+, docutils
+, makeWrapper
+, gnupg
+, curl
+, rsync
+, coreutils
+, gawk
+, gnused
+, gnugrep
 }:
 
 stdenv.mkDerivation rec {
@@ -20,10 +29,17 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ docutils makeWrapper ];
 
   installPhase = ''
-    prefix="$out" ./install.sh
-    wrapProgram "$out/bin/git-remote-gcrypt" \
-      --prefix PATH ":" "${lib.makeBinPath [ gnupg curl rsync coreutils
-                                                    gawk gnused gnugrep ]}"
+        prefix="$out" ./install.sh
+        wrapProgram "$out/bin/git-remote-gcrypt" \
+          --prefix PATH ":" "${lib.makeBinPath [
+    gnupg
+    curl
+    rsync
+    coreutils
+                                                        gawk
+    gnused
+    gnugrep
+    ]}"
   '';
 
   meta = with lib; {

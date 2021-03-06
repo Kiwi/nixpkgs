@@ -1,5 +1,11 @@
-{ lib, fetchPypi, buildPythonPackage,
-  setuptools_scm, toml, six, astroid, pytest
+{ lib
+, fetchPypi
+, buildPythonPackage
+, setuptools_scm
+, toml
+, six
+, astroid
+, pytest
 }:
 
 buildPythonPackage rec {

@@ -1,8 +1,23 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, intltool, python3, imagemagick, libwnck, gtk2
-, exo, libxfce4ui, libxfce4util, xfce4-panel, xfconf, xfce4-dev-tools, xfce }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, pkg-config
+, intltool
+, python3
+, imagemagick
+, libwnck
+, gtk2
+, exo
+, libxfce4ui
+, libxfce4util
+, xfce4-panel
+, xfconf
+, xfce4-dev-tools
+, xfce
+}:
 
 stdenv.mkDerivation rec {
-  pname  = "xfce4-windowck-plugin";
+  pname = "xfce4-windowck-plugin";
   version = "0.4.6";
 
   src = fetchFromGitHub {

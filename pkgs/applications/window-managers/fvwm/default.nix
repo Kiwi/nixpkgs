@@ -1,7 +1,20 @@
 { gestures ? false
-, lib, stdenv, fetchurl, pkg-config
-, cairo, fontconfig, freetype, libXft, libXcursor, libXinerama
-, libXpm, libXt, librsvg, libpng, fribidi, perl
+, lib
+, stdenv
+, fetchurl
+, pkg-config
+, cairo
+, fontconfig
+, freetype
+, libXft
+, libXcursor
+, libXinerama
+, libXpm
+, libXt
+, librsvg
+, libpng
+, fribidi
+, perl
 , libstroke ? null
 }:
 
@@ -18,9 +31,18 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [
-    cairo fontconfig freetype
-    libXft libXcursor libXinerama libXpm libXt
-    librsvg libpng fribidi perl
+    cairo
+    fontconfig
+    freetype
+    libXft
+    libXcursor
+    libXinerama
+    libXpm
+    libXt
+    librsvg
+    libpng
+    fribidi
+    perl
   ] ++ lib.optional gestures libstroke;
 
   meta = {

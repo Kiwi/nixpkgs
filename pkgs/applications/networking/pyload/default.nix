@@ -5,7 +5,8 @@ let
     inherit pythonPackages;
   };
 
-in pythonPackages.buildPythonApplication rec {
+in
+pythonPackages.buildPythonApplication rec {
   version = "0.4.9-next";
   name = "pyLoad-" + version;
 
@@ -27,15 +28,28 @@ in pythonPackages.buildPythonApplication rec {
         url = "https://patch-diff.githubusercontent.com/raw/pyload/pyload/pull/2638.diff";
         sha256 = "006g4qbl582262ariflbyfrszcx8ck2ac1cpry1f82f76p4cgf6z";
       };
-    in [ configParserPatch setupPyPatch ];
+    in
+    [ configParserPatch setupPyPatch ];
 
   buildInputs = [
-    unrar rhino spidermonkey_38 gocr pythonPackages.paver
+    unrar
+    rhino
+    spidermonkey_38
+    gocr
+    pythonPackages.paver
   ];
 
   propagatedBuildInputs = with pythonPackages; [
-    pycurl jinja2 beaker thrift simplejson pycrypto feedparser tkinter
-    beautifulsoup send2trash
+    pycurl
+    jinja2
+    beaker
+    thrift
+    simplejson
+    pycrypto
+    feedparser
+    tkinter
+    beautifulsoup
+    send2trash
   ];
 
   #remove this once the PR patches above are merged. Needed because githubs diff endpoint

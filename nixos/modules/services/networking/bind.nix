@@ -28,7 +28,7 @@ let
     slaves = mkOption {
       type = types.listOf types.str;
       description = "Addresses who may request zone transfers.";
-      default = [];
+      default = [ ];
     };
     extraConfig = mkOption {
       type = types.str;
@@ -62,7 +62,7 @@ let
       ${cfg.extraConfig}
 
       ${ concatMapStrings
-          ({ name, file, master ? true, slaves ? [], masters ? [], extraConfig ? "" }:
+          ({ name, file, master ? true, slaves ? [ ], masters ? [ ], extraConfig ? "" }:
             ''
               zone "${name}" {
                 type ${if master then "master" else "slave"};
@@ -100,7 +100,7 @@ in
       enable = mkEnableOption "BIND domain name server";
 
       cacheNetworks = mkOption {
-        default = ["127.0.0.0/24"];
+        default = [ "127.0.0.0/24" ];
         type = types.listOf types.str;
         description = "
           What networks are allowed to use us as a resolver.  Note
@@ -112,7 +112,7 @@ in
       };
 
       blockedNetworks = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.str;
         description = "
           What networks are just blocked.
@@ -136,7 +136,7 @@ in
       };
 
       listenOn = mkOption {
-        default = ["any"];
+        default = [ "any" ];
         type = types.listOf types.str;
         description = "
           Interfaces to listen on.
@@ -144,7 +144,7 @@ in
       };
 
       listenOnIpv6 = mkOption {
-        default = ["any"];
+        default = [ "any" ];
         type = types.listOf types.str;
         description = "
           Ipv6 interfaces to listen on.
@@ -152,8 +152,8 @@ in
       };
 
       zones = mkOption {
-        default = [];
-        type = types.listOf (types.submodule [ { options = bindZoneOptions; } ]);
+        default = [ ];
+        type = types.listOf (types.submodule [{ options = bindZoneOptions; }]);
         description = "
           List of zones we claim authority over.
         ";
@@ -161,8 +161,8 @@ in
           name = "example.com";
           master = false;
           file = "/var/dns/example.com";
-          masters = ["192.168.0.1"];
-          slaves = [];
+          masters = [ "192.168.0.1" ];
+          slaves = [ ];
           extraConfig = "";
         }];
       };
@@ -206,7 +206,8 @@ in
     networking.resolvconf.useLocalResolver = mkDefault true;
 
     users.users.${bindUser} =
-      { uid = config.ids.uids.bind;
+      {
+        uid = config.ids.uids.bind;
         description = "BIND daemon user";
       };
 
@@ -226,9 +227,9 @@ in
       '';
 
       serviceConfig = {
-        ExecStart  = "${pkgs.bind.out}/sbin/named -u ${bindUser} ${optionalString cfg.ipv4Only "-4"} -c ${cfg.configFile} -f";
+        ExecStart = "${pkgs.bind.out}/sbin/named -u ${bindUser} ${optionalString cfg.ipv4Only "-4"} -c ${cfg.configFile} -f";
         ExecReload = "${pkgs.bind.out}/sbin/rndc -k '/etc/bind/rndc.key' reload";
-        ExecStop   = "${pkgs.bind.out}/sbin/rndc -k '/etc/bind/rndc.key' stop";
+        ExecStop = "${pkgs.bind.out}/sbin/rndc -k '/etc/bind/rndc.key' stop";
       };
 
       unitConfig.Documentation = "man:named(8)";

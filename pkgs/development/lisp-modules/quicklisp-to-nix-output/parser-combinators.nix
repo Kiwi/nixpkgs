@@ -14,7 +14,7 @@ rec {
 
   packageName = "parser-combinators";
 
-  asdFilesToKeep = ["parser-combinators.asd"];
+  asdFilesToKeep = [ "parser-combinators.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM parser-combinators DESCRIPTION

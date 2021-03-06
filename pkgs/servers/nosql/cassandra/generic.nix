@@ -1,9 +1,21 @@
-{ lib, stdenv, fetchurl, python, makeWrapper, gawk, bash, getopt, procps
-, which, jre, coreutils, nixosTests
-# generation is the attribute version suffix such as 3_11 in pkgs.cassandra_3_11
+{ lib
+, stdenv
+, fetchurl
+, python
+, makeWrapper
+, gawk
+, bash
+, getopt
+, procps
+, which
+, jre
+, coreutils
+, nixosTests
+  # generation is the attribute version suffix such as 3_11 in pkgs.cassandra_3_11
 , generation
-, version, sha256
-, extraMeta ? {}
+, version
+, sha256
+, extraMeta ? { }
 , ...
 }:
 
@@ -90,13 +102,14 @@ stdenv.mkDerivation rec {
     wrapProgram $out/bin/cqlsh --prefix PATH : ${python}/bin
 
     runHook postInstall
-    '';
+  '';
 
   passthru = {
     tests =
       let
         test = nixosTests."cassandra_${generation}";
-      in {
+      in
+      {
         nixos =
           assert test.testPackage.version == version;
           test;

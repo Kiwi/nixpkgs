@@ -1,5 +1,11 @@
-{ stdenv, fetchFromGitHub, gnat, zlib, llvm, lib
-, backend ? "mcode" }:
+{ stdenv
+, fetchFromGitHub
+, gnat
+, zlib
+, llvm
+, lib
+, backend ? "mcode"
+}:
 
 assert backend == "mcode" || backend == "llvm";
 
@@ -8,9 +14,9 @@ stdenv.mkDerivation rec {
   version = "1.0.0";
 
   src = fetchFromGitHub {
-    owner  = "ghdl";
-    repo   = "ghdl";
-    rev    = "v${version}";
+    owner = "ghdl";
+    repo = "ghdl";
+    rev = "v${version}";
     sha256 = "1gyh0xckwbzgslbpw9yrpj4gqs9fm1a2qpbzl0sh143fk1kwjlly";
   };
 

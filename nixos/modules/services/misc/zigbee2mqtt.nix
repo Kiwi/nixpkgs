@@ -48,7 +48,7 @@ in
     };
 
     config = mkOption {
-      default = {};
+      default = { };
       type = with types; nullOr attrs;
       example = literalExample ''
         {

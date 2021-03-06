@@ -1,5 +1,14 @@
-{ stdenv, lib, buildDunePackage, fetchurl, ocaml
-, result, alcotest, cohttp-lwt-unix, odoc, curl }:
+{ stdenv
+, lib
+, buildDunePackage
+, fetchurl
+, ocaml
+, result
+, alcotest
+, cohttp-lwt-unix
+, odoc
+, curl
+}:
 
 buildDunePackage rec {
   pname = "curly";
@@ -25,7 +34,7 @@ buildDunePackage rec {
   postPatch = ''
     substituteInPlace src/curly.ml \
       --replace "exe=\"curl\"" "exe=\"${curl}/bin/curl\""
-    '';
+  '';
 
   meta = with lib; {
     description = "Curly is a brain dead wrapper around the curl command line utility";

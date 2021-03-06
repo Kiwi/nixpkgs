@@ -1,5 +1,12 @@
-{ lib, fetchgit, buildPythonPackage
-, srht, asyncpg, aiosmtpd, pygit2, emailthreads }:
+{ lib
+, fetchgit
+, buildPythonPackage
+, srht
+, asyncpg
+, aiosmtpd
+, pygit2
+, emailthreads
+}:
 
 buildPythonPackage rec {
   pname = "listssrht";

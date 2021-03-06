@@ -1,13 +1,27 @@
-{ lib, stdenv, fetchFromGitHub, alsaLib, boost
-, qt4, libpulseaudio, codec2, libconfig
-, gnuradio, gr-osmosdr, gsm
-, libopus, libjpeg, protobuf, qwt, speex
-} :
+{ lib
+, stdenv
+, fetchFromGitHub
+, alsaLib
+, boost
+, qt4
+, libpulseaudio
+, codec2
+, libconfig
+, gnuradio
+, gr-osmosdr
+, gsm
+, libopus
+, libjpeg
+, protobuf
+, qwt
+, speex
+}:
 
 let
   version = "0.5.0";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "qradiolink";
   inherit version;
 

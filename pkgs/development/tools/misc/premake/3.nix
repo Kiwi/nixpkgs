@@ -1,7 +1,8 @@
-{lib, stdenv, fetchurl, unzip}:
+{ lib, stdenv, fetchurl, unzip }:
 
-let baseName = "premake";
-  version  = "3.7";
+let
+  baseName = "premake";
+  version = "3.7";
 in
 
 stdenv.mkDerivation {
@@ -12,7 +13,7 @@ stdenv.mkDerivation {
     sha256 = "b59841a519e75d5b6566848a2c5be2f91455bf0cc6ae4d688fcbd4c40db934d5";
   };
 
-  buildInputs = [unzip];
+  buildInputs = [ unzip ];
 
   installPhase = ''
     install -Dm755 bin/premake $out/bin/premake

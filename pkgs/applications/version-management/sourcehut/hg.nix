@@ -1,5 +1,11 @@
-{ lib, fetchhg, buildPythonPackage
-, srht, hglib, scmsrht, unidiff }:
+{ lib
+, fetchhg
+, buildPythonPackage
+, srht
+, hglib
+, scmsrht
+, unidiff
+}:
 
 buildPythonPackage rec {
   pname = "hgsrht";

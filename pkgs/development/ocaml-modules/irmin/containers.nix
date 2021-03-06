@@ -1,6 +1,12 @@
 { buildDunePackage
-, irmin, irmin-unix, irmin-git, ppx_irmin, lwt, mtime
-, alcotest, alcotest-lwt
+, irmin
+, irmin-unix
+, irmin-git
+, ppx_irmin
+, lwt
+, mtime
+, alcotest
+, alcotest-lwt
 }:
 
 buildDunePackage {
@@ -13,12 +19,18 @@ buildDunePackage {
   ];
 
   propagatedBuildInputs = [
-    irmin irmin-unix irmin-git ppx_irmin lwt mtime
+    irmin
+    irmin-unix
+    irmin-git
+    ppx_irmin
+    lwt
+    mtime
   ];
 
   doCheck = true;
   checkInputs = [
-    alcotest alcotest-lwt
+    alcotest
+    alcotest-lwt
   ];
 
   meta = ppx_irmin.meta // {

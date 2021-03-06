@@ -1,10 +1,27 @@
-{ pkgs, lib, stdenv, fetchFromGitHub, makeWrapper, gawk, gnum4, gnused
-, libxml2, libxslt, ncurses, openssl, perl, autoconf
+{ pkgs
+, lib
+, stdenv
+, fetchFromGitHub
+, makeWrapper
+, gawk
+, gnum4
+, gnused
+, libxml2
+, libxslt
+, ncurses
+, openssl
+, perl
+, autoconf
 , openjdk11 ? null # javacSupport
 , unixODBC ? null # odbcSupport
-, libGL ? null, libGLU ? null, wxGTK ? null, wxmac ? null, xorg ? null
+, libGL ? null
+, libGLU ? null
+, wxGTK ? null
+, wxmac ? null
+, xorg ? null
 , parallelBuild ? false
-, systemd, wxSupport ? true
+, systemd
+, wxSupport ? true
 }:
 { baseName ? "erlang"
 , version
@@ -16,25 +33,42 @@
 , enableThreads ? true
 , enableSmpSupport ? true
 , enableKernelPoll ? true
-, javacSupport ? false, javacPackages ? [ openjdk11 ]
-, odbcSupport ? false, odbcPackages ? [ unixODBC ]
+, javacSupport ? false
+, javacPackages ? [ openjdk11 ]
+, odbcSupport ? false
+, odbcPackages ? [ unixODBC ]
 , withSystemd ? stdenv.isLinux # systemd support in epmd
 , opensslPackage ? openssl
 , wxPackages ? [ libGL libGLU wxGTK xorg.libX11 ]
-, preUnpack ? "", postUnpack ? ""
-, patches ? [], patchPhase ? "", prePatch ? "", postPatch ? ""
-, configureFlags ? [], configurePhase ? "", preConfigure ? "", postConfigure ? ""
-, buildPhase ? "", preBuild ? "", postBuild ? ""
-, installPhase ? "", preInstall ? "", postInstall ? ""
+, preUnpack ? ""
+, postUnpack ? ""
+, patches ? [ ]
+, patchPhase ? ""
+, prePatch ? ""
+, postPatch ? ""
+, configureFlags ? [ ]
+, configurePhase ? ""
+, preConfigure ? ""
+, postConfigure ? ""
+, buildPhase ? ""
+, preBuild ? ""
+, postBuild ? ""
+, installPhase ? ""
+, preInstall ? ""
+, postInstall ? ""
 , installTargets ? [ "install" "install-docs" ]
-, checkPhase ? "", preCheck ? "", postCheck ? ""
-, fixupPhase ? "", preFixup ? "", postFixup ? ""
-, meta ? {}
+, checkPhase ? ""
+, preCheck ? ""
+, postCheck ? ""
+, fixupPhase ? ""
+, preFixup ? ""
+, postFixup ? ""
+, meta ? { }
 }:
 
 assert wxSupport -> (if stdenv.isDarwin
-  then wxmac != null
-  else libGL != null && libGLU != null && wxGTK != null && xorg != null);
+then wxmac != null
+else libGL != null && libGLU != null && wxGTK != null && xorg != null);
 
 assert odbcSupport -> unixODBC != null;
 assert javacSupport -> openjdk11 != null;
@@ -43,7 +77,8 @@ let
   inherit (lib) optional optionals optionalAttrs optionalString;
   wxPackages2 = if stdenv.isDarwin then [ wxmac ] else wxPackages;
 
-in stdenv.mkDerivation ({
+in
+stdenv.mkDerivation ({
   name = "${baseName}-${version}"
     + optionalString javacSupport "-javac"
     + optionalString odbcSupport "-odbc";
@@ -122,24 +157,24 @@ in stdenv.mkDerivation ({
     license = licenses.asl20;
   } // meta);
 }
-// optionalAttrs (preUnpack != "")      { inherit preUnpack; }
-// optionalAttrs (postUnpack != "")     { inherit postUnpack; }
-// optionalAttrs (patches != [])        { inherit patches; }
-// optionalAttrs (prePatch != "")       { inherit prePatch; }
-// optionalAttrs (patchPhase != "")     { inherit patchPhase; }
+// optionalAttrs (preUnpack != "") { inherit preUnpack; }
+// optionalAttrs (postUnpack != "") { inherit postUnpack; }
+// optionalAttrs (patches != [ ]) { inherit patches; }
+// optionalAttrs (prePatch != "") { inherit prePatch; }
+// optionalAttrs (patchPhase != "") { inherit patchPhase; }
 // optionalAttrs (configurePhase != "") { inherit configurePhase; }
-// optionalAttrs (preConfigure != "")   { inherit preConfigure; }
-// optionalAttrs (postConfigure != "")  { inherit postConfigure; }
-// optionalAttrs (buildPhase != "")     { inherit buildPhase; }
-// optionalAttrs (preBuild != "")       { inherit preBuild; }
-// optionalAttrs (postBuild != "")      { inherit postBuild; }
-// optionalAttrs (checkPhase != "")     { inherit checkPhase; }
-// optionalAttrs (preCheck != "")       { inherit preCheck; }
-// optionalAttrs (postCheck != "")      { inherit postCheck; }
-// optionalAttrs (installPhase != "")   { inherit installPhase; }
-// optionalAttrs (installTargets != []) { inherit installTargets; }
-// optionalAttrs (preInstall != "")     { inherit preInstall; }
-// optionalAttrs (fixupPhase != "")     { inherit fixupPhase; }
-// optionalAttrs (preFixup != "")       { inherit preFixup; }
-// optionalAttrs (postFixup != "")      { inherit postFixup; }
+// optionalAttrs (preConfigure != "") { inherit preConfigure; }
+// optionalAttrs (postConfigure != "") { inherit postConfigure; }
+// optionalAttrs (buildPhase != "") { inherit buildPhase; }
+// optionalAttrs (preBuild != "") { inherit preBuild; }
+// optionalAttrs (postBuild != "") { inherit postBuild; }
+// optionalAttrs (checkPhase != "") { inherit checkPhase; }
+// optionalAttrs (preCheck != "") { inherit preCheck; }
+// optionalAttrs (postCheck != "") { inherit postCheck; }
+// optionalAttrs (installPhase != "") { inherit installPhase; }
+// optionalAttrs (installTargets != [ ]) { inherit installTargets; }
+// optionalAttrs (preInstall != "") { inherit preInstall; }
+// optionalAttrs (fixupPhase != "") { inherit fixupPhase; }
+// optionalAttrs (preFixup != "") { inherit preFixup; }
+// optionalAttrs (postFixup != "") { inherit postFixup; }
 )

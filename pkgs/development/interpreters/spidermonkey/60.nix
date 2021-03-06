@@ -1,11 +1,25 @@
-{ lib, stdenv, fetchurl, fetchpatch, autoconf213, pkg-config, perl, python2, zip, buildPackages
-, which, readline, zlib, icu }:
+{ lib
+, stdenv
+, fetchurl
+, fetchpatch
+, autoconf213
+, pkg-config
+, perl
+, python2
+, zip
+, buildPackages
+, which
+, readline
+, zlib
+, icu
+}:
 
 with lib;
 
 let
   version = "60.9.0";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "spidermonkey";
   inherit version;
 
@@ -60,7 +74,7 @@ in stdenv.mkDerivation {
     "--target=${stdenv.hostPlatform.config}"
   ];
 
-  configurePlatforms = [];
+  configurePlatforms = [ ];
 
   depsBuildBuild = [ buildPackages.stdenv.cc ];
 

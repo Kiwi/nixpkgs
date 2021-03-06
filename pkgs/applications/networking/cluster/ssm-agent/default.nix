@@ -1,11 +1,11 @@
 { lib, fetchFromGitHub, buildGoPackage, bash, makeWrapper }:
 
 buildGoPackage rec {
-  pname   = "amazon-ssm-agent";
+  pname = "amazon-ssm-agent";
   version = "2.3.1319.0";
 
   goPackagePath = "github.com/aws/${pname}";
-  subPackages   = [
+  subPackages = [
     "agent"
     "agent/framework/processor/executer/outofproc/worker"
     "agent/framework/processor/executer/outofproc/worker"
@@ -17,9 +17,9 @@ buildGoPackage rec {
   nativeBuildInputs = [ makeWrapper ];
 
   src = fetchFromGitHub {
-    rev    = version;
-    owner  = "aws";
-    repo   = pname;
+    rev = version;
+    owner = "aws";
+    repo = pname;
     sha256 = "1yiyhj7ckqa32b1rnbwn7zx89rsj00m5imn1xlpsw002ywxsxbnv";
   };
 
@@ -55,9 +55,9 @@ buildGoPackage rec {
 
   meta = with lib; {
     description = "Agent to enable remote management of your Amazon EC2 instance configuration";
-    homepage    = "https://github.com/aws/amazon-ssm-agent";
-    license     = licenses.asl20;
-    platforms   = platforms.unix;
+    homepage = "https://github.com/aws/amazon-ssm-agent";
+    license = licenses.asl20;
+    platforms = platforms.unix;
     maintainers = with maintainers; [ copumpkin manveru ];
   };
 }

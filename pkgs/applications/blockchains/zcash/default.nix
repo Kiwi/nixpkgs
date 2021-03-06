@@ -1,6 +1,21 @@
-{ rust, rustPlatform, stdenv, lib, fetchFromGitHub, autoreconfHook, makeWrapper
-, cargo, pkg-config
-, bash, curl, coreutils, boost17x, db62, libsodium, libevent, utf8cpp, util-linux
+{ rust
+, rustPlatform
+, stdenv
+, lib
+, fetchFromGitHub
+, autoreconfHook
+, makeWrapper
+, cargo
+, pkg-config
+, bash
+, curl
+, coreutils
+, boost17x
+, db62
+, libsodium
+, libevent
+, utf8cpp
+, util-linux
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -9,7 +24,7 @@ rustPlatform.buildRustPackage rec {
 
   src = fetchFromGitHub {
     owner = "zcash";
-    repo  = "zcash";
+    repo = "zcash";
     rev = "v${version}";
     sha256 = "185zrw276g545np0niw5hlhlppkjbf5a1r4rwhnbaimdjdii2dil";
   };

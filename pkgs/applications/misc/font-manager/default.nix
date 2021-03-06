@@ -1,6 +1,23 @@
-{ lib, stdenv, fetchFromGitHub, meson, ninja, gettext, python3,
-  pkg-config, libxml2, json-glib , sqlite, itstool, librsvg, yelp-tools,
-  vala, gtk3, gnome3, desktop-file-utils, wrapGAppsHook, gobject-introspection
+{ lib
+, stdenv
+, fetchFromGitHub
+, meson
+, ninja
+, gettext
+, python3
+, pkg-config
+, libxml2
+, json-glib
+, sqlite
+, itstool
+, librsvg
+, yelp-tools
+, vala
+, gtk3
+, gnome3
+, desktop-file-utils
+, wrapGAppsHook
+, gobject-introspection
 }:
 
 stdenv.mkDerivation rec {

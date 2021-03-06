@@ -9,7 +9,8 @@ let
     };
   };
 
-in python.pkgs.buildPythonApplication rec {
+in
+python.pkgs.buildPythonApplication rec {
   pname = "esphome";
   version = "1.16.0";
 
@@ -21,9 +22,18 @@ in python.pkgs.buildPythonApplication rec {
   ESPHOME_USE_SUBPROCESS = "";
 
   propagatedBuildInputs = with python.pkgs; [
-    voluptuous pyyaml paho-mqtt colorlog colorama
-    tornado protobuf tzlocal pyserial ifaddr
-    protobuf click
+    voluptuous
+    pyyaml
+    paho-mqtt
+    colorlog
+    colorama
+    tornado
+    protobuf
+    tzlocal
+    pyserial
+    ifaddr
+    protobuf
+    click
   ];
 
   # remove all version pinning (E.g tornado==5.1.1 -> tornado)

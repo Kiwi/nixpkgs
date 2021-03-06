@@ -1,10 +1,26 @@
-{
-  mkDerivation, lib,
-  extra-cmake-modules, gettext, kdoctools,
-  cups, epoxy, mesa, pcre, pipewire, wayland, wayland-protocols,
-  kcoreaddons, knotifications, kwayland, kwidgetsaddons, kwindowsystem,
-  kirigami2, kdeclarative, plasma-framework, plasma-wayland-protocols, kio,
-  qtbase
+{ mkDerivation
+, lib
+, extra-cmake-modules
+, gettext
+, kdoctools
+, cups
+, epoxy
+, mesa
+, pcre
+, pipewire
+, wayland
+, wayland-protocols
+, kcoreaddons
+, knotifications
+, kwayland
+, kwidgetsaddons
+, kwindowsystem
+, kirigami2
+, kdeclarative
+, plasma-framework
+, plasma-wayland-protocols
+, kio
+, qtbase
 }:
 
 mkDerivation {
@@ -12,9 +28,23 @@ mkDerivation {
   meta.broken = lib.versionOlder qtbase.version "5.15.0";
   nativeBuildInputs = [ extra-cmake-modules gettext kdoctools ];
   buildInputs = [
-    cups epoxy mesa pcre pipewire wayland wayland-protocols
+    cups
+    epoxy
+    mesa
+    pcre
+    pipewire
+    wayland
+    wayland-protocols
 
-    kio kcoreaddons knotifications kwayland kwidgetsaddons kwindowsystem
-    kirigami2 kdeclarative plasma-framework plasma-wayland-protocols
+    kio
+    kcoreaddons
+    knotifications
+    kwayland
+    kwidgetsaddons
+    kwindowsystem
+    kirigami2
+    kdeclarative
+    plasma-framework
+    plasma-wayland-protocols
   ];
 }

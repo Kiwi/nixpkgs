@@ -6,7 +6,8 @@
     The engine is relatively small and quick to build, so this is not much of a problem.
     Building a mod will result in a wrapper script that starts the mod inside the specified engine.
 */
-{ lib, stdenv
+{ lib
+, stdenv
 , packageAttrs
 , patchEngine
 , wrapLaunchGame
@@ -20,8 +21,9 @@ let
   engineSourceName = engine.src.name or "engine";
   modSourceName = mod.src.name or "mod";
 
-# Based on: https://build.opensuse.org/package/show/home:fusion809/openra-ura
-in stdenv.mkDerivation (recursiveUpdate packageAttrs rec {
+  # Based on: https://build.opensuse.org/package/show/home:fusion809/openra-ura
+in
+stdenv.mkDerivation (recursiveUpdate packageAttrs rec {
   name = "${pname}-${version}";
   pname = "openra-${mod.name}";
   inherit (mod) version;

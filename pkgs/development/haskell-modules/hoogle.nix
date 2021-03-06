@@ -23,8 +23,12 @@
 # This will build mmorph and monadControl, and have the hoogle installation
 # refer to their documentation via symlink so they are not garbage collected.
 
-{ lib, stdenv, buildPackages
-, hoogle, writeText, ghc
+{ lib
+, stdenv
+, buildPackages
+, hoogle
+, writeText
+, ghc
 , packages
 }:
 
@@ -39,14 +43,15 @@ let
   ghcDocLibDir =
     if !isGhcjs
     then ghc.doc + "/share/doc/ghc*/html/libraries"
-    else ghc     + "/doc/lib";
+    else ghc + "/doc/lib";
   # On GHCJS, use a stripped down version of GHC's prologue.txt
   prologue =
     if !isGhcjs
     then "${ghcDocLibDir}/prologue.txt"
-    else writeText "ghcjs-prologue.txt" ''
-      This index includes documentation for many Haskell modules.
-    '';
+    else
+      writeText "ghcjs-prologue.txt" ''
+        This index includes documentation for many Haskell modules.
+      '';
 
   # TODO: closePropagation is deprecated; replace
   docPackages = lib.closePropagation
@@ -56,61 +61,65 @@ let
 in
 buildPackages.stdenv.mkDerivation {
   name = "hoogle-local-0.1";
-  buildInputs = [ghc hoogle];
+  buildInputs = [ ghc hoogle ];
 
   inherit docPackages;
 
-  passAsFile = ["buildCommand"];
+  passAsFile = [ "buildCommand" ];
 
   buildCommand = ''
-    ${lib.optionalString (packages != [] -> docPackages == [])
-       ("echo WARNING: localHoogle package list empty, even though"
-       + " the following were specified: "
-       + lib.concatMapStringsSep ", " (p: p.name) packages)}
-    mkdir -p $out/share/doc/hoogle
+        ${lib.optionalString (packages != [ ] -> docPackages == [ ])
+           ("echo WARNING: localHoogle package list empty, even though"
+           + " the following were specified: "
+           + lib.concatMapStringsSep ", " (p: p.name) packages)}
+        mkdir -p $out/share/doc/hoogle
 
-    echo importing builtin packages
-    for docdir in ${ghcDocLibDir}"/"*; do
-      name="$(basename $docdir)"
-      ${opts isGhcjs ''docdir="$docdir/html"''}
-      if [[ -d $docdir ]]; then
-        ln -sfn $docdir $out/share/doc/hoogle/$name
-      fi
-    done
+        echo importing builtin packages
+        for docdir in ${ghcDocLibDir}"/"*; do
+          name="$(basename $docdir)"
+          ${opts isGhcjs ''docdir="$docdir/html"''}
+          if [[ -d $docdir ]]; then
+            ln -sfn $docdir $out/share/doc/hoogle/$name
+          fi
+        done
 
-    echo importing other packages
-    ${lib.concatMapStringsSep "\n" (el: ''
-        ln -sfn ${el.haddockDir} "$out/share/doc/hoogle/${el.name}"
-      '')
-      (lib.filter (el: el.haddockDir != null)
-        (builtins.map (p: { haddockDir = if p ? haddockDir then p.haddockDir p else null;
-                            name = p.pname; })
-          docPackages))}
+        echo importing other packages
+        ${lib.concatMapStringsSep "\n"
+    (el: ''
+            ln -sfn ${el.haddockDir} "$out/share/doc/hoogle/${el.name}"
+          '')
+          (lib.filter (el: el.haddockDir != null)
+            (builtins.map
+    (p: {
+    haddockDir = if p ? haddockDir then p.haddockDir p else null;
+                                name = p.pname;
+    })
+              docPackages))}
 
-    echo building hoogle database
-    hoogle generate --database $out/share/doc/hoogle/default.hoo --local=$out/share/doc/hoogle
+        echo building hoogle database
+        hoogle generate --database $out/share/doc/hoogle/default.hoo --local=$out/share/doc/hoogle
 
-    echo building haddock index
-    # adapted from GHC's gen_contents_index
-    cd $out/share/doc/hoogle
+        echo building haddock index
+        # adapted from GHC's gen_contents_index
+        cd $out/share/doc/hoogle
 
-    args=
-    for hdfile in $(ls -1 *"/"*.haddock | grep -v '/ghc\.haddock' | sort); do
-        name_version=`echo "$hdfile" | sed 's#/.*##'`
-        args="$args --read-interface=$name_version,$hdfile"
-    done
+        args=
+        for hdfile in $(ls -1 *"/"*.haddock | grep -v '/ghc\.haddock' | sort); do
+            name_version=`echo "$hdfile" | sed 's#/.*##'`
+            args="$args --read-interface=$name_version,$hdfile"
+        done
 
-    ${ghc}/bin/${haddockExe} --gen-index --gen-contents -o . \
-         -t "Haskell Hierarchical Libraries" \
-         -p ${prologue} \
-         $args
+        ${ghc}/bin/${haddockExe} --gen-index --gen-contents -o . \
+             -t "Haskell Hierarchical Libraries" \
+             -p ${prologue} \
+             $args
 
-    echo finishing up
-    mkdir -p $out/bin
-    substitute ${wrapper} $out/bin/hoogle \
-        --subst-var out --subst-var-by shell ${stdenv.shell} \
-        --subst-var-by hoogle ${hoogle}
-    chmod +x $out/bin/hoogle
+        echo finishing up
+        mkdir -p $out/bin
+        substitute ${wrapper} $out/bin/hoogle \
+            --subst-var out --subst-var-by shell ${stdenv.shell} \
+            --subst-var-by hoogle ${hoogle}
+        chmod +x $out/bin/hoogle
   '';
 
   passthru = {

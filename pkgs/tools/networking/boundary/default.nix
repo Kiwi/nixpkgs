@@ -8,9 +8,9 @@ let
     x86_64-darwin = "darwin_amd64";
   }."${system}" or (throw "Unsupported system: ${system}");
   fetchsrc = version: sha256: fetchzip {
-      url = "https://releases.hashicorp.com/boundary/${version}/boundary_${version}_${suffix}.zip";
-      sha256 = sha256."${system}";
-    };
+    url = "https://releases.hashicorp.com/boundary/${version}/boundary_${version}_${suffix}.zip";
+    sha256 = sha256."${system}";
+  };
 in
 stdenv.mkDerivation rec {
   pname = "boundary";

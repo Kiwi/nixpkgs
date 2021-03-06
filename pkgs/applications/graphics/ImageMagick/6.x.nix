@@ -1,6 +1,29 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, libtool
-, bzip2, zlib, libX11, libXext, libXt, fontconfig, freetype, ghostscript, libjpeg, djvulibre
-, lcms2, openexr, libpng, librsvg, libtiff, libxml2, openjpeg, libwebp, fftw, libheif, libde265
+{ lib
+, stdenv
+, fetchFromGitHub
+, pkg-config
+, libtool
+, bzip2
+, zlib
+, libX11
+, libXext
+, libXt
+, fontconfig
+, freetype
+, ghostscript
+, libjpeg
+, djvulibre
+, lcms2
+, openexr
+, libpng
+, librsvg
+, libtiff
+, libxml2
+, openjpeg
+, libwebp
+, fftw
+, libheif
+, libde265
 , ApplicationServices
 }:
 
@@ -35,18 +58,28 @@ stdenv.mkDerivation rec {
     ++ [ "--with-gcc-arch=${arch}" ]
     ++ lib.optional (librsvg != null) "--with-rsvg"
     ++ lib.optionals (ghostscript != null)
-      [ "--with-gs-font-dir=${ghostscript}/share/ghostscript/fonts"
+      [
+        "--with-gs-font-dir=${ghostscript}/share/ghostscript/fonts"
         "--with-gslib"
       ]
     ++ lib.optionals (stdenv.hostPlatform.isMinGW)
       [ "--enable-static" "--disable-shared" ] # due to libxml2 being without DLLs ATM
-    ;
+  ;
 
   nativeBuildInputs = [ pkg-config libtool ];
 
   buildInputs =
-    [ zlib fontconfig freetype ghostscript
-      libpng libtiff libxml2 libheif libde265 djvulibre
+    [
+      zlib
+      fontconfig
+      freetype
+      ghostscript
+      libpng
+      libtiff
+      libxml2
+      libheif
+      libde265
+      djvulibre
     ]
     ++ lib.optionals (!stdenv.hostPlatform.isMinGW)
       [ openexr librsvg openjpeg ]
@@ -56,7 +89,7 @@ stdenv.mkDerivation rec {
     [ bzip2 freetype libjpeg lcms2 fftw ]
     ++ lib.optionals (!stdenv.hostPlatform.isMinGW)
       [ libX11 libXext libXt libwebp ]
-    ;
+  ;
 
   doCheck = false; # fails 6 out of 76 tests
 

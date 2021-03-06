@@ -22,7 +22,8 @@ let
   serverConfig = pkgs.writeText "server.properties" serverProperties;
   logConfig = pkgs.writeText "log4j.properties" cfg.log4jProperties;
 
-in {
+in
+{
 
   options.services.apache-kafka = {
     enable = mkOption {
@@ -122,7 +123,7 @@ in {
 
   config = mkIf cfg.enable {
 
-    environment.systemPackages = [cfg.package];
+    environment.systemPackages = [ cfg.package ];
 
     users.users.apache-kafka = {
       uid = config.ids.uids.apache-kafka;

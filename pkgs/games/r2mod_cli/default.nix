@@ -2,7 +2,8 @@
 , jq
 , makeWrapper
 , p7zip
-, lib, stdenv
+, lib
+, stdenv
 }:
 
 stdenv.mkDerivation rec {

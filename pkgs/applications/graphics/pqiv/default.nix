@@ -1,5 +1,14 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config
-, ffmpeg_3, gtk3, imagemagick, libarchive, libspectre, libwebp, poppler
+{ lib
+, stdenv
+, fetchFromGitHub
+, pkg-config
+, ffmpeg_3
+, gtk3
+, imagemagick
+, libarchive
+, libspectre
+, libwebp
+, poppler
 }:
 
 stdenv.mkDerivation (rec {
@@ -22,7 +31,7 @@ stdenv.mkDerivation (rec {
     description = "Powerful image viewer with minimal UI";
     homepage = "http://www.pberndt.com/Programme/Linux/pqiv";
     license = licenses.gpl3;
-    maintainers = [];
+    maintainers = [ ];
     platforms = platforms.linux;
   };
 })

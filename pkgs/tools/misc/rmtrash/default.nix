@@ -1,5 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, makeWrapper
-, trash-cli, coreutils, which, getopt }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, makeWrapper
+, trash-cli
+, coreutils
+, which
+, getopt
+}:
 
 stdenv.mkDerivation rec {
   pname = "rmtrash";

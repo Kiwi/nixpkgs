@@ -1,5 +1,10 @@
-{ lib, fetchgit, buildPythonPackage
-, srht, pyyaml, PyGithub }:
+{ lib
+, fetchgit
+, buildPythonPackage
+, srht
+, pyyaml
+, PyGithub
+}:
 
 buildPythonPackage rec {
   pname = "dispatchsrht";

@@ -17,14 +17,15 @@ let
 
   syslogngOptions = [
     "--foreground"
-    "--module-path=${concatStringsSep ":" (["${cfg.package}/lib/syslog-ng"] ++ cfg.extraModulePaths)}"
+    "--module-path=${concatStringsSep ":" ([ "${cfg.package}/lib/syslog-ng" ] ++ cfg.extraModulePaths)}"
     "--cfgfile=${syslogngConfig}"
     "--control=${ctrlSocket}"
     "--persist-file=${persistFile}"
     "--pidfile=${pidFile}"
   ];
 
-in {
+in
+{
   imports = [
     (mkRemovedOptionModule [ "services" "syslog-ng" "serviceName" ] "")
     (mkRemovedOptionModule [ "services" "syslog-ng" "listenToJournal" ] "")
@@ -50,7 +51,7 @@ in {
       };
       extraModulePaths = mkOption {
         type = types.listOf types.str;
-        default = [];
+        default = [ ];
         example = literalExample ''
           [ "''${pkgs.syslogng_incubator}/lib/syslog-ng" ]
         '';

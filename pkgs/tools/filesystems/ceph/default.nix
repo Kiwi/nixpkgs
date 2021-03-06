@@ -1,36 +1,63 @@
-{ lib, stdenv, runCommand, fetchurl
+{ lib
+, stdenv
+, runCommand
+, fetchurl
 , fetchpatch
 , ensureNewerSourcesHook
-, cmake, pkg-config
-, which, git
-, boost, python3Packages
-, libxml2, zlib, lz4
-, openldap, lttng-ust
-, babeltrace, gperf
+, cmake
+, pkg-config
+, which
+, git
+, boost
+, python3Packages
+, libxml2
+, zlib
+, lz4
+, openldap
+, lttng-ust
+, babeltrace
+, gperf
 , gtest
-, cunit, snappy
+, cunit
+, snappy
 , makeWrapper
-, leveldb, oathToolkit
-, libnl, libcap_ng
+, leveldb
+, oathToolkit
+, libnl
+, libcap_ng
 , rdkafka
 , nixosTests
 
-# Optional Dependencies
-, yasm ? null, fcgi ? null, expat ? null
-, curl ? null, fuse ? null
-, libedit ? null, libatomic_ops ? null
+  # Optional Dependencies
+, yasm ? null
+, fcgi ? null
+, expat ? null
+, curl ? null
+, fuse ? null
+, libedit ? null
+, libatomic_ops ? null
 , libs3 ? null
 
-# Mallocs
-, jemalloc ? null, gperftools ? null
+  # Mallocs
+, jemalloc ? null
+, gperftools ? null
 
-# Crypto Dependencies
+  # Crypto Dependencies
 , cryptopp ? null
-, nss ? null, nspr ? null
+, nss ? null
+, nspr ? null
 
-# Linux Only Dependencies
-, linuxHeaders, util-linux, libuuid, udev, keyutils, rdma-core, rabbitmq-c
-, libaio ? null, libxfs ? null, zfs ? null
+  # Linux Only Dependencies
+, linuxHeaders
+, util-linux
+, libuuid
+, udev
+, keyutils
+, rdma-core
+, rabbitmq-c
+, libaio ? null
+, libxfs ? null
+, zfs ? null
 , ...
 }:
 
@@ -68,7 +95,7 @@ let
 
   # We prefer nss over cryptopp
   cryptoStr = if optNss != null && optNspr != null then "nss" else
-    if optCryptopp != null then "cryptopp" else "none";
+  if optCryptopp != null then "cryptopp" else "none";
 
   cryptoLibsMap = {
     nss = [ optNss optNspr ];
@@ -77,12 +104,12 @@ let
   };
 
   getMeta = description: with lib; {
-     homepage = "https://ceph.com/";
-     inherit description;
-     license = with licenses; [ lgpl21 gpl2 bsd3 mit publicDomain ];
-     maintainers = with maintainers; [ adev ak johanot krav ];
-     platforms = [ "x86_64-linux" "aarch64-linux" ];
-   };
+    homepage = "https://ceph.com/";
+    inherit description;
+    license = with licenses; [ lgpl21 gpl2 bsd3 mit publicDomain ];
+    maintainers = with maintainers; [ adev ak johanot krav ];
+    platforms = [ "x86_64-linux" "aarch64-linux" ];
+  };
 
   ceph-common = python3Packages.buildPythonPackage rec{
     pname = "ceph-common";
@@ -127,7 +154,8 @@ let
     url = "http://download.ceph.com/tarballs/ceph-${version}.tar.gz";
     sha256 = "1nmrras3g2zapcd06qr5m7y4zkymnr0r53jkpicjw2g4q7wfmib4";
   };
-in rec {
+in
+rec {
   ceph = stdenv.mkDerivation {
     pname = "ceph";
     inherit src version;
@@ -139,26 +167,60 @@ in rec {
 
     nativeBuildInputs = [
       cmake
-      pkg-config which git python3Packages.wrapPython makeWrapper
+      pkg-config
+      which
+      git
+      python3Packages.wrapPython
+      makeWrapper
       python3Packages.python # for the toPythonPath function
       (ensureNewerSourcesHook { year = "1980"; })
     ];
 
     buildInputs = cryptoLibsMap.${cryptoStr} ++ [
-      boost ceph-python-env libxml2 optYasm optLibatomic_ops optLibs3
-      malloc zlib openldap lttng-ust babeltrace gperf gtest cunit
-      snappy lz4 oathToolkit leveldb libnl libcap_ng rdkafka
+      boost
+      ceph-python-env
+      libxml2
+      optYasm
+      optLibatomic_ops
+      optLibs3
+      malloc
+      zlib
+      openldap
+      lttng-ust
+      babeltrace
+      gperf
+      gtest
+      cunit
+      snappy
+      lz4
+      oathToolkit
+      leveldb
+      libnl
+      libcap_ng
+      rdkafka
     ] ++ lib.optionals stdenv.isLinux [
-      linuxHeaders util-linux libuuid udev keyutils optLibaio optLibxfs optZfs
+      linuxHeaders
+      util-linux
+      libuuid
+      udev
+      keyutils
+      optLibaio
+      optLibxfs
+      optZfs
       # ceph 14
-      rdma-core rabbitmq-c
+      rdma-core
+      rabbitmq-c
     ] ++ lib.optionals hasRadosgw [
-      optFcgi optExpat optCurl optFuse optLibedit
+      optFcgi
+      optExpat
+      optCurl
+      optFuse
+      optLibedit
     ];
 
     pythonPath = [ ceph-python-env "${placeholder "out"}/${ceph-python-env.sitePackages}" ];
 
-    preConfigure =''
+    preConfigure = ''
       substituteInPlace src/common/module.c --replace "/sbin/modinfo"  "modinfo"
       substituteInPlace src/common/module.c --replace "/sbin/modprobe" "modprobe"
 
@@ -172,7 +234,7 @@ in rec {
 
     cmakeFlags = [
       "-DWITH_PYTHON3=ON"
-      "-DWITH_SYSTEM_ROCKSDB=OFF"  # breaks Bluestore
+      "-DWITH_SYSTEM_ROCKSDB=OFF" # breaks Bluestore
       "-DCMAKE_INSTALL_DATADIR=${placeholder "lib"}/lib"
 
       "-DWITH_SYSTEM_BOOST=ON"
@@ -203,17 +265,18 @@ in rec {
     passthru.tests = { inherit (nixosTests) ceph-single-node ceph-multi-node ceph-single-node-bluestore; };
   };
 
-  ceph-client = runCommand "ceph-client-${version}" {
+  ceph-client = runCommand "ceph-client-${version}"
+    {
       meta = getMeta "Tools needed to mount Ceph's RADOS Block Devices";
     } ''
-      mkdir -p $out/{bin,etc,${sitePackages},share/bash-completion/completions}
-      cp -r ${ceph}/bin/{ceph,.ceph-wrapped,rados,rbd,rbdmap} $out/bin
-      cp -r ${ceph}/bin/ceph-{authtool,conf,dencoder,rbdnamer,syn} $out/bin
-      cp -r ${ceph}/bin/rbd-replay* $out/bin
-      cp -r ${ceph}/${sitePackages} $out/${sitePackages}
-      cp -r ${ceph}/etc/bash_completion.d $out/share/bash-completion/completions
-      # wrapPythonPrograms modifies .ceph-wrapped, so lets just update its paths
-      substituteInPlace $out/bin/ceph          --replace ${ceph} $out
-      substituteInPlace $out/bin/.ceph-wrapped --replace ${ceph} $out
-   '';
+    mkdir -p $out/{bin,etc,${sitePackages},share/bash-completion/completions}
+    cp -r ${ceph}/bin/{ceph,.ceph-wrapped,rados,rbd,rbdmap} $out/bin
+    cp -r ${ceph}/bin/ceph-{authtool,conf,dencoder,rbdnamer,syn} $out/bin
+    cp -r ${ceph}/bin/rbd-replay* $out/bin
+    cp -r ${ceph}/${sitePackages} $out/${sitePackages}
+    cp -r ${ceph}/etc/bash_completion.d $out/share/bash-completion/completions
+    # wrapPythonPrograms modifies .ceph-wrapped, so lets just update its paths
+    substituteInPlace $out/bin/ceph          --replace ${ceph} $out
+    substituteInPlace $out/bin/.ceph-wrapped --replace ${ceph} $out
+  '';
 }

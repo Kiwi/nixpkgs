@@ -1,8 +1,27 @@
 { rev, sha256, version }:
 
-{ lib, stdenv, fetchFromGitLab, autoreconfHook, pkg-config, cairo, expat, flex
-, fontconfig, gd, gettext, gts, libdevil, libjpeg, libpng, libtool, pango
-, yacc, fetchpatch, xorg ? null, ApplicationServices ? null }:
+{ lib
+, stdenv
+, fetchFromGitLab
+, autoreconfHook
+, pkg-config
+, cairo
+, expat
+, flex
+, fontconfig
+, gd
+, gettext
+, gts
+, libdevil
+, libjpeg
+, libpng
+, libtool
+, pango
+, yacc
+, fetchpatch
+, xorg ? null
+, ApplicationServices ? null
+}:
 
 assert stdenv.isDarwin -> ApplicationServices != null;
 
@@ -14,7 +33,7 @@ let
       name = "CVE-2018-10196.patch";
       url = "https://gitlab.com/graphviz/graphviz/uploads/30f8f0b00e357c112ac35fb20241604a/p.diff";
       sha256 = "074qx6ch9blrnlilmz7p96fkiz2va84x2fbqdza5k4808rngirc7";
-      excludes = ["tests/*"]; # we don't run them and they don't apply
+      excludes = [ "tests/*" ]; # we don't run them and they don't apply
     };
   # the patch needs a small adaption for older versions
   patchToUse = if lib.versionAtLeast version "2.37" then raw_patch else
@@ -39,10 +58,20 @@ stdenv.mkDerivation {
   nativeBuildInputs = [ autoreconfHook pkg-config ];
 
   buildInputs = [
-    libpng libjpeg expat yacc libtool fontconfig gd gts libdevil flex pango
+    libpng
+    libjpeg
+    expat
+    yacc
+    libtool
+    fontconfig
+    gd
+    gts
+    libdevil
+    flex
+    pango
     gettext
   ] ++ optionals (xorg != null) (with xorg; [ libXrender libXaw libXpm ])
-    ++ optionals (stdenv.isDarwin) [ ApplicationServices ];
+  ++ optionals (stdenv.isDarwin) [ ApplicationServices ];
 
   hardeningDisable = [ "fortify" ];
 

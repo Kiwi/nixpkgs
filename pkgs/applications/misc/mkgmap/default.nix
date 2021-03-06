@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetchurl
 , substituteAll
 , jdk
@@ -35,18 +36,20 @@ stdenv.mkDerivation rec {
     cp ${osmpbf} lib/compile/${osmpbf.name}
     cp ${protobuf} lib/compile/${protobuf.name}
   '' + lib.optionalString doCheck ''
-    mkdir -p lib/test
-    cp ${fastutil} lib/test/${fastutil.name}
-    cp ${osmpbf} lib/test/${osmpbf.name}
-    cp ${protobuf} lib/test/${protobuf.name}
-    cp ${jaxb-api} lib/test/${jaxb-api.name}
-    cp ${junit} lib/test/${junit.name}
-    cp ${hamcrest-core} lib/test/${hamcrest-core.name}
+        mkdir -p lib/test
+        cp ${fastutil} lib/test/${fastutil.name}
+        cp ${osmpbf} lib/test/${osmpbf.name}
+        cp ${protobuf} lib/test/${protobuf.name}
+        cp ${jaxb-api} lib/test/${jaxb-api.name}
+        cp ${junit} lib/test/${junit.name}
+        cp ${hamcrest-core} lib/test/${hamcrest-core.name}
 
-    mkdir -p test/resources/in/img
-    ${lib.concatMapStringsSep "\n" (res: ''
-      cp ${res} test/resources/in/${builtins.replaceStrings [ "__" ] [ "/" ] res.name}
-    '') testInputs}
+        mkdir -p test/resources/in/img
+        ${lib.concatMapStringsSep "\n"
+    (res: ''
+          cp ${res} test/resources/in/${builtins.replaceStrings [ "__" ] [ "/" ] res.name}
+        '')
+    testInputs}
   '';
 
   nativeBuildInputs = [ jdk ant makeWrapper ];

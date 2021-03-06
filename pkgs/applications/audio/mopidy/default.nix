@@ -45,4 +45,5 @@ let
     mopidy-subidy = callPackage ./subidy.nix { };
   };
 
-in self
+in
+self

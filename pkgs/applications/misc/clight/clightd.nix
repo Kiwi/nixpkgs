@@ -1,11 +1,30 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch
-, dbus, cmake, pkg-config
-, glib, udev, polkit, libusb1, libjpeg, libmodule
-, pcre, libXdmcp, util-linux, libpthreadstubs
-, enableDdc ? true, ddcutil
-, enableDpms ? true, libXext
-, enableGamma ? true, libdrm, libXrandr, wayland
-, enableScreen ? true }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, fetchpatch
+, dbus
+, cmake
+, pkg-config
+, glib
+, udev
+, polkit
+, libusb1
+, libjpeg
+, libmodule
+, pcre
+, libXdmcp
+, util-linux
+, libpthreadstubs
+, enableDdc ? true
+, ddcutil
+, enableDpms ? true
+, libXext
+, enableGamma ? true
+, libdrm
+, libXrandr
+, wayland
+, enableScreen ? true
+}:
 
 stdenv.mkDerivation rec {
   pname = "clightd";
@@ -41,10 +60,10 @@ stdenv.mkDerivation rec {
   '';
 
   cmakeFlags = with lib;
-     optional enableDdc "-DENABLE_DDC=1"
-  ++ optional enableDpms "-DENABLE_DPMS=1"
-  ++ optional enableGamma "-DENABLE_GAMMA=1"
-  ++ optional enableScreen "-DENABLE_SCREEN=1";
+    optional enableDdc "-DENABLE_DDC=1"
+    ++ optional enableDpms "-DENABLE_DPMS=1"
+    ++ optional enableGamma "-DENABLE_GAMMA=1"
+    ++ optional enableScreen "-DENABLE_SCREEN=1";
 
   nativeBuildInputs = [
     dbus
@@ -65,9 +84,9 @@ stdenv.mkDerivation rec {
     util-linux
     libpthreadstubs
   ] ++ optionals enableDdc [ ddcutil ]
-    ++ optionals enableDpms [ libXext ]
-    ++ optionals enableGamma [ libXrandr ]
-    ++ optionals (enableDpms || enableGamma || enableScreen) [ libdrm wayland ];
+  ++ optionals enableDpms [ libXext ]
+  ++ optionals enableGamma [ libXrandr ]
+  ++ optionals (enableDpms || enableGamma || enableScreen) [ libdrm wayland ];
 
   postInstall = ''
     mkdir -p $out/bin

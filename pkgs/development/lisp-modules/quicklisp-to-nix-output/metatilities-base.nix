@@ -14,7 +14,7 @@ rec {
 
   packageName = "metatilities-base";
 
-  asdFilesToKeep = ["metatilities-base.asd"];
+  asdFilesToKeep = [ "metatilities-base.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM metatilities-base DESCRIPTION

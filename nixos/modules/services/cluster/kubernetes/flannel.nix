@@ -10,9 +10,10 @@ let
   storageBackend = "kubernetes";
 
   # needed for flannel to pass options to docker
-  mkDockerOpts = pkgs.runCommand "mk-docker-opts" {
-    buildInputs = [ pkgs.makeWrapper ];
-  } ''
+  mkDockerOpts = pkgs.runCommand "mk-docker-opts"
+    {
+      buildInputs = [ pkgs.makeWrapper ];
+    } ''
     mkdir -p $out
 
     # bashInteractive needed for `compgen`
@@ -76,8 +77,8 @@ in
 
     networking = {
       firewall.allowedUDPPorts = [
-        8285  # flannel udp
-        8472  # flannel vxlan
+        8285 # flannel udp
+        8472 # flannel vxlan
       ];
       dhcpcd.denyInterfaces = [ "docker*" "flannel*" ];
     };
@@ -102,16 +103,16 @@ in
           resources = [ "pods" ];
           verbs = [ "get" ];
         }
-        {
-          apiGroups = [ "" ];
-          resources = [ "nodes" ];
-          verbs = [ "list" "watch" ];
-        }
-        {
-          apiGroups = [ "" ];
-          resources = [ "nodes/status" ];
-          verbs = [ "patch" ];
-        }];
+          {
+            apiGroups = [ "" ];
+            resources = [ "nodes" ];
+            verbs = [ "list" "watch" ];
+          }
+          {
+            apiGroups = [ "" ];
+            resources = [ "nodes/status" ];
+            verbs = [ "patch" ];
+          }];
       };
 
       flannel-crb = {

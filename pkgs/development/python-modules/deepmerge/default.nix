@@ -1,5 +1,9 @@
-{ lib, buildPythonPackage, fetchPypi, isPy27
-, vcver }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, isPy27
+, vcver
+}:
 
 buildPythonPackage rec {
   pname = "deepmerge";

@@ -1,5 +1,13 @@
-{ lib, buildPythonPackage, fetchPypi
-, six, click, requests, requests-hawk, pytz, tabulate, pythonOlder
+{ lib
+, buildPythonPackage
+, fetchPypi
+, six
+, click
+, requests
+, requests-hawk
+, pytz
+, tabulate
+, pythonOlder
 }:
 
 buildPythonPackage rec {

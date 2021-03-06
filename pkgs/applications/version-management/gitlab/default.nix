@@ -1,7 +1,20 @@
-{ stdenv, lib, fetchurl, fetchFromGitLab, bundlerEnv
-, ruby, tzdata, git, nettools, nixosTests, nodejs, openssl
-, gitlabEnterprise ? false, callPackage, yarn
-, fixup_yarn_lock, replace
+{ stdenv
+, lib
+, fetchurl
+, fetchFromGitLab
+, bundlerEnv
+, ruby
+, tzdata
+, git
+, nettools
+, nixosTests
+, nodejs
+, openssl
+, gitlabEnterprise ? false
+, callPackage
+, yarn
+, fixup_yarn_lock
+, replace
 }:
 
 let
@@ -21,7 +34,8 @@ let
     gemdir = ./rubyEnv;
     gemset =
       let x = import (gemdir + "/gemset.nix");
-      in x // {
+      in
+      x // {
         # grpc expects the AR environment variable to contain `ar rpc`. See the
         # discussion in nixpkgs #63056.
         grpc = x.grpc // {
@@ -34,14 +48,21 @@ let
         };
       };
     groups = [
-      "default" "unicorn" "ed25519" "metrics" "development" "puma" "test" "kerberos"
+      "default"
+      "unicorn"
+      "ed25519"
+      "metrics"
+      "development"
+      "puma"
+      "test"
+      "kerberos"
     ];
     # N.B. omniauth_oauth2_generic and apollo_upload_server both provide a
     # `console` executable.
     ignoreCollisions = true;
   };
 
-  yarnOfflineCache = (callPackage ./yarnPkgs.nix {}).offline_cache;
+  yarnOfflineCache = (callPackage ./yarnPkgs.nix { }).offline_cache;
 
   assets = stdenv.mkDerivation {
     pname = "gitlab-assets";
@@ -115,7 +136,12 @@ stdenv.mkDerivation {
   inherit src;
 
   buildInputs = [
-    rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler tzdata git nettools
+    rubyEnv
+    rubyEnv.wrappedRuby
+    rubyEnv.bundler
+    tzdata
+    git
+    nettools
   ];
 
   patches = [ ./remove-hardcoded-locations.patch ];

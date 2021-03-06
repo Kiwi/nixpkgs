@@ -1,5 +1,13 @@
-{ gnustep, lib, fetchFromGitHub , libxml2, openssl_1_1
-, openldap, mysql, libmysqlclient, postgresql }:
+{ gnustep
+, lib
+, fetchFromGitHub
+, libxml2
+, openssl_1_1
+, openldap
+, mysql
+, libmysqlclient
+, postgresql
+}:
 with lib;
 
 gnustep.stdenv.mkDerivation rec {

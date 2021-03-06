@@ -30,9 +30,9 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "Real-time web log analyzer and interactive viewer that runs in a terminal in *nix systems";
-    homepage    = "https://goaccess.io";
-    license     = lib.licenses.mit;
-    platforms   = lib.platforms.linux ++ lib.platforms.darwin;
+    homepage = "https://goaccess.io";
+    license = lib.licenses.mit;
+    platforms = lib.platforms.linux ++ lib.platforms.darwin;
     maintainers = with lib.maintainers; [ ederoyd46 ];
   };
 }

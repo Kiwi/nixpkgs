@@ -3,7 +3,8 @@
 let
   version = "0.034";
 
-in fetchzip {
+in
+fetchzip {
   name = "JuliaMono-${version}";
   url = "https://github.com/cormullion/juliamono/releases/download/v${version}/JuliaMono.zip";
   sha256 = "sha256:0xx3mhzs17baaich67kvwyzqg8h9ga11jrja2i8sxx4861dp1z85";

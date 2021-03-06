@@ -1,6 +1,11 @@
-{ lib, buildPythonPackage, fetchPypi
-, dateutil, docopt, pyyaml
-, pytest, testfixtures
+{ lib
+, buildPythonPackage
+, fetchPypi
+, dateutil
+, docopt
+, pyyaml
+, pytest
+, testfixtures
 }:
 
 buildPythonPackage rec {

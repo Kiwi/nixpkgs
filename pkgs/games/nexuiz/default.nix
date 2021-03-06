@@ -1,9 +1,25 @@
-{ lib, stdenv, fetchurl
+{ lib
+, stdenv
+, fetchurl
 , # required for both
-  unzip, zlib, curl, libjpeg, libpng, libvorbis, libtheora
-, libogg, libmodplug
+  unzip
+, zlib
+, curl
+, libjpeg
+, libpng
+, libvorbis
+, libtheora
+, libogg
+, libmodplug
 , # glx
-  libX11, libGLU, libGL, libXpm, libXext, libXxf86vm, libXxf86dga, alsaLib
+  libX11
+, libGLU
+, libGL
+, libXpm
+, libXext
+, libXxf86vm
+, libXxf86dga
+, alsaLib
 , # sdl
   SDL
 }:
@@ -12,7 +28,8 @@ let
   version = "2.5.2";
 
   version_short = lib.replaceChars [ "." ] [ "" ] version;
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "nexuiz";
   inherit version;
 
@@ -25,7 +42,14 @@ in stdenv.mkDerivation {
     # required for both
     unzip
     # glx
-    libX11 libGLU libGL libXpm libXext libXxf86vm libXxf86dga alsaLib
+    libX11
+    libGLU
+    libGL
+    libXpm
+    libXext
+    libXxf86vm
+    libXxf86dga
+    alsaLib
     # sdl
     SDL
   ];

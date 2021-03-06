@@ -14,12 +14,12 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ makeWrapper ];
 
   unpackPhase = ''
-     tar xvf $src navidrome
+    tar xvf $src navidrome
   '';
 
   installPhase = ''
-     mkdir -p $out/bin
-     cp navidrome $out/bin
+    mkdir -p $out/bin
+    cp navidrome $out/bin
   '';
 
   postFixup = ''

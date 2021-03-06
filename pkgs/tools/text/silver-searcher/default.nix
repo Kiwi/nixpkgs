@@ -1,4 +1,4 @@
-{lib, stdenv, fetchFromGitHub, autoreconfHook, pkg-config, pcre, zlib, lzma}:
+{ lib, stdenv, fetchFromGitHub, autoreconfHook, pkg-config, pcre, zlib, lzma }:
 
 stdenv.mkDerivation rec {
   pname = "silver-searcher";

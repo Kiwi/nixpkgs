@@ -15,7 +15,7 @@ buildGoModule rec {
     repo = pname;
     rev = "v${version}";
     sha256 = "sha256-xzMXbF0M7asZtyo8DmM5yyNoHKy0H6amRDhu6hjHgq4=";
-   };
+  };
 
   vendorSha256 = "sha256-6ij0NQMjDnZJhuqkUR7MdBLAMS5Xa2HKIgQjegKJyvc=";
 

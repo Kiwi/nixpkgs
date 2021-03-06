@@ -4,7 +4,7 @@
 # nix-build build.nix --argstr maintainer <yourname>
 
 let
-  pkgs = import ./../../default.nix {};
+  pkgs = import ./../../default.nix { };
   maintainer_ = pkgs.lib.maintainers.${maintainer};
   packagesWith = cond: return: set:
     (pkgs.lib.flatten
@@ -14,9 +14,9 @@ let
             result = builtins.tryEval
               (
                 if pkgs.lib.isDerivation pkg && cond name pkg then
-                  # Skip packages whose closure fails on evaluation.
-                  # This happens for pkgs like `python27Packages.djangoql`
-                  # that have disabled Python pkgs as dependencies.
+                # Skip packages whose closure fails on evaluation.
+                # This happens for pkgs like `python27Packages.djangoql`
+                # that have disabled Python pkgs as dependencies.
                   builtins.seq pkg.outPath
                     [ (return name pkg) ]
                 else if pkg.recurseForDerivations or false || pkg.recurseForRelease or false
@@ -35,11 +35,12 @@ packagesWith
   (name: pkg:
     (
       if builtins.hasAttr "meta" pkg && builtins.hasAttr "maintainers" pkg.meta
-      then (
-        if builtins.isList pkg.meta.maintainers
-        then builtins.elem maintainer_ pkg.meta.maintainers
-        else maintainer_ == pkg.meta.maintainers
-      )
+      then
+        (
+          if builtins.isList pkg.meta.maintainers
+          then builtins.elem maintainer_ pkg.meta.maintainers
+          else maintainer_ == pkg.meta.maintainers
+        )
       else false
     )
   )

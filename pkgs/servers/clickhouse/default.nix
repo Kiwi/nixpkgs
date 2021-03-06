@@ -1,8 +1,38 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch, cmake, libtool, lldClang, ninja
-, boost, brotli, capnproto, cctz, clang-unwrapped, double-conversion
-, icu, jemalloc, libcpuid, libxml2, lld, llvm, lz4, libmysqlclient, openssl, perl
-, poco, protobuf, python3, rapidjson, re2, rdkafka, readline, sparsehash, unixODBC
-, xxHash, zstd
+{ lib
+, stdenv
+, fetchFromGitHub
+, fetchpatch
+, cmake
+, libtool
+, lldClang
+, ninja
+, boost
+, brotli
+, capnproto
+, cctz
+, clang-unwrapped
+, double-conversion
+, icu
+, jemalloc
+, libcpuid
+, libxml2
+, lld
+, llvm
+, lz4
+, libmysqlclient
+, openssl
+, perl
+, poco
+, protobuf
+, python3
+, rapidjson
+, re2
+, rdkafka
+, readline
+, sparsehash
+, unixODBC
+, xxHash
+, zstd
 }:
 
 stdenv.mkDerivation rec {
@@ -10,19 +40,42 @@ stdenv.mkDerivation rec {
   version = "20.11.4.13";
 
   src = fetchFromGitHub {
-    owner  = "ClickHouse";
-    repo   = "ClickHouse";
-    rev    = "v${version}-stable";
+    owner = "ClickHouse";
+    repo = "ClickHouse";
+    rev = "v${version}-stable";
     fetchSubmodules = true;
     sha256 = "0c87k0xqwj9sc3xy2f3ngfszgjiz4rzd787bdg6fxp94w1adjhny";
   };
 
   nativeBuildInputs = [ cmake libtool lldClang.bintools ninja ];
   buildInputs = [
-    boost brotli capnproto cctz clang-unwrapped double-conversion
-    icu jemalloc libcpuid libxml2 lld llvm lz4 libmysqlclient openssl perl
-    poco protobuf python3 rapidjson re2 rdkafka readline sparsehash unixODBC
-    xxHash zstd
+    boost
+    brotli
+    capnproto
+    cctz
+    clang-unwrapped
+    double-conversion
+    icu
+    jemalloc
+    libcpuid
+    libxml2
+    lld
+    llvm
+    lz4
+    libmysqlclient
+    openssl
+    perl
+    poco
+    protobuf
+    python3
+    rapidjson
+    re2
+    rdkafka
+    readline
+    sparsehash
+    unixODBC
+    xxHash
+    zstd
   ];
 
   patches = [

@@ -1,7 +1,8 @@
 { fetchurl
 , fetchFromGitLab
 , fetchpatch
-, lib, stdenv
+, lib
+, stdenv
 , substituteAll
 , accountsservice
 , adwaita-icon-theme

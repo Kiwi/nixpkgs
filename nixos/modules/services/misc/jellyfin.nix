@@ -82,15 +82,22 @@ in
         SystemCallFilter = [
           "@system-service"
 
-          "~@chown" "~@cpu-emulation" "~@debug" "~@keyring" "~@memlock" "~@module"
-          "~@obsolete" "~@privileged" "~@setuid"
+          "~@chown"
+          "~@cpu-emulation"
+          "~@debug"
+          "~@keyring"
+          "~@memlock"
+          "~@module"
+          "~@obsolete"
+          "~@privileged"
+          "~@setuid"
         ];
       };
     };
 
     services.jellyfin.package = mkDefault (
       if versionAtLeast config.system.stateVersion "20.09" then pkgs.jellyfin
-        else pkgs.jellyfin_10_5
+      else pkgs.jellyfin_10_5
     );
 
     users.users = mkIf (cfg.user == "jellyfin") {
@@ -101,7 +108,7 @@ in
     };
 
     users.groups = mkIf (cfg.group == "jellyfin") {
-      jellyfin = {};
+      jellyfin = { };
     };
 
   };

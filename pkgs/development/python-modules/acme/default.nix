@@ -20,8 +20,18 @@ buildPythonPackage rec {
   pname = "acme";
 
   propagatedBuildInputs = [
-    cryptography pyasn1 pyopenssl pyRFC3339 pytz requests requests-toolbelt six
-    werkzeug mock ndg-httpsclient josepy
+    cryptography
+    pyasn1
+    pyopenssl
+    pyRFC3339
+    pytz
+    requests
+    requests-toolbelt
+    six
+    werkzeug
+    mock
+    ndg-httpsclient
+    josepy
   ];
 
   # does not contain any tests

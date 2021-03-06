@@ -1,5 +1,14 @@
-{ lib, stdenv, fetchurl, alsaLib, fftw, libjack2, libsamplerate
-, libsndfile, pkg-config, python, wafHook
+{ lib
+, stdenv
+, fetchurl
+, alsaLib
+, fftw
+, libjack2
+, libsamplerate
+, libsndfile
+, pkg-config
+, python
+, wafHook
 }:
 
 stdenv.mkDerivation rec {

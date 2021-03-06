@@ -1,6 +1,12 @@
-{ lib, buildGoModule, fetchurl
-, ncurses, notmuch, scdoc
-, python3, w3m, dante
+{ lib
+, buildGoModule
+, fetchurl
+, ncurses
+, notmuch
+, scdoc
+, python3
+, w3m
+, dante
 }:
 
 buildGoModule rec {

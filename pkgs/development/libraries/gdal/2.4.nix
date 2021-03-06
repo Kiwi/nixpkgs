@@ -1,8 +1,31 @@
-{ lib, stdenv, fetchurl, unzip, libjpeg, libtiff, zlib
-, postgresql, libmysqlclient, libgeotiff, pythonPackages, proj, geos, openssl
-, libpng, sqlite, libspatialite, poppler, hdf4, qhull, giflib, expat
-, libiconv, libxml2
-, netcdfSupport ? true, netcdf, hdf5, curl
+{ lib
+, stdenv
+, fetchurl
+, unzip
+, libjpeg
+, libtiff
+, zlib
+, postgresql
+, libmysqlclient
+, libgeotiff
+, pythonPackages
+, proj
+, geos
+, openssl
+, libpng
+, sqlite
+, libspatialite
+, poppler
+, hdf4
+, qhull
+, giflib
+, expat
+, libiconv
+, libxml2
+, netcdfSupport ? true
+, netcdf
+, hdf5
+, curl
 }:
 
 with lib;
@@ -16,8 +39,24 @@ stdenv.mkDerivation rec {
     sha256 = "1n6w0m2603q9cldlz0wyscp75ci561dipc36jqbf3mjmylybv0x3";
   };
 
-  buildInputs = [ unzip libjpeg libtiff libgeotiff libpng proj openssl sqlite
-    libspatialite poppler hdf4 qhull giflib expat libxml2 proj ]
+  buildInputs = [
+    unzip
+    libjpeg
+    libtiff
+    libgeotiff
+    libpng
+    proj
+    openssl
+    sqlite
+    libspatialite
+    poppler
+    hdf4
+    qhull
+    giflib
+    expat
+    libxml2
+    proj
+  ]
   ++ (with pythonPackages; [ python numpy wrapPython ])
   ++ lib.optional stdenv.isDarwin libiconv
   ++ lib.optionals netcdfSupport [ netcdf hdf5 curl ];
@@ -26,17 +65,17 @@ stdenv.mkDerivation rec {
     "--with-expat=${expat.dev}"
     "--with-jpeg=${libjpeg.dev}"
     "--with-libtiff=${libtiff.dev}" # optional (without largetiff support)
-    "--with-png=${libpng.dev}"      # optional
+    "--with-png=${libpng.dev}" # optional
     "--with-poppler=${poppler.dev}" # optional
-    "--with-libz=${zlib.dev}"       # optional
+    "--with-libz=${zlib.dev}" # optional
     "--with-pg=${postgresql}/bin/pg_config"
     "--with-mysql=${getDev libmysqlclient}/bin/mysql_config"
     "--with-geotiff=${libgeotiff.dev}"
     "--with-sqlite3=${sqlite.dev}"
     "--with-spatialite=${libspatialite}"
-    "--with-python"               # optional
+    "--with-python" # optional
     "--with-proj=${proj.dev}" # optional
-    "--with-geos=${geos}/bin/geos-config"# optional
+    "--with-geos=${geos}/bin/geos-config" # optional
     "--with-hdf4=${hdf4.dev}" # optional
     "--with-xml2=${libxml2.dev}/bin/xml2-config" # optional
     (if netcdfSupport then "--with-netcdf=${netcdf}" else "")
@@ -56,10 +95,10 @@ stdenv.mkDerivation rec {
   # - Unset CC and CXX as they confuse libtool.
   # - teach gdal that libdf is the legacy name for libhdf
   preConfigure = ''
-      unset CC CXX
-      substituteInPlace configure \
-      --replace "-lmfhdf -ldf" "-lmfhdf -lhdf"
-    '';
+    unset CC CXX
+    substituteInPlace configure \
+    --replace "-lmfhdf -ldf" "-lmfhdf -lhdf"
+  '';
 
   preBuild = ''
     substituteInPlace swig/python/GNUmakefile \

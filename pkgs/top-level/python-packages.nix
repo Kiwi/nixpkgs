@@ -31,37 +31,40 @@ let
       ff = f origArgs;
       overrideWith = newArgs: origArgs // (if pkgs.lib.isFunction newArgs then newArgs origArgs else newArgs);
     in
-      if builtins.isAttrs ff then (ff // {
+    if builtins.isAttrs ff then
+      (ff // {
         overridePythonAttrs = newArgs: makeOverridablePythonPackage f (overrideWith newArgs);
       })
-      else if builtins.isFunction ff then {
-        overridePythonAttrs = newArgs: makeOverridablePythonPackage f (overrideWith newArgs);
-        __functor = self: ff;
-      }
-      else ff;
+    else if builtins.isFunction ff then {
+      overridePythonAttrs = newArgs: makeOverridablePythonPackage f (overrideWith newArgs);
+      __functor = self: ff;
+    }
+    else ff;
 
-  buildPythonPackage = makeOverridablePythonPackage ( makeOverridable (callPackage ../development/interpreters/python/mk-python-derivation.nix {
-    inherit namePrefix;     # We want Python libraries to be named like e.g. "python3.6-${name}"
+  buildPythonPackage = makeOverridablePythonPackage (makeOverridable (callPackage ../development/interpreters/python/mk-python-derivation.nix {
+    inherit namePrefix; # We want Python libraries to be named like e.g. "python3.6-${name}"
     inherit toPythonModule; # Libraries provide modules
   }));
 
-  buildPythonApplication = makeOverridablePythonPackage ( makeOverridable (callPackage ../development/interpreters/python/mk-python-derivation.nix {
-    namePrefix = "";        # Python applications should not have any prefix
-    toPythonModule = x: x;  # Application does not provide modules.
+  buildPythonApplication = makeOverridablePythonPackage (makeOverridable (callPackage ../development/interpreters/python/mk-python-derivation.nix {
+    namePrefix = ""; # Python applications should not have any prefix
+    toPythonModule = x: x; # Application does not provide modules.
   }));
 
   # See build-setupcfg/default.nix for documentation.
   buildSetupcfg = import ../build-support/build-setupcfg self;
 
-  fetchPypi = callPackage ../development/interpreters/python/fetchpypi.nix {};
+  fetchPypi = callPackage ../development/interpreters/python/fetchpypi.nix { };
 
   # Check whether a derivation provides a Python module.
   hasPythonModule = drv: drv?pythonModule && drv.pythonModule == python;
 
   # Get list of required Python modules given a list of derivations.
-  requiredPythonModules = drvs: let
-    modules = filter hasPythonModule drvs;
-  in unique ([python] ++ modules ++ concatLists (catAttrs "requiredPythonModules" modules));
+  requiredPythonModules = drvs:
+    let
+      modules = filter hasPythonModule drvs;
+    in
+    unique ([ python ] ++ modules ++ concatLists (catAttrs "requiredPythonModules" modules));
 
   # Create a PYTHONPATH from a list of derivations. This function recurses into the items to find derivations
   # providing Python modules.
@@ -72,9 +75,9 @@ let
 
   # Convert derivation to a Python module.
   toPythonModule = drv:
-    drv.overrideAttrs( oldAttrs: {
+    drv.overrideAttrs (oldAttrs: {
       # Use passthru in order to prevent rebuilds when possible.
-      passthru = (oldAttrs.passthru or {})// {
+      passthru = (oldAttrs.passthru or { }) // {
         pythonModule = python;
         pythonPath = [ ]; # Deprecated, for compatibility.
         requiredPythonModules = requiredPythonModules drv.propagatedBuildInputs;
@@ -83,8 +86,8 @@ let
 
   # Convert a Python library to an application.
   toPythonApplication = drv:
-    drv.overrideAttrs( oldAttrs: {
-      passthru = (oldAttrs.passthru or {}) // {
+    drv.overrideAttrs (oldAttrs: {
+      passthru = (oldAttrs.passthru or { }) // {
         # Remove Python prefix from name so we have a "normal" name.
         # While the prefix shows up in the store path, it won't be
         # used by `nix-env`.
@@ -96,7 +99,8 @@ let
   disabledIf = x: drv:
     if x then throw "${removePythonPrefix (drv.pname or drv.name)} not supported for interpreter ${python.executable}" else drv;
 
-in {
+in
+{
 
   inherit (python.passthru) isPy27 isPy35 isPy36 isPy37 isPy38 isPy39 isPy3k isPyPy pythonAtLeast pythonOlder;
   inherit python bootstrapped-pip buildPythonPackage buildPythonApplication;
@@ -141,10 +145,11 @@ in {
 
   recursivePthLoader = callPackage ../development/python-modules/recursive-pth-loader { };
 
-  setuptools = if isPy27 then
-    callPackage ../development/python-modules/setuptools/44.0.nix { }
-  else
-    callPackage ../development/python-modules/setuptools { };
+  setuptools =
+    if isPy27 then
+      callPackage ../development/python-modules/setuptools/44.0.nix { }
+    else
+      callPackage ../development/python-modules/setuptools { };
 
   aadict = callPackage ../development/python-modules/aadict { };
 
@@ -468,10 +473,11 @@ in {
 
   asdf = callPackage ../development/python-modules/asdf { };
 
-  ase = if isPy27 then
-    callPackage ../development/python-modules/ase/3.17.nix { }
-  else
-    callPackage ../development/python-modules/ase { };
+  ase =
+    if isPy27 then
+      callPackage ../development/python-modules/ase/3.17.nix { }
+    else
+      callPackage ../development/python-modules/ase { };
 
   asgi-csrf = callPackage ../development/python-modules/asgi-csrf { };
 
@@ -491,10 +497,11 @@ in {
 
   astral = callPackage ../development/python-modules/astral { };
 
-  astroid = if isPy3k then
-    callPackage ../development/python-modules/astroid { }
-  else
-    callPackage ../development/python-modules/astroid/1.6.nix { };
+  astroid =
+    if isPy3k then
+      callPackage ../development/python-modules/astroid { }
+    else
+      callPackage ../development/python-modules/astroid/1.6.nix { };
 
   astropy = callPackage ../development/python-modules/astropy { };
 
@@ -922,10 +929,11 @@ in {
 
   bcdoc = callPackage ../development/python-modules/bcdoc { };
 
-  bcrypt = if pythonOlder "3.6" then
-    callPackage ../development/python-modules/bcrypt/3_1.nix { }
-  else
-    callPackage ../development/python-modules/bcrypt { };
+  bcrypt =
+    if pythonOlder "3.6" then
+      callPackage ../development/python-modules/bcrypt/3_1.nix { }
+    else
+      callPackage ../development/python-modules/bcrypt { };
 
   beaker = callPackage ../development/python-modules/beaker { };
 
@@ -1162,15 +1170,17 @@ in {
     inherit (self) python numpy boost;
   });
 
-  cairocffi = if isPy3k then
-    callPackage ../development/python-modules/cairocffi { }
-  else
-    callPackage ../development/python-modules/cairocffi/0_9.nix { };
+  cairocffi =
+    if isPy3k then
+      callPackage ../development/python-modules/cairocffi { }
+    else
+      callPackage ../development/python-modules/cairocffi/0_9.nix { };
 
-  cairosvg = if isPy3k then
-    callPackage ../development/python-modules/cairosvg { }
-  else
-    callPackage ../development/python-modules/cairosvg/1_x.nix { };
+  cairosvg =
+    if isPy3k then
+      callPackage ../development/python-modules/cairosvg { }
+    else
+      callPackage ../development/python-modules/cairosvg/1_x.nix { };
 
   caldav = callPackage ../development/python-modules/caldav { };
 
@@ -1286,10 +1296,11 @@ in {
 
   cheroot = callPackage ../development/python-modules/cheroot { };
 
-  cherrypy = if isPy3k then
-    callPackage ../development/python-modules/cherrypy { }
-  else
-    callPackage ../development/python-modules/cherrypy/17.nix { };
+  cherrypy =
+    if isPy3k then
+      callPackage ../development/python-modules/cherrypy { }
+    else
+      callPackage ../development/python-modules/cherrypy/17.nix { };
 
   chevron = callPackage ../development/python-modules/chevron { };
 
@@ -1313,7 +1324,7 @@ in {
 
   class-registry = callPackage ../development/python-modules/class-registry { };
 
-  claripy =  callPackage ../development/python-modules/claripy { };
+  claripy = callPackage ../development/python-modules/claripy { };
 
   cld2-cffi = callPackage ../development/python-modules/cld2-cffi { };
 
@@ -1345,9 +1356,9 @@ in {
 
   click-threading = callPackage ../development/python-modules/click-threading { };
 
-  clickhouse-cityhash = callPackage ../development/python-modules/clickhouse-cityhash {};
+  clickhouse-cityhash = callPackage ../development/python-modules/clickhouse-cityhash { };
 
-  clickhouse-driver = callPackage ../development/python-modules/clickhouse-driver {};
+  clickhouse-driver = callPackage ../development/python-modules/clickhouse-driver { };
 
   cliff = callPackage ../development/python-modules/cliff { };
 
@@ -1447,10 +1458,11 @@ in {
 
   configobj = callPackage ../development/python-modules/configobj { };
 
-  configparser = if pythonOlder "3.6" then
-    callPackage ../development/python-modules/configparser/4.nix { }
-  else
-    callPackage ../development/python-modules/configparser { };
+  configparser =
+    if pythonOlder "3.6" then
+      callPackage ../development/python-modules/configparser/4.nix { }
+    else
+      callPackage ../development/python-modules/configparser { };
 
   configshell = callPackage ../development/python-modules/configshell { };
 
@@ -1530,19 +1542,21 @@ in {
 
   cryptacular = callPackage ../development/python-modules/cryptacular { };
 
-  cryptography = if isPy27 then
-    callPackage ../development/python-modules/cryptography/3.3.nix { }
-  else
-    callPackage ../development/python-modules/cryptography { };
+  cryptography =
+    if isPy27 then
+      callPackage ../development/python-modules/cryptography/3.3.nix { }
+    else
+      callPackage ../development/python-modules/cryptography { };
 
-  cryptography_vectors = if isPy27 then
-    callPackage ../development/python-modules/cryptography/vectors-3.3.nix { }
-  else
-    callPackage ../development/python-modules/cryptography/vectors.nix { };
+  cryptography_vectors =
+    if isPy27 then
+      callPackage ../development/python-modules/cryptography/vectors-3.3.nix { }
+    else
+      callPackage ../development/python-modules/cryptography/vectors.nix { };
 
   crytic-compile = callPackage ../development/python-modules/crytic-compile { };
 
-  csrmesh  = callPackage ../development/python-modules/csrmesh { };
+  csrmesh = callPackage ../development/python-modules/csrmesh { };
 
   csscompressor = callPackage ../development/python-modules/csscompressor { };
 
@@ -1937,10 +1951,11 @@ in {
 
   dnslib = callPackage ../development/python-modules/dnslib { };
 
-  dnspython = if isPy3k then
-    callPackage ../development/python-modules/dnspython { }
-  else
-    self.dnspython_1;
+  dnspython =
+    if isPy3k then
+      callPackage ../development/python-modules/dnspython { }
+    else
+      self.dnspython_1;
 
   dnspython_1 = callPackage ../development/python-modules/dnspython/1.nix { };
 
@@ -2018,10 +2033,11 @@ in {
 
   dugong = callPackage ../development/python-modules/dugong { };
 
-  dulwich = if isPy3k then
-    callPackage ../development/python-modules/dulwich { }
-  else
-    callPackage ../development/python-modules/dulwich/0_19.nix { };
+  dulwich =
+    if isPy3k then
+      callPackage ../development/python-modules/dulwich { }
+    else
+      callPackage ../development/python-modules/dulwich/0_19.nix { };
 
   dyn = callPackage ../development/python-modules/dyn { };
 
@@ -2231,10 +2247,11 @@ in {
 
   fasttext = callPackage ../development/python-modules/fasttext { };
 
-  faulthandler = if !isPy3k then
-    callPackage ../development/python-modules/faulthandler { }
-  else
-    throw "faulthandler is built into ${python.executable}";
+  faulthandler =
+    if !isPy3k then
+      callPackage ../development/python-modules/faulthandler { }
+    else
+      throw "faulthandler is built into ${python.executable}";
 
   favicon = callPackage ../development/python-modules/favicon { };
 
@@ -2246,10 +2263,11 @@ in {
 
   feedgenerator = callPackage ../development/python-modules/feedgenerator { inherit (pkgs) glibcLocales; };
 
-  feedparser = if isPy3k then
-    callPackage ../development/python-modules/feedparser { }
-  else
-    callPackage ../development/python-modules/feedparser/5.nix { };
+  feedparser =
+    if isPy3k then
+      callPackage ../development/python-modules/feedparser { }
+    else
+      callPackage ../development/python-modules/feedparser/5.nix { };
 
   fenics = callPackage ../development/libraries/science/math/fenics {
     inherit (pkgs) pkg-config;
@@ -2464,7 +2482,8 @@ in {
 
   freetype-py = callPackage ../development/python-modules/freetype-py { };
 
-  freezegun = if isPy27 then
+  freezegun =
+    if isPy27 then
       callPackage ../development/python-modules/freezegun/0.3.nix { }
     else
       callPackage ../development/python-modules/freezegun { };
@@ -2577,10 +2596,11 @@ in {
 
   geopandas = callPackage ../development/python-modules/geopandas { };
 
-  geopy = if isPy3k then
-    callPackage ../development/python-modules/geopy { }
-  else
-    callPackage ../development/python-modules/geopy/2.nix { };
+  geopy =
+    if isPy3k then
+      callPackage ../development/python-modules/geopy { }
+    else
+      callPackage ../development/python-modules/geopy/2.nix { };
 
   getmac = callPackage ../development/python-modules/getmac { };
 
@@ -2657,7 +2677,8 @@ in {
 
   google-api-python-client =
     let google-api-python-client = callPackage ../development/python-modules/google-api-python-client { };
-    in if isPy3k then
+    in
+    if isPy3k then
       google-api-python-client
     else # Python 2.7 support was deprecated but is still needed by weboob and duplicity
       google-api-python-client.overridePythonAttrs (old: rec {
@@ -2863,10 +2884,11 @@ in {
 
   grpcio-tools = callPackage ../development/python-modules/grpcio-tools { };
 
-  gsd = if isPy27 then
-    callPackage ../development/python-modules/gsd/1.7.nix { }
-  else
-    callPackage ../development/python-modules/gsd { };
+  gsd =
+    if isPy27 then
+      callPackage ../development/python-modules/gsd/1.7.nix { }
+    else
+      callPackage ../development/python-modules/gsd { };
 
   gspread = callPackage ../development/python-modules/gspread { };
 
@@ -2889,23 +2911,25 @@ in {
 
   gumath = callPackage ../development/python-modules/gumath { };
 
-  gunicorn = if isPy27 then
-    callPackage ../development/python-modules/gunicorn/19.nix { }
-  else
-    callPackage ../development/python-modules/gunicorn { };
+  gunicorn =
+    if isPy27 then
+      callPackage ../development/python-modules/gunicorn/19.nix { }
+    else
+      callPackage ../development/python-modules/gunicorn { };
 
   guppy3 = callPackage ../development/python-modules/guppy3 { };
 
-  gurobipy = if stdenv.hostPlatform.system == "x86_64-darwin" then
-    callPackage ../development/python-modules/gurobipy/darwin.nix { inherit (pkgs.darwin) cctools insert_dylib; }
-  else if stdenv.hostPlatform.system == "x86_64-linux" then
-    callPackage ../development/python-modules/gurobipy/linux.nix { }
-  else
-    throw "gurobipy not yet supported on ${stdenv.hostPlatform.system}";
+  gurobipy =
+    if stdenv.hostPlatform.system == "x86_64-darwin" then
+      callPackage ../development/python-modules/gurobipy/darwin.nix { inherit (pkgs.darwin) cctools insert_dylib; }
+    else if stdenv.hostPlatform.system == "x86_64-linux" then
+      callPackage ../development/python-modules/gurobipy/linux.nix { }
+    else
+      throw "gurobipy not yet supported on ${stdenv.hostPlatform.system}";
 
   guzzle_sphinx_theme = callPackage ../development/python-modules/guzzle_sphinx_theme { };
 
-  gviz-api = callPackage ../development/python-modules/gviz-api {};
+  gviz-api = callPackage ../development/python-modules/gviz-api { };
 
   gwyddion = disabledIf isPy3k (toPythonModule (pkgs.gwyddion.override {
     pythonSupport = true;
@@ -3022,10 +3046,11 @@ in {
 
   hstspreload = callPackage ../development/python-modules/hstspreload { };
 
-  html2text = if isPy3k then
-    callPackage ../development/python-modules/html2text { }
-  else
-    callPackage ../development/python-modules/html2text/2018.nix { };
+  html2text =
+    if isPy3k then
+      callPackage ../development/python-modules/html2text { }
+    else
+      callPackage ../development/python-modules/html2text/2018.nix { };
 
   html5lib = callPackage ../development/python-modules/html5lib { };
 
@@ -3053,10 +3078,11 @@ in {
 
   http-parser = callPackage ../development/python-modules/http-parser { };
 
-  httpretty = if isPy3k then
-    callPackage ../development/python-modules/httpretty { }
-  else
-    callPackage ../development/python-modules/httpretty/0.nix { };
+  httpretty =
+    if isPy3k then
+      callPackage ../development/python-modules/httpretty { }
+    else
+      callPackage ../development/python-modules/httpretty/0.nix { };
 
   httpserver = callPackage ../development/python-modules/httpserver { };
 
@@ -3165,10 +3191,11 @@ in {
 
   imap-tools = callPackage ../development/python-modules/imap-tools { };
 
-  imbalanced-learn = if isPy27 then
-    callPackage ../development/python-modules/imbalanced-learn/0.4.nix { }
-  else
-    callPackage ../development/python-modules/imbalanced-learn { };
+  imbalanced-learn =
+    if isPy27 then
+      callPackage ../development/python-modules/imbalanced-learn/0.4.nix { }
+    else
+      callPackage ../development/python-modules/imbalanced-learn { };
 
   imdbpy = callPackage ../development/python-modules/imdbpy { };
 
@@ -3253,10 +3280,11 @@ in {
 
   ipydatawidgets = callPackage ../development/python-modules/ipydatawidgets { };
 
-  ipykernel = if pythonOlder "3.4" then
-    callPackage ../development/python-modules/ipykernel/4.nix { }
-  else
-    callPackage ../development/python-modules/ipykernel { };
+  ipykernel =
+    if pythonOlder "3.4" then
+      callPackage ../development/python-modules/ipykernel/4.nix { }
+    else
+      callPackage ../development/python-modules/ipykernel { };
 
   ipympl = callPackage ../development/python-modules/ipympl { };
 
@@ -3264,12 +3292,13 @@ in {
 
   ipython_genutils = callPackage ../development/python-modules/ipython_genutils { };
 
-  ipython = if isPy27 then
-    callPackage ../development/python-modules/ipython/5.nix { }
-  else if isPy36 then
-    callPackage ../development/python-modules/ipython/7.16.nix { }
-  else
-    callPackage ../development/python-modules/ipython { };
+  ipython =
+    if isPy27 then
+      callPackage ../development/python-modules/ipython/5.nix { }
+    else if isPy36 then
+      callPackage ../development/python-modules/ipython/7.16.nix { }
+    else
+      callPackage ../development/python-modules/ipython { };
 
   ipyvue = callPackage ../development/python-modules/ipyvue { };
 
@@ -3297,11 +3326,11 @@ in {
 
   isodate = callPackage ../development/python-modules/isodate { };
 
-  isort = if isPy3k then
-    callPackage ../development/python-modules/isort { }
-  else
-    callPackage ../development/python-modules/isort/4.nix {
-  };
+  isort =
+    if isPy3k then
+      callPackage ../development/python-modules/isort { }
+    else
+      callPackage ../development/python-modules/isort/4.nix { };
 
   isoweek = callPackage ../development/python-modules/isoweek { };
 
@@ -3325,19 +3354,21 @@ in {
 
   jaraco_collections = callPackage ../development/python-modules/jaraco_collections { };
 
-  jaraco_functools = if pythonOlder "3.6" then
-    callPackage ../development/python-modules/jaraco_functools/2.nix { }
-  else
-    callPackage ../development/python-modules/jaraco_functools { };
+  jaraco_functools =
+    if pythonOlder "3.6" then
+      callPackage ../development/python-modules/jaraco_functools/2.nix { }
+    else
+      callPackage ../development/python-modules/jaraco_functools { };
 
   jaraco_itertools = callPackage ../development/python-modules/jaraco_itertools { };
 
   jaraco_logging = callPackage ../development/python-modules/jaraco_logging { };
 
-  jaraco_stream = if pythonOlder "3.6" then
-    callPackage ../development/python-modules/jaraco_stream/2.nix { }
-  else
-    callPackage ../development/python-modules/jaraco_stream { };
+  jaraco_stream =
+    if pythonOlder "3.6" then
+      callPackage ../development/python-modules/jaraco_stream/2.nix { }
+    else
+      callPackage ../development/python-modules/jaraco_stream { };
 
   jaraco_text = callPackage ../development/python-modules/jaraco_text { };
 
@@ -3459,15 +3490,17 @@ in {
 
   jupyter-c-kernel = callPackage ../development/python-modules/jupyter-c-kernel { };
 
-  jupyter_client = if isPy3k then
-    callPackage ../development/python-modules/jupyter_client { }
-  else
-    callPackage ../development/python-modules/jupyter_client/5.nix { };
+  jupyter_client =
+    if isPy3k then
+      callPackage ../development/python-modules/jupyter_client { }
+    else
+      callPackage ../development/python-modules/jupyter_client/5.nix { };
 
-  jupyter_console = if pythonOlder "3.5" then
-    callPackage ../development/python-modules/jupyter_console/5.nix { }
-  else
-    callPackage ../development/python-modules/jupyter_console { };
+  jupyter_console =
+    if pythonOlder "3.5" then
+      callPackage ../development/python-modules/jupyter_console/5.nix { }
+    else
+      callPackage ../development/python-modules/jupyter_console { };
 
   jupyter_core = callPackage ../development/python-modules/jupyter_core { };
 
@@ -3536,10 +3569,11 @@ in {
 
   kerberos = callPackage ../development/python-modules/kerberos { inherit (pkgs) kerberos; };
 
-  keyring = if isPy3k then
-    callPackage ../development/python-modules/keyring { }
-  else
-    callPackage ../development/python-modules/keyring/2.nix { };
+  keyring =
+    if isPy3k then
+      callPackage ../development/python-modules/keyring { }
+    else
+      callPackage ../development/python-modules/keyring/2.nix { };
 
   keyrings-alt = callPackage ../development/python-modules/keyrings-alt { };
 
@@ -3559,10 +3593,11 @@ in {
 
   kivy-garden = callPackage ../development/python-modules/kivy-garden { };
 
-  kiwisolver = if isPy3k then
-    callPackage ../development/python-modules/kiwisolver { }
-  else
-    callPackage ../development/python-modules/kiwisolver/1_1.nix { };
+  kiwisolver =
+    if isPy3k then
+      callPackage ../development/python-modules/kiwisolver { }
+    else
+      callPackage ../development/python-modules/kiwisolver/1_1.nix { };
 
   klaus = callPackage ../development/python-modules/klaus { };
 
@@ -3664,10 +3699,11 @@ in {
 
   libasyncns = callPackage ../development/python-modules/libasyncns { inherit (pkgs) libasyncns pkg-config; };
 
-  libcloud = if isPy27 then
-    callPackage ../development/python-modules/libcloud/2.nix { }
-  else
-    callPackage ../development/python-modules/libcloud { };
+  libcloud =
+    if isPy27 then
+      callPackage ../development/python-modules/libcloud/2.nix { }
+    else
+      callPackage ../development/python-modules/libcloud { };
 
   libcst = callPackage ../development/python-modules/libcst { };
 
@@ -3712,15 +3748,17 @@ in {
 
   libnacl = callPackage ../development/python-modules/libnacl { inherit (pkgs) libsodium; };
 
-  libnl-python = disabledIf isPy3k (toPythonModule (pkgs.libnl.override {
-    pythonSupport = true;
-    inherit python;
-  })).py;
+  libnl-python = disabledIf isPy3k
+    (toPythonModule (pkgs.libnl.override {
+      pythonSupport = true;
+      inherit python;
+    })).py;
 
-  libplist = disabledIf isPy3k (toPythonModule (pkgs.libplist.override {
-    enablePython = true;
-    inherit python;
-  })).py;
+  libplist = disabledIf isPy3k
+    (toPythonModule (pkgs.libplist.override {
+      enablePython = true;
+      inherit python;
+    })).py;
 
   libpurecool = callPackage ../development/python-modules/libpurecool { };
 
@@ -3767,22 +3805,24 @@ in {
 
   libtmux = callPackage ../development/python-modules/libtmux { };
 
-  libtorrent-rasterbar = if isPy27 then
-    (toPythonModule (pkgs.libtorrent-rasterbar-1_2_x.override { inherit python; })).python
-  else
-    (toPythonModule (pkgs.libtorrent-rasterbar.override { inherit python; })).python;
+  libtorrent-rasterbar =
+    if isPy27 then
+      (toPythonModule (pkgs.libtorrent-rasterbar-1_2_x.override { inherit python; })).python
+    else
+      (toPythonModule (pkgs.libtorrent-rasterbar.override { inherit python; })).python;
 
   libusb1 = callPackage ../development/python-modules/libusb1 { inherit (pkgs) libusb1; };
 
   libversion = callPackage ../development/python-modules/libversion { inherit (pkgs) libversion pkg-config; };
 
-  libvirt = if isPy3k then
-    (callPackage ../development/python-modules/libvirt { inherit (pkgs) libvirt pkg-config; })
-  else
-    (callPackage ../development/python-modules/libvirt/5.9.0.nix {
-      inherit (pkgs) pkg-config;
-      libvirt = pkgs.libvirt_5_9_0;
-    });
+  libvirt =
+    if isPy3k then
+      (callPackage ../development/python-modules/libvirt { inherit (pkgs) libvirt pkg-config; })
+    else
+      (callPackage ../development/python-modules/libvirt/5.9.0.nix {
+        inherit (pkgs) pkg-config;
+        libvirt = pkgs.libvirt_5_9_0;
+      });
 
   libxml2 = (toPythonModule (pkgs.libxml2.override {
     pythonSupport = true;
@@ -3977,10 +4017,11 @@ in {
 
   markdown2 = callPackage ../development/python-modules/markdown2 { };
 
-  markdown = if isPy3k then
-    callPackage ../development/python-modules/markdown { }
-  else
-    callPackage ../development/python-modules/markdown/3_1.nix { };
+  markdown =
+    if isPy3k then
+      callPackage ../development/python-modules/markdown { }
+    else
+      callPackage ../development/python-modules/markdown/3_1.nix { };
 
   markdown-it-py = callPackage ../development/python-modules/markdown-it-py { };
 
@@ -4008,16 +4049,19 @@ in {
 
   mathlibtools = callPackage ../development/python-modules/mathlibtools { };
 
-  matplotlib = let
-    path = if isPy3k then
-      ../development/python-modules/matplotlib/default.nix
-    else
-      ../development/python-modules/matplotlib/2.nix;
-  in callPackage path {
-    stdenv = if stdenv.isDarwin then pkgs.clangStdenv else pkgs.stdenv;
-    inherit (pkgs.darwin.apple_sdk.frameworks) Cocoa;
-    inherit (pkgs) pkg-config;
-  };
+  matplotlib =
+    let
+      path =
+        if isPy3k then
+          ../development/python-modules/matplotlib/default.nix
+        else
+          ../development/python-modules/matplotlib/2.nix;
+    in
+    callPackage path {
+      stdenv = if stdenv.isDarwin then pkgs.clangStdenv else pkgs.stdenv;
+      inherit (pkgs.darwin.apple_sdk.frameworks) Cocoa;
+      inherit (pkgs) pkg-config;
+    };
 
   matrix-client = callPackage ../development/python-modules/matrix-client { };
 
@@ -4075,7 +4119,8 @@ in {
   meshlabxml = callPackage ../development/python-modules/meshlabxml { };
 
   meson = disabledIf (pythonOlder "3.5") (toPythonModule ((pkgs.meson.override { python3 = python; }).overrideAttrs
-    (oldAttrs: { # We do not want the setup hook in Python packages because the build is performed differently.
+    (oldAttrs: {
+      # We do not want the setup hook in Python packages because the build is performed differently.
       setupHook = null;
     })));
 
@@ -4141,10 +4186,11 @@ in {
 
   mocket = callPackage ../development/python-modules/mocket { };
 
-  mock = if pythonOlder "3.6" then
-    callPackage ../development/python-modules/mock/2.nix { }
-  else
-    callPackage ../development/python-modules/mock { };
+  mock =
+    if pythonOlder "3.6" then
+      callPackage ../development/python-modules/mock/2.nix { }
+    else
+      callPackage ../development/python-modules/mock { };
 
   mockito = callPackage ../development/python-modules/mockito { };
 
@@ -4178,10 +4224,11 @@ in {
 
   monty = callPackage ../development/python-modules/monty { };
 
-  more-itertools = if isPy27 then
-    callPackage ../development/python-modules/more-itertools/2.7.nix { }
-  else
-    callPackage ../development/python-modules/more-itertools { };
+  more-itertools =
+    if isPy27 then
+      callPackage ../development/python-modules/more-itertools/2.7.nix { }
+    else
+      callPackage ../development/python-modules/more-itertools { };
 
   moretools = callPackage ../development/python-modules/moretools { };
 
@@ -4287,10 +4334,11 @@ in {
 
   mutag = callPackage ../development/python-modules/mutag { };
 
-  mutagen = if isPy27 then
-    callPackage ../development/python-modules/mutagen/1.43.nix { }
-  else
-    callPackage ../development/python-modules/mutagen { };
+  mutagen =
+    if isPy27 then
+      callPackage ../development/python-modules/mutagen/1.43.nix { }
+    else
+      callPackage ../development/python-modules/mutagen { };
 
   mutatormath = callPackage ../development/python-modules/mutatormath { };
 
@@ -4356,10 +4404,11 @@ in {
 
   nbdime = callPackage ../development/python-modules/nbdime { };
 
-  nbformat = if isPy3k then
-    callPackage ../development/python-modules/nbformat { }
-  else
-    callPackage ../development/python-modules/nbformat/2.nix { };
+  nbformat =
+    if isPy3k then
+      callPackage ../development/python-modules/nbformat { }
+    else
+      callPackage ../development/python-modules/nbformat/2.nix { };
 
   nbmerge = callPackage ../development/python-modules/nbmerge { };
 
@@ -4395,10 +4444,11 @@ in {
 
   netifaces = callPackage ../development/python-modules/netifaces { };
 
-  networkx = if isPy3k then
-    callPackage ../development/python-modules/networkx { }
-  else
-    callPackage ../development/python-modules/networkx/2.2.nix { };
+  networkx =
+    if isPy3k then
+      callPackage ../development/python-modules/networkx { }
+    else
+      callPackage ../development/python-modules/networkx/2.2.nix { };
 
   neuron-mpi = pkgs.neuron-mpi.override { inherit python; };
 
@@ -4497,10 +4547,11 @@ in {
 
   nosexcover = callPackage ../development/python-modules/nosexcover { };
 
-  notebook = if isPy3k then
-    callPackage ../development/python-modules/notebook { }
-  else
-    callPackage ../development/python-modules/notebook/2.nix { };
+  notebook =
+    if isPy3k then
+      callPackage ../development/python-modules/notebook { }
+    else
+      callPackage ../development/python-modules/notebook/2.nix { };
 
   notedown = callPackage ../development/python-modules/notedown { };
 
@@ -4539,10 +4590,11 @@ in {
 
   numpydoc = callPackage ../development/python-modules/numpydoc { };
 
-  numpy = if pythonOlder "3.5" then
-    callPackage ../development/python-modules/numpy/1.16.nix { }
-  else
-    callPackage ../development/python-modules/numpy { };
+  numpy =
+    if pythonOlder "3.5" then
+      callPackage ../development/python-modules/numpy/1.16.nix { }
+    else
+      callPackage ../development/python-modules/numpy { };
 
   numpy-stl = callPackage ../development/python-modules/numpy-stl { };
 
@@ -4566,10 +4618,11 @@ in {
 
   oauthenticator = callPackage ../development/python-modules/oauthenticator { };
 
-  oauthlib = if isPy27 then
-    callPackage ../development/python-modules/oauthlib/3.1.nix { }
-  else
-    callPackage ../development/python-modules/oauthlib { };
+  oauthlib =
+    if isPy27 then
+      callPackage ../development/python-modules/oauthlib/3.1.nix { }
+    else
+      callPackage ../development/python-modules/oauthlib { };
 
   obfsproxy = callPackage ../development/python-modules/obfsproxy { };
 
@@ -4602,7 +4655,7 @@ in {
   openapi-spec-validator = callPackage ../development/python-modules/openapi-spec-validator { };
 
   openbabel-bindings = callPackage ../development/python-modules/openbabel-bindings {
-      openbabel = (callPackage ../development/libraries/openbabel { python = self.python; });
+    openbabel = (callPackage ../development/libraries/openbabel { python = self.python; });
   };
 
   opencv3 = toPythonModule (pkgs.opencv3.override {
@@ -4622,10 +4675,11 @@ in {
 
   openidc-client = callPackage ../development/python-modules/openidc-client { };
 
-  openpyxl = if pythonAtLeast "3.6" then
-    callPackage ../development/python-modules/openpyxl { }
-  else
-    callPackage ../development/python-modules/openpyxl/2.nix { };
+  openpyxl =
+    if pythonAtLeast "3.6" then
+      callPackage ../development/python-modules/openpyxl { }
+    else
+      callPackage ../development/python-modules/openpyxl/2.nix { };
 
   openrazer = callPackage ../development/python-modules/openrazer/pylib.nix { };
 
@@ -4645,10 +4699,11 @@ in {
 
   openwrt-ubus-rpc = callPackage ../development/python-modules/openwrt-ubus-rpc { };
 
-  opt-einsum = if isPy27 then
-    callPackage ../development/python-modules/opt-einsum/2.nix { }
-  else
-    callPackage ../development/python-modules/opt-einsum { };
+  opt-einsum =
+    if isPy27 then
+      callPackage ../development/python-modules/opt-einsum/2.nix { }
+    else
+      callPackage ../development/python-modules/opt-einsum { };
 
   optuna = callPackage ../development/python-modules/optuna { };
 
@@ -4688,7 +4743,8 @@ in {
 
   oyaml = callPackage ../development/python-modules/oyaml { };
 
-  packaging = if isPy3k
+  packaging =
+    if isPy3k
     then callPackage ../development/python-modules/packaging { }
     else callPackage ../development/python-modules/packaging/2.nix { };
 
@@ -4711,10 +4767,11 @@ in {
 
   pamqp = callPackage ../development/python-modules/pamqp { };
 
-  pandas = if isPy3k then
-    callPackage ../development/python-modules/pandas { }
-  else
-    callPackage ../development/python-modules/pandas/2.nix { };
+  pandas =
+    if isPy3k then
+      callPackage ../development/python-modules/pandas { }
+    else
+      callPackage ../development/python-modules/pandas/2.nix { };
 
   pandas-datareader = callPackage ../development/python-modules/pandas-datareader { };
 
@@ -4792,10 +4849,11 @@ in {
 
   pathos = callPackage ../development/python-modules/pathos { };
 
-  pathpy = if isPy3k then
-    callPackage ../development/python-modules/path.py { }
-  else
-    callPackage ../development/python-modules/path.py/2.nix { };
+  pathpy =
+    if isPy3k then
+      callPackage ../development/python-modules/path.py { }
+    else
+      callPackage ../development/python-modules/path.py/2.nix { };
 
   pathspec = callPackage ../development/python-modules/pathspec { };
 
@@ -4924,20 +4982,22 @@ in {
 
   pillowfight = callPackage ../development/python-modules/pillowfight { };
 
-  pillow = if isPy27 then
-    callPackage ../development/python-modules/pillow/6.nix {
-      inherit (pkgs) freetype libjpeg zlib libtiff libwebp tcl lcms2 tk;
-      inherit (pkgs.xorg) libX11;
-    }
-  else
-    callPackage ../development/python-modules/pillow {
-      inherit (pkgs) freetype libjpeg zlib libtiff libwebp tcl lcms2 tk;
-      inherit (pkgs.xorg) libX11 libxcb;
-    };
+  pillow =
+    if isPy27 then
+      callPackage ../development/python-modules/pillow/6.nix
+        {
+          inherit (pkgs) freetype libjpeg zlib libtiff libwebp tcl lcms2 tk;
+          inherit (pkgs.xorg) libX11;
+        }
+    else
+      callPackage ../development/python-modules/pillow {
+        inherit (pkgs) freetype libjpeg zlib libtiff libwebp tcl lcms2 tk;
+        inherit (pkgs.xorg) libX11 libxcb;
+      };
 
   pillow-simd = callPackage ../development/python-modules/pillow-simd {
-      inherit (pkgs) freetype libjpeg zlib libtiff libwebp tcl lcms2 tk;
-      inherit (pkgs.xorg) libX11;
+    inherit (pkgs) freetype libjpeg zlib libtiff libwebp tcl lcms2 tk;
+    inherit (pkgs.xorg) libX11;
   };
 
   pims = callPackage ../development/python-modules/pims { };
@@ -5102,10 +5162,11 @@ in {
 
   prawcore = callPackage ../development/python-modules/prawcore { };
 
-  praw = if isPy3k then
-    callPackage ../development/python-modules/praw { }
-  else
-    callPackage ../development/python-modules/praw/6.3.nix { };
+  praw =
+    if isPy3k then
+      callPackage ../development/python-modules/praw { }
+    else
+      callPackage ../development/python-modules/praw/6.3.nix { };
 
   precis-i18n = callPackage ../development/python-modules/precis-i18n { };
 
@@ -5121,10 +5182,11 @@ in {
 
   pretend = callPackage ../development/python-modules/pretend { };
 
-  prettytable = if isPy3k then
-    callPackage ../development/python-modules/prettytable { }
-  else
-    callPackage ../development/python-modules/prettytable/1.nix { };
+  prettytable =
+    if isPy3k then
+      callPackage ../development/python-modules/prettytable { }
+    else
+      callPackage ../development/python-modules/prettytable/1.nix { };
 
   primer3 = callPackage ../development/python-modules/primer3 { };
 
@@ -5157,12 +5219,15 @@ in {
 
   promise = callPackage ../development/python-modules/promise { };
 
-  prompt_toolkit = let
-    filename = if isPy3k then
-      ../development/python-modules/prompt_toolkit
-    else
-      ../development/python-modules/prompt_toolkit/1.nix;
-  in callPackage filename { };
+  prompt_toolkit =
+    let
+      filename =
+        if isPy3k then
+          ../development/python-modules/prompt_toolkit
+        else
+          ../development/python-modules/prompt_toolkit/1.nix;
+    in
+    callPackage filename { };
 
   property-manager = callPackage ../development/python-modules/property-manager { };
 
@@ -5432,15 +5497,18 @@ in {
 
   pydispatcher = callPackage ../development/python-modules/pydispatcher { };
 
-  pydns = let
-    py3 = callPackage ../development/python-modules/py3dns { };
-    py2 = callPackage ../development/python-modules/pydns { };
-  in if isPy3k then py3 else py2;
+  pydns =
+    let
+      py3 = callPackage ../development/python-modules/py3dns { };
+      py2 = callPackage ../development/python-modules/pydns { };
+    in
+    if isPy3k then py3 else py2;
 
-  pydocstyle = if isPy27 then
-    callPackage ../development/python-modules/pydocstyle/2.nix { }
-  else
-    callPackage ../development/python-modules/pydocstyle { };
+  pydocstyle =
+    if isPy27 then
+      callPackage ../development/python-modules/pydocstyle/2.nix { }
+    else
+      callPackage ../development/python-modules/pydocstyle { };
 
   pydocumentdb = callPackage ../development/python-modules/pydocumentdb { };
 
@@ -5554,10 +5622,11 @@ in {
 
   pygments-better-html = callPackage ../development/python-modules/pygments-better-html { };
 
-  pygments = if isPy3k then
-    callPackage ../development/python-modules/Pygments { }
-  else
-    callPackage ../development/python-modules/Pygments/2_5.nix { };
+  pygments =
+    if isPy3k then
+      callPackage ../development/python-modules/Pygments { }
+    else
+      callPackage ../development/python-modules/Pygments/2_5.nix { };
 
   pygments-markdown-lexer = callPackage ../development/python-modules/pygments-markdown-lexer { };
 
@@ -5567,10 +5636,11 @@ in {
 
   pygobject2 = callPackage ../development/python-modules/pygobject { inherit (pkgs) pkg-config; };
 
-  pygobject3 = if isPy3k then
-    callPackage ../development/python-modules/pygobject/3.nix { inherit (pkgs) meson pkg-config; }
-  else
-    callPackage ../development/python-modules/pygobject/3.36.nix { inherit (pkgs) meson pkg-config; };
+  pygobject3 =
+    if isPy3k then
+      callPackage ../development/python-modules/pygobject/3.nix { inherit (pkgs) meson pkg-config; }
+    else
+      callPackage ../development/python-modules/pygobject/3.36.nix { inherit (pkgs) meson pkg-config; };
 
   pygogo = callPackage ../development/python-modules/pygogo { };
 
@@ -5597,10 +5667,11 @@ in {
 
   pygtrie = callPackage ../development/python-modules/pygtrie { };
 
-  pyhamcrest = if isPy3k then
-    callPackage ../development/python-modules/pyhamcrest { }
-  else
-    callPackage ../development/python-modules/pyhamcrest/1.nix { };
+  pyhamcrest =
+    if isPy3k then
+      callPackage ../development/python-modules/pyhamcrest { }
+    else
+      callPackage ../development/python-modules/pyhamcrest/1.nix { };
 
   pyhaversion = callPackage ../development/python-modules/pyhaversion { };
 
@@ -5668,10 +5739,11 @@ in {
 
   pylev = callPackage ../development/python-modules/pylev { };
 
-  pylibacl = if isPy3k then
-    callPackage ../development/python-modules/pylibacl { }
-  else
-    callPackage ../development/python-modules/pylibacl/0.5.nix { };
+  pylibacl =
+    if isPy3k then
+      callPackage ../development/python-modules/pylibacl { }
+    else
+      callPackage ../development/python-modules/pylibacl/0.5.nix { };
 
   pylibconfig2 = callPackage ../development/python-modules/pylibconfig2 { };
 
@@ -5691,10 +5763,11 @@ in {
 
   pylint-flask = callPackage ../development/python-modules/pylint-flask { };
 
-  pylint = if isPy3k then
-    callPackage ../development/python-modules/pylint { }
-  else
-    callPackage ../development/python-modules/pylint/1.9.nix { };
+  pylint =
+    if isPy3k then
+      callPackage ../development/python-modules/pylint { }
+    else
+      callPackage ../development/python-modules/pylint/1.9.nix { };
 
   pylint-plugin-utils = callPackage ../development/python-modules/pylint-plugin-utils { };
 
@@ -5818,10 +5891,11 @@ in {
 
   pynzb = callPackage ../development/python-modules/pynzb { };
 
-  pyobjc = if stdenv.isDarwin then
-    callPackage ../development/python-modules/pyobjc { }
-  else
-    throw "pyobjc can only be built on Mac OS";
+  pyobjc =
+    if stdenv.isDarwin then
+      callPackage ../development/python-modules/pyobjc { }
+    else
+      throw "pyobjc can only be built on Mac OS";
 
   pyocr = callPackage ../development/python-modules/pyocr {
     tesseract = pkgs.tesseract4;
@@ -5892,7 +5966,7 @@ in {
 
   pypillowfight = callPackage ../development/python-modules/pypillowfight { };
 
-  pyplaato  = callPackage ../development/python-modules/pyplaato { };
+  pyplaato = callPackage ../development/python-modules/pyplaato { };
 
   pyplatec = callPackage ../development/python-modules/pyplatec { };
 
@@ -6163,17 +6237,22 @@ in {
   pytest = if isPy3k then self.pytest_6 else self.pytest_4;
 
   pytest_4 = callPackage
-    ../development/python-modules/pytest/4.nix { # hypothesis tests require pytest that causes dependency cycle
+    ../development/python-modules/pytest/4.nix
+    {
+      # hypothesis tests require pytest that causes dependency cycle
       hypothesis = self.hypothesis.override { doCheck = false; };
     };
 
   pytest_5 = callPackage
-    ../development/python-modules/pytest/5.nix { # hypothesis tests require pytest that causes dependency cycle
+    ../development/python-modules/pytest/5.nix
+    {
+      # hypothesis tests require pytest that causes dependency cycle
       hypothesis = self.hypothesis.override { doCheck = false; };
     };
 
   pytest_6 =
-    callPackage ../development/python-modules/pytest { # hypothesis tests require pytest that causes dependency cycle
+    callPackage ../development/python-modules/pytest {
+      # hypothesis tests require pytest that causes dependency cycle
       hypothesis = self.hypothesis.override { doCheck = false; };
     };
 
@@ -6263,10 +6342,11 @@ in {
 
   pytest-metadata = callPackage ../development/python-modules/pytest-metadata { };
 
-  pytest-mock = if isPy3k then
-    callPackage ../development/python-modules/pytest-mock { }
-  else
-    callPackage ../development/python-modules/pytest-mock/2.nix { };
+  pytest-mock =
+    if isPy3k then
+      callPackage ../development/python-modules/pytest-mock { }
+    else
+      callPackage ../development/python-modules/pytest-mock/2.nix { };
 
   pytest-mpl = callPackage ../development/python-modules/pytest-mpl { };
 
@@ -6348,10 +6428,11 @@ in {
   pytest-watch = callPackage ../development/python-modules/pytest-watch { };
 
   pytest-xdist = self.pytest_xdist; # added 2021-01-04
-  pytest_xdist = if isPy27 then
-    callPackage ../development/python-modules/pytest-xdist/1.nix { }
-  else
-    callPackage ../development/python-modules/pytest-xdist { };
+  pytest_xdist =
+    if isPy27 then
+      callPackage ../development/python-modules/pytest-xdist/1.nix { }
+    else
+      callPackage ../development/python-modules/pytest-xdist { };
 
   pytest-xprocess = callPackage ../development/python-modules/pytest-xprocess { };
 
@@ -6488,7 +6569,9 @@ in {
   python-nest = callPackage ../development/python-modules/python-nest { };
 
   pythonnet = callPackage
-    ../development/python-modules/pythonnet { # `mono >= 4.6` required to prevent crashes encountered with earlier versions.
+    ../development/python-modules/pythonnet
+    {
+      # `mono >= 4.6` required to prevent crashes encountered with earlier versions.
       mono = pkgs.mono4;
       inherit (pkgs) pkg-config;
     };
@@ -6630,7 +6713,9 @@ in {
   pyu2f = callPackage ../development/python-modules/pyu2f { };
 
   pyuavcan = callPackage
-    ../development/python-modules/pyuavcan { # this version pinpoint to anold version is necessary due to a regression
+    ../development/python-modules/pyuavcan
+    {
+      # this version pinpoint to anold version is necessary due to a regression
       nunavut = self.nunavut.overridePythonAttrs (old: rec {
         version = "0.2.3";
         src = old.src.override {
@@ -6711,16 +6796,18 @@ in {
 
   pywizlight = callPackage ../development/python-modules/pywizlight { };
 
-  pyxattr = let
-    pyxattr' = callPackage ../development/python-modules/pyxattr { };
-    pyxattr_2 = pyxattr'.overridePythonAttrs (oldAttrs: rec {
-      version = "0.6.1";
-      src = oldAttrs.src.override {
-        inherit version;
-        sha256 = "b525843f6b51036198b3b87c4773a5093d6dec57d60c18a1f269dd7059aa16e3";
-      };
-    });
-  in if isPy3k then pyxattr' else pyxattr_2;
+  pyxattr =
+    let
+      pyxattr' = callPackage ../development/python-modules/pyxattr { };
+      pyxattr_2 = pyxattr'.overridePythonAttrs (oldAttrs: rec {
+        version = "0.6.1";
+        src = oldAttrs.src.override {
+          inherit version;
+          sha256 = "b525843f6b51036198b3b87c4773a5093d6dec57d60c18a1f269dd7059aa16e3";
+        };
+      });
+    in
+    if isPy3k then pyxattr' else pyxattr_2;
 
   pyworld = callPackage ../development/python-modules/pyworld { };
 
@@ -7042,19 +7129,21 @@ in {
 
   rpmfluff = callPackage ../development/python-modules/rpmfluff { };
 
-  rpy2 = if isPy3k then
-    callPackage ../development/python-modules/rpy2 { }
-  else
-    callPackage ../development/python-modules/rpy2/2.nix { };
+  rpy2 =
+    if isPy3k then
+      callPackage ../development/python-modules/rpy2 { }
+    else
+      callPackage ../development/python-modules/rpy2/2.nix { };
 
   rpyc = callPackage ../development/python-modules/rpyc { };
 
   rq = callPackage ../development/python-modules/rq { };
 
-  rsa = if isPy3k then
-    callPackage ../development/python-modules/rsa { }
-  else
-    callPackage ../development/python-modules/rsa/4_0.nix { };
+  rsa =
+    if isPy3k then
+      callPackage ../development/python-modules/rsa { }
+    else
+      callPackage ../development/python-modules/rsa/4_0.nix { };
 
   rtmidi-python = callPackage ../development/python-modules/rtmidi-python { };
 
@@ -7150,11 +7239,13 @@ in {
 
   scikitimage = callPackage ../development/python-modules/scikit-image { };
 
-  scikitlearn = let args = { inherit (pkgs) gfortran glibcLocales; };
-  in if isPy3k then
-    callPackage ../development/python-modules/scikitlearn args
-  else
-    callPackage ../development/python-modules/scikitlearn/0.20.nix args;
+  scikitlearn =
+    let args = { inherit (pkgs) gfortran glibcLocales; };
+    in
+    if isPy3k then
+      callPackage ../development/python-modules/scikitlearn args
+    else
+      callPackage ../development/python-modules/scikitlearn/0.20.nix args;
 
   scikit-optimize = callPackage ../development/python-modules/scikit-optimize { };
 
@@ -7182,16 +7273,18 @@ in {
     disabled = !isPy3k;
   });
 
-  scipy = let
-    scipy_ = callPackage ../development/python-modules/scipy { };
-    scipy_1_2 = scipy_.overridePythonAttrs (oldAttrs: rec {
-      version = "1.2.2";
-      src = oldAttrs.src.override {
-        inherit version;
-        sha256 = "a4331e0b8dab1ff75d2c67b5158a8bb9a83c799d7140094dda936d876c7cfbb1";
-      };
-    });
-  in if pythonOlder "3.5" then scipy_1_2 else scipy_;
+  scipy =
+    let
+      scipy_ = callPackage ../development/python-modules/scipy { };
+      scipy_1_2 = scipy_.overridePythonAttrs (oldAttrs: rec {
+        version = "1.2.2";
+        src = oldAttrs.src.override {
+          inherit version;
+          sha256 = "a4331e0b8dab1ff75d2c67b5158a8bb9a83c799d7140094dda936d876c7cfbb1";
+        };
+      });
+    in
+    if pythonOlder "3.5" then scipy_1_2 else scipy_;
 
   scour = callPackage ../development/python-modules/scour { };
 
@@ -7215,10 +7308,11 @@ in {
 
   sdnotify = callPackage ../development/python-modules/sdnotify { };
 
-  seaborn = if isPy3k then
-    callPackage ../development/python-modules/seaborn { }
-  else
-    callPackage ../development/python-modules/seaborn/0.9.1.nix { };
+  seaborn =
+    if isPy3k then
+      callPackage ../development/python-modules/seaborn { }
+    else
+      callPackage ../development/python-modules/seaborn/0.9.1.nix { };
 
   seabreeze = callPackage ../development/python-modules/seabreeze { };
 
@@ -7226,10 +7320,11 @@ in {
 
   secp256k1 = callPackage ../development/python-modules/secp256k1 { inherit (pkgs) secp256k1 pkg-config; };
 
-  secretstorage = if isPy3k then
-    callPackage ../development/python-modules/secretstorage { }
-  else
-    callPackage ../development/python-modules/secretstorage/2.nix { };
+  secretstorage =
+    if isPy3k then
+      callPackage ../development/python-modules/secretstorage { }
+    else
+      callPackage ../development/python-modules/secretstorage/2.nix { };
 
   secure = callPackage ../development/python-modules/secure { };
 
@@ -7492,10 +7587,11 @@ in {
 
   soundfile = callPackage ../development/python-modules/soundfile { };
 
-  soupsieve = if isPy3k then
-    callPackage ../development/python-modules/soupsieve { }
-  else
-    callPackage ../development/python-modules/soupsieve/1.nix { };
+  soupsieve =
+    if isPy3k then
+      callPackage ../development/python-modules/soupsieve { }
+    else
+      callPackage ../development/python-modules/soupsieve/1.nix { };
 
   spacy = callPackage ../development/python-modules/spacy { };
 
@@ -7560,15 +7656,17 @@ in {
     texLive = pkgs.texlive.combine { inherit (pkgs.texlive) scheme-small standalone pgfplots; };
   };
 
-  sphinxcontrib-websupport = if isPy3k then
-    callPackage ../development/python-modules/sphinxcontrib-websupport { }
-  else
-    callPackage ../development/python-modules/sphinxcontrib-websupport/1_1.nix { };
+  sphinxcontrib-websupport =
+    if isPy3k then
+      callPackage ../development/python-modules/sphinxcontrib-websupport { }
+    else
+      callPackage ../development/python-modules/sphinxcontrib-websupport/1_1.nix { };
 
-  sphinx = if isPy3k then
-    callPackage ../development/python-modules/sphinx { }
-  else
-    callPackage ../development/python-modules/sphinx/2.nix { };
+  sphinx =
+    if isPy3k then
+      callPackage ../development/python-modules/sphinx { }
+    else
+      callPackage ../development/python-modules/sphinx/2.nix { };
 
   sphinx-argparse = callPackage ../development/python-modules/sphinx-argparse { };
 
@@ -7759,10 +7857,11 @@ in {
 
   symengine = callPackage ../development/python-modules/symengine { symengine = pkgs.symengine; };
 
-  sympy = if isPy3k then
-    callPackage ../development/python-modules/sympy { }
-  else
-    callPackage ../development/python-modules/sympy/1_5.nix { };
+  sympy =
+    if isPy3k then
+      callPackage ../development/python-modules/sympy { }
+    else
+      callPackage ../development/python-modules/sympy/1_5.nix { };
 
   systemd = callPackage ../development/python-modules/systemd { inherit (pkgs) pkg-config systemd; };
 
@@ -7770,10 +7869,11 @@ in {
 
   tableaudocumentapi = callPackage ../development/python-modules/tableaudocumentapi { };
 
-  tables = if isPy3k then
-    callPackage ../development/python-modules/tables { hdf5 = pkgs.hdf5.override { zlib = pkgs.zlib; }; }
-  else
-    callPackage ../development/python-modules/tables/3.5.nix { hdf5 = pkgs.hdf5.override { zlib = pkgs.zlib; }; };
+  tables =
+    if isPy3k then
+      callPackage ../development/python-modules/tables { hdf5 = pkgs.hdf5.override { zlib = pkgs.zlib; }; }
+    else
+      callPackage ../development/python-modules/tables/3.5.nix { hdf5 = pkgs.hdf5.override { zlib = pkgs.zlib; }; };
 
   tablib = callPackage ../development/python-modules/tablib { };
 
@@ -7813,7 +7913,7 @@ in {
 
   tensorboard-plugin-profile = callPackage ../development/python-modules/tensorboard-plugin-profile { };
 
-  tensorboard-plugin-wit = callPackage ../development/python-modules/tensorboard-plugin-wit {};
+  tensorboard-plugin-wit = callPackage ../development/python-modules/tensorboard-plugin-wit { };
 
   tensorboardx = callPackage ../development/python-modules/tensorboardx { };
 
@@ -7938,9 +8038,11 @@ in {
 
   thumborPexif = callPackage ../development/python-modules/thumborpexif { };
 
-  tkinter = let
-    py = python.override{x11Support=true;};
-  in callPackage ../development/python-modules/tkinter { py = py; };
+  tkinter =
+    let
+      py = python.override { x11Support = true; };
+    in
+    callPackage ../development/python-modules/tkinter { py = py; };
 
   tidylib = callPackage ../development/python-modules/pytidylib { };
 
@@ -7998,10 +8100,11 @@ in {
 
   tomlkit = callPackage ../development/python-modules/tomlkit { };
 
-  toolz = if isPy3k then
-    callPackage ../development/python-modules/toolz { }
-  else
-    callPackage ../development/python-modules/toolz/2.nix { };
+  toolz =
+    if isPy3k then
+      callPackage ../development/python-modules/toolz { }
+    else
+      callPackage ../development/python-modules/toolz/2.nix { };
 
   toonapi = callPackage ../development/python-modules/toonapi { };
 
@@ -8013,10 +8116,11 @@ in {
 
   torchvision = callPackage ../development/python-modules/torchvision { };
 
-  tornado = if isPy3k then
-    callPackage ../development/python-modules/tornado { }
-  else
-    callPackage ../development/python-modules/tornado/5.nix { };
+  tornado =
+    if isPy3k then
+      callPackage ../development/python-modules/tornado { }
+    else
+      callPackage ../development/python-modules/tornado/5.nix { };
 
   # Used by circus and grab-site, 2020-08-29
   tornado_4 = callPackage ../development/python-modules/tornado/4.nix { };
@@ -8038,10 +8142,11 @@ in {
 
   trackpy = callPackage ../development/python-modules/trackpy { };
 
-  traitlets = if pythonOlder "3.7" then
-    callPackage ../development/python-modules/traitlets/4.nix { }
-  else
-    callPackage ../development/python-modules/traitlets { };
+  traitlets =
+    if pythonOlder "3.7" then
+      callPackage ../development/python-modules/traitlets/4.nix { }
+    else
+      callPackage ../development/python-modules/traitlets { };
 
   traits = callPackage ../development/python-modules/traits { };
 
@@ -8181,10 +8286,11 @@ in {
 
   ufoprocessor = callPackage ../development/python-modules/ufoprocessor { };
 
-  ujson = if isPy27 then
-    callPackage ../development/python-modules/ujson/2.nix { }
-  else
-    callPackage ../development/python-modules/ujson { };
+  ujson =
+    if isPy27 then
+      callPackage ../development/python-modules/ujson/2.nix { }
+    else
+      callPackage ../development/python-modules/ujson { };
 
   ukpostcodeparser = callPackage ../development/python-modules/ukpostcodeparser { };
 
@@ -8518,10 +8624,11 @@ in {
 
   wsnsimpy = callPackage ../development/python-modules/wsnsimpy { };
 
-  wsproto = if (pythonAtLeast "3.6") then
-    callPackage ../development/python-modules/wsproto { }
-  else
-    callPackage ../development/python-modules/wsproto/0.14.nix { };
+  wsproto =
+    if (pythonAtLeast "3.6") then
+      callPackage ../development/python-modules/wsproto { }
+    else
+      callPackage ../development/python-modules/wsproto/0.14.nix { };
 
   wtforms = callPackage ../development/python-modules/wtforms { };
 
@@ -8707,9 +8814,10 @@ in {
 
   zdaemon = callPackage ../development/python-modules/zdaemon { };
 
-  zeek = disabledIf (!isPy3k) (toPythonModule (pkgs.zeek.override {
-    python3 = python;
-  })).py;
+  zeek = disabledIf (!isPy3k)
+    (toPythonModule (pkgs.zeek.override {
+      python3 = python;
+    })).py;
 
   zeep = callPackage ../development/python-modules/zeep { };
 
@@ -8747,10 +8855,11 @@ in {
 
   zipfile36 = callPackage ../development/python-modules/zipfile36 { };
 
-  zipp = if pythonOlder "3.6" then
-    callPackage ../development/python-modules/zipp/1.nix { }
-  else
-    callPackage ../development/python-modules/zipp { };
+  zipp =
+    if pythonOlder "3.6" then
+      callPackage ../development/python-modules/zipp/1.nix { }
+    else
+      callPackage ../development/python-modules/zipp { };
 
   zipstream = callPackage ../development/python-modules/zipstream { };
 

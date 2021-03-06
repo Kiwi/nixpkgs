@@ -1,6 +1,14 @@
-{ lib, stdenv, callPackage, fetchurl
+{ lib
+, stdenv
+, callPackage
+, fetchurl
 , python
-, jdk, cmake, libxml2, zlib, python3, ncurses5
+, jdk
+, cmake
+, libxml2
+, zlib
+, python3
+, ncurses5
 , dotnet-sdk_3
 , vmopts ? null
 }:
@@ -271,7 +279,7 @@ in
   clion = buildClion rec {
     name = "clion-${version}";
     version = "2020.3.2"; /* updated by script */
-    description  = "C/C++ IDE. New. Intelligent. Cross-platform";
+    description = "C/C++ IDE. New. Intelligent. Cross-platform";
     license = lib.licenses.unfree;
     src = fetchurl {
       url = "https://download.jetbrains.com/cpp/CLion-${version}.tar.gz";

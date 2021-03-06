@@ -12,7 +12,8 @@ stdenv.mkDerivation rec {
   };
 
   patches = [
-    (fetchpatch { # Required till https://github.com/bb010g/betterdiscordctl/pull/67 is merged upstream.
+    (fetchpatch {
+      # Required till https://github.com/bb010g/betterdiscordctl/pull/67 is merged upstream.
       url = "https://github.com/bb010g/betterdiscordctl/pull/67/commits/f1c7170fc2626d9aec4d244977b5a73c401aa1d4.patch";
       sha256 = "003zqd9ljb9h674sjwjvvdfs7q4cw0p1ydg3lax132vb4vz9k0zi";
     })

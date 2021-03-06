@@ -52,7 +52,7 @@ in
       modules = mkOption {
         type = types.attrsOf types.package;
         description = "A set of modules to load.";
-        default = {};
+        default = { };
         example = literalExample ''
           {
             "dummy.so" = pkgs.stdenv.mkDerivation {
@@ -104,7 +104,7 @@ in
 
       settings = mkOption {
         type = with types; attrsOf (oneOf [ int str (listOf str) ]);
-        default = {};
+        default = { };
         description = ''
           Zabbix Agent configuration. Refer to
           <link xlink:href="https://www.zabbix.com/documentation/current/manual/appendix/config/zabbix_agentd"/>
@@ -132,7 +132,7 @@ in
         ListenPort = cfg.listen.port;
         LoadModule = builtins.attrNames cfg.modules;
       }
-      (mkIf (cfg.modules != {}) { LoadModulePath = "${moduleEnv}/lib"; })
+      (mkIf (cfg.modules != { }) { LoadModulePath = "${moduleEnv}/lib"; })
     ];
 
     networking.firewall = mkIf cfg.openFirewall {

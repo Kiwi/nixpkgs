@@ -3,7 +3,8 @@
 , git
 , go
 , python
-, lib, stdenv
+, lib
+, stdenv
 }:
 
 let

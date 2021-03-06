@@ -1,6 +1,17 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch, fpc, zip, makeWrapper
-, SDL2, freetype, physfs, openal, gamenetworkingsockets
-, xorg, autoPatchelfHook
+{ lib
+, stdenv
+, fetchFromGitHub
+, fetchpatch
+, fpc
+, zip
+, makeWrapper
+, SDL2
+, freetype
+, physfs
+, openal
+, gamenetworkingsockets
+, xorg
+, autoPatchelfHook
 }:
 
 let

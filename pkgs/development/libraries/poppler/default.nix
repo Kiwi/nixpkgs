@@ -1,10 +1,30 @@
-{ stdenv, lib, fetchurl, fetchpatch, cmake, ninja, pkg-config, libiconv, libintl
-, zlib, curl, cairo, freetype, fontconfig, lcms, libjpeg, openjpeg
-, withData ? true, poppler_data
-, qt5Support ? false, qtbase ? null
-, introspectionSupport ? false, gobject-introspection ? null
-, utils ? false, nss ? null
-, minimal ? false, suffix ? "glib"
+{ stdenv
+, lib
+, fetchurl
+, fetchpatch
+, cmake
+, ninja
+, pkg-config
+, libiconv
+, libintl
+, zlib
+, curl
+, cairo
+, freetype
+, fontconfig
+, lcms
+, libjpeg
+, openjpeg
+, withData ? true
+, poppler_data
+, qt5Support ? false
+, qtbase ? null
+, introspectionSupport ? false
+, gobject-introspection ? null
+, utils ? false
+, nss ? null
+, minimal ? false
+, suffix ? "glib"
 }:
 
 let

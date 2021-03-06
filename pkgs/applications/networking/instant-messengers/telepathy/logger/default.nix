@@ -1,5 +1,18 @@
-{ lib, stdenv, fetchurl, dbus-glib, libxml2, sqlite, telepathy-glib, pkg-config
-, dconf, makeWrapper, intltool, libxslt, gobject-introspection, dbus }:
+{ lib
+, stdenv
+, fetchurl
+, dbus-glib
+, libxml2
+, sqlite
+, telepathy-glib
+, pkg-config
+, dconf
+, makeWrapper
+, intltool
+, libxslt
+, gobject-introspection
+, dbus
+}:
 
 stdenv.mkDerivation rec {
   project = "telepathy-logger";
@@ -11,11 +24,19 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    makeWrapper pkg-config intltool libxslt gobject-introspection
+    makeWrapper
+    pkg-config
+    intltool
+    libxslt
+    gobject-introspection
   ];
   buildInputs = [
-    dbus-glib libxml2 sqlite telepathy-glib
-    dbus telepathy-glib.python
+    dbus-glib
+    libxml2
+    sqlite
+    telepathy-glib
+    dbus
+    telepathy-glib.python
   ];
 
   configureFlags = [ "--enable-call" ];

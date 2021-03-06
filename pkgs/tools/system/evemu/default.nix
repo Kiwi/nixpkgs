@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchgit, autoreconfHook, pkg-config, pythonPackages
+{ lib
+, stdenv
+, fetchgit
+, autoreconfHook
+, pkg-config
+, pythonPackages
 , libevdev
 }:
 

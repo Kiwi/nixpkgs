@@ -20,7 +20,8 @@ let
   ];
   version = "4.2.0";
 
-in buildGoPackage {
+in
+buildGoPackage {
   pname = "mongo-tools";
   inherit version;
 
@@ -40,14 +41,16 @@ in buildGoPackage {
   # Mongodb incorrectly names all of their binaries main
   # Let's work around this with our own installer
   buildPhase = ''
-    # move vendored codes so nixpkgs go builder could find it
-    runHook preBuild
+        # move vendored codes so nixpkgs go builder could find it
+        runHook preBuild
 
-    ${lib.concatMapStrings (t: ''
-      go build -o "$out/bin/${t}" -tags ssl -ldflags "-s -w" $goPackagePath/${t}/main
-    '') tools}
+        ${lib.concatMapStrings
+    (t: ''
+          go build -o "$out/bin/${t}" -tags ssl -ldflags "-s -w" $goPackagePath/${t}/main
+        '')
+    tools}
 
-    runHook postBuild
+        runHook postBuild
   '';
 
   meta = {

@@ -1,7 +1,10 @@
-{ lib, bundlerApp, makeWrapper,
-  # Optional dependencies, can be null
-  epubcheck, kindlegen,
-  bundlerUpdateScript
+{ lib
+, bundlerApp
+, makeWrapper
+, # Optional dependencies, can be null
+  epubcheck
+, kindlegen
+, bundlerUpdateScript
 }:
 
 let
@@ -34,4 +37,4 @@ let
     };
   };
 in
-  app
+app

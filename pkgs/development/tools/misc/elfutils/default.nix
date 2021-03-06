@@ -1,6 +1,21 @@
-{ lib, stdenv, fetchurl, fetchpatch, pkg-config, autoreconfHook, musl-fts
-, musl-obstack, m4, zlib, bzip2, bison, flex, gettext, xz, setupDebugInfoDirs
-, argp-standalone }:
+{ lib
+, stdenv
+, fetchurl
+, fetchpatch
+, pkg-config
+, autoreconfHook
+, musl-fts
+, musl-obstack
+, m4
+, zlib
+, bzip2
+, bison
+, flex
+, gettext
+, xz
+, setupDebugInfoDirs
+, argp-standalone
+}:
 
 # TODO: Look at the hardcoded paths to kernel, modules etc.
 stdenv.mkDerivation rec {

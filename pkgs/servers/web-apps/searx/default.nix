@@ -25,15 +25,38 @@ toPythonModule (buildPythonApplication rec {
   '';
 
   propagatedBuildInputs = [
-    pyyaml lxml grequests flaskbabel flask requests
-    gevent speaklater Babel pytz dateutil pygments
-    pyasn1 pyasn1-modules ndg-httpsclient certifi pysocks
-    jinja2 werkzeug
+    pyyaml
+    lxml
+    grequests
+    flaskbabel
+    flask
+    requests
+    gevent
+    speaklater
+    Babel
+    pytz
+    dateutil
+    pygments
+    pyasn1
+    pyasn1-modules
+    ndg-httpsclient
+    certifi
+    pysocks
+    jinja2
+    werkzeug
   ];
 
   checkInputs = [
-    Babel mock nose2 covCore pep8 plone-testing splinter
-    unittest2 zope_testrunner selenium
+    Babel
+    mock
+    nose2
+    covCore
+    pep8
+    plone-testing
+    splinter
+    unittest2
+    zope_testrunner
+    selenium
   ];
 
   postInstall = ''

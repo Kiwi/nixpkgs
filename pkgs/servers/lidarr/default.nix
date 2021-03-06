@@ -12,17 +12,20 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''
-    mkdir -p $out/bin
-    cp -r * $out/bin/
+        mkdir -p $out/bin
+        cp -r * $out/bin/
 
-    # Mark main executable as executable
-    chmod +x $out/bin/Lidarr.exe
+        # Mark main executable as executable
+        chmod +x $out/bin/Lidarr.exe
 
-    makeWrapper "${mono}/bin/mono" $out/bin/Lidarr \
-      --add-flags "$out/bin/Lidarr.exe" \
-      --prefix PATH : ${lib.makeBinPath [ chromaprint ]} \
-      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [
-          curl sqlite libmediainfo ]}
+        makeWrapper "${mono}/bin/mono" $out/bin/Lidarr \
+          --add-flags "$out/bin/Lidarr.exe" \
+          --prefix PATH : ${lib.makeBinPath [ chromaprint ]} \
+          --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [
+              curl
+    sqlite
+    libmediainfo
+    ]}
   '';
 
   meta = with lib; {

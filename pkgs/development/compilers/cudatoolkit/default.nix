@@ -9,7 +9,8 @@
 
 let
   common = callPackage ./common.nix;
-in rec {
+in
+rec {
   cudatoolkit_9_0 = common {
     version = "9.0.176.1";
     url = "https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run";

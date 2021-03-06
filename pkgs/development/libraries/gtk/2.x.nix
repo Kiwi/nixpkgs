@@ -1,9 +1,24 @@
-{ config, lib, stdenv, fetchurl, pkg-config, gettext, glib, atk, pango, cairo, perl, xorg
-, gdk-pixbuf, xlibsWrapper, gobject-introspection
+{ config
+, lib
+, stdenv
+, fetchurl
+, pkg-config
+, gettext
+, glib
+, atk
+, pango
+, cairo
+, perl
+, xorg
+, gdk-pixbuf
+, xlibsWrapper
+, gobject-introspection
 , xineramaSupport ? stdenv.isLinux
-, cupsSupport ? config.gtk2.cups or stdenv.isLinux, cups ? null
+, cupsSupport ? config.gtk2.cups or stdenv.isLinux
+, cups ? null
 , gdktarget ? if stdenv.isDarwin then "quartz" else "x11"
-, AppKit, Cocoa
+, AppKit
+, Cocoa
 , fetchpatch
 }:
 
@@ -26,7 +41,7 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
-  setupHooks =  [
+  setupHooks = [
     ./hooks/gtk2-clean-immodules-cache.sh
     ./hooks/drop-icon-theme-cache.sh
   ];
@@ -47,8 +62,12 @@ stdenv.mkDerivation rec {
   propagatedBuildInputs = with xorg;
     [ glib cairo pango gdk-pixbuf atk ]
     ++ optionals (stdenv.isLinux || stdenv.isDarwin) [
-         libXrandr libXrender libXcomposite libXi libXcursor
-       ]
+      libXrandr
+      libXrender
+      libXcomposite
+      libXi
+      libXcursor
+    ]
     ++ optionals stdenv.isDarwin [ xlibsWrapper libXdamage ]
     ++ optional xineramaSupport libXinerama
     ++ optionals cupsSupport [ cups ]
@@ -81,10 +100,10 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "A multi-platform toolkit for creating graphical user interfaces";
-    homepage    = "https://www.gtk.org/";
-    license     = licenses.lgpl2Plus;
+    homepage = "https://www.gtk.org/";
+    license = licenses.lgpl2Plus;
     maintainers = with maintainers; [ lovek323 raskin ];
-    platforms   = platforms.all;
+    platforms = platforms.all;
 
     longDescription = ''
       GTK is a highly usable, feature rich toolkit for creating

@@ -14,7 +14,7 @@ rec {
 
   packageName = "clump-binary-tree";
 
-  asdFilesToKeep = ["clump-binary-tree.asd"];
+  asdFilesToKeep = [ "clump-binary-tree.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM clump-binary-tree DESCRIPTION System lacks description SHA256

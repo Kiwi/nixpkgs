@@ -1,4 +1,4 @@
-{lib, stdenv, fetchurl, unzip}:
+{ lib, stdenv, fetchurl, unzip }:
 
 stdenv.mkDerivation {
   name = "emma-2.0.5312";
@@ -8,7 +8,7 @@ stdenv.mkDerivation {
     sha256 = "0xxy39s2lvgs56vicjzpcz936l1vjaplliwa0dm7v3iyvw6jn7vj";
   };
 
-  buildInputs = [unzip];
+  buildInputs = [ unzip ];
 
   installPhase = ''
     mkdir -p $out/lib/jars

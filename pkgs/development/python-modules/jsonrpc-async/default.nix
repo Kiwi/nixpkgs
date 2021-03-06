@@ -1,5 +1,9 @@
-{ lib, buildPythonPackage, fetchPypi
-, aiohttp, jsonrpc-base }:
+{ lib
+, buildPythonPackage
+, fetchPypi
+, aiohttp
+, jsonrpc-base
+}:
 
 buildPythonPackage rec {
   pname = "jsonrpc-async";

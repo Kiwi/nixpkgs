@@ -1,62 +1,78 @@
-{ stdenv, lib, fetchFromGitHub, writeScript, glibcLocales, diffPlugins, substituteAll
-, pythonPackages, imagemagick, gobject-introspection, gst_all_1
+{ stdenv
+, lib
+, fetchFromGitHub
+, writeScript
+, glibcLocales
+, diffPlugins
+, substituteAll
+, pythonPackages
+, imagemagick
+, gobject-introspection
+, gst_all_1
 , runtimeShell
 , unstableGitUpdater
 
-# external plugins package set
+  # external plugins package set
 , beetsExternalPlugins
 
-, enableAbsubmit         ? lib.elem stdenv.hostPlatform.system essentia-extractor.meta.platforms, essentia-extractor ? null
-, enableAcousticbrainz   ? true
-, enableAcoustid         ? true
-, enableBadfiles         ? true, flac ? null, mp3val ? null
-, enableBeatport         ? true
-, enableBpsync           ? true
-, enableConvert          ? true, ffmpeg ? null
-, enableDeezer           ? true
-, enableDiscogs          ? true
-, enableEmbyupdate       ? true
-, enableFetchart         ? true
-, enableGmusic           ? true
-, enableKeyfinder        ? true, keyfinder-cli ? null
-, enableKodiupdate       ? true
-, enableLastfm           ? true
-, enableLoadext          ? true
-, enableMpd              ? true
-, enablePlaylist         ? true
-, enableReplaygain       ? true
-, enableSonosUpdate      ? true
+, enableAbsubmit ? lib.elem stdenv.hostPlatform.system essentia-extractor.meta.platforms
+, essentia-extractor ? null
+, enableAcousticbrainz ? true
+, enableAcoustid ? true
+, enableBadfiles ? true
+, flac ? null
+, mp3val ? null
+, enableBeatport ? true
+, enableBpsync ? true
+, enableConvert ? true
+, ffmpeg ? null
+, enableDeezer ? true
+, enableDiscogs ? true
+, enableEmbyupdate ? true
+, enableFetchart ? true
+, enableGmusic ? true
+, enableKeyfinder ? true
+, keyfinder-cli ? null
+, enableKodiupdate ? true
+, enableLastfm ? true
+, enableLoadext ? true
+, enableMpd ? true
+, enablePlaylist ? true
+, enableReplaygain ? true
+, enableSonosUpdate ? true
 , enableSubsonicplaylist ? true
-, enableSubsonicupdate   ? true
-, enableThumbnails       ? true
-, enableWeb              ? true
+, enableSubsonicupdate ? true
+, enableThumbnails ? true
+, enableWeb ? true
 
-# External plugins
-, enableAlternatives     ? false
-, enableCheck            ? false, liboggz ? null
-, enableCopyArtifacts    ? false
-, enableExtraFiles       ? false
+  # External plugins
+, enableAlternatives ? false
+, enableCheck ? false
+, liboggz ? null
+, enableCopyArtifacts ? false
+, enableExtraFiles ? false
 
-, bashInteractive, bash-completion
+, bashInteractive
+, bash-completion
 }:
 
-assert enableAbsubmit    -> essentia-extractor               != null;
-assert enableAcoustid    -> pythonPackages.pyacoustid        != null;
-assert enableBadfiles    -> flac != null && mp3val != null;
-assert enableBeatport    -> pythonPackages.requests_oauthlib != null;
-assert enableBpsync      -> enableBeatport;
-assert enableCheck       -> flac != null && mp3val != null && liboggz != null;
-assert enableConvert     -> ffmpeg                         != null;
-assert enableDiscogs     -> pythonPackages.discogs_client    != null;
-assert enableFetchart    -> pythonPackages.responses         != null;
-assert enableGmusic      -> pythonPackages.gmusicapi         != null;
-assert enableKeyfinder   -> keyfinder-cli                    != null;
-assert enableLastfm      -> pythonPackages.pylast            != null;
-assert enableMpd         -> pythonPackages.mpd2              != null;
-assert enableReplaygain  -> ffmpeg                         != null;
-assert enableSonosUpdate -> pythonPackages.soco              != null;
-assert enableThumbnails  -> pythonPackages.pyxdg             != null;
-assert enableWeb         -> pythonPackages.flask             != null;
+assert enableAbsubmit -> essentia-extractor != null;
+assert enableAcoustid -> pythonPackages.pyacoustid != null;
+assert enableBadfiles -> flac != null && mp3val != null;
+assert enableBeatport -> pythonPackages.requests_oauthlib != null;
+assert enableBpsync -> enableBeatport;
+assert enableCheck -> flac != null && mp3val != null && liboggz != null;
+assert enableConvert -> ffmpeg != null;
+assert enableDiscogs -> pythonPackages.discogs_client != null;
+assert enableFetchart -> pythonPackages.responses != null;
+assert enableGmusic -> pythonPackages.gmusicapi != null;
+assert enableKeyfinder -> keyfinder-cli != null;
+assert enableLastfm -> pythonPackages.pylast != null;
+assert enableMpd -> pythonPackages.mpd2 != null;
+assert enableReplaygain -> ffmpeg != null;
+assert enableSonosUpdate -> pythonPackages.soco != null;
+assert enableThumbnails -> pythonPackages.pyxdg != null;
+assert enableWeb -> pythonPackages.flask != null;
 
 with lib;
 
@@ -91,12 +107,47 @@ let
   };
 
   pluginsWithoutDeps = [
-    "bench" "bpd" "bpm" "bucket" "cue" "duplicates" "edit" "embedart"
-    "export" "filefilter" "fish" "freedesktop" "fromfilename" "ftintitle" "fuzzy"
-    "hook" "ihate" "importadded" "importfeeds" "info" "inline" "ipfs" "lyrics"
-    "mbcollection" "mbsubmit" "mbsync" "metasync" "missing" "parentwork" "permissions" "play"
-    "plexupdate" "random" "rewrite" "scrub" "smartplaylist" "spotify" "the"
-    "types" "unimported" "zero"
+    "bench"
+    "bpd"
+    "bpm"
+    "bucket"
+    "cue"
+    "duplicates"
+    "edit"
+    "embedart"
+    "export"
+    "filefilter"
+    "fish"
+    "freedesktop"
+    "fromfilename"
+    "ftintitle"
+    "fuzzy"
+    "hook"
+    "ihate"
+    "importadded"
+    "importfeeds"
+    "info"
+    "inline"
+    "ipfs"
+    "lyrics"
+    "mbcollection"
+    "mbsubmit"
+    "mbsync"
+    "metasync"
+    "missing"
+    "parentwork"
+    "permissions"
+    "play"
+    "plexupdate"
+    "random"
+    "rewrite"
+    "scrub"
+    "smartplaylist"
+    "spotify"
+    "the"
+    "types"
+    "unimported"
+    "zero"
   ];
 
   enabledOptionalPlugins = attrNames (filterAttrs (_: id) optionalPlugins);
@@ -116,7 +167,8 @@ let
     doInstallCheck = false;
   });
 
-in pythonPackages.buildPythonApplication rec {
+in
+pythonPackages.buildPythonApplication rec {
   pname = "beets";
   # While there is a stable version, 1.4.9, it is more than 1000 commits behind
   # master and lacks many bug fixes and improvements[1]. Also important,
@@ -147,32 +199,33 @@ in pythonPackages.buildPythonApplication rec {
     pythonPackages.confuse
     pythonPackages.mediafile
     gobject-introspection
-  ] ++ optional enableAbsubmit      essentia-extractor
-    ++ optional enableAcoustid      pythonPackages.pyacoustid
-    ++ optional enableBeatport      pythonPackages.requests_oauthlib
-    ++ optional (enableFetchart
-              || enableDeezer
-              || enableEmbyupdate
-              || enableKodiupdate
-              || enableLoadext
-              || enablePlaylist
-              || enableSubsonicplaylist
-              || enableSubsonicupdate
-              || enableAcousticbrainz)
-                                    pythonPackages.requests
-    ++ optional enableCheck         beetsExternalPlugins.check
-    ++ optional enableConvert       ffmpeg
-    ++ optional enableDiscogs       pythonPackages.discogs_client
-    ++ optional enableGmusic        pythonPackages.gmusicapi
-    ++ optional enableKeyfinder     keyfinder-cli
-    ++ optional enableLastfm        pythonPackages.pylast
-    ++ optional enableMpd           pythonPackages.mpd2
-    ++ optional enableSonosUpdate   pythonPackages.soco
-    ++ optional enableThumbnails    pythonPackages.pyxdg
-    ++ optional enableWeb           pythonPackages.flask
-    ++ optional enableAlternatives  beetsExternalPlugins.alternatives
-    ++ optional enableCopyArtifacts beetsExternalPlugins.copyartifacts
-    ++ optional enableExtraFiles    beetsExternalPlugins.extrafiles
+  ] ++ optional enableAbsubmit essentia-extractor
+  ++ optional enableAcoustid pythonPackages.pyacoustid
+  ++ optional enableBeatport pythonPackages.requests_oauthlib
+  ++ optional
+    (enableFetchart
+      || enableDeezer
+      || enableEmbyupdate
+      || enableKodiupdate
+      || enableLoadext
+      || enablePlaylist
+      || enableSubsonicplaylist
+      || enableSubsonicupdate
+      || enableAcousticbrainz)
+    pythonPackages.requests
+  ++ optional enableCheck beetsExternalPlugins.check
+  ++ optional enableConvert ffmpeg
+  ++ optional enableDiscogs pythonPackages.discogs_client
+  ++ optional enableGmusic pythonPackages.gmusicapi
+  ++ optional enableKeyfinder keyfinder-cli
+  ++ optional enableLastfm pythonPackages.pylast
+  ++ optional enableMpd pythonPackages.mpd2
+  ++ optional enableSonosUpdate pythonPackages.soco
+  ++ optional enableThumbnails pythonPackages.pyxdg
+  ++ optional enableWeb pythonPackages.flask
+  ++ optional enableAlternatives beetsExternalPlugins.alternatives
+  ++ optional enableCopyArtifacts beetsExternalPlugins.copyartifacts
+  ++ optional enableExtraFiles beetsExternalPlugins.extrafiles
   ;
 
   buildInputs = [
@@ -205,21 +258,21 @@ in pythonPackages.buildPythonApplication rec {
     # in the path as `KeyFinder`
     ./keyfinder-default-bin.patch
   ]
-    # We need to force ffmpeg as the default, since we do not package
-    # bs1770gain, and set the absolute path there, to avoid impurities.
-    ++ lib.optional enableReplaygain (substituteAll {
-      src = ./replaygain-default-ffmpeg.patch;
-      ffmpeg = getBin ffmpeg;
-    })
-    # Put absolute Nix paths in place
-    ++ lib.optional enableConvert (substituteAll {
-      src = ./convert-plugin-ffmpeg-path.patch;
-      ffmpeg = getBin ffmpeg;
-    })
-    ++ lib.optional enableBadfiles (substituteAll {
-      src = ./badfiles-plugin-nix-paths.patch;
-      inherit mp3val flac;
-    })
+  # We need to force ffmpeg as the default, since we do not package
+  # bs1770gain, and set the absolute path there, to avoid impurities.
+  ++ lib.optional enableReplaygain (substituteAll {
+    src = ./replaygain-default-ffmpeg.patch;
+    ffmpeg = getBin ffmpeg;
+  })
+  # Put absolute Nix paths in place
+  ++ lib.optional enableConvert (substituteAll {
+    src = ./convert-plugin-ffmpeg-path.patch;
+    ffmpeg = getBin ffmpeg;
+  })
+  ++ lib.optional enableBadfiles (substituteAll {
+    src = ./badfiles-plugin-nix-paths.patch;
+    inherit mp3val flac;
+  })
   ;
 
   # Disable failing tests

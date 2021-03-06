@@ -17,7 +17,7 @@ rec {
 
   packageName = "access";
 
-  asdFilesToKeep = ["access.asd"];
+  asdFilesToKeep = [ "access.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM access DESCRIPTION

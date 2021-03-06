@@ -27,10 +27,10 @@ stdenv.mkDerivation rec {
   forceShare = [ "man" "info" ];
 
   meta = with lib; {
-      description = "A free, open-source boardgame engine";
-      homepage = "http://www.vassalengine.org/";
-      license = licenses.lgpl21Only;
-      maintainers = with maintainers; [ tvestelind ];
-      platforms = platforms.linux;
+    description = "A free, open-source boardgame engine";
+    homepage = "http://www.vassalengine.org/";
+    license = licenses.lgpl21Only;
+    maintainers = with maintainers; [ tvestelind ];
+    platforms = platforms.linux;
   };
 }

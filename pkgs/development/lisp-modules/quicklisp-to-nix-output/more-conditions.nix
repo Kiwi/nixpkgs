@@ -17,7 +17,7 @@ rec {
 
   packageName = "more-conditions";
 
-  asdFilesToKeep = ["more-conditions.asd"];
+  asdFilesToKeep = [ "more-conditions.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM more-conditions DESCRIPTION

@@ -1,4 +1,5 @@
-{ lib, buildPythonPackage
+{ lib
+, buildPythonPackage
 , aiohttp
 , aiozeroconf
 , asynctest
@@ -26,7 +27,7 @@ buildPythonPackage rec {
     sha256 = "1lahv6f97fizgh5b2w5yz9455l8ygn99rslhiygkgjywi2flx3p3";
   };
 
-  nativeBuildInputs = [ pytestrunner];
+  nativeBuildInputs = [ pytestrunner ];
 
   propagatedBuildInputs = [
     aiozeroconf

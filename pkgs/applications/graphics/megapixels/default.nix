@@ -36,8 +36,8 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ meson ninja pkg-config wrapGAppsHook ];
 
   buildInputs = [ gtk3 gnome3.adwaita-icon-theme ]
-  ++ optional tiffSupport libraw
-  ++ optional jpgSupport imagemagick;
+    ++ optional tiffSupport libraw
+    ++ optional jpgSupport imagemagick;
 
   preFixup = optionalString (tiffSupport || jpgSupport) ''
     gappsWrapperArgs+=(

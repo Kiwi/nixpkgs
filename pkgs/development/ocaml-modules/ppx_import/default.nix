@@ -1,6 +1,12 @@
-{ lib, fetchurl, buildDunePackage, ocaml
-, ounit, ppx_deriving, ppx_tools_versioned
-, ppxlib, ocaml-migrate-parsetree
+{ lib
+, fetchurl
+, buildDunePackage
+, ocaml
+, ounit
+, ppx_deriving
+, ppx_tools_versioned
+, ppxlib
+, ocaml-migrate-parsetree
 }:
 
 buildDunePackage rec {
@@ -17,7 +23,9 @@ buildDunePackage rec {
   };
 
   propagatedBuildInputs = [
-    ppxlib ppx_tools_versioned ocaml-migrate-parsetree
+    ppxlib
+    ppx_tools_versioned
+    ocaml-migrate-parsetree
   ];
 
   doCheck = true;

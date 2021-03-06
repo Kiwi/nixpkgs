@@ -7,8 +7,9 @@ with lib; mkCoqDerivation {
   displayVersion = { tlc = false; };
   defaultVersion = with versions; switch coq.coq-version [
     { case = range "8.10" "8.12"; out = "20200328"; }
-    { case = range "8.6"  "8.12"; out = "20181116"; }
-  ] null;
+    { case = range "8.6" "8.12"; out = "20181116"; }
+  ]
+    null;
   release."20200328".sha256 = "16vzild9gni8zhgb3qhmka47f8zagdh03k6nssif7drpim8233lx";
   release."20181116".sha256 = "032lrbkxqm9d3fhf6nv1kq2z0mqd3czv3ijlbsjwnfh12xck4vpl";
 

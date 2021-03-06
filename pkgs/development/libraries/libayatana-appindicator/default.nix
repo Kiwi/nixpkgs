@@ -1,10 +1,20 @@
-{ stdenv, fetchFromGitHub, lib
-, pkg-config, autoreconfHook , gtk-doc
+{ stdenv
+, fetchFromGitHub
+, lib
+, pkg-config
+, autoreconfHook
+, gtk-doc
 , gobject-introspection
 , gtkVersion ? "3"
-, gtk2, libayatana-indicator-gtk2, libdbusmenu-gtk2
-, gtk3, libayatana-indicator-gtk3, libdbusmenu-gtk3
-, dbus-glib, python2, python2Packages
+, gtk2
+, libayatana-indicator-gtk2
+, libdbusmenu-gtk2
+, gtk3
+, libayatana-indicator-gtk3
+, libdbusmenu-gtk3
+, dbus-glib
+, python2
+, python2Packages
 }:
 
 stdenv.mkDerivation rec {

@@ -92,7 +92,7 @@ let
     systemd
     zlib
   ];
-  rpath = lib.makeLibraryPath deps ;
+  rpath = lib.makeLibraryPath deps;
 in
 stdenv.mkDerivation rec {
   pname = "appgate-sdp";

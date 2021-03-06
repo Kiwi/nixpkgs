@@ -16,7 +16,7 @@ rec {
 
   packageName = "osicat";
 
-  asdFilesToKeep = ["osicat.asd"];
+  asdFilesToKeep = [ "osicat.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM osicat DESCRIPTION A lightweight operating system interface SHA256

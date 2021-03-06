@@ -62,16 +62,18 @@ let
       ${pkgs.replace}/bin/replace-literal -ef ${placeholder} "$(cat ${secretFile})" ${targetFile}'';
 
   preStart = pkgs.writeShellScript "mpdscribble-pre-start" ''
-    cp -f "${cfgTemplate}" "${cfgFile}"
-    ${replaceSecret cfg.passwordFile "{{MPD_PASSWORD}}" cfgFile}
-    ${concatStringsSep "\n" (mapAttrsToList (secname: cfg:
-      replaceSecret cfg.passwordFile "{{${secname}_PASSWORD}}" cfgFile)
-      cfg.endpoints)}
+        cp -f "${cfgTemplate}" "${cfgFile}"
+        ${replaceSecret cfg.passwordFile "{{MPD_PASSWORD}}" cfgFile}
+        ${concatStringsSep "\n" (mapAttrsToList
+    (secname: cfg:
+          replaceSecret cfg.passwordFile "{{${secname}_PASSWORD}}" cfgFile)
+          cfg.endpoints)}
   '';
 
   localMpd = (cfg.host == "localhost" || cfg.host == "127.0.0.1");
 
-in {
+in
+{
   ###### interface
 
   options.services.mpdscribble = {
@@ -115,13 +117,14 @@ in {
     };
 
     passwordFile = mkOption {
-      default = if localMpd then
-        (findFirst
-          (c: any (x: x == "read") c.permissions)
-          { passwordFile = null; }
-          mpdCfg.credentials).passwordFile
-      else
-        null;
+      default =
+        if localMpd then
+          (findFirst
+            (c: any (x: x == "read") c.permissions)
+            { passwordFile = null; }
+            mpdCfg.credentials).passwordFile
+        else
+          null;
       type = types.nullOr types.str;
       description = ''
         File containing the password for the mpd daemon.
@@ -139,29 +142,32 @@ in {
     };
 
     endpoints = mkOption {
-      type = (let
-        endpoint = { name, ... }: {
-          options = {
-            url = mkOption {
-              type = types.str;
-              default = endpointUrls.${name} or "";
-              description =
-                "The url endpoint where the scrobble API is listening.";
-            };
-            username = mkOption {
-              type = types.str;
-              description = ''
-                Username for the scrobble service.
-              '';
-            };
-            passwordFile = mkOption {
-              type = types.nullOr types.str;
-              description =
-                "File containing the password, either as MD5SUM or cleartext.";
+      type = (
+        let
+          endpoint = { name, ... }: {
+            options = {
+              url = mkOption {
+                type = types.str;
+                default = endpointUrls.${name} or "";
+                description =
+                  "The url endpoint where the scrobble API is listening.";
+              };
+              username = mkOption {
+                type = types.str;
+                description = ''
+                  Username for the scrobble service.
+                '';
+              };
+              passwordFile = mkOption {
+                type = types.nullOr types.str;
+                description =
+                  "File containing the password, either as MD5SUM or cleartext.";
+              };
             };
           };
-        };
-      in types.attrsOf (types.submodule endpoint));
+        in
+        types.attrsOf (types.submodule endpoint)
+      );
       default = { };
       example = {
         "last.fm" = {

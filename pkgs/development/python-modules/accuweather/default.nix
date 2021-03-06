@@ -1,5 +1,15 @@
-{ aiohttp, buildPythonPackage, fetchFromGitHub, lib, pytest, pytestCheckHook
-, pytestcov, pytestrunner, pytest-asyncio, python, pythonOlder }:
+{ aiohttp
+, buildPythonPackage
+, fetchFromGitHub
+, lib
+, pytest
+, pytestCheckHook
+, pytestcov
+, pytestrunner
+, pytest-asyncio
+, python
+, pythonOlder
+}:
 
 buildPythonPackage rec {
   pname = "accuweather";

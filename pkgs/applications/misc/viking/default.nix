@@ -1,12 +1,37 @@
-{ fetchurl, fetchpatch, lib, stdenv, makeWrapper
-, pkg-config, intltool, gettext, gtk2, expat, curl
-, gpsd, bc, file, gnome-doc-utils, libexif, libxml2, libxslt, scrollkeeper
-, docbook_xml_dtd_412, gexiv2, gpsbabel, expect
-, withMapnik ? false, mapnik
-, withMBTiles ? true, sqlite
-, withOAuth ? true, liboauth
-, withMd5Hash ? true, nettle
-, withGeoClue ? true, geoclue2 }:
+{ fetchurl
+, fetchpatch
+, lib
+, stdenv
+, makeWrapper
+, pkg-config
+, intltool
+, gettext
+, gtk2
+, expat
+, curl
+, gpsd
+, bc
+, file
+, gnome-doc-utils
+, libexif
+, libxml2
+, libxslt
+, scrollkeeper
+, docbook_xml_dtd_412
+, gexiv2
+, gpsbabel
+, expect
+, withMapnik ? false
+, mapnik
+, withMBTiles ? true
+, sqlite
+, withOAuth ? true
+, liboauth
+, withMd5Hash ? true
+, nettle
+, withGeoClue ? true
+, geoclue2
+}:
 
 stdenv.mkDerivation rec {
   pname = "viking";
@@ -26,13 +51,27 @@ stdenv.mkDerivation rec {
   ];
 
   nativeBuildInputs = [ pkg-config makeWrapper ];
-  buildInputs = [ intltool gettext gtk2 expat curl gpsd bc file gnome-doc-utils
-    libexif libxml2 libxslt scrollkeeper docbook_xml_dtd_412 gexiv2
+  buildInputs = [
+    intltool
+    gettext
+    gtk2
+    expat
+    curl
+    gpsd
+    bc
+    file
+    gnome-doc-utils
+    libexif
+    libxml2
+    libxslt
+    scrollkeeper
+    docbook_xml_dtd_412
+    gexiv2
   ] ++ lib.optional withMapnik mapnik
-    ++ lib.optional withGeoClue geoclue2
-    ++ lib.optional withMd5Hash nettle
-    ++ lib.optional withOAuth liboauth
-    ++ lib.optional withMBTiles sqlite;
+  ++ lib.optional withGeoClue geoclue2
+  ++ lib.optional withMd5Hash nettle
+  ++ lib.optional withOAuth liboauth
+  ++ lib.optional withMBTiles sqlite;
 
   configureFlags = [
     "--disable-scrollkeeper"

@@ -1,7 +1,10 @@
-{
-  mkDerivation, lib,
-  extra-cmake-modules,
-  qtbase, qtx11extras, wayland,
+{ mkDerivation
+, lib
+, extra-cmake-modules
+, qtbase
+, qtx11extras
+, wayland
+,
 }:
 
 mkDerivation {

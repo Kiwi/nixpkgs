@@ -60,7 +60,8 @@ buildPythonApplication rec {
 
   makeWrapperArgs = [
     "--prefix PATH : ${lib.makeBinPath [
-      dmidecode cloud-utils.guest
+      dmidecode
+cloud-utils.guest
     ]}/bin"
   ];
 

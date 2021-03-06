@@ -1,5 +1,15 @@
-{ lib, stdenv, mkDerivation, fetchFromGitHub, cmake, doxygen, makeWrapper
-, msgpack, neovim, pythonPackages, qtbase }:
+{ lib
+, stdenv
+, mkDerivation
+, fetchFromGitHub
+, cmake
+, doxygen
+, makeWrapper
+, msgpack
+, neovim
+, pythonPackages
+, qtbase
+}:
 
 let
   unwrapped = mkDerivation rec {
@@ -7,22 +17,24 @@ let
     version = "0.2.16.1";
 
     src = fetchFromGitHub {
-      owner  = "equalsraf";
-      repo   = "neovim-qt";
-      rev    = "v${version}";
+      owner = "equalsraf";
+      repo = "neovim-qt";
+      rev = "v${version}";
       sha256 = "0x5brrim3f21bzdmh6wyrhrislwpx1248wbx56csvic6v78hzqny";
     };
 
     cmakeFlags = [
       "-DUSE_SYSTEM_MSGPACK=1"
-      "-DENABLE_TESTS=0"  # tests fail because xcb platform plugin is not found
+      "-DENABLE_TESTS=0" # tests fail because xcb platform plugin is not found
     ];
 
     buildInputs = [
       neovim.unwrapped # only used to generate help tags at build time
       qtbase
     ] ++ (with pythonPackages; [
-      jinja2 python msgpack
+      jinja2
+      python
+      msgpack
     ]);
 
     nativeBuildInputs = [ cmake doxygen ];
@@ -38,17 +50,18 @@ let
     meta = with lib; {
       description = "Neovim client library and GUI, in Qt5";
       homepage = "https://github.com/equalsraf/neovim-qt";
-      license     = licenses.isc;
+      license = licenses.isc;
       maintainers = with maintainers; [ peterhoeg ];
       inherit (neovim.meta) platforms;
       inherit version;
     };
   };
 in
-  stdenv.mkDerivation {
-    pname = "neovim-qt";
-    version = unwrapped.version;
-    buildCommand = if stdenv.isDarwin then ''
+stdenv.mkDerivation {
+  pname = "neovim-qt";
+  version = unwrapped.version;
+  buildCommand =
+    if stdenv.isDarwin then ''
       mkdir -p $out/Applications
       cp -r ${unwrapped}/bin/nvim-qt.app $out/Applications
 
@@ -65,15 +78,15 @@ in
       ln -s '${unwrapped}/share/pixmaps/nvim-qt.png' "$out/share/pixmaps/nvim-qt.png"
     '';
 
-    preferLocalBuild = true;
+  preferLocalBuild = true;
 
-    nativeBuildInputs = [
-      makeWrapper
-    ];
+  nativeBuildInputs = [
+    makeWrapper
+  ];
 
-    passthru = {
-      inherit unwrapped;
-    };
+  passthru = {
+    inherit unwrapped;
+  };
 
-    inherit (unwrapped) meta;
-  }
+  inherit (unwrapped) meta;
+}

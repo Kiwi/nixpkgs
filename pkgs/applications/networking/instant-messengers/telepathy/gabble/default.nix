@@ -1,5 +1,17 @@
-{ lib, stdenv, fetchurl, pkg-config, libxslt, telepathy-glib, libxml2, dbus-glib, dbus
-, sqlite, libsoup, libnice, gnutls}:
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, libxslt
+, telepathy-glib
+, libxml2
+, dbus-glib
+, dbus
+, sqlite
+, libsoup
+, libnice
+, gnutls
+}:
 
 stdenv.mkDerivation rec {
   name = "telepathy-gabble-0.18.4";

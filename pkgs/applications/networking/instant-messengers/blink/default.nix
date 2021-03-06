@@ -1,5 +1,13 @@
-{ lib, fetchdarcs, pythonPackages, libvncserver, zlib
-, gnutls, libvpx, makeDesktopItem, mkDerivationWith }:
+{ lib
+, fetchdarcs
+, pythonPackages
+, libvncserver
+, zlib
+, gnutls
+, libvpx
+, makeDesktopItem
+, mkDerivationWith
+}:
 
 mkDerivationWith pythonPackages.buildPythonApplication rec {
 

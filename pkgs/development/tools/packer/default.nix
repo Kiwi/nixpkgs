@@ -24,9 +24,9 @@ buildGoPackage rec {
 
   meta = with lib; {
     description = "A tool for creating identical machine images for multiple platforms from a single source configuration";
-    homepage    = "https://www.packer.io";
-    license     = licenses.mpl20;
+    homepage = "https://www.packer.io";
+    license = licenses.mpl20;
     maintainers = with maintainers; [ cstrahan zimbatm ma27 ];
-    platforms   = platforms.unix;
+    platforms = platforms.unix;
   };
 }

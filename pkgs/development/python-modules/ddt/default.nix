@@ -2,7 +2,9 @@
 , buildPythonPackage
 , fetchPypi
 , fetchpatch
-, six, pyyaml, mock
+, six
+, pyyaml
+, mock
 , pytestCheckHook
 , enum34
 , isPy3k

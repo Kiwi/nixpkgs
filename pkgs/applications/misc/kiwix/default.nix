@@ -1,8 +1,38 @@
-{ lib, stdenv, fetchurl, makeWrapper, pkg-config
-, zip, python, zlib, which, icu, libmicrohttpd, lzma, aria2, wget, bc
-, libuuid, libX11, libXext, libXt, libXrender, glib, dbus, dbus-glib
-, gtk2, gdk-pixbuf, pango, cairo, freetype, fontconfig, alsaLib, atk, cmake
-, xapian, ctpp2, zimlib
+{ lib
+, stdenv
+, fetchurl
+, makeWrapper
+, pkg-config
+, zip
+, python
+, zlib
+, which
+, icu
+, libmicrohttpd
+, lzma
+, aria2
+, wget
+, bc
+, libuuid
+, libX11
+, libXext
+, libXt
+, libXrender
+, glib
+, dbus
+, dbus-glib
+, gtk2
+, gdk-pixbuf
+, pango
+, cairo
+, freetype
+, fontconfig
+, alsaLib
+, atk
+, cmake
+, xapian
+, ctpp2
+, zimlib
 }:
 
 with lib;
@@ -25,9 +55,10 @@ let
     sha256 = "1h9vcbvf8wgds6i2z20y7krpys0mqsqhv1ijyfljanp6vyll9fvi";
   };
 
-  xulrunner = if stdenv.hostPlatform.system == "x86_64-linux"
-              then { tar = xulrunner64_tar; sdk = xulrunnersdk64_tar; }
-              else { tar = xulrunner32_tar; sdk = xulrunnersdk32_tar; };
+  xulrunner =
+    if stdenv.hostPlatform.system == "x86_64-linux"
+    then { tar = xulrunner64_tar; sdk = xulrunnersdk64_tar; }
+    else { tar = xulrunner32_tar; sdk = xulrunnersdk32_tar; };
 
   pugixml = stdenv.mkDerivation rec {
     version = "1.2";
@@ -64,8 +95,22 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [
-    zip python zlib xapian which icu libmicrohttpd
-    lzma zimlib ctpp2 aria2 wget bc libuuid makeWrapper pugixml
+    zip
+    python
+    zlib
+    xapian
+    which
+    icu
+    libmicrohttpd
+    lzma
+    zimlib
+    ctpp2
+    aria2
+    wget
+    bc
+    libuuid
+    makeWrapper
+    pugixml
   ];
 
   postUnpack = ''
@@ -92,7 +137,7 @@ stdenv.mkDerivation rec {
 
     rm $out/bin/kiwix
     makeWrapper $out/lib/kiwix/kiwix-launcher $out/bin/kiwix \
-      --suffix LD_LIBRARY_PATH : ${makeLibraryPath [stdenv.cc.cc libX11 libXext libXt libXrender glib dbus dbus-glib gtk2 gdk-pixbuf pango cairo freetype fontconfig alsaLib atk]} \
+      --suffix LD_LIBRARY_PATH : ${makeLibraryPath [ stdenv.cc.cc libX11 libXext libXt libXrender glib dbus dbus-glib gtk2 gdk-pixbuf pango cairo freetype fontconfig alsaLib atk ]} \
       --suffix PATH : ${aria2}/bin
   '';
 

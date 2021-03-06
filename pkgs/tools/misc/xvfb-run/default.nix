@@ -1,5 +1,16 @@
-{ lib, stdenv, fetchurl, makeWrapper, xorgserver, getopt
-, xauth, util-linux, which, fontsConf, gawk, coreutils }:
+{ lib
+, stdenv
+, fetchurl
+, makeWrapper
+, xorgserver
+, getopt
+, xauth
+, util-linux
+, which
+, fontsConf
+, gawk
+, coreutils
+}:
 let
   xvfb_run = fetchurl {
     name = "xvfb-run";

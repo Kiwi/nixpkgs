@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
     cp -r * $out/src
 
     mkdir -p $out/bin
-    makeWrapper "${(python3.withPackages (ps: [ps.lxml ps.numpy])).interpreter}" \
+    makeWrapper "${(python3.withPackages (ps: [ ps.lxml ps.numpy ])).interpreter}" \
       $out/bin/bazarr \
       --add-flags "$out/src/bazarr.py" \
   '';

@@ -51,9 +51,16 @@ mkDerivation rec {
   nativeBuildInputs = [ pkg-config ];
 
   buildInputs = with python3Packages; [
-    bison chmlib file python setuptools which xapian zlib
+    bison
+    chmlib
+    file
+    python
+    setuptools
+    which
+    xapian
+    zlib
   ] ++ lib.optional withGui qtbase
-    ++ lib.optional stdenv.isDarwin libiconv;
+  ++ lib.optional stdenv.isDarwin libiconv;
 
   # the filters search through ${PATH} using a sh proc 'checkcmds' for the
   # filtering utils. Short circuit this by replacing the filtering command with

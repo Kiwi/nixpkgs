@@ -2,7 +2,8 @@
 with lib;
 let
   cfg = config.services.hledger-web;
-in {
+in
+{
   options.services.hledger-web = {
 
     enable = mkEnableOption "hledger-web service";

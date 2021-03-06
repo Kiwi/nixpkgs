@@ -12,13 +12,16 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''
-    mkdir -p $out/{bin,share/${pname}-${version}}
-    cp -r * $out/share/${pname}-${version}/.
+        mkdir -p $out/{bin,share/${pname}-${version}}
+        cp -r * $out/share/${pname}-${version}/.
 
-    makeWrapper "${mono}/bin/mono" $out/bin/Radarr \
-      --add-flags "$out/share/${pname}-${version}/Radarr.exe" \
-      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [
-          curl sqlite libmediainfo ]}
+        makeWrapper "${mono}/bin/mono" $out/bin/Radarr \
+          --add-flags "$out/share/${pname}-${version}/Radarr.exe" \
+          --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [
+              curl
+    sqlite
+    libmediainfo
+    ]}
   '';
 
   meta = with lib; {

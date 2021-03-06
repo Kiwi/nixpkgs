@@ -1,6 +1,15 @@
-{ stdenv, lib, fetchFromGitHub, pkg-config, cmake
-, opentracing-cpp, protobuf, zlib
-, enableGrpc ? false, grpc ? null, openssl ? null, c-ares ? null
+{ stdenv
+, lib
+, fetchFromGitHub
+, pkg-config
+, cmake
+, opentracing-cpp
+, protobuf
+, zlib
+, enableGrpc ? false
+, grpc ? null
+, openssl ? null
+, c-ares ? null
 }:
 
 assert enableGrpc -> grpc != null;
@@ -19,13 +28,19 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    cmake pkg-config
+    cmake
+    pkg-config
   ];
 
   buildInputs = [
-    opentracing-cpp protobuf zlib
+    opentracing-cpp
+    protobuf
+    zlib
   ] ++ lib.optionals enableGrpc [
-    grpc openssl c-ares c-ares.cmake-config
+    grpc
+    openssl
+    c-ares
+    c-ares.cmake-config
   ];
 
   cmakeFlags = lib.optionals (!enableGrpc) [ "-DWITH_GRPC=OFF" ];

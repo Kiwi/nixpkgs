@@ -4,7 +4,8 @@
 , fetchFromGitLab
 , soci
 , sqlite
-, lib, stdenv
+, lib
+, stdenv
 }:
 
 stdenv.mkDerivation rec {

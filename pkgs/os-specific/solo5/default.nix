@@ -1,7 +1,8 @@
 { lib, stdenv, fetchurl, pkg-config, libseccomp, util-linux, qemu }:
 
 let version = "0.6.8";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "solo5";
   inherit version;
 
@@ -37,20 +38,21 @@ in stdenv.mkDerivation {
 
   doCheck = true;
   checkInputs = [ util-linux qemu ];
-  checkPhase = if stdenv.hostPlatform.isLinux then
-    ''
-    patchShebangs tests
-    ./tests/bats-core/bats ./tests/tests.bats
-    ''
-  else
-    null;
+  checkPhase =
+    if stdenv.hostPlatform.isLinux then
+      ''
+        patchShebangs tests
+        ./tests/bats-core/bats ./tests/tests.bats
+      ''
+    else
+      null;
 
   meta = with lib; {
     description = "Sandboxed execution environment";
     homepage = "https://github.com/solo5/solo5";
     license = licenses.isc;
     maintainers = [ maintainers.ehmry ];
-    platforms = builtins.map ({arch, os}: "${arch}-${os}")
+    platforms = builtins.map ({ arch, os }: "${arch}-${os}")
       (cartesianProductOfSets {
         arch = [ "aarch64" "x86_64" ];
         os = [ "freebsd" "genode" "linux" "openbsd" ];

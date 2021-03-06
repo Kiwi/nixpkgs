@@ -12,7 +12,8 @@
 , libxml2
 , lzma
 , pkg-config
-, lib, stdenv
+, lib
+, stdenv
 , upower
 }:
 

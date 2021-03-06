@@ -1,15 +1,39 @@
-{ lib, stdenv, fetchurl, fetchzip, fetchFromGitHub
-# build tools
-, gfortran, m4, makeWrapper, patchelf, perl, which, python2
+{ lib
+, stdenv
+, fetchurl
+, fetchzip
+, fetchFromGitHub
+  # build tools
+, gfortran
+, m4
+, makeWrapper
+, patchelf
+, perl
+, which
+, python2
 , cmake
-# libjulia dependencies
-, libunwind, readline, utf8proc, zlib
-# standard library dependencies
-, curl, fftwSinglePrec, fftw, gmp, libgit2, mpfr, openlibm, openspecfun, pcre2
-# linear algebra
-, blas, lapack, arpack
-# Darwin frameworks
-, CoreServices, ApplicationServices
+  # libjulia dependencies
+, libunwind
+, readline
+, utf8proc
+, zlib
+  # standard library dependencies
+, curl
+, fftwSinglePrec
+, fftw
+, gmp
+, libgit2
+, mpfr
+, openlibm
+, openspecfun
+, pcre2
+  # linear algebra
+, blas
+, lapack
+, arpack
+  # Darwin frameworks
+, CoreServices
+, ApplicationServices
 }:
 
 assert (!blas.isILP64) && (!lapack.isILP64);
@@ -28,14 +52,14 @@ stdenv.mkDerivation rec {
   pname = "julia";
   inherit version;
 
-   src = fetchzip {
-     url = "https://github.com/JuliaLang/julia/releases/download/v${majorVersion}.${minorVersion}.${maintenanceVersion}/julia-${majorVersion}.${minorVersion}.${maintenanceVersion}-full.tar.gz";
-     sha256 = src_sha256;
-   };
+  src = fetchzip {
+    url = "https://github.com/JuliaLang/julia/releases/download/v${majorVersion}.${minorVersion}.${maintenanceVersion}/julia-${majorVersion}.${minorVersion}.${maintenanceVersion}-full.tar.gz";
+    sha256 = src_sha256;
+  };
 
   prePatch = ''
     export PATH=$PATH:${cmake}/bin
-    '';
+  '';
 
   patches = [
     ./use-system-utf8proc-julia-1.3.patch
@@ -60,11 +84,23 @@ stdenv.mkDerivation rec {
   '';
 
   buildInputs = [
-    arpack fftw fftwSinglePrec gmp libgit2 libunwind mpfr
-    pcre2.dev blas lapack openlibm openspecfun readline utf8proc
+    arpack
+    fftw
+    fftwSinglePrec
+    gmp
+    libgit2
+    libunwind
+    mpfr
+    pcre2.dev
+    blas
+    lapack
+    openlibm
+    openspecfun
+    readline
+    utf8proc
     zlib
   ]
-  ++ lib.optionals stdenv.isDarwin [CoreServices ApplicationServices]
+  ++ lib.optionals stdenv.isDarwin [ CoreServices ApplicationServices ]
   ;
 
   nativeBuildInputs = [ curl gfortran m4 makeWrapper patchelf perl python2 which ];
@@ -77,11 +113,12 @@ stdenv.mkDerivation rec {
         i686 = "pentium4";
         aarch64 = "armv8-a";
       }.${arch}
-              or (throw "unsupported architecture: ${arch}");
+        or (throw "unsupported architecture: ${arch}");
       # Julia requires Pentium 4 (SSE2) or better
       cpuTarget = { x86_64 = "x86-64"; i686 = "pentium4"; aarch64 = "generic"; }.${arch}
-                  or (throw "unsupported architecture: ${arch}");
-    in [
+        or (throw "unsupported architecture: ${arch}");
+    in
+    [
       "ARCH=${arch}"
       "MARCH=${march}"
       "JULIA_CPU_TARGET=${cpuTarget}"
@@ -115,8 +152,17 @@ stdenv.mkDerivation rec {
     ];
 
   LD_LIBRARY_PATH = makeLibraryPath [
-    arpack fftw fftwSinglePrec gmp libgit2 mpfr blas openlibm
-    openspecfun pcre2 lapack
+    arpack
+    fftw
+    fftwSinglePrec
+    gmp
+    libgit2
+    mpfr
+    blas
+    openlibm
+    openspecfun
+    pcre2
+    lapack
   ];
 
   # Other versions of Julia pass the tests, but we are not sure why these fail.

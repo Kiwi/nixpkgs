@@ -119,10 +119,10 @@ in
 
     environment.systemPackages = [ pkgs.trousers ];
 
-#    system.activationScripts.tcsd =
-#      ''
-#        chown ${cfg.user}:${cfg.group} ${tcsdConf}
-#      '';
+    #    system.activationScripts.tcsd =
+    #      ''
+    #        chown ${cfg.user}:${cfg.group} ${tcsdConf}
+    #      '';
 
     systemd.services.tcsd = {
       description = "TCSD";
@@ -131,8 +131,8 @@ in
       path = [ pkgs.trousers ];
       preStart =
         ''
-        mkdir -m 0700 -p ${cfg.stateDir}
-        chown -R ${cfg.user}:${cfg.group} ${cfg.stateDir}
+          mkdir -m 0700 -p ${cfg.stateDir}
+          chown -R ${cfg.user}:${cfg.group} ${cfg.stateDir}
         '';
       serviceConfig.ExecStart = "${pkgs.trousers}/sbin/tcsd -f -c ${tcsdConf}";
     };

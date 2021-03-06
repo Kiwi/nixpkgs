@@ -1,6 +1,18 @@
-{ lib, stdenv, fetchpatch, fetchFromGitHub, pkg-config, autoreconfHook, wrapGAppsHook
-, gnome3, avahi, gtk3, libayatana-appindicator-gtk3, libnotify, libpulseaudio
-, xlibsWrapper, gsettings-desktop-schemas
+{ lib
+, stdenv
+, fetchpatch
+, fetchFromGitHub
+, pkg-config
+, autoreconfHook
+, wrapGAppsHook
+, gnome3
+, avahi
+, gtk3
+, libayatana-appindicator-gtk3
+, libnotify
+, libpulseaudio
+, xlibsWrapper
+, gsettings-desktop-schemas
 }:
 
 stdenv.mkDerivation rec {
@@ -28,7 +40,12 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ pkg-config autoreconfHook wrapGAppsHook ];
   buildInputs = [
     gnome3.adwaita-icon-theme
-    avahi gtk3 libayatana-appindicator-gtk3 libnotify libpulseaudio xlibsWrapper
+    avahi
+    gtk3
+    libayatana-appindicator-gtk3
+    libnotify
+    libpulseaudio
+    xlibsWrapper
     gsettings-desktop-schemas
   ];
 

@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , substituteAll
 , fetchurl
 , fetchgit
@@ -57,23 +58,24 @@ stdenv.mkDerivation rec {
   # See: https://gist.github.com/worldofpeace/2f152a20b7c47895bb93239fce1c9f52
   #
   # Also omit ubuntu_calculator_snap.patch as that's obviously not useful here.
-  patches = let patchPath = "${src}/debian/patches"; in [
-    (substituteAll {
-      src = ./fix-paths.patch;
-      inherit tzdata;
-    })
-    ./global-backlight-helper.patch
-    "${patchPath}/45_suppress-printer-may-not-be-connected-notification.patch"
-    #"${patchPath}/53_sync_input_sources_to_accountsservice.patch"
-    "${patchPath}/64_restore_terminal_keyboard_shortcut_schema.patch"
-    "${patchPath}/correct_logout_action.patch"
-    "${patchPath}/ubuntu-lid-close-suspend.patch"
-    "${patchPath}/revert-gsettings-removals.patch"
-    "${patchPath}/revert-mediakeys-dbus-interface-drop.patch"
-    #"${patchPath}/ubuntu_ibus_configs.patch"
-    # https://github.com/elementary/os-patches/blob/6975d1c254cb6ab913b8e2396877203aea8eaa65/debian/patches/elementary-dpms.patch
-    ./elementary-dpms.patch
-  ];
+  patches = let patchPath = "${src}/debian/patches"; in
+    [
+      (substituteAll {
+        src = ./fix-paths.patch;
+        inherit tzdata;
+      })
+      ./global-backlight-helper.patch
+      "${patchPath}/45_suppress-printer-may-not-be-connected-notification.patch"
+      #"${patchPath}/53_sync_input_sources_to_accountsservice.patch"
+      "${patchPath}/64_restore_terminal_keyboard_shortcut_schema.patch"
+      "${patchPath}/correct_logout_action.patch"
+      "${patchPath}/ubuntu-lid-close-suspend.patch"
+      "${patchPath}/revert-gsettings-removals.patch"
+      "${patchPath}/revert-mediakeys-dbus-interface-drop.patch"
+      #"${patchPath}/ubuntu_ibus_configs.patch"
+      # https://github.com/elementary/os-patches/blob/6975d1c254cb6ab913b8e2396877203aea8eaa65/debian/patches/elementary-dpms.patch
+      ./elementary-dpms.patch
+    ];
 
   nativeBuildInputs = [
     meson
@@ -119,8 +121,8 @@ stdenv.mkDerivation rec {
     "-Dudev_dir=${placeholder "out"}/lib/udev"
   ];
 
-    # Default for release buildtype but passed manually because
-    # we're using plain
+  # Default for release buildtype but passed manually because
+  # we're using plain
   NIX_CFLAGS_COMPILE = "-DG_DISABLE_CAST_CHECKS";
 
   postPatch = ''

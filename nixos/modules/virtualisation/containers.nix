@@ -5,26 +5,27 @@ let
   inherit (lib) mkOption types;
 
   # Once https://github.com/NixOS/nixpkgs/pull/75584 is merged we can use the TOML generator
-  toTOML = name: value: pkgs.runCommandNoCC name {
-    nativeBuildInputs = [ pkgs.remarshal ];
-    value = builtins.toJSON value;
-    passAsFile = [ "value" ];
-  } ''
+  toTOML = name: value: pkgs.runCommandNoCC name
+    {
+      nativeBuildInputs = [ pkgs.remarshal ];
+      value = builtins.toJSON value;
+      passAsFile = [ "value" ];
+    } ''
     json2toml "$valuePath" "$out"
   '';
 
 in
 {
   meta = {
-    maintainers = [] ++ lib.teams.podman.members;
+    maintainers = [ ] ++ lib.teams.podman.members;
   };
 
 
   imports = [
     (
       lib.mkRemovedOptionModule
-      [ "virtualisation" "containers" "users" ]
-      "All users with `isNormalUser = true` set now get appropriate subuid/subgid mappings."
+        [ "virtualisation" "containers" "users" ]
+        "All users with `isNormalUser = true` set now get appropriate subuid/subgid mappings."
     )
   ];
 
@@ -46,7 +47,7 @@ in
     };
 
     containersConf = mkOption {
-      default = {};
+      default = { };
       description = "containers.conf configuration";
       type = types.submodule {
         options = {
@@ -74,7 +75,7 @@ in
       };
 
       insecure = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.str;
         description = ''
           List of insecure repositories.
@@ -82,7 +83,7 @@ in
       };
 
       block = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.str;
         description = ''
           List of blocked repositories.
@@ -91,7 +92,7 @@ in
     };
 
     policy = mkOption {
-      default = {};
+      default = { };
       type = types.attrs;
       example = lib.literalExample ''
         {
@@ -131,7 +132,7 @@ in
     };
 
     environment.etc."containers/policy.json".source =
-      if cfg.policy != {} then pkgs.writeText "policy.json" (builtins.toJSON cfg.policy)
+      if cfg.policy != { } then pkgs.writeText "policy.json" (builtins.toJSON cfg.policy)
       else utils.copyFile "${pkgs.skopeo.src}/default-policy.json";
   };
 

@@ -1,12 +1,19 @@
-{ lib, stdenv, fetchurl, python3Packages, makeWrapper, unzip
-, guiSupport ? false, tk ? null
+{ lib
+, stdenv
+, fetchurl
+, python3Packages
+, makeWrapper
+, unzip
+, guiSupport ? false
+, tk ? null
 , ApplicationServices
 }:
 
 let
   inherit (python3Packages) docutils python;
 
-in python3Packages.buildPythonApplication rec {
+in
+python3Packages.buildPythonApplication rec {
   pname = "mercurial";
   version = "5.6";
 

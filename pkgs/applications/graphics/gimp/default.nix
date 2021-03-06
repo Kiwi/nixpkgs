@@ -50,7 +50,8 @@
 
 let
   python = python2.withPackages (pp: [ pp.pygtk ]);
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "gimp";
   version = "2.10.22";
 

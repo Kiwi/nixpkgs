@@ -1,36 +1,85 @@
-{ stdenv, lib, llvmPackages, gnChromium, ninja, which, nodejs, fetchpatch, fetchurl
+{ stdenv
+, lib
+, llvmPackages
+, gnChromium
+, ninja
+, which
+, nodejs
+, fetchpatch
+, fetchurl
 
-# default dependencies
-, gnutar, bzip2, flac, speex, libopus
-, libevent, expat, libjpeg, snappy
-, libpng, libcap
-, xdg-utils, yasm, nasm, minizip, libwebp
-, libusb1, pciutils, nss, re2
+  # default dependencies
+, gnutar
+, bzip2
+, flac
+, speex
+, libopus
+, libevent
+, expat
+, libjpeg
+, snappy
+, libpng
+, libcap
+, xdg-utils
+, yasm
+, nasm
+, minizip
+, libwebp
+, libusb1
+, pciutils
+, nss
+, re2
 
-, python2Packages, perl, pkg-config
-, nspr, systemd, kerberos
-, util-linux, alsaLib
-, bison, gperf
-, glib, gtk3, dbus-glib
+, python2Packages
+, perl
+, pkg-config
+, nspr
+, systemd
+, kerberos
+, util-linux
+, alsaLib
+, bison
+, gperf
+, glib
+, gtk3
+, dbus-glib
 , glibc
-, libXScrnSaver, libXcursor, libXtst, libxshmfence, libGLU, libGL
-, protobuf, speechd, libXdamage, cups
-, ffmpeg, libxslt, libxml2, at-spi2-core
+, libXScrnSaver
+, libXcursor
+, libXtst
+, libxshmfence
+, libGLU
+, libGL
+, protobuf
+, speechd
+, libXdamage
+, cups
+, ffmpeg
+, libxslt
+, libxml2
+, at-spi2-core
 , jre8
 , pipewire_0_2
 , libva
-, libdrm, wayland, mesa, libxkbcommon # Ozone
+, libdrm
+, wayland
+, mesa
+, libxkbcommon # Ozone
 
-# optional dependencies
+  # optional dependencies
 , libgcrypt ? null # gnomeSupport || cupsSupport
 
-# package customization
-, gnomeSupport ? false, gnome ? null
-, gnomeKeyringSupport ? false, libgnome-keyring3 ? null
+  # package customization
+, gnomeSupport ? false
+, gnome ? null
+, gnomeKeyringSupport ? false
+, libgnome-keyring3 ? null
 , proprietaryCodecs ? true
 , cupsSupport ? true
-, pulseSupport ? false, libpulseaudio ? null
-, ungoogled ? false, ungoogled-chromium
+, pulseSupport ? false
+, libpulseaudio ? null
+, ungoogled ? false
+, ungoogled-chromium
 
 , channel
 , upstream-info
@@ -56,7 +105,7 @@ let
     let
       # Serialize Nix types into GN types according to this document:
       # https://source.chromium.org/gn/gn/+/master:docs/language.md
-      mkGnString = value: "\"${escape ["\"" "$" "\\"] value}\"";
+      mkGnString = value: "\"${escape [ "\"" "$" "\\" ] value}\"";
       sanitize = value:
         if value == true then "true"
         else if value == false then "false"
@@ -65,7 +114,8 @@ let
         else if isString value then mkGnString value
         else throw "Unsupported type for GN value `${value}'.";
       toFlag = key: value: "${key}=${sanitize value}";
-    in attrs: concatStringsSep " " (attrValues (mapAttrs toFlag attrs));
+    in
+    attrs: concatStringsSep " " (attrValues (mapAttrs toFlag attrs));
 
   # https://source.chromium.org/chromium/chromium/src/+/master:build/linux/unbundle/replace_gn_files.py
   gnSystemLibraries = [
@@ -85,12 +135,24 @@ let
   };
 
   defaultDependencies = [
-    bzip2 flac speex opusWithCustomModes
-    libevent expat libjpeg snappy
-    libpng libcap
-    xdg-utils minizip libwebp
-    libusb1 re2
-    ffmpeg libxslt libxml2
+    bzip2
+    flac
+    speex
+    opusWithCustomModes
+    libevent
+    expat
+    libjpeg
+    snappy
+    libpng
+    libcap
+    xdg-utils
+    minizip
+    libwebp
+    libusb1
+    re2
+    ffmpeg
+    libxslt
+    libxml2
     nasm
   ];
 
@@ -103,13 +165,16 @@ let
   chromiumVersionAtLeast = min-version:
     versionAtLeast upstream-info.version min-version;
   versionRange = min-version: upto-version:
-    let inherit (upstream-info) version;
-        result = versionAtLeast version min-version && versionOlder version upto-version;
-        ungoogled-version = (importJSON ./upstream-info.json).ungoogled-chromium.version;
-    in if versionAtLeast ungoogled-version upto-version
-       then warn "chromium: ungoogled version ${ungoogled-version} is newer than a patchset bounded at ${upto-version}. You can safely delete it."
-            result
-       else result;
+    let
+      inherit (upstream-info) version;
+      result = versionAtLeast version min-version && versionOlder version upto-version;
+      ungoogled-version = (importJSON ./upstream-info.json).ungoogled-chromium.version;
+    in
+    if versionAtLeast ungoogled-version upto-version
+    then
+      warn "chromium: ungoogled version ${ungoogled-version} is newer than a patchset bounded at ${upto-version}. You can safely delete it."
+        result
+    else result;
 
   ungoogler = ungoogled-chromium {
     inherit (upstream-info.deps.ungoogled-patches) rev sha256;
@@ -127,22 +192,48 @@ let
 
     nativeBuildInputs = [
       llvmPackages.lldClang.bintools
-      ninja which python2Packages.python perl pkg-config
-      python2Packages.ply python2Packages.jinja2 nodejs
-      gnutar python2Packages.setuptools
+      ninja
+      which
+      python2Packages.python
+      perl
+      pkg-config
+      python2Packages.ply
+      python2Packages.jinja2
+      nodejs
+      gnutar
+      python2Packages.setuptools
     ];
 
     buildInputs = defaultDependencies ++ [
-      nspr nss systemd
-      util-linux alsaLib
-      bison gperf kerberos
-      glib gtk3 dbus-glib
-      libXScrnSaver libXcursor libXtst libxshmfence libGLU libGL
-      pciutils protobuf speechd libXdamage at-spi2-core
+      nspr
+      nss
+      systemd
+      util-linux
+      alsaLib
+      bison
+      gperf
+      kerberos
+      glib
+      gtk3
+      dbus-glib
+      libXScrnSaver
+      libXcursor
+      libXtst
+      libxshmfence
+      libGLU
+      libGL
+      pciutils
+      protobuf
+      speechd
+      libXdamage
+      at-spi2-core
       jre
       pipewire_0_2
       libva
-      libdrm wayland mesa.drivers libxkbcommon
+      libdrm
+      wayland
+      mesa.drivers
+      libxkbcommon
     ] ++ optional gnomeKeyringSupport libgnome-keyring3
       ++ optionals gnomeSupport [ gnome.GConf libgcrypt ]
       ++ optionals cupsSupport [ libgcrypt cups ]
@@ -290,7 +381,7 @@ let
       safe_browsing_mode = 0;
       use_official_google_api_keys = false;
       use_unofficial_version_number = false;
-    } // (extraAttrs.gnFlags or {}));
+    } // (extraAttrs.gnFlags or { }));
 
     configurePhase = ''
       runHook preConfigure
@@ -311,19 +402,21 @@ let
     # of approx. 25 MB without this option (and this saves e.g. 66 %).
     NIX_CFLAGS_COMPILE = "-Wno-unknown-warning-option";
 
-    buildPhase = let
-      buildCommand = target: ''
-        ninja -C "${buildPath}" -j$NIX_BUILD_CORES -l$NIX_BUILD_CORES "${target}"
-        (
-          source chrome/installer/linux/common/installer.include
-          PACKAGE=$packageName
-          MENUNAME="Chromium"
-          process_template chrome/app/resources/manpage.1.in "${buildPath}/chrome.1"
-        )
-      '';
-      targets = extraAttrs.buildTargets or [];
-      commands = map buildCommand targets;
-    in concatStringsSep "\n" commands;
+    buildPhase =
+      let
+        buildCommand = target: ''
+          ninja -C "${buildPath}" -j$NIX_BUILD_CORES -l$NIX_BUILD_CORES "${target}"
+          (
+            source chrome/installer/linux/common/installer.include
+            PACKAGE=$packageName
+            MENUNAME="Chromium"
+            process_template chrome/app/resources/manpage.1.in "${buildPath}/chrome.1"
+          )
+        '';
+        targets = extraAttrs.buildTargets or [ ];
+        commands = map buildCommand targets;
+      in
+      concatStringsSep "\n" commands;
 
     postFixup = ''
       # Make sure that libGLESv2 is found by dlopen (if using EGL).
@@ -340,7 +433,10 @@ let
     };
   };
 
-# Remove some extraAttrs we supplied to the base attributes already.
-in stdenv.mkDerivation (base // removeAttrs extraAttrs [
-  "name" "gnFlags" "buildTargets"
-] // { passthru = base.passthru // (extraAttrs.passthru or {}); })
+  # Remove some extraAttrs we supplied to the base attributes already.
+in
+stdenv.mkDerivation (base // removeAttrs extraAttrs [
+  "name"
+  "gnFlags"
+  "buildTargets"
+] // { passthru = base.passthru // (extraAttrs.passthru or { }); })

@@ -22,8 +22,15 @@ buildPythonPackage rec {
   };
 
   propagatedBuildInputs = [
-    jinja2 requests pillow rasterio shapely ndjson backoff
-    google-api-core backports-datetime-fromisoformat
+    jinja2
+    requests
+    pillow
+    rasterio
+    shapely
+    ndjson
+    backoff
+    google-api-core
+    backports-datetime-fromisoformat
   ];
 
   # Test cases are not running on pypi or GitHub

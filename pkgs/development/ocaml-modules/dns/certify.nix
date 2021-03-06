@@ -1,6 +1,18 @@
-{ buildDunePackage, dns, dns-tsig, dns-mirage, randomconv, x509
-, mirage-random, mirage-time, mirage-clock, mirage-stack
-, logs, mirage-crypto-pk, mirage-crypto-rng, tls, lwt
+{ buildDunePackage
+, dns
+, dns-tsig
+, dns-mirage
+, randomconv
+, x509
+, mirage-random
+, mirage-time
+, mirage-clock
+, mirage-stack
+, logs
+, mirage-crypto-pk
+, mirage-crypto-rng
+, tls
+, lwt
 }:
 
 buildDunePackage {

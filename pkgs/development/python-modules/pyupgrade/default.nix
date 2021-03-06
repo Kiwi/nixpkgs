@@ -18,14 +18,14 @@ buildPythonPackage rec {
     sha256 = "sha256-XYeqyyfwtS7dHLxeVvmcifW6UCOlnSMxqF1vxezBjT8=";
   };
 
-  checkInputs =  [ pytestCheckHook ];
+  checkInputs = [ pytestCheckHook ];
 
   propagatedBuildInputs = [ tokenize-rt ];
 
   meta = with lib; {
     description = "A tool to automatically upgrade syntax for newer versions of the language";
-    homepage    = "https://github.com/asottile/pyupgrade";
-    license     = licenses.mit;
+    homepage = "https://github.com/asottile/pyupgrade";
+    license = licenses.mit;
     maintainers = with maintainers; [ lovesegfault ];
   };
 }

@@ -1,5 +1,15 @@
-{ lib, stdenv, fetchurl, dbus-glib, glib, python2, pkg-config, libxslt
-, gobject-introspection, vala, glibcLocales }:
+{ lib
+, stdenv
+, fetchurl
+, dbus-glib
+, glib
+, python2
+, pkg-config
+, libxslt
+, gobject-introspection
+, vala
+, glibcLocales
+}:
 
 stdenv.mkDerivation rec {
   name = "telepathy-glib-0.24.1";

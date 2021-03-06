@@ -1,38 +1,45 @@
 { lib, callPackage, fetchpatch, fetchurl, stdenv, pkgsi686Linux }:
 
 let
-  generic = args: let
-    imported = import ./generic.nix args;
-  in if ((!lib.versionOlder args.version "391")
-    && stdenv.hostPlatform.system != "x86_64-linux") then null
-  else callPackage imported {
-    lib32 = (pkgsi686Linux.callPackage imported {
-      libsOnly = true;
-      kernel = null;
-    }).out;
-  };
+  generic = args:
+    let
+      imported = import ./generic.nix args;
+    in
+    if ((!lib.versionOlder args.version "391")
+      && stdenv.hostPlatform.system != "x86_64-linux") then null
+    else
+      callPackage imported {
+        lib32 = (pkgsi686Linux.callPackage imported {
+          libsOnly = true;
+          kernel = null;
+        }).out;
+      };
 
   kernel = callPackage # a hacky way of extracting parameters from callPackage
-    ({ kernel, libsOnly ? false }: if libsOnly then { } else kernel) { };
+    ({ kernel, libsOnly ? false }: if libsOnly then { } else kernel)
+    { };
 
   maybePatch_drm_legacy =
     lib.optional (lib.versionOlder "4.14" (kernel.version or "0"))
       (fetchurl {
         url = "https://raw.githubusercontent.com/MilhouseVH/LibreELEC.tv/b5d2d6a1"
-            + "/packages/x11/driver/xf86-video-nvidia-legacy/patches/"
-            + "xf86-video-nvidia-legacy-0010-kernel-4.14.patch";
+          + "/packages/x11/driver/xf86-video-nvidia-legacy/patches/"
+          + "xf86-video-nvidia-legacy-0010-kernel-4.14.patch";
         sha256 = "18clfpw03g8dxm61bmdkmccyaxir3gnq451z6xqa2ilm3j820aa5";
       });
 in
 rec {
   # Policy: use the highest stable version as the default (on our master).
-  stable = if stdenv.hostPlatform.system == "x86_64-linux"
-    then generic {
-      version = "460.39";
-      sha256_64bit = "0zx3v4xas9z18yv1z3irp626h8kvcg8aw344sqpacfh1g106dw0b";
-      settingsSha256 = "15fa6lmfmgg02gya47ynx5d7cqsb73w4rbg4ly7lc1pnwl5f9qhm";
-      persistencedSha256 = "1dj3w03fa1i32c9c7w9392bg3nr2dk8mm4qm0wv12cv587zml0gx";
-    }
+  stable =
+    if stdenv.hostPlatform.system == "x86_64-linux"
+    then
+      generic
+        {
+          version = "460.39";
+          sha256_64bit = "0zx3v4xas9z18yv1z3irp626h8kvcg8aw344sqpacfh1g106dw0b";
+          settingsSha256 = "15fa6lmfmgg02gya47ynx5d7cqsb73w4rbg4ly7lc1pnwl5f9qhm";
+          persistencedSha256 = "1dj3w03fa1i32c9c7w9392bg3nr2dk8mm4qm0wv12cv587zml0gx";
+        }
     else legacy_390;
 
   beta = generic {
@@ -84,20 +91,22 @@ rec {
     useProfiles = false;
     settings32Bit = true;
 
-    prePatch = let
-      debPatches = fetchurl {
-        url = "mirror://debian/pool/non-free/n/nvidia-graphics-drivers-legacy-304xx/"
+    prePatch =
+      let
+        debPatches = fetchurl {
+          url = "mirror://debian/pool/non-free/n/nvidia-graphics-drivers-legacy-304xx/"
             + "nvidia-graphics-drivers-legacy-304xx_304.137-5.debian.tar.xz";
-        sha256 = "0n8512mfcnvklfbg8gv4lzbkm3z6nncwj6ix2b8ngdkmc04f3b6l";
-      };
-      prefix = "debian/module/debian/patches";
-      applyPatches = pnames: if pnames == [] then null else
+          sha256 = "0n8512mfcnvklfbg8gv4lzbkm3z6nncwj6ix2b8ngdkmc04f3b6l";
+        };
+        prefix = "debian/module/debian/patches";
+        applyPatches = pnames: if pnames == [ ] then null else
         ''
           tar xf '${debPatches}'
           sed 's|^\([+-]\{3\} [ab]\)/|\1/kernel/|' -i ${prefix}/*.patch
           patches="$patches ${lib.concatMapStringsSep " " (pname: "${prefix}/${pname}.patch") pnames}"
         '';
-    in applyPatches [ "fix-typos" ];
+      in
+      applyPatches [ "fix-typos" ];
     patches = maybePatch_drm_legacy;
     broken = lib.versionAtLeast kernel.version "4.18";
   };

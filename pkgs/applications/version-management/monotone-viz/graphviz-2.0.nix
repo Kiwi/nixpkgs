@@ -1,5 +1,18 @@
-{ lib, stdenv, fetchurl, pkg-config, xlibsWrapper, libpng, libjpeg, expat, libXaw
-, yacc, libtool, fontconfig, pango, gd, libwebp
+{ lib
+, stdenv
+, fetchurl
+, pkg-config
+, xlibsWrapper
+, libpng
+, libjpeg
+, expat
+, libXaw
+, yacc
+, libtool
+, fontconfig
+, pango
+, gd
+, libwebp
 }:
 
 assert libpng != null && libjpeg != null && expat != null;
@@ -14,14 +27,24 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [
-    xlibsWrapper libpng libjpeg expat libXaw yacc
-    libtool fontconfig pango gd libwebp
+    xlibsWrapper
+    libpng
+    libjpeg
+    expat
+    libXaw
+    yacc
+    libtool
+    fontconfig
+    pango
+    gd
+    libwebp
   ];
 
   hardeningDisable = [ "format" "fortify" ];
 
   configureFlags =
-    [ "--with-pngincludedir=${libpng.dev}/include"
+    [
+      "--with-pngincludedir=${libpng.dev}/include"
       "--with-pnglibdir=${libpng.out}/lib"
       "--with-jpegincludedir=${libjpeg.dev}/include"
       "--with-jpeglibdir=${libjpeg.out}/lib"

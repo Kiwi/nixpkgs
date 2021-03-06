@@ -1,5 +1,15 @@
-{ lib, stdenv, fetchhg, meson, ninja, pkg-config, wlroots, wayland, wayland-protocols
-, libX11, libGL }:
+{ lib
+, stdenv
+, fetchhg
+, meson
+, ninja
+, pkg-config
+, wlroots
+, wayland
+, wayland-protocols
+, libX11
+, libGL
+}:
 
 stdenv.mkDerivation {
   name = "glpaper";

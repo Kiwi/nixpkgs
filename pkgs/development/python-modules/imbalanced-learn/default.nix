@@ -1,4 +1,7 @@
-{ lib, buildPythonPackage, fetchPypi, isPy27
+{ lib
+, buildPythonPackage
+, fetchPypi
+, isPy27
 , fetchpatch
 , pandas
 , pytestCheckHook
@@ -21,7 +24,7 @@ buildPythonPackage rec {
     (fetchpatch {
       url = "https://github.com/scikit-learn-contrib/imbalanced-learn/commit/dc4051fe0011c68d900be05971b71016d4ad9e90.patch";
       sha256 = "1rv61k9wv4q37a0v943clr8fflcg9ly530smgndgkjlxkyzw6swh";
-      excludes = ["doc/conf.py" "build_tools/*" "azure-pipelines.yml"];
+      excludes = [ "doc/conf.py" "build_tools/*" "azure-pipelines.yml" ];
     })
   ];
 

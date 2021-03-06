@@ -25,8 +25,9 @@ buildPythonPackage rec {
   };
 
   checkInputs = [ pytest psutil ] ++ lib.optionals isPy3k [
-    imageio-ffmpeg ffmpeg_3
-    ];
+    imageio-ffmpeg
+    ffmpeg_3
+  ];
   propagatedBuildInputs = [ numpy pillow ];
 
   checkPhase = ''

@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , awscli
 , jq
 , fetchgit
@@ -32,7 +33,7 @@ stdenv.mkDerivation rec {
     ./stack-spec.sh
     popd
   '';
-  installPhase=''
+  installPhase = ''
     mkdir -p $out
     cp -r . $out
   '';

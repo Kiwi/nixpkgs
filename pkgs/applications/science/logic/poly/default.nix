@@ -1,4 +1,4 @@
-{lib, stdenv, fetchFromGitHub, gmp, cmake, python}:
+{ lib, stdenv, fetchFromGitHub, gmp, cmake, python }:
 
 stdenv.mkDerivation rec {
   pname = "libpoly";

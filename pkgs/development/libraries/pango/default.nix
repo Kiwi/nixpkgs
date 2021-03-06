@@ -1,8 +1,26 @@
-{ lib, stdenv, fetchurl, fetchpatch, pkg-config, cairo, harfbuzz
-, libintl, libthai, gobject-introspection, darwin, fribidi, gnome3
-, gtk-doc, docbook_xsl, docbook_xml_dtd_43, makeFontsConf, freefont_ttf
-, meson, ninja, glib
-, x11Support? !stdenv.isDarwin, libXft
+{ lib
+, stdenv
+, fetchurl
+, fetchpatch
+, pkg-config
+, cairo
+, harfbuzz
+, libintl
+, libthai
+, gobject-introspection
+, darwin
+, fribidi
+, gnome3
+, gtk-doc
+, docbook_xsl
+, docbook_xml_dtd_43
+, makeFontsConf
+, freefont_ttf
+, meson
+, ninja
+, glib
+, x11Support ? !stdenv.isDarwin
+, libXft
 }:
 
 with lib;
@@ -10,7 +28,8 @@ with lib;
 let
   pname = "pango";
   version = "1.47.0";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "${pname}-${version}";
 
   src = fetchurl {
@@ -22,9 +41,14 @@ in stdenv.mkDerivation rec {
   outputs = [ "bin" "dev" "out" ] ++ optional (!stdenv.isDarwin) "devdoc";
 
   nativeBuildInputs = [
-    meson ninja
+    meson
+    ninja
     glib # for glib-mkenum
-    pkg-config gobject-introspection gtk-doc docbook_xsl docbook_xml_dtd_43
+    pkg-config
+    gobject-introspection
+    gtk-doc
+    docbook_xsl
+    docbook_xml_dtd_43
   ];
   buildInputs = [
     fribidi
@@ -41,7 +65,7 @@ in stdenv.mkDerivation rec {
   mesonFlags = [
     "-Dgtk_doc=${if stdenv.isDarwin then "false" else "true"}"
   ] ++ lib.optionals stdenv.isDarwin [
-    "-Dxft=disabled"  # only works with x11
+    "-Dxft=disabled" # only works with x11
   ];
 
   enableParallelBuilding = true;

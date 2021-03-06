@@ -16,7 +16,7 @@ rec {
 
   packageName = "utilities.print-tree";
 
-  asdFilesToKeep = ["utilities.print-tree.asd"];
+  asdFilesToKeep = [ "utilities.print-tree.asd" ];
   overrides = x: x;
 }
 /* (SYSTEM utilities.print-tree DESCRIPTION

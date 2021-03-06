@@ -1,5 +1,22 @@
-{ lib, stdenv, fetchurl, boehmgc, zlib, sqlite, pcre, cmake, pkg-config
-, git, apacheHttpd, apr, aprutil, libmysqlclient, mbedtls, openssl, pkgs, gtk2, libpthreadstubs
+{ lib
+, stdenv
+, fetchurl
+, boehmgc
+, zlib
+, sqlite
+, pcre
+, cmake
+, pkg-config
+, git
+, apacheHttpd
+, apr
+, aprutil
+, libmysqlclient
+, mbedtls
+, openssl
+, pkgs
+, gtk2
+, libpthreadstubs
 }:
 
 stdenv.mkDerivation rec {
@@ -13,11 +30,24 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake pkg-config git ];
   buildInputs =
-    [ boehmgc zlib sqlite pcre apacheHttpd apr aprutil
-      libmysqlclient mbedtls openssl libpthreadstubs ]
-      ++ lib.optional stdenv.isLinux gtk2
-      ++ lib.optionals stdenv.isDarwin [ pkgs.darwin.apple_sdk.frameworks.Security
-                                                pkgs.darwin.apple_sdk.frameworks.Carbon];
+    [
+      boehmgc
+      zlib
+      sqlite
+      pcre
+      apacheHttpd
+      apr
+      aprutil
+      libmysqlclient
+      mbedtls
+      openssl
+      libpthreadstubs
+    ]
+    ++ lib.optional stdenv.isLinux gtk2
+    ++ lib.optionals stdenv.isDarwin [
+      pkgs.darwin.apple_sdk.frameworks.Security
+      pkgs.darwin.apple_sdk.frameworks.Carbon
+    ];
   cmakeFlags = [ "-DRUN_LDCONFIG=OFF" ];
 
   installCheckPhase = ''

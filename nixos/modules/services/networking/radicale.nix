@@ -8,16 +8,17 @@ let
 
   confFile = pkgs.writeText "radicale.conf" cfg.config;
 
-  defaultPackage = if versionAtLeast config.system.stateVersion "20.09" then {
-    pkg = pkgs.radicale3;
-    text = "pkgs.radicale3";
-  } else if versionAtLeast config.system.stateVersion "17.09" then {
-    pkg = pkgs.radicale2;
-    text = "pkgs.radicale2";
-  } else {
-    pkg = pkgs.radicale1;
-    text = "pkgs.radicale1";
-  };
+  defaultPackage =
+    if versionAtLeast config.system.stateVersion "20.09" then {
+      pkg = pkgs.radicale3;
+      text = "pkgs.radicale3";
+    } else if versionAtLeast config.system.stateVersion "17.09" then {
+      pkg = pkgs.radicale2;
+      text = "pkgs.radicale2";
+    } else {
+      pkg = pkgs.radicale1;
+      text = "pkgs.radicale1";
+    };
 in
 
 {
@@ -27,7 +28,7 @@ in
       type = types.bool;
       default = false;
       description = ''
-          Enable Radicale CalDAV and CardDAV server.
+        Enable Radicale CalDAV and CardDAV server.
       '';
     };
 
@@ -54,7 +55,7 @@ in
 
     services.radicale.extraArgs = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "Extra arguments passed to the Radicale daemon.";
     };
   };
@@ -63,7 +64,8 @@ in
     environment.systemPackages = [ cfg.package ];
 
     users.users.radicale =
-      { uid = config.ids.uids.radicale;
+      {
+        uid = config.ids.uids.radicale;
         description = "radicale user";
         home = "/var/lib/radicale";
         createHome = true;
@@ -78,7 +80,9 @@ in
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         ExecStart = concatStringsSep " " ([
-          "${cfg.package}/bin/radicale" "-C" confFile
+          "${cfg.package}/bin/radicale"
+          "-C"
+          confFile
         ] ++ (
           map escapeShellArg cfg.extraArgs
         ));

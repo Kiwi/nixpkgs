@@ -1,10 +1,18 @@
-{ lib, stdenv, fetchFromGitHub, jshon, electron_3
-, runtimeShell, hyper-haskell-server, extra-packages ? [] }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, jshon
+, electron_3
+, runtimeShell
+, hyper-haskell-server
+, extra-packages ? [ ]
+}:
 
 let
   binPath = lib.makeBinPath ([ hyper-haskell-server ] ++ extra-packages);
   electron = electron_3;
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "hyper-haskell";
   version = "0.1.0.2";
 

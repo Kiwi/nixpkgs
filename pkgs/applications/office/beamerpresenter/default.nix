@@ -1,5 +1,12 @@
-{ lib, mkDerivation, fetchFromGitHub, installShellFiles,
-  qmake, qtbase, poppler, qtmultimedia }:
+{ lib
+, mkDerivation
+, fetchFromGitHub
+, installShellFiles
+, qmake
+, qtbase
+, poppler
+, qtmultimedia
+}:
 
 mkDerivation rec {
   pname = "beamerpresenter";

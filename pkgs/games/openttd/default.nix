@@ -1,7 +1,27 @@
-{ lib, stdenv, fetchurl, fetchzip, pkg-config, which, SDL2, libpng, zlib, xz, freetype, fontconfig, libxdg_basedir
-, withOpenGFX ? true, withOpenSFX ? true, withOpenMSX ? true
-, withFluidSynth ? true, audioDriver ? "alsa", fluidsynth, soundfont-fluid, procps
-, writeScriptBin, makeWrapper, runtimeShell
+{ lib
+, stdenv
+, fetchurl
+, fetchzip
+, pkg-config
+, which
+, SDL2
+, libpng
+, zlib
+, xz
+, freetype
+, fontconfig
+, libxdg_basedir
+, withOpenGFX ? true
+, withOpenSFX ? true
+, withOpenMSX ? true
+, withFluidSynth ? true
+, audioDriver ? "alsa"
+, fluidsynth
+, soundfont-fluid
+, procps
+, writeScriptBin
+, makeWrapper
+, runtimeShell
 }:
 
 let

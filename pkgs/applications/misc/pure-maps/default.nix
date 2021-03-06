@@ -1,7 +1,19 @@
-{ lib, mkDerivation, fetchFromGitHub, wrapQtAppsHook
-, qmake, qttools, kirigami2, qtquickcontrols2, qtlocation, qtsensors
-, nemo-qml-plugin-dbus, mapbox-gl-qml, s2geometry
-, python3, pyotherside, python3Packages
+{ lib
+, mkDerivation
+, fetchFromGitHub
+, wrapQtAppsHook
+, qmake
+, qttools
+, kirigami2
+, qtquickcontrols2
+, qtlocation
+, qtsensors
+, nemo-qml-plugin-dbus
+, mapbox-gl-qml
+, s2geometry
+, python3
+, pyotherside
+, python3Packages
 }:
 
 mkDerivation rec {
@@ -18,8 +30,14 @@ mkDerivation rec {
 
   nativeBuildInputs = [ qmake python3 qttools wrapQtAppsHook ];
   buildInputs = [
-    kirigami2 qtquickcontrols2 qtlocation qtsensors
-    nemo-qml-plugin-dbus pyotherside mapbox-gl-qml s2geometry
+    kirigami2
+    qtquickcontrols2
+    qtlocation
+    qtsensors
+    nemo-qml-plugin-dbus
+    pyotherside
+    mapbox-gl-qml
+    s2geometry
   ];
   propagatedBuildInputs = with python3Packages; [ gpxpy pyxdg ];
 

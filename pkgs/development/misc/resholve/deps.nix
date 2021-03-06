@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , python27Packages
 , fetchFromGitHub
 , makeWrapper

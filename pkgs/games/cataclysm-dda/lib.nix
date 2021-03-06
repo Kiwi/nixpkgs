@@ -13,5 +13,5 @@
     type = "tileset";
   };
 
-  wrapCDDA = callPackage ./wrapper.nix {};
+  wrapCDDA = callPackage ./wrapper.nix { };
 }

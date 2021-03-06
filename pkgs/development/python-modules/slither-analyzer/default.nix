@@ -1,7 +1,15 @@
-{ lib, stdenv, buildPythonPackage, fetchPypi, makeWrapper, pythonOlder
-, crytic-compile, prettytable, setuptools
-# solc is currently broken on Darwin, default to false
-, solc, withSolc ? !stdenv.isDarwin
+{ lib
+, stdenv
+, buildPythonPackage
+, fetchPypi
+, makeWrapper
+, pythonOlder
+, crytic-compile
+, prettytable
+, setuptools
+  # solc is currently broken on Darwin, default to false
+, solc
+, withSolc ? !stdenv.isDarwin
 }:
 
 buildPythonPackage rec {

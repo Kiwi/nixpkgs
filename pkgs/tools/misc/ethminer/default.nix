@@ -1,27 +1,27 @@
-{
-  lib,
-  clangStdenv,
-  fetchFromGitHub,
-  opencl-headers,
-  cmake,
-  jsoncpp,
-  boost,
-  makeWrapper,
-  cudatoolkit,
-  mesa,
-  ethash,
-  opencl-info,
-  ocl-icd,
-  openssl,
-  pkg-config,
-  cli11
+{ lib
+, clangStdenv
+, fetchFromGitHub
+, opencl-headers
+, cmake
+, jsoncpp
+, boost
+, makeWrapper
+, cudatoolkit
+, mesa
+, ethash
+, opencl-info
+, ocl-icd
+, openssl
+, pkg-config
+, cli11
 }:
 
 # Note that this requires clang < 9.0 to build, and currently
 # clangStdenv provides clang 7.1 which satisfies the requirement.
 let stdenv = clangStdenv;
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "ethminer";
   version = "0.18.0";
 

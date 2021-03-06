@@ -1,6 +1,7 @@
 { lib
 , fetchurl
-, python }:
+, python
+}:
 
 python.pkgs.buildPythonApplication rec {
   pname = "20kly";
