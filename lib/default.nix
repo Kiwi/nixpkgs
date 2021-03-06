@@ -66,7 +66,7 @@ let
         hasAttr head isAttrs isBool isInt isList isString length
         lessThan listToAttrs pathExists readFile replaceStrings seq
         stringLength sub substring tail trace;
-      inherit (self.trivial) id const pipeconcat or and bitAnd bitOr bitXor
+      inherit (self.trivial) id constpipeconcat or and bitAnd bitOr bitXor
         bitNot boolToString mergeAttrs flip mapNullable inNixShell isFloat min max
         importJSON importTOML warn info showWarnings nixpkgsVersion version mod compare
         splitByAndCompare functionArgs setFunctionArgs isFunction toHexString toBaseDigits;
